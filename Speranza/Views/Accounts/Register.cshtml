@@ -1,0 +1,26 @@
+﻿@model Speranza.Models.RegisterModel
+
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Layout.cshtml";
+}
+
+<h2>Registrácia</h2>
+
+@using (Html.BeginForm("Register", "Accounts"))
+{
+    @Html.Label("Email");
+    @Html.TextBoxFor(m => m.Email);
+    @Html.Label("Meno");
+    @Html.TextBoxFor(m => m.Name);
+    @Html.Label("Priezvisko");
+    @Html.TextBoxFor(m => m.Surname);
+    @Html.Label("Tel. číslo");
+    @Html.TextBoxFor(m => m.PhoneNumber);
+    @Html.Label("Heslo");
+    @Html.PasswordFor(m => m.Password);
+    @Html.Label("Potvrdenie hesla");
+    @Html.PasswordFor(m => m.ConfirmPassword);
+    <input type="submit" value="Registrovať" id="btnSubmit" />
+}
+
