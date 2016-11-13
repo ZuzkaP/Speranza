@@ -12,6 +12,10 @@ namespace Speranza.Controllers
     {
         private IDatabaseGateway db;
 
+        public AccountsController()
+        {
+
+        }
         public AccountsController(IDatabaseGateway db)
         {
             this.db = db;
@@ -30,6 +34,12 @@ namespace Speranza.Controllers
             {
                 model.Messages |= RegisterModelMessages.EmailIsEmpty;
             }
+
+            if (String.IsNullOrEmpty(model.Password))
+            {
+                model.Messages |= RegisterModelMessages.PasswordIsEmpty;
+            }
+
             return View("Register",model);
         }
     }

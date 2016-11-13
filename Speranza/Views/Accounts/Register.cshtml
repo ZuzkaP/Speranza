@@ -1,4 +1,7 @@
-﻿@model Speranza.Models.RegisterModel
+﻿@using Speranza.Models;
+@model Speranza.Models.RegisterModel
+
+
 
 @{
     ViewBag.Title = "Register";
@@ -6,6 +9,16 @@
 }
 
 <h2>Registrácia</h2>
+
+@if(Model != null && (Model.Messages & RegisterModelMessages.EmailIsEmpty) != RegisterModelMessages.NoMessage)
+{
+    <p>Email musí byť vyplnený!</p>
+}
+
+@if (Model != null && (Model.Messages & RegisterModelMessages.PasswordIsEmpty) != RegisterModelMessages.NoMessage)
+{
+    <p>Heslo musí byť vyplnené!</p>
+}
 
 @using (Html.BeginForm("Register", "Accounts"))
 {

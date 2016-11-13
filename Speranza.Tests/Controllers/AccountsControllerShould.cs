@@ -41,6 +41,25 @@ namespace Speranza.Tests.Controllers
             Assert.AreNotEqual(RegisterModelMessages.NoMessage, RegisterModelMessages.EmailIsEmpty & modelFromServer.Messages);   
         }
 
+        [TestMethod]
+        public void NotRegisterAndReturnErrorMessage_When_PasswordIsEmpty()
+        {
+            InitializeController();
+            RegisterModel model = new RegisterModel();
+            model.Password = String.Empty;
+            model.Email = "test@test.com";
+
+            ViewResult result = controller.Register(model);
+
+            db.Verify(r => r.RegisterNewUser(), Times.Never);
+            Assert.AreEqual("Register", result.ViewName);
+
+            RegisterModel modelFromServer = (RegisterModel)result.Model;
+            Assert.AreNotEqual(RegisterModelMessages.NoMessage, RegisterModelMessages.PasswordIsEmpty & modelFromServer.Messages);
+
+        }
+
+
 
         private void InitializeController()
         {
