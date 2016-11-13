@@ -10,15 +10,24 @@
 
 <h2>Registrácia</h2>
 
-@if(Model != null && (Model.Messages & RegisterModelMessages.EmailIsEmpty) != RegisterModelMessages.NoMessage)
+@if (Model != null)
 {
-    <p>Email musí byť vyplnený!</p>
+    if ((Model.Messages & RegisterModelMessages.EmailIsEmpty) != RegisterModelMessages.NoMessage)
+    {
+        <p>Email musí byť vyplnený!</p>
+    }
+
+    if ((Model.Messages & RegisterModelMessages.PasswordIsEmpty) != RegisterModelMessages.NoMessage)
+    {
+        <p>Heslo musí byť vyplnené!</p>
+    }
+
+    if ((Model.Messages & RegisterModelMessages.ConfirmPassIncorrect) != RegisterModelMessages.NoMessage)
+    {
+        <p>Heslo a jeho overenie sa nezhodujú!</p>
+    }
 }
 
-@if (Model != null && (Model.Messages & RegisterModelMessages.PasswordIsEmpty) != RegisterModelMessages.NoMessage)
-{
-    <p>Heslo musí byť vyplnené!</p>
-}
 
 @using (Html.BeginForm("Register", "Accounts"))
 {

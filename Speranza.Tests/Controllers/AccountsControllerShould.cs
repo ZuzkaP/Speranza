@@ -59,6 +59,23 @@ namespace Speranza.Tests.Controllers
 
         }
 
+        [TestMethod]
+        public void NotRegisterAndReturnErrorMessage_When_PasswordAndConfirmPasswordAreNotTheSame()
+        {
+            InitializeController();
+            RegisterModel model = new RegisterModel();
+            model.Password = "1234Zuzka";
+            model.Email = "test@test.com";
+            model.ConfirmPassword = "1235Zuzka";
+
+            ViewResult result = controller.Register(model);
+
+            db.Verify(r => r.RegisterNewUser(), Times.Never);
+            Assert.AreEqual("Register", result.ViewName);
+
+            RegisterModel modelFromServer = (RegisterModel)result.Model;
+            Assert.AreNotEqual(RegisterModelMessages.NoMessage, RegisterModelMessages.ConfirmPassIncorrect & modelFromServer.Messages);
+        }
 
 
         private void InitializeController()

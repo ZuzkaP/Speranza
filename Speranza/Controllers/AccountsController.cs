@@ -39,6 +39,14 @@ namespace Speranza.Controllers
             {
                 model.Messages |= RegisterModelMessages.PasswordIsEmpty;
             }
+            else
+            {
+                if(model.Password != model.ConfirmPassword)
+                {
+                    model.Messages |= RegisterModelMessages.ConfirmPassIncorrect;
+                }
+            }
+
 
             return View("Register",model);
         }

@@ -8,9 +8,10 @@ namespace Speranza.Models
     [Flags]
     public enum RegisterModelMessages
     {
-        NoMessage,
-        EmailIsEmpty,
-        PasswordIsEmpty
+        NoMessage = 0,
+        EmailIsEmpty = 1,
+        PasswordIsEmpty = 2,
+        ConfirmPassIncorrect = 4
     }
 
     public class RegisterModel
