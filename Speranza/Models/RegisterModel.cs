@@ -5,6 +5,13 @@ using System.Web;
 
 namespace Speranza.Models
 {
+    [Flags]
+    public enum RegisterModelMessages
+    {
+        NoMessage,
+        EmailIsEmpty
+    }
+
     public class RegisterModel
     {
         public string Email { get; set; }
@@ -13,5 +20,9 @@ namespace Speranza.Models
         public string PhoneNumber { get; set; }
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
+
+        public RegisterModelMessages Messages { get; set; }
+
+       
     }
 }
