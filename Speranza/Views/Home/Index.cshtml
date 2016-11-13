@@ -1,0 +1,19 @@
+﻿@model Speranza.Models.UserLoginModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Layout.cshtml";
+}
+
+<h2>Login</h2>
+
+@using (Html.BeginForm("Login", "Accounts"))
+{
+    @Html.Label("Email");
+    @Html.TextBoxFor(m=>m.Email);
+    @Html.Label("Heslo");
+    @Html.PasswordFor(m=>m.Password);
+    <input type="submit" value="Prihlásiť" id="btnSubmit" />
+}
+
+@Html.ActionLink("Ak ešte nemáš účet tak sa registruj!", "Register", "Accounts")
