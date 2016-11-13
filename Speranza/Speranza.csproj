@@ -99,8 +99,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\RegisterModel.cs" />
-    <Compile Include="Models\UserLoginModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -123,6 +121,10 @@
     <ProjectReference Include="..\Speranza.Database\Speranza.Database.csproj">
       <Project>{880c37bd-82d3-4ba6-b212-c10483a513d9}</Project>
       <Name>Speranza.Database</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Speranza.Models\Speranza.Models.csproj">
+      <Project>{94a66ca6-1784-49b7-9904-443bdbd5234f}</Project>
+      <Name>Speranza.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

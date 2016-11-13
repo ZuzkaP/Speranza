@@ -95,6 +95,10 @@
       <Project>{880c37bd-82d3-4ba6-b212-c10483a513d9}</Project>
       <Name>Speranza.Database</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Speranza.Models\Speranza.Models.csproj">
+      <Project>{94a66ca6-1784-49b7-9904-443bdbd5234f}</Project>
+      <Name>Speranza.Models</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Speranza\Speranza.csproj">
       <Project>{F8693B3E-DB8C-43AE-AAF7-1802E5407EFE}</Project>
       <Name>Speranza</Name>

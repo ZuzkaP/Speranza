@@ -1,7 +1,9 @@
-﻿namespace Speranza.Database
+﻿using Speranza.Models;
+
+namespace Speranza.Database
 {
     public interface IDatabaseGateway
     {
-        void RegisterNewUser();
+        void RegisterNewUser(RegisterModel model);
     }
 }

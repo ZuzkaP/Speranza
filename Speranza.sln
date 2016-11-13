@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Speranza.Tests", "Speranza.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Speranza.Database", "Speranza.Database\Speranza.Database.csproj", "{880C37BD-82D3-4BA6-B212-C10483A513D9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Speranza.Models", "Speranza.Models\Speranza.Models.csproj", "{94A66CA6-1784-49B7-9904-443BDBD5234F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{880C37BD-82D3-4BA6-B212-C10483A513D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{880C37BD-82D3-4BA6-B212-C10483A513D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{880C37BD-82D3-4BA6-B212-C10483A513D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94A66CA6-1784-49B7-9904-443BDBD5234F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94A66CA6-1784-49B7-9904-443BDBD5234F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94A66CA6-1784-49B7-9904-443BDBD5234F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94A66CA6-1784-49B7-9904-443BDBD5234F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

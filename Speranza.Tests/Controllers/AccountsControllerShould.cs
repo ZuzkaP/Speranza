@@ -34,7 +34,7 @@ namespace Speranza.Tests.Controllers
 
             ViewResult result = controller.Register(model);
 
-            db.Verify(r => r.RegisterNewUser(),Times.Never);
+            db.Verify(r => r.RegisterNewUser(It.IsAny<RegisterModel>()), Times.Never);
             Assert.AreEqual("Register", result.ViewName);
 
             RegisterModel modelFromServer = (RegisterModel) result.Model;
@@ -51,7 +51,7 @@ namespace Speranza.Tests.Controllers
 
             ViewResult result = controller.Register(model);
 
-            db.Verify(r => r.RegisterNewUser(), Times.Never);
+            db.Verify(r => r.RegisterNewUser(It.IsAny<RegisterModel>()), Times.Never);
             Assert.AreEqual("Register", result.ViewName);
 
             RegisterModel modelFromServer = (RegisterModel)result.Model;
@@ -70,11 +70,29 @@ namespace Speranza.Tests.Controllers
 
             ViewResult result = controller.Register(model);
 
-            db.Verify(r => r.RegisterNewUser(), Times.Never);
+            db.Verify(r => r.RegisterNewUser(It.IsAny<RegisterModel>()), Times.Never);
             Assert.AreEqual("Register", result.ViewName);
 
             RegisterModel modelFromServer = (RegisterModel)result.Model;
             Assert.AreNotEqual(RegisterModelMessages.NoMessage, RegisterModelMessages.ConfirmPassIncorrect & modelFromServer.Messages);
+        }
+
+        [TestMethod]
+        public void RegisterNewUser_When_AllDataAreEntered()
+        {
+            InitializeController();
+            RegisterModel model = new RegisterModel();
+            model.Password = "1234Zuzka";
+            model.Email = "test@test.com";
+            model.Name = "Zuzana";
+            model.Surname = "Papalova";
+            model.PhoneNumber = "0616554984899";
+            model.ConfirmPassword = "1234Zuzka";
+
+            ViewResult result = controller.Register(model);
+            db.Verify(r => r.RegisterNewUser(model), Times.Once);
+             
+          
         }
 
 
