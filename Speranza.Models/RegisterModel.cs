@@ -12,7 +12,8 @@ namespace Speranza.Models
         NoMessage = 0,
         EmailIsEmpty = 1,
         PasswordIsEmpty = 2,
-        ConfirmPassIncorrect = 4
+        ConfirmPassIncorrect = 4,
+        UserAlreadyExists = 8
     }
 
     public class RegisterModel

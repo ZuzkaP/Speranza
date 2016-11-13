@@ -5,5 +5,6 @@ namespace Speranza.Database
     public interface IDatabaseGateway
     {
         void RegisterNewUser(RegisterModel model);
+        bool UserExists(string email);
     }
 }

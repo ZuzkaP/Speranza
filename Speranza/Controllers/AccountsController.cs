@@ -47,7 +47,12 @@ namespace Speranza.Controllers
                 }
             }
 
-            if(model.Messages == RegisterModelMessages.NoMessage)
+            if (model.Messages == RegisterModelMessages.NoMessage && db.UserExists(model.Email) == true)
+            {
+                model.Messages |= RegisterModelMessages.UserAlreadyExists;
+            }
+
+            if (model.Messages == RegisterModelMessages.NoMessage)
             {
                 db.RegisterNewUser(model);
             }

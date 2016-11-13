@@ -91,14 +91,33 @@ namespace Speranza.Tests.Controllers
 
             ViewResult result = controller.Register(model);
             db.Verify(r => r.RegisterNewUser(model), Times.Once);
-             
-          
         }
 
+        [TestMethod]
+        public void NotRegisterNewUserAndReturnErrorMessage_When_UserAAlreadyExists()
+        {
+            InitializeController();
+            RegisterModel model = new RegisterModel();
+            model.Password = "1234Zuzka";
+            model.Email = "test@test.com";
+            model.ConfirmPassword = "1234Zuzka";
+
+            db.Setup(r => r.UserExists(model.Email)).Returns(true);
+
+            ViewResult result = controller.Register(model);
+            
+            db.Verify(r => r.RegisterNewUser(It.IsAny<RegisterModel>()), Times.Never);
+            Assert.AreEqual("Register", result.ViewName);
+
+            RegisterModel modelFromServer = (RegisterModel)result.Model;
+            Assert.AreNotEqual(RegisterModelMessages.NoMessage, RegisterModelMessages.UserAlreadyExists & modelFromServer.Messages);
+
+
+
+        }
 
         private void InitializeController()
         {
-            
             db = new Mock<IDatabaseGateway>();
             controller = new AccountsController(db.Object);
         }
