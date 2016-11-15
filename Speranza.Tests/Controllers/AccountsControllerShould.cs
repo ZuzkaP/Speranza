@@ -111,9 +111,25 @@ namespace Speranza.Tests.Controllers
 
             RegisterModel modelFromServer = (RegisterModel)result.Model;
             Assert.AreNotEqual(RegisterModelMessages.NoMessage, RegisterModelMessages.UserAlreadyExists & modelFromServer.Messages);
+        }
 
+        [TestMethod]
+        public void NotRegisterNewUserAndReturnErrorMessage_When_EmailFormatIsIncorrect()
+        {
+            InitializeController();
+            RegisterModel model = new RegisterModel();
+            model.Password = "1234Zuzka";
+            model.Email = "test";
+            model.ConfirmPassword = "1234Zuzka";
+            
+            ViewResult result = controller.Register(model);
 
+            db.Verify(r => r.RegisterNewUser(It.IsAny<RegisterModel>()), Times.Never);
+            Assert.AreEqual("Register", result.ViewName);
 
+            RegisterModel modelFromServer = (RegisterModel)result.Model;
+            Assert.AreNotEqual(RegisterModelMessages.NoMessage, RegisterModelMessages.EmailFormatIsIncorrect & modelFromServer.Messages);
+            
         }
 
         private void InitializeController()

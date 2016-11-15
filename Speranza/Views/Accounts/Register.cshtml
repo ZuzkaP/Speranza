@@ -16,7 +16,10 @@
     {
         <p>Email musí byť vyplnený!</p>
     }
-
+    if ((Model.Messages & RegisterModelMessages.EmailFormatIsIncorrect) != RegisterModelMessages.NoMessage)
+    {
+        <p>E-mail je v nesprávnom tvare!</p>
+    }
     if ((Model.Messages & RegisterModelMessages.PasswordIsEmpty) != RegisterModelMessages.NoMessage)
     {
         <p>Heslo musí byť vyplnené!</p>
@@ -25,6 +28,10 @@
     if ((Model.Messages & RegisterModelMessages.ConfirmPassIncorrect) != RegisterModelMessages.NoMessage)
     {
         <p>Heslo a jeho overenie sa nezhodujú!</p>
+    }
+    if ((Model.Messages & RegisterModelMessages.UserAlreadyExists) != RegisterModelMessages.NoMessage)
+    {
+        <p>Užívateľ s týmto emailom už existuje. Zabudol si heslo? </p>
     }
 }
 

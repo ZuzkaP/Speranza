@@ -13,12 +13,13 @@ namespace Speranza.Models
         EmailIsEmpty = 1,
         PasswordIsEmpty = 2,
         ConfirmPassIncorrect = 4,
-        UserAlreadyExists = 8
+        UserAlreadyExists = 8,
+        EmailFormatIsIncorrect = 16
     }
 
     public class RegisterModel
     {
-        [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "E-mail je v nesprávnom tvare")]
+       
         [Required]
         public string Email { get; set; }
 
