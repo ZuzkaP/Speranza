@@ -9,7 +9,7 @@ using Speranza.Database;
 namespace Speranza.Tests.Controllers
 {
     [TestClass]
-    public class AccountsControllerShould
+    public class AccountsControllerRegisterShould
     {
         private AccountsController controller;
         private Mock<IDatabaseGateway> db;

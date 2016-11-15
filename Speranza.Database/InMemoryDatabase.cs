@@ -37,6 +37,9 @@ namespace Speranza.Database
             return users.ContainsKey(email);
         }
 
-        
+        public void LoadUser(LoginModel loginModel)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

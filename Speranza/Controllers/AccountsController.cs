@@ -30,6 +30,12 @@ namespace Speranza.Controllers
         }
 
         [HttpPost]
+        public ViewResult Login(LoginModel model)
+        {
+            return View("Index", "Home", model);
+        }
+
+        [HttpPost]
         public ViewResult Register(RegisterModel model)
         {
 
