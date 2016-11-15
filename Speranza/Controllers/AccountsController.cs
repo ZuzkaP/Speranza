@@ -13,7 +13,7 @@ namespace Speranza.Controllers
     {
         private IDatabaseGateway db;
 
-        public AccountsController()
+        public AccountsController() : this(InMemoryDatabase.Instance)
         {
 
         }
