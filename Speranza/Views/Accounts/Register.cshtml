@@ -22,6 +22,18 @@
     {
         <p>Heslo musí byť vyplnené!</p>
     }
+    if ((Model.Messages & RegisterModelMessages.PasswordHasNoLetter) != RegisterModelMessages.NoMessage)
+    {
+        <p>Heslo musí obsahovať aspoň jedno písmeno</p>
+    }
+    if ((Model.Messages & RegisterModelMessages.PasswordHasNoNumber) != RegisterModelMessages.NoMessage)
+    {
+        <p>Heslo musí obsahovať aspoň jedno číslo!</p>
+    }
+    if ((Model.Messages & RegisterModelMessages.PasswordIsTooShort) != RegisterModelMessages.NoMessage)
+    {
+        <p>Heslo musí obsahovať aspoň 6 znakov!</p>
+    }
 
     if ((Model.Messages & RegisterModelMessages.ConfirmPassIncorrect) != RegisterModelMessages.NoMessage)
     {

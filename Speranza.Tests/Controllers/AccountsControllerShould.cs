@@ -129,8 +129,65 @@ namespace Speranza.Tests.Controllers
 
             RegisterModel modelFromServer = (RegisterModel)result.Model;
             Assert.AreNotEqual(RegisterModelMessages.NoMessage, RegisterModelMessages.EmailFormatIsIncorrect & modelFromServer.Messages);
-            
+         
         }
+        
+        [TestMethod]
+        public void NotRegisterNewUserAndReturnErrorMessage_When_PasswordIsTooShort()
+        {
+            InitializeController();
+            RegisterModel model = new RegisterModel();
+            model.Password = "1Zuz";
+            model.Email = "test@test.com";
+            model.ConfirmPassword = "1Zuz";
+
+            ViewResult result = controller.Register(model);
+
+            db.Verify(r => r.RegisterNewUser(It.IsAny<RegisterModel>()), Times.Never);
+            Assert.AreEqual("Register", result.ViewName);
+
+            RegisterModel modelFromServer = (RegisterModel)result.Model;
+            Assert.AreNotEqual(RegisterModelMessages.NoMessage, RegisterModelMessages.PasswordIsTooShort & modelFromServer.Messages);
+        }
+
+
+        [TestMethod]
+        public void NotRegisterNewUserAndReturnErrorMessage_When_PasswordHasNoNumber()
+        {
+            InitializeController();
+            RegisterModel model = new RegisterModel();
+            model.Password = "Zuzana";
+            model.Email = "test@test.com";
+            model.ConfirmPassword = "Zuzana";
+
+            ViewResult result = controller.Register(model);
+
+            db.Verify(r => r.RegisterNewUser(It.IsAny<RegisterModel>()), Times.Never);
+            Assert.AreEqual("Register", result.ViewName);
+
+            RegisterModel modelFromServer = (RegisterModel)result.Model;
+            Assert.AreNotEqual(RegisterModelMessages.NoMessage, RegisterModelMessages.PasswordHasNoNumber & modelFromServer.Messages);
+        }
+
+
+        [TestMethod]
+        public void NotRegisterNewUserAndReturnErrorMessage_When_PasswordHasNoLetters()
+        {
+            InitializeController();
+            RegisterModel model = new RegisterModel();
+            model.Password = "123456";
+            model.Email = "test@test.com";
+            model.ConfirmPassword = "123456";
+
+            ViewResult result = controller.Register(model);
+
+            db.Verify(r => r.RegisterNewUser(It.IsAny<RegisterModel>()), Times.Never);
+            Assert.AreEqual("Register", result.ViewName);
+
+            RegisterModel modelFromServer = (RegisterModel)result.Model;
+            Assert.AreNotEqual(RegisterModelMessages.NoMessage, RegisterModelMessages.PasswordHasNoLetter & modelFromServer.Messages);
+        }
+
 
         private void InitializeController()
         {

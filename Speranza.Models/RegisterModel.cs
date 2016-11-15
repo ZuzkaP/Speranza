@@ -14,7 +14,10 @@ namespace Speranza.Models
         PasswordIsEmpty = 2,
         ConfirmPassIncorrect = 4,
         UserAlreadyExists = 8,
-        EmailFormatIsIncorrect = 16
+        EmailFormatIsIncorrect = 16,
+        PasswordIsTooShort = 32,
+        PasswordHasNoNumber = 64,
+        PasswordHasNoLetter = 128
     }
 
     public class RegisterModel

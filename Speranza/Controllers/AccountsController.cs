@@ -12,6 +12,7 @@ namespace Speranza.Controllers
     public class AccountsController : Controller
     {
         private IDatabaseGateway db;
+        const int PASSWORD_LENGTH = 6;
 
         public AccountsController() : this(InMemoryDatabase.Instance)
         {
@@ -46,9 +47,24 @@ namespace Speranza.Controllers
             {
                 model.Messages |= RegisterModelMessages.PasswordIsEmpty;
             }
+
             else
             {
-                if(model.Password != model.ConfirmPassword)
+                if (model.Password.Length < PASSWORD_LENGTH)
+                {
+                    model.Messages |= RegisterModelMessages.PasswordIsTooShort;
+                }
+               
+                if (!model.Password.Any(char.IsDigit))
+                {
+                    model.Messages |= RegisterModelMessages.PasswordHasNoNumber;
+                }
+
+                if (!model.Password.Any(char.IsLetter))
+                {
+                    model.Messages |= RegisterModelMessages.PasswordHasNoLetter;
+                }
+                if (model.Password != model.ConfirmPassword)
                 {
                     model.Messages |= RegisterModelMessages.ConfirmPassIncorrect;
                 }
