@@ -36,28 +36,25 @@ namespace Speranza.Controllers
         [HttpPost]
         public ViewResult Login(LoginModel model)
         {
-            if (string.IsNullOrEmpty(model.Email))
+            Session["Email"] = string.Empty;
+            model.LoginSuccessful = false;
+
+            if (!string.IsNullOrEmpty(model.Email))
             {
-                Session["Email"] = string.Empty;
-                model.LoginSuccessful = false;
-                return View("Index", "Home", model);
+                IUser user = db.LoadUser(model);
+                if (user != null)
+                {
+                    string hashPass = hasher.HashPassword(model.Password);
+                    if (hashPass == user.PasswordHash)
+                    {
+                        Session["Email"] = model.Email;
+                        model.LoginSuccessful = true;
+                        return View("Calendar", "Home", model);
+                    }
+                }
+
             }
-            IUser user = db.LoadUser(model);
-            if(user == null)
-            {
-                Session["Email"] = string.Empty;
-                model.LoginSuccessful = false;
-                return View("Index", "Home", model);
-            }
-            string hashPass = hasher.HashPassword(model.Password);
-            if(hashPass != user.PasswordHash)
-            {
-                Session["Email"] = string.Empty;
-                model.LoginSuccessful = false;
-                return View("Index", "Home", model);
-            }
-            Session["Email"] = model.Email;
-            return View("Calendar", "Home", model);
+            return View("Index", "Home", model);
         }
 
         [HttpPost]
