@@ -192,7 +192,7 @@ namespace Speranza.Tests.Controllers
         private void InitializeController()
         {
             db = new Mock<IDatabaseGateway>();
-            controller = new AccountsController(db.Object);
+            controller = new AccountsController(db.Object,null);
         }
     }
 }

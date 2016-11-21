@@ -6,6 +6,8 @@ using Speranza.Database;
 using Speranza.Models;
 using Speranza.Services;
 using System.Web.Mvc;
+using System.Web;
+using System.Web.SessionState;
 
 namespace Speranza.Tests.Controllers
 {
@@ -17,6 +19,16 @@ namespace Speranza.Tests.Controllers
         private Mock<IUser> user;
         private Mock<IHasher> hasher;
 
+        private void InitializeController()
+        {
+            db = new Mock<IDatabaseGateway>();
+            hasher = new Mock<IHasher>();
+            controller = new AccountsController(db.Object,hasher.Object);
+            SessionStateItemCollection sessionItems = new SessionStateItemCollection();
+
+            controller.ControllerContext = new FakeControllerContext(controller, sessionItems);
+        }
+        
         [TestMethod]
         public void NotLogin_When_EmailIsEmpty()
         {
@@ -34,22 +46,14 @@ namespace Speranza.Tests.Controllers
             Assert.IsTrue(string.IsNullOrEmpty(this.controller.Session["Email"] as string));
 
         }
-
-        private void InitializeController()
-        {
-            db = new Mock<IDatabaseGateway>();
-            hasher = new Mock<IHasher>();
-            controller = new AccountsController(db.Object);
-        }
-
+        
         [TestMethod]
         public void NotLogin_When_EmailDoesNotExist()
         {
             InitializeController();
             LoginModel model = new LoginModel();
             model.Email = "test@test.com";
-
-
+            
             db.Setup(r => r.LoadUser(model)).Returns((IUser)null);
             ViewResult result = controller.Login(model);
             

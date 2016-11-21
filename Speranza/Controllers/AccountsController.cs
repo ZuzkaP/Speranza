@@ -1,5 +1,6 @@
 ﻿using Speranza.Models;
 using Speranza.Database;
+using Speranza.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,15 +13,18 @@ namespace Speranza.Controllers
     public class AccountsController : Controller
     {
         private IDatabaseGateway db;
+        private IHasher hasher;
         const int PASSWORD_LENGTH = 6;
 
-        public AccountsController() : this(InMemoryDatabase.Instance)
+        public AccountsController() : this(InMemoryDatabase.Instance,null)
         {
 
         }
-        public AccountsController(IDatabaseGateway db)
+
+        public AccountsController(IDatabaseGateway db, IHasher hasher)
         {
             this.db = db;
+            this.hasher = hasher;
         }
 
         // GET: Accounts
@@ -32,7 +36,28 @@ namespace Speranza.Controllers
         [HttpPost]
         public ViewResult Login(LoginModel model)
         {
-            return View("Index", "Home", model);
+            if (string.IsNullOrEmpty(model.Email))
+            {
+                Session["Email"] = string.Empty;
+                model.LoginSuccessful = false;
+                return View("Index", "Home", model);
+            }
+            IUser user = db.LoadUser(model);
+            if(user == null)
+            {
+                Session["Email"] = string.Empty;
+                model.LoginSuccessful = false;
+                return View("Index", "Home", model);
+            }
+            string hashPass = hasher.HashPassword(model.Password);
+            if(hashPass != user.PasswordHash)
+            {
+                Session["Email"] = string.Empty;
+                model.LoginSuccessful = false;
+                return View("Index", "Home", model);
+            }
+            Session["Email"] = model.Email;
+            return View("Calendar", "Home", model);
         }
 
         [HttpPost]
@@ -60,7 +85,7 @@ namespace Speranza.Controllers
                 {
                     model.Messages |= RegisterModelMessages.PasswordIsTooShort;
                 }
-               
+
                 if (!model.Password.Any(char.IsDigit))
                 {
                     model.Messages |= RegisterModelMessages.PasswordHasNoNumber;
@@ -85,15 +110,15 @@ namespace Speranza.Controllers
             {
                 db.RegisterNewUser(model);
             }
-            
-            return View("Register",model);
+
+            return View("Register", model);
         }
 
         private bool CheckEmailFormat(string email)
         {
             string emailPattern = @"^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}$";
             Regex regex = new Regex(emailPattern);
-            if(!regex.IsMatch(email))
+            if (!regex.IsMatch(email))
             {
                 return false;
             }

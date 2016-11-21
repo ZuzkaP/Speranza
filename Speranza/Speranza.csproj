@@ -126,6 +126,10 @@
       <Project>{94a66ca6-1784-49b7-9904-443bdbd5234f}</Project>
       <Name>Speranza.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Speranza.Services\Speranza.Services.csproj">
+      <Project>{cb0d5a47-cdb0-4569-b925-0fec2e671c3b}</Project>
+      <Name>Speranza.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
