@@ -91,6 +91,7 @@
     <Compile Include="Controllers\FakeControllerContext.cs" />
     <Compile Include="Controllers\HomeControllerShould.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\HasherShould.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Speranza.Database\Speranza.Database.csproj">

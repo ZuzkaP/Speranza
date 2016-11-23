@@ -2,6 +2,6 @@
 {
     public interface IHasher
     {
-        string HashPassword(string password);
+        string HashPassword(string password);       
     }
 }
