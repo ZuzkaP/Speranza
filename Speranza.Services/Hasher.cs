@@ -15,6 +15,10 @@ namespace Speranza.Services
 
         public string HashPassword(string password)
         {
+            if(password == null)
+            {
+                throw new ArgumentNullException();
+            }
             result = "";
             var data = Encoding.UTF8.GetBytes(password);
 
