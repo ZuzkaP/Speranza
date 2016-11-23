@@ -106,6 +106,7 @@ namespace Speranza.Controllers
             if (model.Messages == RegisterModelMessages.NoMessage)
             {
                 db.RegisterNewUser(model);
+                return View("Index", "Home");
             }
 
             return View("Register", model);

@@ -91,6 +91,7 @@ namespace Speranza.Tests.Controllers
 
             ViewResult result = controller.Register(model);
             db.Verify(r => r.RegisterNewUser(model), Times.Once);
+            Assert.AreEqual("Index", result.ViewName);
         }
 
         [TestMethod]
