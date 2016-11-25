@@ -5,6 +5,7 @@ using Speranza.Controllers;
 using Speranza.Models;
 using Moq;
 using Speranza.Database;
+using Speranza.Services;
 
 namespace Speranza.Tests.Controllers
 {
@@ -13,6 +14,7 @@ namespace Speranza.Tests.Controllers
     {
         private AccountsController controller;
         private Mock<IDatabaseGateway> db;
+        private Mock<IHasher> hasher;
 
         [TestMethod]
         public void ReturnCorrectView_When_RegisteringNewUser()
@@ -89,8 +91,13 @@ namespace Speranza.Tests.Controllers
             model.PhoneNumber = "0616554984899";
             model.ConfirmPassword = "1234Zuzka";
 
+            string hashedPassword = "hashPassword";
+            hasher.Setup(r => r.HashPassword(model.Password)).Returns(hashedPassword);
             ViewResult result = controller.Register(model);
+
             db.Verify(r => r.RegisterNewUser(model), Times.Once);
+            Assert.AreEqual(hashedPassword, model.Password);
+            Assert.IsNull(model.ConfirmPassword);
             Assert.AreEqual("Index", result.ViewName);
         }
 
@@ -193,7 +200,8 @@ namespace Speranza.Tests.Controllers
         private void InitializeController()
         {
             db = new Mock<IDatabaseGateway>();
-            controller = new AccountsController(db.Object,null);
+            hasher = new Mock<IHasher>();
+            controller = new AccountsController(db.Object,hasher.Object);
         }
     }
 }

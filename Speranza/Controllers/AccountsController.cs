@@ -105,6 +105,8 @@ namespace Speranza.Controllers
 
             if (model.Messages == RegisterModelMessages.NoMessage)
             {
+                model.Password = hasher.HashPassword(model.Password);
+                model.ConfirmPassword = null;
                 db.RegisterNewUser(model);
                 return View("Index", "Home");
             }
