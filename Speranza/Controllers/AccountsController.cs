@@ -49,7 +49,7 @@ namespace Speranza.Controllers
                     {
                         Session["Email"] = model.Email;
                         model.LoginSuccessful = true;
-                        return View("Calendar", "Home", model);
+                        return View("../Calendar/Calendar", model);
                     }
                 }
 

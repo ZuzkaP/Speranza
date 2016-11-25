@@ -99,7 +99,7 @@ namespace Speranza.Tests.Controllers
             ViewResult result = controller.Login(model);
 
             Assert.AreEqual(model.Email, this.controller.Session["Email"]);
-            Assert.AreEqual("Calendar", result.ViewName);
+            Assert.AreEqual("../Calendar/Calendar", result.ViewName);
 
             LoginModel modelFromServer = (LoginModel)result.Model;
             Assert.IsTrue(modelFromServer.LoginSuccessful);
