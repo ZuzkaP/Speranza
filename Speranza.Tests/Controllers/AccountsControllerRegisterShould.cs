@@ -98,7 +98,7 @@ namespace Speranza.Tests.Controllers
             db.Verify(r => r.RegisterNewUser(model), Times.Once);
             Assert.AreEqual(hashedPassword, model.Password);
             Assert.IsNull(model.ConfirmPassword);
-            Assert.AreEqual("Index", result.ViewName);
+            Assert.AreEqual("../Home/Index", result.ViewName);
         }
 
         [TestMethod]

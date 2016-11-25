@@ -25,6 +25,7 @@ namespace Speranza.Database
         private InMemoryDatabase()
         {
             users = new Dictionary<string, RegisterModel>();
+            users.Add("admin", new RegisterModel() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==" });
         }
 
         public void RegisterNewUser(RegisterModel model)
@@ -37,9 +38,15 @@ namespace Speranza.Database
             return users.ContainsKey(email);
         }
 
-        public IUser LoadUser(LoginModel loginModel)
+        public IUser LoadUser(string email)
         {
-            throw new NotImplementedException();
+            if(users.ContainsKey(email))
+            {
+                IUser user = new User(email, users[email].Password);
+                return user;
+            }
+
+            return null;
         }
     }
 }

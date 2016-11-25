@@ -16,7 +16,7 @@ namespace Speranza.Controllers
         private IHasher hasher;
         const int PASSWORD_LENGTH = 6;
 
-        public AccountsController() : this(InMemoryDatabase.Instance,null)
+        public AccountsController() : this(InMemoryDatabase.Instance,new Hasher())
         {
 
         }
@@ -41,7 +41,7 @@ namespace Speranza.Controllers
 
             if (!string.IsNullOrEmpty(model.Email))
             {
-                IUser user = db.LoadUser(model);
+                IUser user = db.LoadUser(model.Email);
                 if (user != null)
                 {
                     string hashPass = hasher.HashPassword(model.Password);
@@ -108,7 +108,7 @@ namespace Speranza.Controllers
                 model.Password = hasher.HashPassword(model.Password);
                 model.ConfirmPassword = null;
                 db.RegisterNewUser(model);
-                return View("Index", "Home");
+                return View("../Home/Index");
             }
 
             return View("Register", model);

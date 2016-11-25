@@ -38,7 +38,7 @@ namespace Speranza.Tests.Controllers
 
             ViewResult result = controller.Login(model);
 
-            db.Verify(r => r.LoadUser(It.IsAny<LoginModel>()), Times.Never);
+            db.Verify(r => r.LoadUser(It.IsAny<string>()), Times.Never);
             Assert.AreEqual("Index", result.ViewName);
 
             LoginModel modelFromServer = (LoginModel)result.Model;
@@ -54,7 +54,7 @@ namespace Speranza.Tests.Controllers
             LoginModel model = new LoginModel();
             model.Email = "test@test.com";
             
-            db.Setup(r => r.LoadUser(model)).Returns((IUser)null);
+            db.Setup(r => r.LoadUser(model.Email)).Returns((IUser)null);
             ViewResult result = controller.Login(model);
             
             Assert.AreEqual("Index", result.ViewName);
@@ -74,7 +74,7 @@ namespace Speranza.Tests.Controllers
             hasher.Setup(r => r.HashPassword(model.Password)).Returns("incorrectHash");
             user = new Mock<IUser>();
             user.SetupGet(r => r.PasswordHash).Returns("hash");
-            db.Setup(r => r.LoadUser(model)).Returns(user.Object);
+            db.Setup(r => r.LoadUser(model.Email)).Returns(user.Object);
             ViewResult result = controller.Login(model);
 
             Assert.AreEqual("Index", result.ViewName);
@@ -94,7 +94,7 @@ namespace Speranza.Tests.Controllers
             hasher.Setup(r => r.HashPassword(model.Password)).Returns("hash");
             user = new Mock<IUser>();
             user.SetupGet(r => r.PasswordHash).Returns("hash");
-            db.Setup(r => r.LoadUser(model)).Returns(user.Object);
+            db.Setup(r => r.LoadUser(model.Email)).Returns(user.Object);
 
             ViewResult result = controller.Login(model);
 

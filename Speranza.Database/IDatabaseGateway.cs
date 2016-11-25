@@ -6,6 +6,6 @@ namespace Speranza.Database
     {
         void RegisterNewUser(RegisterModel model);
         bool UserExists(string email);
-        IUser LoadUser(LoginModel loginModel);
+        IUser LoadUser(string email);
     }
 }
