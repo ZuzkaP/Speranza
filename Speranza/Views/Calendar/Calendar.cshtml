@@ -4,7 +4,7 @@
     Layout = "~/Views/Layout.cshtml";
 }
 
-<h2>Calendar</h2>
+<h2>Rozpis tréningov</h2>
 
 <table border="1">
     <tr>
@@ -17,10 +17,13 @@
     </tr>
     <tr>
         <td>Pondelok 25.11.</td>
-        @for (int i = 6; i < 21; i++)
+        @for (int i = 6; i < 20; i++)
         {
             <td></td>
         }
+        <td>Popis: Tréning č.1 <br />Kapacita: 2/10 <br />Tréner: Dano <br /><a>Prihlasit</a><hr />
+            Popis: Tréning č.2<br />Kapacita: 6/10 <br />Tréner: Zuzka <br /><a>Prihlasit</a>
+        </td>
     </tr>
     <tr>
         <td>Utorok 25.11.</td>

@@ -9,7 +9,7 @@ namespace Speranza.Controllers
     public class CalendarController : Controller
     {
         // GET: Calendar
-        public ActionResult Calendar()
+        public ViewResult Calendar()
         {
             return View();
         }

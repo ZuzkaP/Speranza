@@ -88,6 +88,7 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountsControllerLoginShould.cs" />
     <Compile Include="Controllers\AccountsControllerRegisterShould.cs" />
+    <Compile Include="Controllers\CalendarControllerShould.cs" />
     <Compile Include="Controllers\FakeControllerContext.cs" />
     <Compile Include="Controllers\HomeControllerShould.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
