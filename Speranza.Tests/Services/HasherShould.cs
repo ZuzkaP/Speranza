@@ -10,7 +10,7 @@ namespace Speranza.Tests.Services
     {
         private Hasher hasher;
 
-        private void InitializeController()
+        private void InitializeHasher()
         {
             hasher = new Hasher();
         }
@@ -20,7 +20,7 @@ namespace Speranza.Tests.Services
         [ExpectedException(typeof(ArgumentNullException))]
         public void NotHashWhenPassIsNull()
         {
-            InitializeController();
+            InitializeHasher();
 
             string hashOfEmptyString1 = hasher.HashPassword(null);
         }
@@ -29,7 +29,7 @@ namespace Speranza.Tests.Services
         [TestMethod]
         public void HashEmptyPassword()
         {
-            InitializeController();
+            InitializeHasher();
             
             string hashOfEmptyString1 = hasher.HashPassword(string.Empty);
             string hashOfEmptyString2 = hasher.HashPassword(string.Empty);
@@ -41,7 +41,7 @@ namespace Speranza.Tests.Services
         [TestMethod]
         public void HastheSamePasswords()
         {
-            InitializeController();
+            InitializeHasher();
 
             string hashOfEmptyString1 = hasher.HashPassword("pass1");
             string hashOfEmptyString2 = hasher.HashPassword("pass1");
@@ -52,7 +52,7 @@ namespace Speranza.Tests.Services
         [TestMethod]
         public void HashDifferentPasswords()
         {
-            InitializeController();
+            InitializeHasher();
 
             string hashOfEmptyString1 = hasher.HashPassword("pass1");
             string hashOfEmptyString2 = hasher.HashPassword("pass2");
