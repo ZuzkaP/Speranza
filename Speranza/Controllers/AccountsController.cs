@@ -34,7 +34,7 @@ namespace Speranza.Controllers
         }
 
         [HttpPost]
-        public ViewResult Login(LoginModel model)
+        public ActionResult Login(LoginModel model)
         {
             Session["Email"] = string.Empty;
             model.LoginSuccessful = false;
@@ -49,7 +49,8 @@ namespace Speranza.Controllers
                     {
                         Session["Email"] = model.Email;
                         model.LoginSuccessful = true;
-                        return View("../Calendar/Calendar", model);
+                        return RedirectToAction("Calendar", "Calendar");
+                       // return View("../Calendar/Calendar", model);
                     }
                 }
 

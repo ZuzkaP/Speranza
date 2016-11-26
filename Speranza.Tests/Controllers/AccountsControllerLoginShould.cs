@@ -36,7 +36,7 @@ namespace Speranza.Tests.Controllers
             LoginModel model = new LoginModel();
             model.Email = string.Empty;
 
-            ViewResult result = controller.Login(model);
+            ViewResult result = (ViewResult) controller.Login(model);
 
             db.Verify(r => r.LoadUser(It.IsAny<string>()), Times.Never);
             Assert.AreEqual("Index", result.ViewName);
@@ -55,7 +55,7 @@ namespace Speranza.Tests.Controllers
             model.Email = "test@test.com";
             
             db.Setup(r => r.LoadUser(model.Email)).Returns((IUser)null);
-            ViewResult result = controller.Login(model);
+            ViewResult result = (ViewResult) controller.Login(model);
             
             Assert.AreEqual("Index", result.ViewName);
 
@@ -75,7 +75,7 @@ namespace Speranza.Tests.Controllers
             user = new Mock<IUser>();
             user.SetupGet(r => r.PasswordHash).Returns("hash");
             db.Setup(r => r.LoadUser(model.Email)).Returns(user.Object);
-            ViewResult result = controller.Login(model);
+            ViewResult result = (ViewResult) controller.Login(model);
 
             Assert.AreEqual("Index", result.ViewName);
 
@@ -96,13 +96,13 @@ namespace Speranza.Tests.Controllers
             user.SetupGet(r => r.PasswordHash).Returns("hash");
             db.Setup(r => r.LoadUser(model.Email)).Returns(user.Object);
 
-            ViewResult result = controller.Login(model);
+            ActionResult result = controller.Login(model);
 
             Assert.AreEqual(model.Email, this.controller.Session["Email"]);
-            Assert.AreEqual("../Calendar/Calendar", result.ViewName);
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+           // Assert.AreEqual("Calendar", result.ViewName);
 
-            LoginModel modelFromServer = (LoginModel)result.Model;
-            Assert.IsTrue(modelFromServer.LoginSuccessful);
+         
         }
     }
     
