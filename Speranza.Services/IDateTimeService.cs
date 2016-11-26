@@ -8,6 +8,6 @@ namespace Speranza.Services
 {
     public interface IDateTimeService
     {
-        int GetCurrentDate();
+        DateTime GetCurrentDate();
     }
 }

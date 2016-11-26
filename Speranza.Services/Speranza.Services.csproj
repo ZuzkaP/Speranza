@@ -42,8 +42,16 @@
   <ItemGroup>
     <Compile Include="Hasher.cs" />
     <Compile Include="IDateTimeService.cs" />
+    <Compile Include="IDaysManager.cs" />
     <Compile Include="IHasher.cs" />
+    <Compile Include="IUserManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Speranza.Models\Speranza.Models.csproj">
+      <Project>{94a66ca6-1784-49b7-9904-443bdbd5234f}</Project>
+      <Name>Speranza.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

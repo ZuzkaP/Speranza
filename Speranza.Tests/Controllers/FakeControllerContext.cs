@@ -10,7 +10,7 @@ namespace Speranza.Tests.Controllers
     internal class FakeControllerContext : ControllerContext
     {
         
-        public FakeControllerContext(AccountsController controller, SessionStateItemCollection sessionItems)
+        public FakeControllerContext(Controller controller, SessionStateItemCollection sessionItems)
         {
             Controller = controller;
             HttpContext = new FakeHttpContext(sessionItems);
