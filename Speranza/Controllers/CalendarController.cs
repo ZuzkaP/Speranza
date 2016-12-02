@@ -1,4 +1,5 @@
-﻿using Speranza.Models;
+﻿using Speranza.Database.Data.Interfaces;
+using Speranza.Models;
 using Speranza.Services;
 using System;
 using System.Collections.Generic;

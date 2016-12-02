@@ -121,9 +121,21 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Speranza.Database.Data.Interfaces\Speranza.Database.Data.Interfaces.csproj">
+      <Project>{14012cb2-90fa-4298-994a-b682352b16aa}</Project>
+      <Name>Speranza.Database.Data.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Speranza.Database.Data\Speranza.Database.Data.csproj">
+      <Project>{0e00c507-13a6-4099-83d1-3d593e832913}</Project>
+      <Name>Speranza.Database.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Speranza.Database\Speranza.Database.csproj">
       <Project>{880c37bd-82d3-4ba6-b212-c10483a513d9}</Project>
       <Name>Speranza.Database</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Speranza.Models.Interfaces\Speranza.Models.Interfaces.csproj">
+      <Project>{cc06c75b-bbe6-4da0-87da-1bc9de8d2135}</Project>
+      <Name>Speranza.Models.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\Speranza.Models\Speranza.Models.csproj">
       <Project>{94a66ca6-1784-49b7-9904-443bdbd5234f}</Project>

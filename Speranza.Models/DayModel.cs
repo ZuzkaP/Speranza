@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Speranza.Models;
+using Speranza.Models.Interfaces;
 
 namespace Speranza.Models
 {

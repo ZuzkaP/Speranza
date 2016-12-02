@@ -1,4 +1,4 @@
-﻿namespace Speranza.Models
+﻿namespace Speranza.Database.Data.Interfaces
 {
     public enum UserCategories
     {

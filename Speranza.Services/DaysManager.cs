@@ -1,5 +1,6 @@
 ﻿using System;
 using Speranza.Models;
+using Speranza.Models.Interfaces;
 
 namespace Speranza.Services
 {

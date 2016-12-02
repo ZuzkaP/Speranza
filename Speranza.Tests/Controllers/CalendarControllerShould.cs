@@ -6,6 +6,8 @@ using Speranza.Models;
 using Moq;
 using Speranza.Services;
 using System.Web.SessionState;
+using Speranza.Database.Data.Interfaces;
+using Speranza.Models.Interfaces;
 
 namespace Speranza.Tests.Controllers
 {

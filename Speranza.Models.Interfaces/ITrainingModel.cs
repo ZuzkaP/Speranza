@@ -1,4 +1,4 @@
-﻿namespace Speranza.Models
+﻿namespace Speranza.Models.Interfaces
 {
     public interface ITrainingModel
     {

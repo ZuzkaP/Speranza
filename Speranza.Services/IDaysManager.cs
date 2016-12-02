@@ -1,4 +1,5 @@
 ﻿using Speranza.Models;
+using Speranza.Models.Interfaces;
 using System;
 
 namespace Speranza.Services

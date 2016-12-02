@@ -8,6 +8,7 @@ using Speranza.Services;
 using System.Web.Mvc;
 using System.Web;
 using System.Web.SessionState;
+using Speranza.Database.Data.Interfaces;
 
 namespace Speranza.Tests.Controllers
 {

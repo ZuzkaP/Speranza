@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Speranza.Models
+namespace Speranza.Models.Interfaces
 {
     public interface IDayModel
     {
