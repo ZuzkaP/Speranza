@@ -42,9 +42,18 @@
   <ItemGroup>
     <Compile Include="IDatabaseGateway.cs" />
     <Compile Include="InMemoryDatabase.cs" />
+    <Compile Include="ITraining.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Speranza.Database.Data.Interfaces\Speranza.Database.Data.Interfaces.csproj">
+      <Project>{14012cb2-90fa-4298-994a-b682352b16aa}</Project>
+      <Name>Speranza.Database.Data.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Speranza.Database.Data\Speranza.Database.Data.csproj">
+      <Project>{0e00c507-13a6-4099-83d1-3d593e832913}</Project>
+      <Name>Speranza.Database.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Speranza.Models\Speranza.Models.csproj">
       <Project>{94a66ca6-1784-49b7-9904-443bdbd5234f}</Project>
       <Name>Speranza.Models</Name>

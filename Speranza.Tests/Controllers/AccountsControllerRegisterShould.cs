@@ -6,6 +6,7 @@ using Speranza.Models;
 using Moq;
 using Speranza.Database;
 using Speranza.Services;
+using Speranza.Services.Interfaces;
 
 namespace Speranza.Tests.Controllers
 {

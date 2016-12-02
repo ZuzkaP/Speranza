@@ -1,4 +1,4 @@
-﻿namespace Speranza.Services
+﻿namespace Speranza.Services.Interfaces
 {
     public interface IHasher
     {

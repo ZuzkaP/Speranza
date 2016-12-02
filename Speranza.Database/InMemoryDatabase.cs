@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Speranza.Models;
+using Speranza.Database.Data.Interfaces;
+using Speranza.Database.Data;
 
 namespace Speranza.Database
 {
@@ -47,6 +49,11 @@ namespace Speranza.Database
             }
 
             return null;
+        }
+
+        public IList<ITraining> GetDayTrainings(DateTime date)
+        {
+            throw new NotImplementedException();
         }
     }
 }

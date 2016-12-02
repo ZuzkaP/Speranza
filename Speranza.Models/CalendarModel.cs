@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Speranza.Models.Interfaces;
+using System.Collections.Generic;
 
 namespace Speranza.Models
 {
