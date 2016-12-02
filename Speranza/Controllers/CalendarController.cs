@@ -10,6 +10,9 @@ namespace Speranza.Controllers
 {
     public class CalendarController : Controller
     {
+        private const int SILVER_USERS_DAYS = 30;
+        private const int GOLDEN_USERS_DAYS = 60;
+        private const int STANDARD_USERS_DAYS = 14;
         IUserManager userManager;
         IDaysManager dayManager;
         IDateTimeService dateTimeService;
@@ -30,7 +33,15 @@ namespace Speranza.Controllers
             }
             CalendarModel model = new CalendarModel();
             DateTime today = dateTimeService.GetCurrentDate();
-            for (int i = 0; i < 14; i++)
+            int daysCount =
+                userManager.GetUserCategory(Session) == UserCategories.Silver ?
+                SILVER_USERS_DAYS :
+                userManager.GetUserCategory(Session) == UserCategories.Gold ?
+                GOLDEN_USERS_DAYS :
+                STANDARD_USERS_DAYS
+                ;
+            
+            for (int i = 0; i < daysCount; i++)
             {
                 model.Days.Add(dayManager.GetDay(today + TimeSpan.FromDays(i)));
             } 
