@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CB0D5A47-CDB0-4569-B925-0FEC2E671C3B}</ProjectGuid>
+    <ProjectGuid>{35896D13-6A4A-4D16-B927-764CBAF825E9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Speranza.Services</RootNamespace>
-    <AssemblyName>Speranza.Services</AssemblyName>
+    <RootNamespace>Speranza.Services.Interfaces</RootNamespace>
+    <AssemblyName>Speranza.Services.Interfaces</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,8 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DaysManager.cs" />
-    <Compile Include="Hasher.cs" />
+    <Compile Include="IDateTimeService.cs" />
+    <Compile Include="IDaysManager.cs" />
+    <Compile Include="IHasher.cs" />
+    <Compile Include="IUserManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -52,14 +54,6 @@
     <ProjectReference Include="..\Speranza.Models.Interfaces\Speranza.Models.Interfaces.csproj">
       <Project>{cc06c75b-bbe6-4da0-87da-1bc9de8d2135}</Project>
       <Name>Speranza.Models.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Speranza.Models\Speranza.Models.csproj">
-      <Project>{94a66ca6-1784-49b7-9904-443bdbd5234f}</Project>
-      <Name>Speranza.Models</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Speranza.Services.Interfaces\Speranza.Services.Interfaces.csproj">
-      <Project>{35896d13-6a4a-4d16-b927-764cbaf825e9}</Project>
-      <Name>Speranza.Services.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

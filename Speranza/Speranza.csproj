@@ -141,6 +141,10 @@
       <Project>{94a66ca6-1784-49b7-9904-443bdbd5234f}</Project>
       <Name>Speranza.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Speranza.Services.Interfaces\Speranza.Services.Interfaces.csproj">
+      <Project>{35896d13-6a4a-4d16-b927-764cbaf825e9}</Project>
+      <Name>Speranza.Services.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Speranza.Services\Speranza.Services.csproj">
       <Project>{cb0d5a47-cdb0-4569-b925-0fec2e671c3b}</Project>
       <Name>Speranza.Services</Name>
