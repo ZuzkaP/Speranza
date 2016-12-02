@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DaysManager.cs" />
     <Compile Include="Hasher.cs" />
     <Compile Include="IDateTimeService.cs" />
     <Compile Include="IDaysManager.cs" />

@@ -42,7 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CalendarModel.cs" />
+    <Compile Include="DayModel.cs" />
     <Compile Include="IDayModel.cs" />
+    <Compile Include="ITrainingModel.cs" />
     <Compile Include="IUser.cs" />
     <Compile Include="LoginModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

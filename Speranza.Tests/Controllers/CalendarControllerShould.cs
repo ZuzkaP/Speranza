@@ -87,6 +87,7 @@ namespace Speranza.Tests.Controllers
             }
         }
 
+
         private void GoldenUserIsLoggedIn()
         {
             userManager.Setup(r => r.IsUserLoggedIn(calendar.Session)).Returns(true);

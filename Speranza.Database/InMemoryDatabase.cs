@@ -48,5 +48,10 @@ namespace Speranza.Database
 
             return null;
         }
+
+        public IList<ITraining> GetDayTrainings(DateTime date)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

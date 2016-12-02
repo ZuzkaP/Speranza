@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="IDatabaseGateway.cs" />
     <Compile Include="InMemoryDatabase.cs" />
+    <Compile Include="ITraining.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
