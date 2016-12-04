@@ -8,7 +8,7 @@ namespace Speranza.Services
     {
         public DateTime GetCurrentDate()
         {
-            throw new NotImplementedException();
+            return DateTime.Now;
         }
     }
 }
