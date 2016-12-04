@@ -14,7 +14,7 @@ namespace Speranza.Services
 
         public DayNames GetDayName(DateTime date)
         {
-            throw new NotImplementedException();
+            return (DayNames) Enum.Parse(typeof(DayNames),date.DayOfWeek.ToString());
         }
     }
 }

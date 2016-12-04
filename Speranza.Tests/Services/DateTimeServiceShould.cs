@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Speranza.Services;
+using Speranza.Models.Interfaces;
 
 namespace Speranza.Tests.Services
 {
@@ -21,6 +22,16 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(expected.Hour, recieved.Hour);
             Assert.AreEqual(expected.Minute, recieved.Minute);
             Assert.AreEqual(expected.Second, recieved.Second);
+        }
+
+        [TestMethod]
+        public void ReturnTheRightDayName()
+        {
+            InitializeService();
+            Assert.AreEqual(DayNames.Sunday, service.GetDayName(new DateTime(2016, 12, 4)));
+            Assert.AreEqual(DayNames.Monday, service.GetDayName(new DateTime(2016, 12, 5)));
+            Assert.AreEqual(DayNames.Friday, service.GetDayName(new DateTime(2016, 12, 9)));
+
         }
 
         private void InitializeService()

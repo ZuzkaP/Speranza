@@ -1,4 +1,5 @@
 ﻿@using Speranza.Models.Interfaces;
+@using Speranza.Views;
 @model Speranza.Models.CalendarModel
 @{
     ViewBag.Title = "Calendar";
@@ -19,7 +20,10 @@
     @foreach(var day in Model.Days)
     {
         <tr>
-            <td>days</td>
+            <td>@ViewHelper.TranslateDayNames(day.DayName)
+            <br/>
+                @day.Date
+            </td>
              @for (int i = 6; i < 21; i++)
              {
                  ITrainingModel training = day.Trainings.FirstOrDefault(r => r.Time.Hour == i);
