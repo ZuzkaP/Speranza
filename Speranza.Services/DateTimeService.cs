@@ -2,7 +2,7 @@
 using Speranza.Services;
 using Speranza.Services.Interfaces;
 
-namespace Speranza.Controllers
+namespace Speranza.Services
 {
     public class DateTimeService : IDateTimeService
     {

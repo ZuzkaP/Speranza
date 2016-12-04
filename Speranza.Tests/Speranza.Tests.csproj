@@ -95,6 +95,7 @@
     <Compile Include="Services\DaysManagerShould.cs" />
     <Compile Include="Services\HasherShould.cs" />
     <Compile Include="Services\TrainingsManagerShould.cs" />
+    <Compile Include="Services\UserManagerShould.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Speranza.Database.Data.Interfaces\Speranza.Database.Data.Interfaces.csproj">
