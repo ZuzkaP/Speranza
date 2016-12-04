@@ -69,9 +69,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountsController.cs" />
-    <Compile Include="CalendarController.cs" />
-    <Compile Include="HomeController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

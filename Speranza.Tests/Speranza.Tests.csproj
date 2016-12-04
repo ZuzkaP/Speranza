@@ -97,10 +97,6 @@
     <Compile Include="Services\TrainingsManagerShould.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Speranza.Controllers\Speranza.Controllers.csproj">
-      <Project>{32d1d934-84b5-4ab4-b128-416b0a6b111e}</Project>
-      <Name>Speranza.Controllers</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Speranza.Database.Data.Interfaces\Speranza.Database.Data.Interfaces.csproj">
       <Project>{14012cb2-90fa-4298-994a-b682352b16aa}</Project>
       <Name>Speranza.Database.Data.Interfaces</Name>

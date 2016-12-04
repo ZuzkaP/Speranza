@@ -40,10 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DateTimeService.cs" />
     <Compile Include="DaysManager.cs" />
     <Compile Include="Hasher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TrainingsManager.cs" />
+    <Compile Include="UserManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Speranza.Database.Data.Interfaces\Speranza.Database.Data.Interfaces.csproj">

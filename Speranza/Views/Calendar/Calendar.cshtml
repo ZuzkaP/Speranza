@@ -1,4 +1,5 @@
-﻿
+﻿@using Speranza.Models.Interfaces;
+@model Speranza.Models.CalendarModel
 @{
     ViewBag.Title = "Calendar";
     Layout = "~/Views/Layout.cshtml";
@@ -8,63 +9,30 @@
 
 <table border="1">
     <tr>
-        <td></td>
+        <th></th>
         @for (int i = 6; i < 21; i++)
         {
-            <td>@i.ToString("00"):00</td>
+            <th>@i.ToString("00"):00</th>
         }
         
     </tr>
-    <tr>
-        <td>Pondelok 25.11.</td>
-        @for (int i = 6; i < 20; i++)
-        {
-            <td></td>
-        }
-        <td>Popis: Tréning č.1 <br />Kapacita: 2/10 <br />Tréner: Dano <br /><a>Prihlasit</a><hr />
-            Popis: Tréning č.2<br />Kapacita: 6/10 <br />Tréner: Zuzka <br /><a>Prihlasit</a>
-        </td>
-    </tr>
-    <tr>
-        <td>Utorok 25.11.</td>
-        @for (int i = 6; i < 21; i++)
-        {
-            <td></td>
-        }
-    </tr>
-    <tr>
-        <td>Streda 25.11.</td>
-        @for (int i = 6; i < 21; i++)
-        {
-            <td></td>
-        }
-    </tr>
-    <tr>
-        <td>Štvrtok 25.11.</td>
-        @for (int i = 6; i < 21; i++)
-        {
-            <td></td>
-        }
-    </tr>
-    <tr>
-        <td>Piatok 25.11.</td>
-        @for (int i = 6; i < 21; i++)
-        {
-            <td></td>
-        }
-    </tr>
-    <tr>
-        <td>Sobota 25.11.</td>
-        @for (int i = 6; i < 21; i++)
-        {
-            <td></td>
-        }
-    </tr>
-    <tr>
-        <td>Nedeľa 25.11.</td>
-        @for (int i = 6; i < 21; i++)
-        {
-            <td></td>
-        }
-    </tr>
+    @foreach(var day in Model.Days)
+    {
+        <tr>
+             @for (int i = 6; i < 21; i++)
+             {
+                 ITrainingModel training = day.Trainings.FirstOrDefault(r => r.Time.Hour == i);
+                 if (training != null)
+                 {
+                    <td>@string.Format("{0} <br/> {1} <br/> {2}/{3}",training.Description,training.Trainer,training.RegisteredNumber,training.Capacity)</td>
+                 }
+                 else
+                 {
+                    <td></td>
+                 }
+
+             }
+        </tr>
+    }
+
 </table>
