@@ -94,6 +94,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DaysManagerShould.cs" />
     <Compile Include="Services\HasherShould.cs" />
+    <Compile Include="Services\TrainingsManagerShould.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Speranza.Controllers\Speranza.Controllers.csproj">
