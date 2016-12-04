@@ -5,6 +5,7 @@ using Speranza.Controllers;
 using System.Web.SessionState;
 using Speranza.Services;
 using Speranza.Database.Data.Interfaces;
+using Speranza.Tests.Controllers;
 
 namespace Speranza.Tests.Services
 {
@@ -13,12 +14,13 @@ namespace Speranza.Tests.Services
     {
         private SessionStateItemCollection collection;
         private UserManager manager;
+        private FakeControllerContext context;
 
         [TestMethod]
         public void ReturnFalse_When_SessionIsEmpty()
         {
             InitializeManager();
-           Assert.IsFalse(manager.IsUserLoggedIn(collection));
+           Assert.IsFalse(manager.IsUserLoggedIn(context.HttpContext.Session));
         }
 
         [TestMethod]
@@ -26,7 +28,7 @@ namespace Speranza.Tests.Services
         {
             InitializeManager();
             collection["notEmail"] = "test";
-            Assert.IsFalse(manager.IsUserLoggedIn(collection));
+            Assert.IsFalse(manager.IsUserLoggedIn(context.HttpContext.Session));
         }
 
         [TestMethod]
@@ -34,7 +36,7 @@ namespace Speranza.Tests.Services
         {
             InitializeManager();
             collection["Email"] = "";
-            Assert.IsFalse(manager.IsUserLoggedIn(collection));
+            Assert.IsFalse(manager.IsUserLoggedIn(context.HttpContext.Session));
             
         }
 
@@ -43,7 +45,7 @@ namespace Speranza.Tests.Services
         {
             InitializeManager();
             collection["Email"] = "test";
-            Assert.IsTrue(manager.IsUserLoggedIn(collection));
+            Assert.IsTrue(manager.IsUserLoggedIn(context.HttpContext.Session));
         }
 
 
@@ -51,7 +53,7 @@ namespace Speranza.Tests.Services
         public void ReturnStandardCategory_When_CategoryIsNotInSession()
         {
             InitializeManager();
-            Assert.AreEqual(UserCategories.Standard,manager.GetUserCategory(collection));
+            Assert.AreEqual(UserCategories.Standard,manager.GetUserCategory(context.HttpContext.Session));
 
         }
 
@@ -60,13 +62,14 @@ namespace Speranza.Tests.Services
         {
             InitializeManager();
             collection["Category"] = UserCategories.Gold;
-            Assert.AreEqual(UserCategories.Gold, manager.GetUserCategory(collection));
+            Assert.AreEqual(UserCategories.Gold, manager.GetUserCategory(context.HttpContext.Session));
         }
 
         private void InitializeManager()
         {
             manager = new UserManager();
             collection = new SessionStateItemCollection();
+            context = new FakeControllerContext(null, collection);
         }
     }
 }

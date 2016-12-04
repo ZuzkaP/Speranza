@@ -5,6 +5,7 @@ using Speranza.Services;
 using Speranza.Services.Interfaces;
 using System.Collections.Generic;
 using System.Web.SessionState;
+using System.Web;
 
 namespace Speranza.Services
 {
@@ -12,7 +13,7 @@ namespace Speranza.Services
     {
         public UserCategories GetUserCategory(ICollection session)
         {
-            SessionStateItemCollection sessionData = session as SessionStateItemCollection;
+            HttpSessionStateBase sessionData = session as HttpSessionStateBase;
             if (sessionData != null && sessionData.Count != 0)
             {
                 if (sessionData["Category"] != null)
@@ -24,8 +25,7 @@ namespace Speranza.Services
 
         public bool IsUserLoggedIn(ICollection session)
         {
-            
-            SessionStateItemCollection sessionData = session as SessionStateItemCollection;
+            HttpSessionStateBase sessionData = session as HttpSessionStateBase;
             if (sessionData != null && sessionData.Count != 0)
             {
                 if(sessionData["Email"] != null && (string) sessionData["Email"] != "")

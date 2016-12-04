@@ -19,12 +19,17 @@
     @foreach(var day in Model.Days)
     {
         <tr>
+            <td>days</td>
              @for (int i = 6; i < 21; i++)
              {
                  ITrainingModel training = day.Trainings.FirstOrDefault(r => r.Time.Hour == i);
                  if (training != null)
                  {
-                    <td>@string.Format("{0} <br/> {1} <br/> {2}/{3}",training.Description,training.Trainer,training.RegisteredNumber,training.Capacity)</td>
+                    <td>
+                        @training.Description <br />
+                        @training.Trainer <br />
+                        @training.RegisteredNumber / @training.Capacity
+                    </td>
                  }
                  else
                  {
