@@ -20,7 +20,7 @@ namespace Speranza.Controllers
         IDaysManager dayManager;
         IDateTimeService dateTimeService;
 
-        public CalendarController() : this(new UserManager(),new DaysManager(InMemoryDatabase.Instance,new TrainingsManager()),new DateTimeService())
+        public CalendarController() : this(new UserManager(),new DaysManager(InMemoryDatabase.Instance,new TrainingsManager(),new DateTimeService()),new DateTimeService())
         {
 
         }

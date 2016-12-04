@@ -16,11 +16,13 @@ namespace Speranza.Tests.Services
     {
         private DaysManager manager;
         private readonly DateTime date = new DateTime(2016, 12, 2);
+        private const DayNames MONDAY = DayNames.Monday;
         private IDayModel day;
         private Mock<IDatabaseGateway> db;
         private Mock<ITrainingsManager> trainingsManager;
         private Mock<ITrainingModel> trainingModel2;
         private Mock<ITrainingModel> trainingModel1;
+        private Mock<IDateTimeService> dateTimeService;
 
         [TestMethod]
         public void ShowEmptyTrainingList_When_NoTrainingExists()
@@ -46,6 +48,16 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(trainingModel1.Object, day.Trainings[0]);
             Assert.AreEqual(trainingModel2.Object, day.Trainings[1]);
 
+        }
+
+        [TestMethod]
+        public void SetDateTimeInformationIntoModel()
+        {
+            InitializeDaysManager();
+            RequestDay();
+            Assert.AreEqual("2.12.", day.Date);
+            Assert.AreEqual(MONDAY,day.DayName);
+                
         }
 
         private void PrepareDatabaseWithTwoTrainings()
@@ -77,7 +89,10 @@ namespace Speranza.Tests.Services
         {
             db = new Mock<IDatabaseGateway>();
             trainingsManager = new Mock<ITrainingsManager>();
-            manager = new DaysManager(db.Object,trainingsManager.Object);
+            dateTimeService = new Mock<IDateTimeService>();
+            manager = new DaysManager(db.Object, trainingsManager.Object, dateTimeService.Object);
+            dateTimeService.Setup(r => r.GetDayName(date)).Returns(MONDAY);
+
         }
     }
 }
