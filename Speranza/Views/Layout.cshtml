@@ -11,10 +11,10 @@
     <div>
         <ul>
             <li>@Html.ActionLink("Kalendár","Calendar")</li>
-            <li>Profil</li>
+            <li>@Html.ActionLink("Môj profil","Profile","Accounts")</li>
             <li>@Html.ActionLink("Odhlásiť sa","Logout","Accounts")</li>
         </ul>
-        <span>Prihlásený ako: @Session["Email"] </span>
+        <span>Prihlásený ako: @Html.ActionLink(Session["Email"].ToString(), "Profile", "Accounts") </span>
     </div>
     <div>
         @RenderBody()
