@@ -102,9 +102,24 @@ namespace Speranza.Tests.Controllers
 
             Assert.AreEqual(model.Email, this.controller.Session["Email"]);
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
-           // Assert.AreEqual("Calendar", result.ViewName);
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
+           
 
-         
+
+        }
+
+        [TestMethod]
+        public void Logout_When_Requested()
+        {
+            InitializeController();
+            controller.Session["Email"] = "test";
+            ActionResult result = controller.Logout();
+
+            Assert.AreEqual(null, controller.Session["Email"]);
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.AreEqual("Home", ((RedirectToRouteResult)result).RouteValues["controller"]);
+            Assert.AreEqual("Index", ((RedirectToRouteResult)result).RouteValues["action"]);
         }
     }
     

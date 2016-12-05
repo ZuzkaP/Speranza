@@ -125,5 +125,11 @@ namespace Speranza.Controllers
             }
             return true;
         }
+
+        public ActionResult Logout()
+        {
+            Session["Email"] = null;
+            return RedirectToAction("Index", "Home");
+         }
     }
 }

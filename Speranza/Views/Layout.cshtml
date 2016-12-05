@@ -12,7 +12,7 @@
         <ul>
             <li>@Html.ActionLink("Kalendár","Calendar")</li>
             <li>Profil</li>
-            <li>Odhlásiť sa</li>
+            <li>@Html.ActionLink("Odhlásiť sa","Logout","Accounts")</li>
         </ul>
         <span>Prihlásený ako: @Session["Email"] </span>
     </div>
