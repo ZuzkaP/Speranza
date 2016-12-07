@@ -12,5 +12,6 @@ namespace Speranza.Database
         bool UserExists(string email);
         IUser LoadUser(string email);
         IList<ITraining> GetDayTrainings(DateTime date);
+        IUser GetUserData(string email);
     }
 }

@@ -14,17 +14,20 @@ namespace Speranza.Controllers
     {
         private IDatabaseGateway db;
         private IHasher hasher;
+        private IUserManager manager;
         const int PASSWORD_LENGTH = 6;
 
-        public AccountsController() : this(InMemoryDatabase.Instance,new Hasher())
+
+        public AccountsController() : this(InMemoryDatabase.Instance,new Hasher(),new UserManager())
         {
 
         }
 
-        public AccountsController(IDatabaseGateway db, IHasher hasher)
+        public AccountsController(IDatabaseGateway db, IHasher hasher,IUserManager manager)
         {
             this.db = db;
             this.hasher = hasher;
+            this.manager = manager;
         }
 
         // GET: Accounts
@@ -131,5 +134,22 @@ namespace Speranza.Controllers
             Session["Email"] = null;
             return RedirectToAction("Index", "Home");
          }
+
+        public ActionResult UserProfile()
+        {
+            if (manager.IsUserLoggedIn(Session))
+            {
+                IUser user = db.GetUserData((string)Session["Email"]);
+                UserProfileModel model = new UserProfileModel();
+                model.Email = (string) Session["Email"];
+                model.Name = user.Name;
+                model.Surname = user.Surname;
+                model.PhoneNumber = user.PhoneNumber;
+
+                return View(model);
+
+            }
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

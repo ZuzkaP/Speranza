@@ -66,5 +66,10 @@ namespace Speranza.Database
         {
             return trainings.Where(r => r.Time.Date == date.Date).ToList();
         }
+
+        public IUser GetUserData(string email)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

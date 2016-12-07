@@ -111,6 +111,7 @@
     <Content Include="Views\Accounts\Register.cshtml" />
     <Content Include="Views\LayoutNotLoggedIn.cshtml" />
     <Content Include="Views\Calendar\Calendar.cshtml" />
+    <Content Include="Views\Accounts\UserProfile.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
