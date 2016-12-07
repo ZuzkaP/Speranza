@@ -32,7 +32,13 @@
                     <td>
                         @training.Description <br />
                         @training.Trainer <br />
-                        @training.RegisteredNumber / @training.Capacity
+                        @training.RegisteredNumber / @training.Capacity<br />
+
+                        @if (training.RegisteredNumber < training.Capacity)
+                        {
+                            @Html.ActionLink("Prihlásiť", "SignUp", "Calendar", new { id = "testTrainingID" }, null);
+                        }
+
                     </td>
                  }
                  else
