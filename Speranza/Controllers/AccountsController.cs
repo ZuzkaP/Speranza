@@ -118,6 +118,16 @@ namespace Speranza.Controllers
             return View("Register", model);
         }
 
+        public ActionResult SaveUserProfile(UserProfileModel model)
+        {
+            if (manager.IsUserLoggedIn(Session))
+            {
+                db.UpdateUserData(model);
+                return View(model);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
         private bool CheckEmailFormat(string email)
         {
             string emailPattern = @"^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}$";
@@ -145,7 +155,7 @@ namespace Speranza.Controllers
                 model.Name = user.Name;
                 model.Surname = user.Surname;
                 model.PhoneNumber = user.PhoneNumber;
-
+                
                 return View(model);
 
             }

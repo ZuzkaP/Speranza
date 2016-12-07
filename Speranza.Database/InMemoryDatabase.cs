@@ -28,7 +28,7 @@ namespace Speranza.Database
         private InMemoryDatabase()
         {
             users = new Dictionary<string, RegisterModel>();
-            users.Add("admin", new RegisterModel() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==" });
+            users.Add("admin", new RegisterModel() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==",Name="Zuzana",Surname="Papalova",PhoneNumber="1234" });
             trainings = new List<ITraining>();
 
             trainings.Add(PrepareTraining(new DateTime(2016, 12, 12, 12, 00, 00), "training c.1", "Zuzka", 10, 8));
@@ -68,6 +68,17 @@ namespace Speranza.Database
         }
 
         public IUser GetUserData(string email)
+        {
+            if (users.ContainsKey(email))
+            {
+                IUser user = new User(email,users[email].Name, users[email].Surname, users[email].PhoneNumber);
+                return user;
+            }
+
+            return null;
+        }
+
+        public void UpdateUserData(UserProfileModel userProfileModel)
         {
             throw new NotImplementedException();
         }

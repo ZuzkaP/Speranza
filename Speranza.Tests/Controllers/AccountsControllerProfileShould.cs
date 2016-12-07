@@ -51,6 +51,32 @@ namespace Speranza.Tests.Controllers
 
         }
 
+        [TestMethod]
+        public void ReturnToLogin_When_SavingUserProfileAndUserIsNotLoggedIn()
+        {
+            InitializeController();
+            userManager.Setup(r => r.IsUserLoggedIn(controller.Session)).Returns(false);
+            ActionResult result = controller.SaveUserProfile(null);
+
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+
+            Assert.AreEqual("Home", ((RedirectToRouteResult)result).RouteValues["controller"]);
+            Assert.AreEqual("Index", ((RedirectToRouteResult)result).RouteValues["action"]);
+            db.Verify(r => r.UpdateUserData(It.IsAny<UserProfileModel>()), Times.Never);
+
+        }
+
+        [TestMethod]
+        public void SaveChanges_When_UserDataWereChanged()
+        {
+            InitializeController();
+            UserProfileModel model = new UserProfileModel();
+            ActionResult result = controller.SaveUserProfile(model);
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
+            db.Verify(r => r.UpdateUserData(model));
+
+        }
+
         private void InitializeController()
         {
             db = new Mock<IDatabaseGateway>();

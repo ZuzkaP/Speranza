@@ -13,5 +13,6 @@ namespace Speranza.Database
         IUser LoadUser(string email);
         IList<ITraining> GetDayTrainings(DateTime date);
         IUser GetUserData(string email);
+        void UpdateUserData(UserProfileModel userProfileModel);
     }
 }

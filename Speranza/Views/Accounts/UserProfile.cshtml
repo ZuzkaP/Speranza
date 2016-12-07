@@ -8,10 +8,15 @@
 
 <h2>Môj profil</h2>
 
+@using (Html.BeginForm("SaveUserProfile", "Accounts"))
+{
 <ul>
-    <li>Email: @Html.TextBoxFor(m=>m.Email) </li>
+    
+    <li>Email: @Html.DisplayTextFor(m => m.Email) </li>
     <li>Meno:  @Html.TextBoxFor(m => m.Name)</li>
     <li>Priezvisko:  @Html.TextBoxFor(m => m.Surname)</li>
     <li>Tel.číslo:  @Html.TextBoxFor(m => m.PhoneNumber)</li>
     
 </ul>
+    <input type="submit" value="Uložiť" id="btnSubmit" />
+}
