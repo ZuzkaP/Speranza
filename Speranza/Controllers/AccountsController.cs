@@ -122,8 +122,9 @@ namespace Speranza.Controllers
         {
             if (manager.IsUserLoggedIn(Session))
             {
+                model.Email = (string) Session["Email"];
                 db.UpdateUserData(model);
-                return View(model);
+                return RedirectToAction("UserProfile");
             }
             return RedirectToAction("Index", "Home");
         }

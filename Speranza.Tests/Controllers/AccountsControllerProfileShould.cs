@@ -72,8 +72,8 @@ namespace Speranza.Tests.Controllers
             InitializeController();
             UserProfileModel model = new UserProfileModel();
             ActionResult result = controller.SaveUserProfile(model);
-            Assert.IsInstanceOfType(result, typeof(ViewResult));
-            db.Verify(r => r.UpdateUserData(model));
+            Assert.AreEqual("UserProfile", ((RedirectToRouteResult)result).RouteValues["action"]);
+            db.Verify(r => r.UpdateUserData(It.Is<UserProfileModel>(k=>k==model && !string.IsNullOrEmpty(model.Email) && model.Email == USER_EMAIL)));
 
         }
 

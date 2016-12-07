@@ -10,7 +10,7 @@ using Speranza.Database.Data;
 namespace Speranza.Database
 {
     public class InMemoryDatabase : IDatabaseGateway
-    { 
+    {
 
         Dictionary<string, RegisterModel> users;
         List<ITraining> trainings;
@@ -28,7 +28,7 @@ namespace Speranza.Database
         private InMemoryDatabase()
         {
             users = new Dictionary<string, RegisterModel>();
-            users.Add("admin", new RegisterModel() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==",Name="Zuzana",Surname="Papalova",PhoneNumber="1234" });
+            users.Add("admin", new RegisterModel() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Zuzana", Surname = "Papalova", PhoneNumber = "1234" });
             trainings = new List<ITraining>();
 
             trainings.Add(PrepareTraining(new DateTime(2016, 12, 12, 12, 00, 00), "training c.1", "Zuzka", 10, 8));
@@ -38,7 +38,7 @@ namespace Speranza.Database
 
         private ITraining PrepareTraining(DateTime dateTime, string v1, string v2, int v3, int v4)
         {
-            return new Training(dateTime,v1,v2,v3,v4);
+            return new Training(dateTime, v1, v2, v3, v4);
         }
 
         public void RegisterNewUser(RegisterModel model)
@@ -53,7 +53,7 @@ namespace Speranza.Database
 
         public IUser LoadUser(string email)
         {
-            if(users.ContainsKey(email))
+            if (users.ContainsKey(email))
             {
                 IUser user = new User(email, users[email].Password);
                 return user;
@@ -71,7 +71,7 @@ namespace Speranza.Database
         {
             if (users.ContainsKey(email))
             {
-                IUser user = new User(email,users[email].Name, users[email].Surname, users[email].PhoneNumber);
+                IUser user = new User(email, users[email].Name, users[email].Surname, users[email].PhoneNumber);
                 return user;
             }
 
@@ -80,7 +80,12 @@ namespace Speranza.Database
 
         public void UpdateUserData(UserProfileModel userProfileModel)
         {
-            throw new NotImplementedException();
+            if (users.ContainsKey(userProfileModel.Email))
+            {
+                users[userProfileModel.Email].Name = userProfileModel.Name;
+                users[userProfileModel.Email].Surname = userProfileModel.Surname;
+                users[userProfileModel.Email].PhoneNumber = userProfileModel.PhoneNumber;
+            }
         }
     }
 }
