@@ -72,6 +72,12 @@ namespace Speranza.Tests.Controllers
 
 
         }
+        
+        [TestMethod]
+        public void NotSignUp_When_UserIsAlreadySignedUp()
+        {
+            Assert.Fail();
+        }
 
         private void InitializeController()
         {

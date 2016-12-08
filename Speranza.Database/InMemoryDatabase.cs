@@ -33,16 +33,16 @@ namespace Speranza.Database
             users.Add("admin", new RegisterModel() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Zuzana", Surname = "Papalova", PhoneNumber = "1234" });
             trainings = new List<ITraining>();
 
-            trainings.Add(PrepareTraining(new DateTime(2016, 12, 12, 12, 00, 00), "training c.1", "Zuzka", 10, 10));
-            trainings.Add(PrepareTraining(new DateTime(2016, 12, 12, 13, 00, 00), "training c.2", "Dano", 10, 6));
-            trainings.Add(PrepareTraining(new DateTime(2016, 12, 15, 08, 00, 00), "training c.3", "Filip", 10, 6));
+            trainings.Add(PrepareTraining(new DateTime(2016, 12, 12, 12, 00, 00), "training c.1", "Zuzka", 10 ));
+            trainings.Add(PrepareTraining(new DateTime(2016, 12, 12, 13, 00, 00), "training c.2", "Dano", 10));
+            trainings.Add(PrepareTraining(new DateTime(2016, 12, 15, 08, 00, 00), "training c.3", "Filip", 10 ));
             usersInTrainings.Add(new UserInTraining() { Email = "admin", TrainingID = trainings[0].ID });
         }
 
-        private ITraining PrepareTraining(DateTime dateTime, string v1, string v2, int v3, int v4)
+        private ITraining PrepareTraining(DateTime dateTime, string v1, string v2, int v3)
         {
 
-            return new Training(Guid.NewGuid().ToString(),dateTime, v1, v2, v3, v4);
+            return new Training(Guid.NewGuid().ToString(),dateTime, v1, v2, v3,0);
         }
 
         public void RegisterNewUser(RegisterModel model)
@@ -68,7 +68,13 @@ namespace Speranza.Database
 
         public IList<ITraining> GetDayTrainings(DateTime date)
         {
-            return trainings.Where(r => r.Time.Date == date.Date).ToList();
+            var t =  trainings.Where(r => r.Time.Date == date.Date).ToList();
+            foreach (var item in t)
+            {
+                item.RegisteredNumber = usersInTrainings.Count(r=>r.TrainingID == item.ID);
+            }
+            return t;
+
         }
 
         public IUser GetUserData(string email)
@@ -94,7 +100,12 @@ namespace Speranza.Database
 
         public ITraining GetTrainingData(string trainingID)
         {
-            return trainings.FirstOrDefault(r => r.ID == trainingID);
+            var t = trainings.FirstOrDefault(r => r.ID == trainingID);
+            if(t != null)
+            {
+                t.RegisteredNumber = usersInTrainings.Count(r => r.TrainingID == t.ID);
+            }
+            return t ;
         }
 
         public void AddUserToTraining(string email, string trainingID)
