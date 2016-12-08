@@ -80,8 +80,10 @@ namespace Speranza.Tests.Controllers
             GoldenUserIsLoggedIn();
 
             ActionResult result = calendar.Calendar();
+            
             Assert.IsInstanceOfType(result, typeof(ViewResult));
             CalendarModel model = (CalendarModel)((ViewResult)result).Model;
+            Assert.AreEqual(CalendarMessages.NoMessage, model.Message);
             Assert.AreEqual(DAYS_COUNT_GOLDEN_USER, model.Days.Count);
             for (int i = 0; i < DAYS_COUNT_GOLDEN_USER; i++)
             {
@@ -90,6 +92,16 @@ namespace Speranza.Tests.Controllers
             }
         }
 
+        [TestMethod]
+        public void SendMessageToUI_When_Exists()
+        {
+            InitializeController();
+            StandardUserIsLoggedIn();
+            ActionResult result = calendar.Calendar(CalendarMessages.SignUpSuccessful);
+            CalendarModel model = (CalendarModel)((ViewResult)result).Model;
+
+            Assert.AreEqual(CalendarMessages.SignUpSuccessful, model.Message);
+        }
 
         private void GoldenUserIsLoggedIn()
         {

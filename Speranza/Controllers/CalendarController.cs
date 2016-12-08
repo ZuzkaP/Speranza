@@ -57,7 +57,7 @@ namespace Speranza.Controllers
 
        
         // GET: Calendar
-        public ActionResult Calendar()
+        public ActionResult Calendar(CalendarMessages message = CalendarMessages.NoMessage)
         {
            if(!userManager.IsUserLoggedIn(Session))
             {
@@ -76,8 +76,9 @@ namespace Speranza.Controllers
             for (int i = 0; i < daysCount; i++)
             {
                 model.Days.Add(dayManager.GetDay(today + TimeSpan.FromDays(i)));
-            } 
+            }
 
+            model.Message = message;
             return View(model);
         }
     }

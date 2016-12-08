@@ -8,6 +8,23 @@
 
 <h2>Rozpis tréningov</h2>
 
+@if (Model != null)
+{
+    switch (Model.Message)
+    {
+        case Speranza.Models.CalendarMessages.TrainingDoesNotExist:
+            <p> Tréning neexistuje! </p>
+            break;
+        case Speranza.Models.CalendarMessages.TrainingIsFull:
+            <p> Tréning je už obsadený </p>
+            break;
+        case Speranza.Models.CalendarMessages.SignUpSuccessful:
+            <p> Bol si úspešne prihlásený! </p>
+            break;
+    }
+}
+
+
 <table border="1">
     <tr>
         <th></th>
@@ -51,3 +68,4 @@
     }
 
 </table>
+
