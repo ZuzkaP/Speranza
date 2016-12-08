@@ -19,10 +19,18 @@ namespace Speranza.Controllers
         IUserManager userManager;
         IDaysManager dayManager;
         IDateTimeService dateTimeService;
+        private IDatabaseGateway db;
 
-        public CalendarController() : this(new UserManager(),new DaysManager(InMemoryDatabase.Instance,new TrainingsManager(),new DateTimeService()),new DateTimeService())
+        public CalendarController() : this(InMemoryDatabase.Instance,new UserManager(),new DaysManager(InMemoryDatabase.Instance,new TrainingsManager(),new DateTimeService()),new DateTimeService())
         {
 
+        }
+        public CalendarController(IDatabaseGateway db,IUserManager userManager, IDaysManager dayManager, IDateTimeService dateTimeService)
+        {
+            this.db = db;
+            this.userManager = userManager;
+            this.dayManager = dayManager;
+            this.dateTimeService = dateTimeService;
         }
 
         public RedirectToRouteResult SignUp(string id)
@@ -31,16 +39,23 @@ namespace Speranza.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+            ITraining training = db.GetTrainingData(id);
 
-            return RedirectToAction("Calendar", new { message = CalendarMessages .TrainingDoesNotExist});
+            if (training == null)
+            {
+                return RedirectToAction("Calendar", new { message = CalendarMessages.TrainingDoesNotExist });
+            }
+
+            if (training.RegisteredNumber >= training.Capacity)
+            {
+                return RedirectToAction("Calendar", new { message = CalendarMessages.TrainingIsFull });
+            }
+           
+            db.AddUserToTraining((string) Session["Email"],id);
+            return RedirectToAction("Calendar", new { message = CalendarMessages.SignUpSuccessful });
         }
 
-        public CalendarController(IUserManager userManager, IDaysManager dayManager, IDateTimeService dateTimeService)
-        {
-            this.userManager = userManager;
-            this.dayManager = dayManager;
-            this.dateTimeService = dateTimeService;
-        }
+       
         // GET: Calendar
         public ActionResult Calendar()
         {

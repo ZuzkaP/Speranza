@@ -115,7 +115,7 @@ namespace Speranza.Tests.Controllers
             daysManager = new Mock<IDaysManager>();
             dateTimeService = new Mock<IDateTimeService>();
             dateTimeService.Setup(r => r.GetCurrentDate()).Returns(CURRENTDATE);
-            calendar = new CalendarController(userManager.Object,daysManager.Object,dateTimeService.Object);
+            calendar = new CalendarController(null,userManager.Object,daysManager.Object,dateTimeService.Object);
             for (int i = 0; i < 60; i++)
             {
                 daysManager.Setup(r => r.GetDay(CURRENTDATE + TimeSpan.FromDays(i))).Returns(new Mock<IDayModel>().Object);

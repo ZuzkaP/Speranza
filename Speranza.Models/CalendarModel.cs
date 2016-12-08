@@ -6,7 +6,9 @@ namespace Speranza.Models
     public enum CalendarMessages
     {
         NoMessage,
-        TrainingDoesNotExist
+        TrainingDoesNotExist,
+        TrainingIsFull,
+        SignUpSuccessful
     }
 
     public class CalendarModel
