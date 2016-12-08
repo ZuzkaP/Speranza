@@ -88,5 +88,15 @@ namespace Speranza.Database
                 users[userProfileModel.Email].PhoneNumber = userProfileModel.PhoneNumber;
             }
         }
+
+        public ITraining GetTrainingData(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddUserToTraining(string v1, string v2)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

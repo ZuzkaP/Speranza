@@ -36,7 +36,7 @@
 
                         @if (training.RegisteredNumber < training.Capacity)
                         {
-                            @Html.ActionLink("Prihlásiť", "SignUp", "Calendar", new { id = "testTrainingID" }, null);
+                            @Html.ActionLink("Prihlásiť", "SignUp", "Calendar", new { id = training.ID }, null);
                         }
 
                     </td>

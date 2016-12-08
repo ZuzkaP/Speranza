@@ -25,6 +25,16 @@ namespace Speranza.Controllers
 
         }
 
+        public RedirectToRouteResult SignUp(string id)
+        {
+            if (!userManager.IsUserLoggedIn(Session))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            return RedirectToAction("Calendar", new { message = CalendarMessages .TrainingDoesNotExist});
+        }
+
         public CalendarController(IUserManager userManager, IDaysManager dayManager, IDateTimeService dateTimeService)
         {
             this.userManager = userManager;
