@@ -14,6 +14,7 @@ namespace Speranza.Database
 
         Dictionary<string, RegisterModel> users;
         List<ITraining> trainings;
+        List<UserInTraining> usersInTrainings;
         static InMemoryDatabase database;
         public static InMemoryDatabase Instance
         {
@@ -28,12 +29,14 @@ namespace Speranza.Database
         private InMemoryDatabase()
         {
             users = new Dictionary<string, RegisterModel>();
+            usersInTrainings = new List<UserInTraining>();
             users.Add("admin", new RegisterModel() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Zuzana", Surname = "Papalova", PhoneNumber = "1234" });
             trainings = new List<ITraining>();
 
-            trainings.Add(PrepareTraining(new DateTime(2016, 12, 12, 12, 00, 00), "training c.1", "Zuzka", 10, 8));
+            trainings.Add(PrepareTraining(new DateTime(2016, 12, 12, 12, 00, 00), "training c.1", "Zuzka", 10, 10));
             trainings.Add(PrepareTraining(new DateTime(2016, 12, 12, 13, 00, 00), "training c.2", "Dano", 10, 6));
             trainings.Add(PrepareTraining(new DateTime(2016, 12, 15, 08, 00, 00), "training c.3", "Filip", 10, 6));
+            usersInTrainings.Add(new UserInTraining() { Email = "admin", TrainingID = trainings[0].ID });
         }
 
         private ITraining PrepareTraining(DateTime dateTime, string v1, string v2, int v3, int v4)
@@ -89,14 +92,21 @@ namespace Speranza.Database
             }
         }
 
-        public ITraining GetTrainingData(string id)
+        public ITraining GetTrainingData(string trainingID)
         {
-            throw new NotImplementedException();
+            return trainings.FirstOrDefault(r => r.ID == trainingID);
         }
 
-        public void AddUserToTraining(string v1, string v2)
+        public void AddUserToTraining(string email, string trainingID)
         {
-            throw new NotImplementedException();
+            usersInTrainings.Add(new UserInTraining() { Email = email, TrainingID = trainingID });
+        }
+
+        private class UserInTraining
+        {
+          public  string Email { get; set; }
+          public string TrainingID { get; set; }
         }
     }
+
 }

@@ -15,6 +15,6 @@ namespace Speranza.Database
         IUser GetUserData(string email);
         void UpdateUserData(UserProfileModel userProfileModel);
         ITraining GetTrainingData(string id);
-        void AddUserToTraining(string v1, string v2);
+        void AddUserToTraining(string email, string trainingID);
     }
 }
