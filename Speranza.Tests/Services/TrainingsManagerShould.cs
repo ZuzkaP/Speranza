@@ -15,6 +15,7 @@ namespace Speranza.Tests.Services
         private readonly DateTime TIME = new DateTime(2016,1,1,16,00,00);
         private const string DESCRIPTION = "description";
         private const string TRAINER = "trainer";
+        private const string ID = "testID";
         private const int CAPACITY = 10;
         private const int REGISTERED = 8;
         
@@ -26,6 +27,7 @@ namespace Speranza.Tests.Services
 
             ITrainingModel model = manager.CreateModel(training.Object);
 
+            Assert.AreEqual(ID, model.ID);
             Assert.AreEqual(TIME, model.Time);
             Assert.AreEqual(CAPACITY, model.Capacity);
             Assert.AreEqual(DESCRIPTION, model.Description);
@@ -38,6 +40,7 @@ namespace Speranza.Tests.Services
         {
             training = new Mock<ITraining>();
 
+            training.SetupGet(r => r.ID).Returns(ID);
             training.SetupGet(r => r.Time).Returns(TIME);
             training.SetupGet(r => r.Description).Returns(DESCRIPTION);
             training.SetupGet(r => r.Trainer).Returns(TRAINER);

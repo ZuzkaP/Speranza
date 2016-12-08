@@ -8,13 +8,14 @@ namespace Speranza.Services
 {
     public class TrainingsManager: ITrainingsManager
     {
-        public TrainingsManager()
+        public TrainingsManager( )
         {
         }
 
         public ITrainingModel CreateModel(ITraining training)
         {
-            ITrainingModel model = new TrainingModel();
+            ITrainingModel model = new TrainingModel(training.ID);
+            
             model.Capacity = training.Capacity;
             model.Description = training.Description;
             model.RegisteredNumber = training.RegisteredNumber;

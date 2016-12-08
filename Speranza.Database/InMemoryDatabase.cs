@@ -38,7 +38,8 @@ namespace Speranza.Database
 
         private ITraining PrepareTraining(DateTime dateTime, string v1, string v2, int v3, int v4)
         {
-            return new Training(dateTime, v1, v2, v3, v4);
+
+            return new Training(Guid.NewGuid().ToString(),dateTime, v1, v2, v3, v4);
         }
 
         public void RegisterNewUser(RegisterModel model)
