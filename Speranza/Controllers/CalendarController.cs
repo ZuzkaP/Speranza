@@ -45,9 +45,7 @@ namespace Speranza.Controllers
             {
                 Session["Message"] = CalendarMessages.TrainingDoesNotExist;
                 return RedirectToAction("Calendar");
-
             }
-
             if (training.RegisteredNumber >= training.Capacity)
             {
                 Session["Message"] = CalendarMessages.TrainingIsFull;
