@@ -12,23 +12,25 @@ namespace Speranza.Services
         IDatabaseGateway db;
         private ITrainingsManager manager;
 
-        public DaysManager(IDatabaseGateway db,ITrainingsManager manager, IDateTimeService dateTimeService)
+        public DaysManager(IDatabaseGateway db, ITrainingsManager manager, IDateTimeService dateTimeService)
         {
             this.db = db;
             this.manager = manager;
             this.dateTimeService = dateTimeService;
         }
 
-        public IDayModel GetDay(DateTime date)
+        public IDayModel GetDay(DateTime date, string email)
         {
-            IDayModel model = new DayModel(date.ToString("d.MM."),dateTimeService.GetDayName(date));
+            IDayModel model = new DayModel(date.ToString("d.MM."), dateTimeService.GetDayName(date));
             var trainings = db.GetDayTrainings(date);
 
-            if(trainings != null)
+            if (trainings != null)
             {
                 foreach (var item in trainings)
                 {
-                    model.Trainings.Add(manager.CreateModel(item));
+                    ITrainingModel trainingModel = manager.CreateModel(item);
+                    trainingModel.IsUserSignedUp = db.IsUserAlreadySignedUpInTraining(email, item.ID);
+                    model.Trainings.Add(trainingModel);
                 }
             }
             return model;

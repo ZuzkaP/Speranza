@@ -23,6 +23,9 @@ namespace Speranza.Tests.Services
         private Mock<ITrainingModel> trainingModel2;
         private Mock<ITrainingModel> trainingModel1;
         private Mock<IDateTimeService> dateTimeService;
+        private const string ID1 = "testID1";
+        private const string ID2 = "testID2";
+        private const string EMAIL= "testEmail";
 
         [TestMethod]
         public void ShowEmptyTrainingList_When_NoTrainingExists()
@@ -60,11 +63,28 @@ namespace Speranza.Tests.Services
                 
         }
 
+        [TestMethod]
+        public void CorrectlyMarkedTrainings_When_UserIsSignedUpToThem()
+        {
+            InitializeDaysManager();
+            PrepareDatabaseWithTwoTrainings();
+            db.Setup(r => r.IsUserAlreadySignedUpInTraining(EMAIL, ID1)).Returns(true);
+            db.Setup(r => r.IsUserAlreadySignedUpInTraining(EMAIL, ID2)).Returns(false);
+
+            RequestDay();
+
+            trainingModel1.VerifySet(r => r.IsUserSignedUp = true, Times.Once);
+            trainingModel2.VerifySet(r => r.IsUserSignedUp = false, Times.Once);
+
+        }
+
         private void PrepareDatabaseWithTwoTrainings()
         {
             List<ITraining> trainingsInDB = new List<ITraining>();
             var training1 = new Mock<ITraining>();
             var training2 = new Mock<ITraining>();
+            training1.SetupGet(r => r.ID).Returns(ID1);
+            training2.SetupGet(r => r.ID).Returns(ID2);
             trainingsInDB.Add(training1.Object);
             trainingsInDB.Add(training2.Object);
             db.Setup(r => r.GetDayTrainings(date)).Returns(trainingsInDB);
@@ -82,7 +102,7 @@ namespace Speranza.Tests.Services
 
         private void RequestDay()
         {
-            day = manager.GetDay(date);
+            day = manager.GetDay(date,EMAIL);
         }
 
         private void InitializeDaysManager()

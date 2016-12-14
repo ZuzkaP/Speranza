@@ -54,10 +54,18 @@
                         @training.Trainer <br />
                         @training.RegisteredNumber / @training.Capacity<br />
 
-                        @if (training.RegisteredNumber < training.Capacity)
+                        @if (training.IsUserSignedUp)
                         {
-                            @Html.ActionLink("Prihlásiť", "SignUp", "Calendar", new { id = training.ID }, null);
+                            @Html.ActionLink("Odhlásiť", "SignOff", "Calendar", new { id = training.ID }, null);
                         }
+                        else
+                        {
+                            if (training.RegisteredNumber < training.Capacity)
+                            {
+                                @Html.ActionLink("Prihlásiť", "SignUp", "Calendar", new { id = training.ID }, null);
+                            }
+                        }
+                       
 
                     </td>
                  }

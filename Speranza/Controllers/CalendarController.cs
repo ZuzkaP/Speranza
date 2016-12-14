@@ -80,14 +80,14 @@ namespace Speranza.Controllers
 
             for (int i = 0; i < daysCount; i++)
             {
-                model.Days.Add(dayManager.GetDay(today + TimeSpan.FromDays(i)));
+                model.Days.Add(dayManager.GetDay(today + TimeSpan.FromDays(i), (string)Session["Email"]));
             }
             model.Message = CalendarMessages.NoMessage;
             if (Session["Message"] != null)
             {
                 model.Message = (CalendarMessages)Session["Message"];
             }
-
+            Session["Message"] = null;
             return View(model);
         }
     }

@@ -12,15 +12,16 @@ namespace Speranza.Models
 
         public TrainingModel(string id)
         {
-            this.ID = id;  
+            this.ID = id;
         }
-       public int Capacity { get; set; }
-       public string Description { get; set; }
-       public string ID { get; } 
+        public int Capacity { get; set; }
+        public string Description { get; set; }
+        public string ID { get; }
 
         public int RegisteredNumber { get; set; }
-       public DateTime Time { get; set; }
-       public string Trainer { get; set; }
+        public DateTime Time { get; set; }
+        public string Trainer { get; set; }
+        public bool IsUserSignedUp { get; set; }
 
     }
 }

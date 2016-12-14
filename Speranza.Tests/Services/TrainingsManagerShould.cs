@@ -33,6 +33,7 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(DESCRIPTION, model.Description);
             Assert.AreEqual(TRAINER, model.Trainer);
             Assert.AreEqual(REGISTERED, model.RegisteredNumber);
+            Assert.AreEqual(false, model.IsUserSignedUp);
 
         }
 

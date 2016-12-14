@@ -21,6 +21,8 @@ namespace Speranza.Services
             model.RegisteredNumber = training.RegisteredNumber;
             model.Time = training.Time;
             model.Trainer = training.Trainer;
+            //not signed up by default
+            model.IsUserSignedUp = false;
 
             return model;
         }

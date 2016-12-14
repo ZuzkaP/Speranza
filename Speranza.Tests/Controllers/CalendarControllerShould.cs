@@ -52,7 +52,7 @@ namespace Speranza.Tests.Controllers
             for (int i = 0; i < DAYS_COUNT_STANDARD_USER; i++)
             {
                 Assert.IsNotNull(model.Days[i]);
-                daysManager.Verify(r => r.GetDay(CURRENTDATE + TimeSpan.FromDays(i)), Times.Once);
+                daysManager.Verify(r => r.GetDay(CURRENTDATE + TimeSpan.FromDays(i),(string)calendar.Session["Email"]), Times.Once);
             }
         }
 
@@ -69,7 +69,7 @@ namespace Speranza.Tests.Controllers
             for (int i = 0; i < DAYS_COUNT_SILVER_USER; i++)
             {
                 Assert.IsNotNull(model.Days[i]);
-                daysManager.Verify(r => r.GetDay(CURRENTDATE + TimeSpan.FromDays(i)), Times.Once);
+                daysManager.Verify(r => r.GetDay(CURRENTDATE + TimeSpan.FromDays(i), (string)calendar.Session["Email"]), Times.Once);
             }
         }
 
@@ -88,7 +88,7 @@ namespace Speranza.Tests.Controllers
             for (int i = 0; i < DAYS_COUNT_GOLDEN_USER; i++)
             {
                 Assert.IsNotNull(model.Days[i]);
-                daysManager.Verify(r => r.GetDay(CURRENTDATE + TimeSpan.FromDays(i)), Times.Once);
+                daysManager.Verify(r => r.GetDay(CURRENTDATE + TimeSpan.FromDays(i), (string)calendar.Session["Email"]), Times.Once);
             }
         }
 
@@ -129,14 +129,16 @@ namespace Speranza.Tests.Controllers
             dateTimeService = new Mock<IDateTimeService>();
             dateTimeService.Setup(r => r.GetCurrentDate()).Returns(CURRENTDATE);
             calendar = new CalendarController(null,userManager.Object,daysManager.Object,dateTimeService.Object);
-            for (int i = 0; i < 60; i++)
-            {
-                daysManager.Setup(r => r.GetDay(CURRENTDATE + TimeSpan.FromDays(i))).Returns(new Mock<IDayModel>().Object);
-            }
-          
+           
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             calendar.ControllerContext = new FakeControllerContext(calendar, sessionItems);
-           
+            calendar.Session["Email"] = "testEmail";
+
+            for (int i = 0; i < 60; i++)
+            {
+                daysManager.Setup(r => r.GetDay(CURRENTDATE + TimeSpan.FromDays(i), (string)calendar.Session["Email"])).Returns(new Mock<IDayModel>().Object);
+            }
+
         }
     }
 }

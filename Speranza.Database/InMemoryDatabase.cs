@@ -33,9 +33,9 @@ namespace Speranza.Database
             users.Add("admin", new RegisterModel() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Zuzana", Surname = "Papalova", PhoneNumber = "1234" });
             trainings = new List<ITraining>();
 
-            trainings.Add(PrepareTraining(new DateTime(2016, 12, 12, 12, 00, 00), "training c.1", "Zuzka", 10 ));
-            trainings.Add(PrepareTraining(new DateTime(2016, 12, 12, 13, 00, 00), "training c.2", "Dano", 10));
-            trainings.Add(PrepareTraining(new DateTime(2016, 12, 15, 08, 00, 00), "training c.3", "Filip", 10 ));
+            trainings.Add(PrepareTraining(new DateTime(2016, 12, 27, 12, 00, 00), "training c.1", "Zuzka", 10 ));
+            trainings.Add(PrepareTraining(new DateTime(2016, 12, 27, 13, 00, 00), "training c.2", "Dano", 10));
+            trainings.Add(PrepareTraining(new DateTime(2016, 12, 24, 08, 00, 00), "training c.3", "Filip", 10 ));
             usersInTrainings.Add(new UserInTraining() { Email = "admin", TrainingID = trainings[0].ID });
         }
 
@@ -115,8 +115,7 @@ namespace Speranza.Database
 
         public bool IsUserAlreadySignedUpInTraining(string email, string trainingID)
         {
-            // return usersInTrainings.Any(r => r.Email == email && r.TrainingID == trainingID);
-            return false;
+            return usersInTrainings.Any(r => r.Email == email && r.TrainingID == trainingID);
         }
 
         private class UserInTraining

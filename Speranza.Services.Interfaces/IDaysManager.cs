@@ -6,6 +6,6 @@ namespace Speranza.Services.Interfaces
 {
     public interface IDaysManager
     {
-        IDayModel GetDay(DateTime date);
+        IDayModel GetDay(DateTime date, string email);
     }
 }

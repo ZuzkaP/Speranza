@@ -10,5 +10,6 @@ namespace Speranza.Models.Interfaces
         int RegisteredNumber { get; set; }
         DateTime Time { get; set; }
         string Trainer { get; set; }
+        bool IsUserSignedUp { get; set; }
     }
 }
