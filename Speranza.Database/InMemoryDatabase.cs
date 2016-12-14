@@ -118,6 +118,15 @@ namespace Speranza.Database
             return usersInTrainings.Any(r => r.Email == email && r.TrainingID == trainingID);
         }
 
+        public void RemoveUserFromTraining(string email, string id)
+        {
+            UserInTraining toBeRemoved = usersInTrainings.FirstOrDefault(r => r.Email == email && r.TrainingID == id);
+            if(toBeRemoved != null)
+            {
+                usersInTrainings.Remove(toBeRemoved);
+            }
+        }
+
         private class UserInTraining
         {
           public  string Email { get; set; }

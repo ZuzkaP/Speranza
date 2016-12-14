@@ -1,5 +1,6 @@
 ﻿@using Speranza.Models.Interfaces;
 @using Speranza.Views
+@using Speranza.Models;
 @model Speranza.Models.CalendarModel
 @{
     ViewBag.Title = "Calendar";
@@ -12,17 +13,20 @@
 {
     switch (Model.Message)
     {
-        case Speranza.Models.CalendarMessages.TrainingDoesNotExist:
+        case CalendarMessages.TrainingDoesNotExist:
             <p> Tréning neexistuje! </p>
             break;
-        case Speranza.Models.CalendarMessages.TrainingIsFull:
+        case CalendarMessages.TrainingIsFull:
             <p> Tréning je už obsadený </p>
             break;
-        case Speranza.Models.CalendarMessages.SignUpSuccessful:
+        case CalendarMessages.SignUpSuccessful:
             <p> Bol si úspešne prihlásený! </p>
             break;
-        case Speranza.Models.CalendarMessages.UserAlreadySignedUp:
+        case CalendarMessages.UserAlreadySignedUp:
             <p> Už si prihlásený! </p>
+            break;
+        case CalendarMessages.UserWasSignedOff:
+            <p> Bol si úspešne odhlásený! </p>
             break;
     }
 }
@@ -35,7 +39,7 @@
         {
             <th>@i.ToString("00"):00</th>
         }
-        
+
     </tr>
     @foreach(var day in Model.Days)
     {

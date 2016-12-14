@@ -90,5 +90,18 @@ namespace Speranza.Controllers
             Session["Message"] = null;
             return View(model);
         }
+
+        public RedirectToRouteResult SignOff(string id)
+        {
+            if (!userManager.IsUserLoggedIn(Session))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            db.RemoveUserFromTraining((string)Session["Email"], id);
+            Session["Message"] = CalendarMessages.UserWasSignedOff;
+            return RedirectToAction("Calendar");
+
+        }
     }
 }
