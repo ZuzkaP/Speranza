@@ -76,7 +76,14 @@ namespace Speranza.Tests.Controllers
         [TestMethod]
         public void NotSignUp_When_UserIsAlreadySignedUp()
         {
-            Assert.Fail();
+            InitializeController();
+            db.Setup(r => r.IsUserAlreadySignedUpInTraining(EMAIL, ID)).Returns(true);
+
+            RedirectToRouteResult result = calendar.SignUp(ID);
+           
+            db.Verify(r => r.AddUserToTraining(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            Assert.AreEqual("Calendar", result.RouteValues["action"]);
+            Assert.AreEqual(CalendarMessages.UserAlreadySignedUp, calendar.Session["Message"]);
         }
 
         private void InitializeController()
@@ -85,6 +92,7 @@ namespace Speranza.Tests.Controllers
             daysManager = new Mock<IDaysManager>();
             dateTimeService = new Mock<IDateTimeService>();
             training = new Mock<ITraining>();
+
             training.SetupGet(r => r.Capacity).Returns(10);
             training.SetupGet(r => r.RegisteredNumber).Returns(8);
 

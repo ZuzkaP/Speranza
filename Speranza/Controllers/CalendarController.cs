@@ -21,11 +21,11 @@ namespace Speranza.Controllers
         IDateTimeService dateTimeService;
         private IDatabaseGateway db;
 
-        public CalendarController() : this(InMemoryDatabase.Instance,new UserManager(),new DaysManager(InMemoryDatabase.Instance,new TrainingsManager(),new DateTimeService()),new DateTimeService())
+        public CalendarController() : this(InMemoryDatabase.Instance, new UserManager(), new DaysManager(InMemoryDatabase.Instance, new TrainingsManager(), new DateTimeService()), new DateTimeService())
         {
 
         }
-        public CalendarController(IDatabaseGateway db,IUserManager userManager, IDaysManager dayManager, IDateTimeService dateTimeService)
+        public CalendarController(IDatabaseGateway db, IUserManager userManager, IDaysManager dayManager, IDateTimeService dateTimeService)
         {
             this.db = db;
             this.userManager = userManager;
@@ -53,16 +53,20 @@ namespace Speranza.Controllers
                 Session["Message"] = CalendarMessages.TrainingIsFull;
                 return RedirectToAction("Calendar");
             }
-           
-            db.AddUserToTraining((string) Session["Email"],id);
+            if (db.IsUserAlreadySignedUpInTraining((string)Session["Email"], id))
+            {
+                Session["Message"] = CalendarMessages.UserAlreadySignedUp;
+                return RedirectToAction("Calendar");
+            }
+            db.AddUserToTraining((string)Session["Email"], id);
             Session["Message"] = CalendarMessages.SignUpSuccessful;
             return RedirectToAction("Calendar");
         }
 
-      
+
         public ActionResult Calendar()
         {
-           if(!userManager.IsUserLoggedIn(Session))
+            if (!userManager.IsUserLoggedIn(Session))
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -75,7 +79,7 @@ namespace Speranza.Controllers
                 GOLDEN_USERS_DAYS :
                 STANDARD_USERS_DAYS
                 ;
-            
+
             for (int i = 0; i < daysCount; i++)
             {
                 model.Days.Add(dayManager.GetDay(today + TimeSpan.FromDays(i)));
@@ -83,9 +87,9 @@ namespace Speranza.Controllers
             model.Message = CalendarMessages.NoMessage;
             if (Session["Message"] != null)
             {
-                model.Message = (CalendarMessages) Session["Message"];
+                model.Message = (CalendarMessages)Session["Message"];
             }
-            
+
             return View(model);
         }
     }

@@ -113,6 +113,11 @@ namespace Speranza.Database
             usersInTrainings.Add(new UserInTraining() { Email = email, TrainingID = trainingID });
         }
 
+        public bool IsUserAlreadySignedUpInTraining(string eMAIL, string iD)
+        {
+            throw new NotImplementedException();
+        }
+
         private class UserInTraining
         {
           public  string Email { get; set; }

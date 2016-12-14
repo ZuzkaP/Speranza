@@ -8,7 +8,8 @@ namespace Speranza.Models
         NoMessage,
         TrainingDoesNotExist,
         TrainingIsFull,
-        SignUpSuccessful
+        SignUpSuccessful,
+        UserAlreadySignedUp
     }
 
     public class CalendarModel

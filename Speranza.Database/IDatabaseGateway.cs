@@ -16,5 +16,6 @@ namespace Speranza.Database
         void UpdateUserData(UserProfileModel userProfileModel);
         ITraining GetTrainingData(string id);
         void AddUserToTraining(string email, string trainingID);
+        bool IsUserAlreadySignedUpInTraining(string eMAIL, string iD);
     }
 }
