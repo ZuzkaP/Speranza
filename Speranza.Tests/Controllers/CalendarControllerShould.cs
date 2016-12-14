@@ -97,7 +97,8 @@ namespace Speranza.Tests.Controllers
         {
             InitializeController();
             StandardUserIsLoggedIn();
-            ActionResult result = calendar.Calendar(CalendarMessages.SignUpSuccessful);
+            calendar.Session["Message"] = CalendarMessages.SignUpSuccessful;
+            ActionResult result = calendar.Calendar();
             CalendarModel model = (CalendarModel)((ViewResult)result).Model;
 
             Assert.AreEqual(CalendarMessages.SignUpSuccessful, model.Message);

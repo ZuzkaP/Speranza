@@ -46,7 +46,7 @@ namespace Speranza.Tests.Controllers
             db.Verify(r => r.AddUserToTraining(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
 
             Assert.AreEqual("Calendar", result.RouteValues["action"]);
-            Assert.AreEqual(CalendarMessages.TrainingDoesNotExist, result.RouteValues["message"]);
+            Assert.AreEqual(CalendarMessages.TrainingDoesNotExist, calendar.Session["Message"]);
 
         }
 
@@ -58,7 +58,7 @@ namespace Speranza.Tests.Controllers
             RedirectToRouteResult result = calendar.SignUp(ID);
             db.Verify(r => r.AddUserToTraining(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
             Assert.AreEqual("Calendar", result.RouteValues["action"]);
-            Assert.AreEqual(CalendarMessages.TrainingIsFull, result.RouteValues["message"]);
+            Assert.AreEqual(CalendarMessages.TrainingIsFull, calendar.Session["Message"]);
         }
 
         [TestMethod]
@@ -68,7 +68,7 @@ namespace Speranza.Tests.Controllers
             RedirectToRouteResult result = calendar.SignUp(ID);
             db.Verify(r => r.AddUserToTraining(EMAIL, ID), Times.Once);
             Assert.AreEqual("Calendar", result.RouteValues["action"]);
-            Assert.AreEqual(CalendarMessages.SignUpSuccessful, result.RouteValues["message"]);
+            Assert.AreEqual(CalendarMessages.SignUpSuccessful, calendar.Session["Message"]);
 
 
         }

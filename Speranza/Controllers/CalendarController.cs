@@ -43,21 +43,24 @@ namespace Speranza.Controllers
 
             if (training == null)
             {
-                return RedirectToAction("Calendar", new { message = CalendarMessages.TrainingDoesNotExist });
+                Session["Message"] = CalendarMessages.TrainingDoesNotExist;
+                return RedirectToAction("Calendar");
+
             }
 
             if (training.RegisteredNumber >= training.Capacity)
             {
-                return RedirectToAction("Calendar", new { message = CalendarMessages.TrainingIsFull });
+                Session["Message"] = CalendarMessages.TrainingIsFull;
+                return RedirectToAction("Calendar");
             }
            
             db.AddUserToTraining((string) Session["Email"],id);
-            return RedirectToAction("Calendar", new { message = CalendarMessages.SignUpSuccessful });
+            Session["Message"] = CalendarMessages.SignUpSuccessful;
+            return RedirectToAction("Calendar");
         }
 
-       
-        // GET: Calendar
-        public ActionResult Calendar(CalendarMessages message = CalendarMessages.NoMessage)
+      
+        public ActionResult Calendar()
         {
            if(!userManager.IsUserLoggedIn(Session))
             {
@@ -77,8 +80,12 @@ namespace Speranza.Controllers
             {
                 model.Days.Add(dayManager.GetDay(today + TimeSpan.FromDays(i)));
             }
-
-            model.Message = message;
+            model.Message = CalendarMessages.NoMessage;
+            if (Session["Message"] != null)
+            {
+                model.Message = (CalendarMessages) Session["Message"];
+            }
+            
             return View(model);
         }
     }
