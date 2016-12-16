@@ -202,7 +202,7 @@ namespace Speranza.Tests.Controllers
         {
             db = new Mock<IDatabaseGateway>();
             hasher = new Mock<IHasher>();
-            controller = new AccountsController(db.Object,hasher.Object,null);
+            controller = new AccountsController(db.Object,hasher.Object,null,null);
         }
     }
 }

@@ -7,6 +7,8 @@ using System.Text.RegularExpressions;
 using Speranza.Database.Data.Interfaces;
 using Speranza.Services.Interfaces;
 using System.Web.Mvc;
+using Speranza.Models.Interfaces;
+using System.Collections.Generic;
 
 namespace Speranza.Controllers
 {
@@ -14,20 +16,22 @@ namespace Speranza.Controllers
     {
         private IDatabaseGateway db;
         private IHasher hasher;
-        private IUserManager manager;
+        private IUserManager userManager;
+        private ITrainingsManager trainingManager;
         const int PASSWORD_LENGTH = 6;
 
 
-        public AccountsController() : this(InMemoryDatabase.Instance,new Hasher(),new UserManager())
+        public AccountsController() : this(InMemoryDatabase.Instance,new Hasher(),new UserManager(),new TrainingsManager())
         {
 
         }
 
-        public AccountsController(IDatabaseGateway db, IHasher hasher,IUserManager manager)
+        public AccountsController(IDatabaseGateway db, IHasher hasher,IUserManager userManager,ITrainingsManager trainingManager)
         {
             this.db = db;
             this.hasher = hasher;
-            this.manager = manager;
+            this.userManager = userManager;
+            this.trainingManager = trainingManager;
         }
 
         // GET: Accounts
@@ -120,7 +124,7 @@ namespace Speranza.Controllers
 
         public ActionResult SaveUserProfile(UserProfileModel model)
         {
-            if (manager.IsUserLoggedIn(Session))
+            if (userManager.IsUserLoggedIn(Session))
             {
                 model.Email = (string) Session["Email"];
                 db.UpdateUserData(model);
@@ -148,7 +152,7 @@ namespace Speranza.Controllers
 
         public ActionResult UserProfile()
         {
-            if (manager.IsUserLoggedIn(Session))
+            if (userManager.IsUserLoggedIn(Session))
             {
                 IUser user = db.GetUserData((string)Session["Email"]);
                 UserProfileModel model = new UserProfileModel();
@@ -156,7 +160,16 @@ namespace Speranza.Controllers
                 model.Name = user.Name;
                 model.Surname = user.Surname;
                 model.PhoneNumber = user.PhoneNumber;
-                
+                model.Trainings = new List<ITrainingModel>();
+
+                IList<ITraining> trainings = db.GetTrainingsForUser((string) Session["Email"]);
+                if (trainings != null)
+                {
+                    foreach (var item in trainings)
+                    {
+                        model.Trainings.Add(trainingManager.CreateModel(item));
+                    }
+                }
                 return View(model);
 
             }

@@ -9,6 +9,8 @@ using Speranza.Database;
 using Speranza.Database.Data.Interfaces;
 using Moq.Language.Flow;
 using Speranza.Models;
+using System.Collections.Generic;
+using Speranza.Models.Interfaces;
 
 namespace Speranza.Tests.Controllers
 {
@@ -18,6 +20,7 @@ namespace Speranza.Tests.Controllers
         private const string USER_EMAIL = "test";
         private AccountsController controller;
         private Mock<IUserManager> userManager;
+        private Mock<ITrainingsManager> trainingManager;
         private Mock<IDatabaseGateway> db;
         private Mock<IUser> userData;
 
@@ -76,11 +79,46 @@ namespace Speranza.Tests.Controllers
             db.Verify(r => r.UpdateUserData(It.Is<UserProfileModel>(k=>k==model && !string.IsNullOrEmpty(model.Email) && model.Email == USER_EMAIL)));
         }
 
+
+        [TestMethod]
+        public void ShowOnlyAccountInf_When_UserIsNotSignedUpForTraining()
+        {
+            InitializeController();
+            db.Setup(r => r.GetTrainingsForUser(USER_EMAIL)).Returns(new List<ITraining>());
+
+            ViewResult result = (ViewResult)controller.UserProfile();
+        
+            UserProfileModel model = (UserProfileModel)result.Model;
+            Assert.AreEqual(0, model.Trainings.Count);
+        }
+
+
+        [TestMethod]
+        public void ShowTrainingInfo_When_UserIsSignedUpToTraining()
+        {
+            InitializeController();
+            IList<ITraining> trainings = new List<ITraining>();
+            db.Setup(r => r.GetTrainingsForUser(USER_EMAIL)).Returns(trainings);
+            Mock<ITraining> training1 = new Mock<ITraining>();
+            Mock<ITrainingModel> training1Model = new Mock<ITrainingModel>();
+            trainingManager.Setup(r => r.CreateModel(training1.Object)).Returns(training1Model.Object);
+            trainings.Add(training1.Object);
+
+            ViewResult result = (ViewResult)controller.UserProfile();
+
+            UserProfileModel model = (UserProfileModel)result.Model;
+            Assert.AreEqual(1, model.Trainings.Count);
+            Assert.AreEqual(training1Model.Object, model.Trainings[0]);
+
+
+        }
+
         private void InitializeController()
         {
             db = new Mock<IDatabaseGateway>();
             userManager = new Mock<IUserManager>();
-            controller = new AccountsController(db.Object,null,userManager.Object);
+            trainingManager = new Mock<ITrainingsManager>();
+            controller = new AccountsController(db.Object,null,userManager.Object, trainingManager.Object);
             userData = new Mock<IUser>();
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             controller.ControllerContext = new FakeControllerContext(controller, sessionItems);
