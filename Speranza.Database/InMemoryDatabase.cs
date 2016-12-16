@@ -129,7 +129,13 @@ namespace Speranza.Database
 
         public IList<ITraining> GetTrainingsForUser(string email)
         {
-            throw new NotImplementedException();
+            List<UserInTraining> trainingsForUser = usersInTrainings.Where(r => r.Email == email).ToList();
+            List<ITraining> selectedTrainings = new List<ITraining>();
+            foreach (var item in trainingsForUser)
+            {
+                selectedTrainings.Add(trainings.First(r => r.ID == item.TrainingID));
+            }
+            return selectedTrainings;
         }
 
         private class UserInTraining

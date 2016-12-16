@@ -26,19 +26,14 @@
 
 <h3>Moje tréningy</h3>
 <table border="1">
-    <tr>
-        <td>16.12.2016</td>
-        <td>18:00</td>
-        <td>Hard Workout</td>
-        <td>Dano</td>
-        <td>@Html.ActionLink("Odhlásiť", "SignOff", "Calendar", new { id = "ID" }, null)</td>
-    </tr>
-    <tr>
-        <td>17.12.2016</td>
-        <td>12:00</td>
-        <td>Hard Workout</td>
-        <td>Filip</td>
-        <td>@Html.ActionLink("Odhlásiť", "SignOff", "Calendar", new { id = "ID" }, null)</td>
-    </tr>
-   
+    @foreach (var item in Model.Trainings)
+    {
+        <tr>
+            <td>@item.Time.ToString("dd.MM.yyyy")</td>
+            <td>@item.Time.ToString("HH:mm")</td>
+            <td>@item.Description</td>
+            <td>@item.Trainer</td>
+            <td>@Html.ActionLink("Odhlásiť", "SignOff", "Calendar", new { id = item.ID }, null)</td>
+        </tr>
+    }
 </table>
