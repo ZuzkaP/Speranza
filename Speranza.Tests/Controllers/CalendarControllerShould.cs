@@ -104,6 +104,21 @@ namespace Speranza.Tests.Controllers
             Assert.AreEqual(CalendarMessages.SignUpSuccessful, model.Message);
         }
 
+
+        [TestMethod]
+        public void SendTrainingToUI_When_SignUpOrSignOff()
+        {
+            InitializeController();
+            StandardUserIsLoggedIn();
+            Mock<ITrainingModel> trainingModel = new Mock<ITrainingModel>();
+            calendar.Session["Training"] = trainingModel.Object;
+            
+            ActionResult result = calendar.Calendar();
+
+            CalendarModel model = (CalendarModel)((ViewResult)result).Model;
+            Assert.AreEqual(trainingModel.Object, model.SignedUpOrSignedOffTraining);
+        }
+
         private void GoldenUserIsLoggedIn()
         {
             userManager.Setup(r => r.IsUserLoggedIn(calendar.Session)).Returns(true);
@@ -128,7 +143,7 @@ namespace Speranza.Tests.Controllers
             daysManager = new Mock<IDaysManager>();
             dateTimeService = new Mock<IDateTimeService>();
             dateTimeService.Setup(r => r.GetCurrentDate()).Returns(CURRENTDATE);
-            calendar = new CalendarController(null,userManager.Object,daysManager.Object,dateTimeService.Object);
+            calendar = new CalendarController(null,userManager.Object,daysManager.Object,dateTimeService.Object,null);
            
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             calendar.ControllerContext = new FakeControllerContext(calendar, sessionItems);

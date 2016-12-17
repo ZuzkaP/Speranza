@@ -8,6 +8,7 @@ using System.Web.SessionState;
 using Speranza.Database;
 using Speranza.Database.Data.Interfaces;
 using Speranza.Models;
+using Speranza.Models.Interfaces;
 
 namespace Speranza.Tests.Controllers
 {
@@ -23,6 +24,7 @@ namespace Speranza.Tests.Controllers
         private const string ID = "testID";
         private Mock<ITraining> training;
         private const string EMAIL = "testEmail";
+        private Mock<ITrainingsManager> trainingManager;
 
         [TestMethod]
         public void ReturnToLogin_When_UserIsNotLoggedIn()
@@ -113,6 +115,18 @@ namespace Speranza.Tests.Controllers
         }
 
         [TestMethod]
+        public void SendSignedOffTrainingToUi_When_SigningOff()
+        {
+            InitializeController();
+            Mock<ITrainingModel> trainingModel = new Mock<ITrainingModel>();
+            trainingManager.Setup(r => r.CreateModel(training.Object)).Returns(trainingModel.Object);
+
+            RedirectToRouteResult result = calendar.SignOff(ID);
+           
+            Assert.AreEqual(trainingModel.Object, calendar.Session["Training"]);
+        }
+
+        [TestMethod]
         public void ReturnToLogin_When_UserIsNotLoggedIn_And_SigningOff()
         {
             InitializeController();
@@ -129,6 +143,7 @@ namespace Speranza.Tests.Controllers
         {
             userManager = new Mock<IUserManager>();
             daysManager = new Mock<IDaysManager>();
+            trainingManager = new Mock<ITrainingsManager>();
             dateTimeService = new Mock<IDateTimeService>();
             training = new Mock<ITraining>();
 
@@ -137,7 +152,7 @@ namespace Speranza.Tests.Controllers
 
             db = new Mock<IDatabaseGateway>();
             
-            calendar = new CalendarController(db.Object,userManager.Object, daysManager.Object, dateTimeService.Object);
+            calendar = new CalendarController(db.Object,userManager.Object, daysManager.Object, dateTimeService.Object,trainingManager.Object);
             
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             calendar.ControllerContext = new FakeControllerContext(calendar, sessionItems);

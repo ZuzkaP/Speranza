@@ -17,6 +17,7 @@ namespace Speranza.Models
     {
         public IList<IDayModel> Days { get; private set; }
         public CalendarMessages Message { get; set; }
+        public ITrainingModel SignedUpOrSignedOffTraining { get; set; }
 
         public CalendarModel()
         {

@@ -1,6 +1,7 @@
 ﻿using Speranza.Database;
 using Speranza.Database.Data.Interfaces;
 using Speranza.Models;
+using Speranza.Models.Interfaces;
 using Speranza.Services;
 using Speranza.Services.Interfaces;
 using System;
@@ -18,19 +19,21 @@ namespace Speranza.Controllers
         private const int STANDARD_USERS_DAYS = 14;
         IUserManager userManager;
         IDaysManager dayManager;
+        ITrainingsManager trainingManager;
         IDateTimeService dateTimeService;
         private IDatabaseGateway db;
 
-        public CalendarController() : this(InMemoryDatabase.Instance, new UserManager(), new DaysManager(InMemoryDatabase.Instance, new TrainingsManager(), new DateTimeService()), new DateTimeService())
+        public CalendarController() : this(InMemoryDatabase.Instance, new UserManager(), new DaysManager(InMemoryDatabase.Instance, new TrainingsManager(), new DateTimeService()), new DateTimeService(), new TrainingsManager())
         {
 
         }
-        public CalendarController(IDatabaseGateway db, IUserManager userManager, IDaysManager dayManager, IDateTimeService dateTimeService)
+        public CalendarController(IDatabaseGateway db, IUserManager userManager, IDaysManager dayManager, IDateTimeService dateTimeService, ITrainingsManager trainingManager)
         {
             this.db = db;
             this.userManager = userManager;
             this.dayManager = dayManager;
             this.dateTimeService = dateTimeService;
+            this.trainingManager = trainingManager;
         }
 
         public RedirectToRouteResult SignUp(string id)
@@ -83,6 +86,7 @@ namespace Speranza.Controllers
                 model.Days.Add(dayManager.GetDay(today + TimeSpan.FromDays(i), (string)Session["Email"]));
             }
             model.Message = CalendarMessages.NoMessage;
+            model.SignedUpOrSignedOffTraining = (ITrainingModel) Session["Training"];
             if (Session["Message"] != null)
             {
                 model.Message = (CalendarMessages)Session["Message"];
@@ -100,7 +104,10 @@ namespace Speranza.Controllers
 
             db.RemoveUserFromTraining((string)Session["Email"], id);
             Session["Message"] = CalendarMessages.UserWasSignedOff;
-            if(Request.UrlReferrer != null)
+            ITraining training = db.GetTrainingData(id);
+            Session["Training"] = trainingManager.CreateModel(training);
+
+            if (Request.UrlReferrer != null)
             {
                 string path = Request.UrlReferrer.AbsolutePath;
                 if (path.Contains("Accounts/UserProfile"))
