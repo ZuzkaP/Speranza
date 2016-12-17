@@ -33,7 +33,7 @@ namespace Speranza.Views
 
         }
 
-        public static string ShowMessageInView(CalendarMessages message)
+        public static string ShowMessageInView(CalendarMessages message,ITrainingModel training)
         {
             string outputMessage = string.Empty;
             switch (message)
@@ -45,13 +45,13 @@ namespace Speranza.Views
                     outputMessage = "Tréning je už obsadený!";
                        break;
                 case CalendarMessages.SignUpSuccessful:
-                    outputMessage = "Bol si úspešne prihlásený!";
-                       break;
+                    outputMessage = string.Format("Bol si úspešne prihlásený na tréning dňa {0} o {1}!", training.Time.ToString("dd.MM.yyyy"), training.Time.ToString("HH:mm"));
+                    break;
                 case CalendarMessages.UserAlreadySignedUp:
                     outputMessage = "Už si prihlásený!";
                        break;
                 case CalendarMessages.UserWasSignedOff:
-                    outputMessage = "Bol si úspešne odhlásený!";
+                    outputMessage = string.Format("Bol si úspešne odhlásený z tréningu dňa {0} o {1}!",training.Time.ToString("dd.MM.yyyy"),training.Time.ToString("HH:mm"));
                        break;
             }
 

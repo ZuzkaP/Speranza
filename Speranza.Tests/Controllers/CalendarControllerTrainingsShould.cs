@@ -127,6 +127,18 @@ namespace Speranza.Tests.Controllers
         }
 
         [TestMethod]
+        public void SendSignedUpTrainingToUi_When_Signup()
+        {
+            InitializeController();
+            Mock<ITrainingModel> trainingModel = new Mock<ITrainingModel>();
+            trainingManager.Setup(r => r.CreateModel(training.Object)).Returns(trainingModel.Object);
+
+            RedirectToRouteResult result = calendar.SignUp(ID);
+
+            Assert.AreEqual(trainingModel.Object, calendar.Session["Training"]);
+        }
+
+        [TestMethod]
         public void ReturnToLogin_When_UserIsNotLoggedIn_And_SigningOff()
         {
             InitializeController();
