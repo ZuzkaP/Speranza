@@ -18,20 +18,21 @@ namespace Speranza.Controllers
         private IHasher hasher;
         private IUserManager userManager;
         private ITrainingsManager trainingManager;
+        private IDateTimeService dateTimeService;
         const int PASSWORD_LENGTH = 6;
 
-
-        public AccountsController() : this(InMemoryDatabase.Instance,new Hasher(),new UserManager(),new TrainingsManager())
+        public AccountsController() : this(InMemoryDatabase.Instance,new Hasher(),new UserManager(),new TrainingsManager(),new DateTimeService())
         {
 
         }
 
-        public AccountsController(IDatabaseGateway db, IHasher hasher,IUserManager userManager,ITrainingsManager trainingManager)
+        public AccountsController(IDatabaseGateway db, IHasher hasher,IUserManager userManager,ITrainingsManager trainingManager, IDateTimeService dateTimeService)
         {
             this.db = db;
             this.hasher = hasher;
             this.userManager = userManager;
             this.trainingManager = trainingManager;
+            this.dateTimeService = dateTimeService;
         }
 
         // GET: Accounts
@@ -162,15 +163,8 @@ namespace Speranza.Controllers
                 model.PhoneNumber = user.PhoneNumber;
                 model.Trainings = new List<ITrainingModel>();
                 model.SignedUpOrSignedOffTraining = (ITrainingModel) Session["Training"];
-
-                IList<ITraining> trainings = db.GetTrainingsForUser((string) Session["Email"]);
-                if (trainings != null)
-                {
-                    foreach (var item in trainings)
-                    {
-                        model.Trainings.Add(trainingManager.CreateModel(item));
-                    }
-                }
+                OrderAndAssignTrainings(model);
+               
                 if (Session["Message"] != null)
                 {
                     model.Message = (CalendarMessages)Session["Message"];
@@ -181,6 +175,29 @@ namespace Speranza.Controllers
 
             }
             return RedirectToAction("Index", "Home");
+        }
+
+        private void OrderAndAssignTrainings(UserProfileModel model)
+        {
+            IList<ITraining> trainings = db.GetTrainingsForUser((string)Session["Email"]);
+            if (trainings != null)
+            {
+                List<ITrainingModel> futureTrainings = new List<ITrainingModel>();
+                List<ITrainingModel> pastTrainings = new List<ITrainingModel>();
+                foreach (var item in trainings)
+                {
+                    ITrainingModel trainingModel = trainingManager.CreateModel(item);
+                    if (trainingModel.Time < dateTimeService.GetCurrentDate())
+                    {
+                        pastTrainings.Add(trainingModel);
+                    }
+                    else
+                    {
+                        futureTrainings.Add(trainingModel);
+                    }
+                }
+                model.Trainings = futureTrainings.OrderBy(r => r.Time).Concat(pastTrainings.OrderByDescending(r => r.Time)).ToList();
+            }
         }
     }
 }

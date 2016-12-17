@@ -27,6 +27,7 @@ namespace Speranza.Tests.Controllers
         private readonly string NAME = "Zuzka";
         private readonly string SURNAME = "Papalova";
         private readonly string PHONENUMBER = "1234";
+        private Mock<IDateTimeService> dateTimeService;
 
         [TestMethod]
         public void ReturnToLogin_When_UserIsNotLoggedIn()
@@ -138,12 +139,51 @@ namespace Speranza.Tests.Controllers
 
         }
 
+        [TestMethod]
+        public void OrderTrainingsByDate()
+        {
+            InitializeController();
+            
+            Mock<ITraining> trainingA = new Mock<ITraining>();
+            Mock<ITraining> trainingB = new Mock<ITraining>();
+            Mock<ITraining> trainingC = new Mock<ITraining>();
+            Mock<ITraining> trainingD = new Mock<ITraining>();
+            IList<ITraining> trainings = new List<ITraining>() { trainingA.Object,trainingB.Object,trainingC.Object,trainingD.Object};
+            db.Setup(r => r.GetTrainingsForUser(USER_EMAIL)).Returns(trainings);
+            Mock<ITrainingModel> trainingModelA = new Mock<ITrainingModel>();
+            Mock<ITrainingModel> trainingModelB = new Mock<ITrainingModel>();
+            Mock<ITrainingModel> trainingModelC = new Mock<ITrainingModel>();
+            Mock<ITrainingModel> trainingModelD = new Mock<ITrainingModel>();
+            trainingModelA.SetupGet(r => r.Time).Returns(new DateTime(2016, 12, 20));
+            trainingModelB.SetupGet(r => r.Time).Returns(new DateTime(2016, 12, 5));
+            trainingModelC.SetupGet(r => r.Time).Returns(new DateTime(2016, 12, 12));
+            trainingModelD.SetupGet(r => r.Time).Returns(new DateTime(2016, 12, 22));
+            trainingManager.Setup(r => r.CreateModel(trainingA.Object)).Returns(trainingModelA.Object);
+            trainingManager.Setup(r => r.CreateModel(trainingB.Object)).Returns(trainingModelB.Object);
+            trainingManager.Setup(r => r.CreateModel(trainingC.Object)).Returns(trainingModelC.Object);
+            trainingManager.Setup(r => r.CreateModel(trainingD.Object)).Returns(trainingModelD.Object);
+
+            dateTimeService.Setup(r => r.GetCurrentDate()).Returns(new DateTime(2016, 12, 17));
+
+            ActionResult result = controller.UserProfile();
+
+            UserProfileModel model = (UserProfileModel)((ViewResult)result).Model;
+            Assert.AreEqual(trainingModelA.Object, model.Trainings[0]);
+            Assert.AreEqual(trainingModelD.Object, model.Trainings[1]);
+            Assert.AreEqual(trainingModelC.Object, model.Trainings[2]);
+            Assert.AreEqual(trainingModelB.Object, model.Trainings[3]);
+
+
+        }
+
+
         private void InitializeController()
         {
             db = new Mock<IDatabaseGateway>();
             userManager = new Mock<IUserManager>();
             trainingManager = new Mock<ITrainingsManager>();
-            controller = new AccountsController(db.Object,null,userManager.Object, trainingManager.Object);
+            dateTimeService = new Mock<IDateTimeService>();
+            controller = new AccountsController(db.Object,null,userManager.Object, trainingManager.Object,dateTimeService.Object);
             userData = new Mock<IUser>();
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             controller.ControllerContext = new FakeControllerContext(controller, sessionItems);

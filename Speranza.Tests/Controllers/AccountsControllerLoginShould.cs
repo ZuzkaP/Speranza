@@ -25,7 +25,7 @@ namespace Speranza.Tests.Controllers
         {
             db = new Mock<IDatabaseGateway>();
             hasher = new Mock<IHasher>();
-            controller = new AccountsController(db.Object,hasher.Object,null,null);
+            controller = new AccountsController(db.Object,hasher.Object,null,null,null);
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
 
             controller.ControllerContext = new FakeControllerContext(controller, sessionItems);
