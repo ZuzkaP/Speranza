@@ -161,6 +161,7 @@ namespace Speranza.Controllers
                 model.Surname = user.Surname;
                 model.PhoneNumber = user.PhoneNumber;
                 model.Trainings = new List<ITrainingModel>();
+                model.SignedUpOrSignedOffTraining = (ITrainingModel) Session["Training"];
 
                 IList<ITraining> trainings = db.GetTrainingsForUser((string) Session["Email"]);
                 if (trainings != null)

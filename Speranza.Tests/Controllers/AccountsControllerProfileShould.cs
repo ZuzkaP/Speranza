@@ -123,7 +123,20 @@ namespace Speranza.Tests.Controllers
             Assert.AreEqual(CalendarMessages.UserWasSignedOff, model.Message);
 
         }
+        
+        [TestMethod]
+        public void SendTrainingDataToUI_When_SignOffFromTraining()
+        {
+            InitializeController();
+            Mock<ITrainingModel> trainingModel = new Mock<ITrainingModel>();
+            controller.Session["Training"] = trainingModel.Object;
 
+            ActionResult result = controller.UserProfile();
+
+            UserProfileModel model = (UserProfileModel)((ViewResult)result).Model;
+            Assert.AreEqual(trainingModel.Object, model.SignedUpOrSignedOffTraining);
+
+        }
 
         private void InitializeController()
         {

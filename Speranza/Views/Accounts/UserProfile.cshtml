@@ -29,7 +29,7 @@
 
 @if (Model != null)
 {
-    <p> @ViewHelper.ShowMessageInView(Model.Message,null);</p>
+    <p> @ViewHelper.ShowMessageInView(Model.Message,Model.SignedUpOrSignedOffTraining)</p>
 }
 
 @if (Model.Trainings.Count > 0)

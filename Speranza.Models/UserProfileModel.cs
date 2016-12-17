@@ -15,6 +15,7 @@ namespace Speranza.Models
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public IList<ITrainingModel> Trainings { get; set; }
+        public ITrainingModel SignedUpOrSignedOffTraining { get; set; }
         public CalendarMessages Message { get; set; }
     }
 }
