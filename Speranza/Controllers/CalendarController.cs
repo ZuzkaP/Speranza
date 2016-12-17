@@ -100,6 +100,15 @@ namespace Speranza.Controllers
 
             db.RemoveUserFromTraining((string)Session["Email"], id);
             Session["Message"] = CalendarMessages.UserWasSignedOff;
+            if(Request.UrlReferrer != null)
+            {
+                string path = Request.UrlReferrer.AbsolutePath;
+                if (path.Contains("Accounts/UserProfile"))
+                {
+                    return RedirectToAction("UserProfile", "Accounts");
+                }
+            }
+            
             return RedirectToAction("Calendar");
 
         }

@@ -85,7 +85,7 @@ namespace Speranza.Tests.Controllers
             Assert.AreEqual("Calendar", result.RouteValues["action"]);
             Assert.AreEqual(CalendarMessages.UserAlreadySignedUp, calendar.Session["Message"]);
         }
-
+        
         [TestMethod]
         public void SignOff()
         {
@@ -95,6 +95,20 @@ namespace Speranza.Tests.Controllers
 
             db.Verify(r => r.RemoveUserFromTraining(EMAIL, ID));
             Assert.AreEqual("Calendar", result.RouteValues["action"]);
+            Assert.AreEqual(CalendarMessages.UserWasSignedOff, calendar.Session["Message"]);
+        }
+
+        [TestMethod]
+        public void SignOff_And_ReturnToUserProfile_When_CalledFromUserProfile()
+        {
+            InitializeController();
+            ((FakeControllerContext.FakeHttpContext)calendar.ControllerContext.RequestContext.HttpContext).RequestMock.SetupGet(r => r.UrlReferrer).Returns(new Uri("http://localhost/Accounts/UserProfile"));
+                
+            RedirectToRouteResult result = calendar.SignOff(ID);
+
+            db.Verify(r => r.RemoveUserFromTraining(EMAIL, ID));
+            Assert.AreEqual("UserProfile", result.RouteValues["action"]);
+            Assert.AreEqual("Accounts", result.RouteValues["controller"]);
             Assert.AreEqual(CalendarMessages.UserWasSignedOff, calendar.Session["Message"]);
         }
 

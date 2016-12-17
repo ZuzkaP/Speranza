@@ -25,15 +25,41 @@
 }
 
 <h3>Moje tréningy</h3>
-<table border="1">
-    @foreach (var item in Model.Trainings)
+
+@if (Model != null)
+{
+    switch (Model.Message)
     {
-        <tr>
-            <td>@item.Time.ToString("dd.MM.yyyy")</td>
-            <td>@item.Time.ToString("HH:mm")</td>
-            <td>@item.Description</td>
-            <td>@item.Trainer</td>
-            <td>@Html.ActionLink("Odhlásiť", "SignOff", "Calendar", new { id = item.ID }, null)</td>
-        </tr>
+        case CalendarMessages.TrainingDoesNotExist:
+            <p> Tréning neexistuje! </p>
+            break;
+        case CalendarMessages.TrainingIsFull:
+            <p> Tréning je už obsadený </p>
+            break;
+        case CalendarMessages.SignUpSuccessful:
+            <p> Bol si úspešne prihlásený! </p>
+            break;
+        case CalendarMessages.UserAlreadySignedUp:
+            <p> Už si prihlásený! </p>
+            break;
+        case CalendarMessages.UserWasSignedOff:
+            <p> Bol si úspešne odhlásený! </p>
+            break;
     }
-</table>
+}
+
+@if (Model.Trainings.Count > 0)
+{
+    <table border="1">
+        @foreach (var item in Model.Trainings)
+        {
+            <tr>
+                <td>@item.Time.ToString("dd.MM.yyyy")</td>
+                <td>@item.Time.ToString("HH:mm")</td>
+                <td>@item.Description</td>
+                <td>@item.Trainer</td>
+                <td>@Html.ActionLink("Odhlásiť", "SignOff", "Calendar", new { id = item.ID }, null)</td>
+            </tr>
+        }
+    </table>
+}

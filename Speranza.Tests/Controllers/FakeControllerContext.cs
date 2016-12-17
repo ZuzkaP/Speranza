@@ -4,6 +4,7 @@ using System.Web.SessionState;
 using Speranza.Controllers;
 using System.Collections.Specialized;
 using System.Collections;
+using Moq;
 
 namespace Speranza.Tests.Controllers
 {
@@ -18,16 +19,24 @@ namespace Speranza.Tests.Controllers
         }
 
 
-        private class FakeHttpContext : HttpContextBase
+        internal class FakeHttpContext : HttpContextBase
         {
             private SessionStateItemCollection sessionItems;
+            public Mock<HttpRequestBase> RequestMock { get; }
 
             public FakeHttpContext(SessionStateItemCollection sessionItems)
             {
-                this.sessionItems = sessionItems;       
+                this.sessionItems = sessionItems;
+                RequestMock = new Mock<HttpRequestBase>();   
             }
 
-
+            public override HttpRequestBase Request
+            {
+                get
+                {
+                    return RequestMock.Object; 
+                }
+            }
             public override HttpSessionStateBase Session
             {
                 get

@@ -170,6 +170,11 @@ namespace Speranza.Controllers
                         model.Trainings.Add(trainingManager.CreateModel(item));
                     }
                 }
+                if (Session["Message"] != null)
+                {
+                    model.Message = (CalendarMessages)Session["Message"];
+                }
+                Session["Message"] = null;
                 return View(model);
 
             }
