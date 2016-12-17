@@ -93,6 +93,7 @@ namespace Speranza.Controllers
                 model.Message = (CalendarMessages)Session["Message"];
             }
             Session["Message"] = null;
+            Session["Training"] = null; 
             return View(model);
         }
 
