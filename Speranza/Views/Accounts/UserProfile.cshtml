@@ -1,4 +1,5 @@
 ﻿@using Speranza.Models;
+@using Speranza.Views;
 @model Speranza.Models.UserProfileModel
 
 @{
@@ -28,24 +29,7 @@
 
 @if (Model != null)
 {
-    switch (Model.Message)
-    {
-        case CalendarMessages.TrainingDoesNotExist:
-            <p> Tréning neexistuje! </p>
-            break;
-        case CalendarMessages.TrainingIsFull:
-            <p> Tréning je už obsadený </p>
-            break;
-        case CalendarMessages.SignUpSuccessful:
-            <p> Bol si úspešne prihlásený! </p>
-            break;
-        case CalendarMessages.UserAlreadySignedUp:
-            <p> Už si prihlásený! </p>
-            break;
-        case CalendarMessages.UserWasSignedOff:
-            <p> Bol si úspešne odhlásený! </p>
-            break;
-    }
+    <p> @ViewHelper.ShowMessageInView(Model.Message);</p>
 }
 
 @if (Model.Trainings.Count > 0)
