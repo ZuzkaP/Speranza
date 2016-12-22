@@ -43,7 +43,10 @@
 
                         @if (training.IsUserSignedUp)
                         {
-                            @Html.ActionLink("Odhlásiť", "SignOff", "Calendar", new { id = training.ID }, null);
+                            if (training.IsAllowedToSignOff)
+                            {
+                                @Html.ActionLink("Odhlásiť", "SignOff", "Calendar", new { id = training.ID }, null);
+                            }
                         }
                         else
                         {

@@ -23,16 +23,18 @@ namespace Speranza.Tests.Controllers
         private Mock<ITrainingsManager> trainingManager;
         private Mock<IDatabaseGateway> db;
         private Mock<IUser> userData;
+        Mock<ITrainingModel> trainingModel;
 
         private readonly string NAME = "Zuzka";
         private readonly string SURNAME = "Papalova";
         private readonly string PHONENUMBER = "1234";
         private Mock<IDateTimeService> dateTimeService;
+        private readonly DateTime date = new DateTime(2016, 12, 2, 10, 00, 00);
 
         [TestMethod]
         public void ReturnToLogin_When_UserIsNotLoggedIn()
         {
-            InitializeController();
+            InitializeAccountController();
             userManager.Setup(r => r.IsUserLoggedIn(controller.Session)).Returns(false);
             ActionResult result = controller.UserProfile();
 
@@ -45,7 +47,7 @@ namespace Speranza.Tests.Controllers
         [TestMethod]
         public void LoadUSerDatafromDBAndSendToUI_When_UserIsLoggedIn()
         {
-            InitializeController();
+            InitializeAccountController();
             ViewResult result = (ViewResult)controller.UserProfile();
             UserProfileModel model = (UserProfileModel) result.Model;
             Assert.AreEqual(NAME, model.Name);
@@ -58,7 +60,7 @@ namespace Speranza.Tests.Controllers
         [TestMethod]
         public void ReturnToLogin_When_SavingUserProfileAndUserIsNotLoggedIn()
         {
-            InitializeController();
+            InitializeAccountController();
             userManager.Setup(r => r.IsUserLoggedIn(controller.Session)).Returns(false);
             ActionResult result = controller.SaveUserProfile(null);
 
@@ -73,7 +75,7 @@ namespace Speranza.Tests.Controllers
         [TestMethod]
         public void SaveChanges_When_UserDataWereChanged()
         {
-            InitializeController();
+            InitializeAccountController();
             UserProfileModel model = new UserProfileModel();
             ActionResult result = controller.SaveUserProfile(model);
             Assert.AreEqual("UserProfile", ((RedirectToRouteResult)result).RouteValues["action"]);
@@ -84,7 +86,7 @@ namespace Speranza.Tests.Controllers
         [TestMethod]
         public void ShowOnlyAccountInf_When_UserIsNotSignedUpForTraining()
         {
-            InitializeController();
+            InitializeAccountController();
             db.Setup(r => r.GetTrainingsForUser(USER_EMAIL)).Returns(new List<ITraining>());
 
             ViewResult result = (ViewResult)controller.UserProfile();
@@ -97,7 +99,7 @@ namespace Speranza.Tests.Controllers
         [TestMethod]
         public void ShowTrainingInfo_When_UserIsSignedUpToTraining()
         {
-            InitializeController();
+            InitializeAccountController();
             IList<ITraining> trainings = new List<ITraining>();
             db.Setup(r => r.GetTrainingsForUser(USER_EMAIL)).Returns(trainings);
             Mock<ITraining> training1 = new Mock<ITraining>();
@@ -115,7 +117,7 @@ namespace Speranza.Tests.Controllers
         [TestMethod]
         public void SendMessageToUI_When_SignOffFromTraining()
         {
-            InitializeController();
+            InitializeAccountController();
 
             controller.Session["Message"] = CalendarMessages.UserWasSignedOff;
             ActionResult result = controller.UserProfile();
@@ -128,7 +130,7 @@ namespace Speranza.Tests.Controllers
         [TestMethod]
         public void SendTrainingDataToUI_When_SignOffFromTraining()
         {
-            InitializeController();
+            InitializeAccountController();
             Mock<ITrainingModel> trainingModel = new Mock<ITrainingModel>();
             controller.Session["Training"] = trainingModel.Object;
 
@@ -142,7 +144,7 @@ namespace Speranza.Tests.Controllers
         [TestMethod]
         public void OrderTrainingsByDate()
         {
-            InitializeController();
+            InitializeAccountController();
             
             Mock<ITraining> trainingA = new Mock<ITraining>();
             Mock<ITraining> trainingB = new Mock<ITraining>();
@@ -172,12 +174,57 @@ namespace Speranza.Tests.Controllers
             Assert.AreEqual(trainingModelD.Object, model.Trainings[1]);
             Assert.AreEqual(trainingModelC.Object, model.Trainings[2]);
             Assert.AreEqual(trainingModelB.Object, model.Trainings[3]);
-
-
         }
 
+        [TestMethod]
+        public void NotAllowToSignOffFromCloseFutureTraining()
+        {
+            InitializeAccountController();
+            PrepareTrainingInCloseFuture();
 
-        private void InitializeController()
+            controller.UserProfile();
+
+            trainingModel.VerifySet(r => r.IsAllowedToSignOff = false);
+        }
+        
+        [TestMethod]
+        public void AllowToSignOffFromMoreDistantFutureTraining()
+        {
+            InitializeAccountController();
+            PrepareTrainingInDistantFuture();
+
+            controller.UserProfile();
+
+            trainingModel.VerifySet(r => r.IsAllowedToSignOff = true);
+        }
+
+        private void PrepareTrainingInDistantFuture()
+        {
+            Mock<ITraining> trainingD = new Mock<ITraining>();
+            IList<ITraining> trainings = new List<ITraining>() { trainingD.Object };
+            db.Setup(r => r.GetTrainingsForUser(USER_EMAIL)).Returns(trainings);
+
+            trainingModel = new Mock<ITrainingModel>();
+            trainingModel.SetupGet(r => r.Time).Returns(new DateTime(2016, 12, 2, 18, 00, 00));
+            trainingManager.Setup(r => r.CreateModel(trainingD.Object)).Returns(trainingModel.Object);
+
+            dateTimeService.Setup(r => r.GetCurrentDate()).Returns(date);
+        }
+
+        private void PrepareTrainingInCloseFuture()
+        {
+            Mock<ITraining> trainingD = new Mock<ITraining>();
+            IList<ITraining> trainings = new List<ITraining>() {trainingD.Object };
+            db.Setup(r => r.GetTrainingsForUser(USER_EMAIL)).Returns(trainings);
+
+            trainingModel = new Mock<ITrainingModel>();
+            trainingModel.SetupGet(r => r.Time).Returns(new DateTime(2016, 12, 2, 12,00,00));
+            trainingManager.Setup(r => r.CreateModel(trainingD.Object)).Returns(trainingModel.Object);
+
+            dateTimeService.Setup(r => r.GetCurrentDate()).Returns(date);
+        }
+        
+        private void InitializeAccountController()
         {
             db = new Mock<IDatabaseGateway>();
             userManager = new Mock<IUserManager>();
