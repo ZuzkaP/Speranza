@@ -11,5 +11,6 @@ namespace Speranza.Models.Interfaces
         DateTime Time { get; set; }
         string Trainer { get; set; }
         bool IsUserSignedUp { get; set; }
+        bool IsAllowedToSignedUp { get; set; }
     }
 }

@@ -36,6 +36,8 @@ namespace Speranza.Database
             trainings.Add(PrepareTraining(new DateTime(2016, 12, 27, 12, 00, 00), "training c.1", "Zuzka", 10 ));
             trainings.Add(PrepareTraining(new DateTime(2016, 12, 27, 13, 00, 00), "training c.2", "Dano", 10));
             trainings.Add(PrepareTraining(new DateTime(2016, 12, 24, 08, 00, 00), "training c.3", "Filip", 10 ));
+            trainings.Add(PrepareTraining(new DateTime(2016, 12, 22, 08, 00, 00), "training c.4", "Filip", 10 ));
+            trainings.Add(PrepareTraining(new DateTime(2016, 12, 22, 12, 00, 00), "training c.5", "Filip", 10 ));
             usersInTrainings.Add(new UserInTraining() { Email = "admin", TrainingID = trainings[0].ID });
         }
 

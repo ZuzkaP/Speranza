@@ -30,6 +30,15 @@ namespace Speranza.Services
                 {
                     ITrainingModel trainingModel = manager.CreateModel(item);
                     trainingModel.IsUserSignedUp = db.IsUserAlreadySignedUpInTraining(email, item.ID);
+                    DateTime currentDate = dateTimeService.GetCurrentDate();
+                    if (trainingModel.Time <= currentDate)
+                    {
+                        trainingModel.IsAllowedToSignedUp = false;
+                    }
+                    else
+                    {
+                        trainingModel.IsAllowedToSignedUp = true;
+                    }
                     model.Trainings.Add(trainingModel);
                 }
             }

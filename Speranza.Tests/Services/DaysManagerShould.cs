@@ -15,7 +15,7 @@ namespace Speranza.Tests.Services
     public class DaysManagerShould
     {
         private DaysManager manager;
-        private readonly DateTime date = new DateTime(2016, 12, 2);
+        private readonly DateTime date = new DateTime(2016, 12, 2,10,00,00);
         private const DayNames MONDAY = DayNames.Monday;
         private IDayModel day;
         private Mock<IDatabaseGateway> db;
@@ -93,6 +93,45 @@ namespace Speranza.Tests.Services
             trainingModel2 = new Mock<ITrainingModel>();
             trainingsManager.Setup(r => r.CreateModel(training1.Object)).Returns(trainingModel1.Object);
             trainingsManager.Setup(r => r.CreateModel(training2.Object)).Returns(trainingModel2.Object);
+        }
+
+        [TestMethod]
+        public void NotAllowToSignUpToTrainingInPast()
+        {
+            InitializeDaysManager();
+            PrepareTrainingInPast();
+
+            RequestDay();
+
+            trainingModel1.VerifySet(r => r.IsAllowedToSignedUp = false);
+
+        }
+
+
+        [TestMethod]
+        public void AllowToSignUp_When_TrainingIsInFuture()
+        {
+            InitializeDaysManager();
+            PrepareTrainingInFuture();
+
+            RequestDay();
+
+            trainingModel1.VerifySet(r => r.IsAllowedToSignedUp = true);
+
+        }
+
+        private void PrepareTrainingInFuture()
+        {
+            PrepareDatabaseWithTwoTrainings();
+            trainingModel1.Setup(r => r.Time).Returns(new DateTime(2016, 12, 2, 18, 00, 00));
+            dateTimeService.Setup(r => r.GetCurrentDate()).Returns(date);
+        }
+
+        private void PrepareTrainingInPast()
+        {
+            PrepareDatabaseWithTwoTrainings();
+            trainingModel1.Setup(r => r.Time).Returns(new DateTime(2016, 12, 2, 8, 00, 00));
+            dateTimeService.Setup(r => r.GetCurrentDate()).Returns(date);
         }
 
         private void PrepareDatabaseWithNoTrainings()

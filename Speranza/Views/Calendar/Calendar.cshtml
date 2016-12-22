@@ -47,7 +47,7 @@
                         }
                         else
                         {
-                            if (training.RegisteredNumber < training.Capacity)
+                            if (training.RegisteredNumber < training.Capacity && training.IsAllowedToSignedUp)
                             {
                                 @Html.ActionLink("Prihlásiť", "SignUp", "Calendar", new { id = training.ID }, null);
                             }
