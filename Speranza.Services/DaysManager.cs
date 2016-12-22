@@ -31,22 +31,8 @@ namespace Speranza.Services
                     ITrainingModel trainingModel = manager.CreateModel(item);
                     trainingModel.IsUserSignedUp = db.IsUserAlreadySignedUpInTraining(email, item.ID);
                     DateTime currentDate = dateTimeService.GetCurrentDate();
-                    if (trainingModel.Time <= currentDate)
-                    {
-                        trainingModel.IsAllowedToSignUp = false;
-                    }
-                    else
-                    {
-                        trainingModel.IsAllowedToSignUp = true;
-                    }
-                    if(trainingModel.Time - currentDate < TimeSpan.FromHours(4))
-                    {
-                        trainingModel.IsAllowedToSignOff = false;
-                    }
-                    else
-                    {
-                        trainingModel.IsAllowedToSignOff = true;
-                    }
+                    trainingModel.IsAllowedToSignOff = !(trainingModel.Time - currentDate < TimeSpan.FromHours(4));
+                    trainingModel.IsAllowedToSignUp = !(trainingModel.Time <= currentDate);
                 
                     model.Trainings.Add(trainingModel);
                 }

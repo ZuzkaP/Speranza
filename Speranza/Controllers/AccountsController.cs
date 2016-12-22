@@ -188,14 +188,8 @@ namespace Speranza.Controllers
                 {
                     ITrainingModel trainingModel = trainingManager.CreateModel(item);
                     DateTime currentDate = dateTimeService.GetCurrentDate();
-                    if (trainingModel.Time - currentDate < TimeSpan.FromHours(4))
-                    {
-                        trainingModel.IsAllowedToSignOff = false;
-                    }
-                    else
-                    {
-                        trainingModel.IsAllowedToSignOff = true;
-                    }
+                    trainingModel.IsAllowedToSignOff = !(trainingModel.Time - currentDate < TimeSpan.FromHours(4));
+                    
                     if (trainingModel.Time < dateTimeService.GetCurrentDate())
                     {
                         pastTrainings.Add(trainingModel);
