@@ -4,20 +4,30 @@
 }
 <html>
 <head>
+    <link href="~/Content/bootstrap.css" type="text/css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
 </head>
 <body>
-    <div>
-        <ul>
-            <li>@Html.ActionLink("Kalendár","Calendar","Calendar")</li>
-            <li>@Html.ActionLink("Môj profil","UserProfile","Accounts")</li>
-            <li>@Html.ActionLink("Odhlásiť sa","Logout","Accounts")</li>
-        </ul>
-        <span>Prihlásený ako: @Html.ActionLink(Session["Email"].ToString(), "UserProfile", "Accounts") </span>
-    </div>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Speranza</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Kalendár", "Calendar", "Calendar")</li>
+                <li>@Html.ActionLink("Môj profil", "UserProfile", "Accounts")</li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            <li> @Html.ActionLink("Prihlásený ako: " +Session["Email"].ToString(), "UserProfile", "Accounts") </li>  
+            <li>@Html.ActionLink("Odhlásiť sa", "Logout", "Accounts")</li>
+            </ul>
+        </div>
+    </nav>
     <div>
         @RenderBody()
     </div>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/jquery-1.9.1.js"></script>
 </body>
 </html>

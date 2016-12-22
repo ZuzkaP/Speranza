@@ -39,19 +39,19 @@ namespace Speranza.Views
             switch (message)
             {
                 case CalendarMessages.TrainingDoesNotExist:
-                    outputMessage = "Tréning neexistuje!";
+                    outputMessage = "<div class=\"alert alert-warning\" role=\"alert\">Tréning neexistuje!</div>";
                        break;
                 case CalendarMessages.TrainingIsFull:
-                    outputMessage = "Tréning je už obsadený!";
+                    outputMessage = "<div class=\"alert alert-warning\" role=\"alert\">Tréning je už obsadený!</div>";
                        break;
                 case CalendarMessages.SignUpSuccessful:
-                    outputMessage = string.Format("Bol si úspešne prihlásený na tréning dňa {0} o {1}!", training.Time.ToString("dd.MM.yyyy"), training.Time.ToString("HH:mm"));
+                    outputMessage = string.Format("<div class=\"alert alert-success\" role=\"alert\">Bol si úspešne prihlásený na tréning dňa {0} o {1}!</div>", training.Time.ToString("dd.MM.yyyy"), training.Time.ToString("HH:mm"));
                     break;
                 case CalendarMessages.UserAlreadySignedUp:
-                    outputMessage = "Už si prihlásený!";
+                    outputMessage = "<div class=\"alert alert-warning\" role=\"alert\">Už si prihlásený!</div>";
                        break;
                 case CalendarMessages.UserWasSignedOff:
-                    outputMessage = string.Format("Bol si úspešne odhlásený z tréningu dňa {0} o {1}!",training.Time.ToString("dd.MM.yyyy"),training.Time.ToString("HH:mm"));
+                    outputMessage = string.Format("<div class=\"alert alert-info\" role=\"alert\">Bol si úspešne odhlásený z tréningu dňa {0} o {1}!</div>", training.Time.ToString("dd.MM.yyyy"),training.Time.ToString("HH:mm"));
                        break;
             }
 

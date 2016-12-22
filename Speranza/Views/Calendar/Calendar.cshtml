@@ -7,36 +7,40 @@
     Layout = "~/Views/Layout.cshtml";
 }
 
-<h2>Rozpis tréningov</h2>
+<div class="container">
+    <h2>Rozpis tréningov</h2>
 
-@if (Model != null)
-{
-    <p> @ViewHelper.ShowMessageInView(Model.Message,Model.SignedUpOrSignedOffTraining)</p>
-}
-
-
-<table border="1">
-    <tr>
-        <th></th>
-        @for (int i = 6; i < 21; i++)
-        {
-            <th>@i.ToString("00"):00</th>
-        }
-
-    </tr>
-    @foreach(var day in Model.Days)
+    @if (Model != null)
     {
-        <tr>
-            <td>@ViewHelper.TranslateDayNames(day.DayName)
-            <br/>
+        <p> @Html.Raw(ViewHelper.ShowMessageInView(Model.Message, Model.SignedUpOrSignedOffTraining))</p>
+    }
+
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th></th>
+                @for (int i = 6; i < 21; i++)
+            {
+                    <th>@i.ToString("00"):00</th>
+                }
+
+            </tr>
+        </thead>
+        @foreach (var day in Model.Days)
+        {
+            <tr>
+                <td class="warning">
+                    @ViewHelper.TranslateDayNames(day.DayName)
+                <br />
                 @day.Date
             </td>
-             @for (int i = 6; i < 21; i++)
-             {
-                 ITrainingModel training = day.Trainings.FirstOrDefault(r => r.Time.Hour == i);
-                 if (training != null)
-                 {
-                    <td>
+            @for (int i = 6; i < 21; i++)
+            {
+                ITrainingModel training = day.Trainings.FirstOrDefault(r => r.Time.Hour == i);
+                if (training != null)
+                {
+                    <td @(training.IsUserSignedUp ? Html.Raw("class=\"success\""): Html.Raw(""))>
                         @training.Description <br />
                         @training.Trainer <br />
                         @training.RegisteredNumber / @training.Capacity<br />
@@ -55,18 +59,19 @@
                                 @Html.ActionLink("Prihlásiť", "SignUp", "Calendar", new { id = training.ID }, null);
                             }
                         }
-                       
+
 
                     </td>
-                 }
-                 else
-                 {
+                }
+                else
+                {
                     <td></td>
-                 }
+                }
 
-             }
+            }
         </tr>
-    }
+        }
 
-</table>
+    </table>
 
+</div>
