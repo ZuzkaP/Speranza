@@ -42,8 +42,13 @@
                 <td>@item.Time.ToString("HH:mm")</td>
                 <td>@item.Description</td>
                 <td>@item.Trainer</td>
-                <td>@Html.ActionLink("Odhlásiť", "SignOff", "Calendar", new { id = item.ID }, null)</td>
-            </tr>
+                <td>
+                    @if (item.IsAllowedToSignOff)
+                    {
+                        @Html.ActionLink("Odhlásiť", "SignOff", "Calendar", new { id = item.ID }, null) 
+                    }
+                </td>
+</tr>
         }
     </table>
 }
