@@ -22,7 +22,8 @@ namespace Speranza.Models
         public DateTime Time { get; set; }
         public string Trainer { get; set; }
         public bool IsUserSignedUp { get; set; }
-        public bool IsAllowedToSignedUp { get; set; }
+        public bool IsAllowedToSignUp { get; set; }
+        public bool IsAllowedToSignOff { get; set; }
 
     }
 }

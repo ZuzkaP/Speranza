@@ -33,12 +33,21 @@ namespace Speranza.Services
                     DateTime currentDate = dateTimeService.GetCurrentDate();
                     if (trainingModel.Time <= currentDate)
                     {
-                        trainingModel.IsAllowedToSignedUp = false;
+                        trainingModel.IsAllowedToSignUp = false;
                     }
                     else
                     {
-                        trainingModel.IsAllowedToSignedUp = true;
+                        trainingModel.IsAllowedToSignUp = true;
                     }
+                    if(trainingModel.Time - currentDate < TimeSpan.FromHours(4))
+                    {
+                        trainingModel.IsAllowedToSignOff = false;
+                    }
+                    else
+                    {
+                        trainingModel.IsAllowedToSignOff = true;
+                    }
+                
                     model.Trainings.Add(trainingModel);
                 }
             }

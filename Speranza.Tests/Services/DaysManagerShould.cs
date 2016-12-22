@@ -103,8 +103,7 @@ namespace Speranza.Tests.Services
 
             RequestDay();
 
-            trainingModel1.VerifySet(r => r.IsAllowedToSignedUp = false);
-
+            trainingModel1.VerifySet(r => r.IsAllowedToSignUp = false);
         }
 
 
@@ -112,18 +111,46 @@ namespace Speranza.Tests.Services
         public void AllowToSignUp_When_TrainingIsInFuture()
         {
             InitializeDaysManager();
-            PrepareTrainingInFuture();
+            PrepareTrainingInCloseFuture();
 
             RequestDay();
 
-            trainingModel1.VerifySet(r => r.IsAllowedToSignedUp = true);
-
+            trainingModel1.VerifySet(r => r.IsAllowedToSignUp = true);
         }
 
-        private void PrepareTrainingInFuture()
+        [TestMethod]
+        public void NotAllowToSignOffFromTrainingInCloseFuture()
+        {
+            InitializeDaysManager();
+            PrepareTrainingInCloseFuture();
+
+            RequestDay();
+
+            trainingModel1.VerifySet(r => r.IsAllowedToSignOff = false);
+        }
+
+        [TestMethod]
+        public void AllowToSignOffFromTrainingInMoreDistant()
+        {
+            InitializeDaysManager();
+            PrepareTrainingInDistantFuture();
+
+            RequestDay();
+
+            trainingModel1.VerifySet(r => r.IsAllowedToSignOff = true);
+        }
+
+        private void PrepareTrainingInDistantFuture()
         {
             PrepareDatabaseWithTwoTrainings();
             trainingModel1.Setup(r => r.Time).Returns(new DateTime(2016, 12, 2, 18, 00, 00));
+            dateTimeService.Setup(r => r.GetCurrentDate()).Returns(date);
+        }
+
+        private void PrepareTrainingInCloseFuture()
+        {
+            PrepareDatabaseWithTwoTrainings();
+            trainingModel1.Setup(r => r.Time).Returns(new DateTime(2016, 12, 2, 12, 00, 00));
             dateTimeService.Setup(r => r.GetCurrentDate()).Returns(date);
         }
 
