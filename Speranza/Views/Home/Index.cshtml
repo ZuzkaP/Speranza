@@ -5,15 +5,36 @@
     Layout = "~/Views/LayoutNotLoggedIn.cshtml";
 }
 
-<h2>Login</h2>
+<div class="container">
+    <h2>Login</h2>
 
-@using (Html.BeginForm("Login", "Accounts"))
-{
-    @Html.Label("Email");
-    @Html.TextBoxFor(m=>m.Email);
-    @Html.Label("Heslo");
-    @Html.PasswordFor(m=>m.Password);
-    <input type="submit" value="Prihlásiť" id="btnSubmit" />
-}
+    @using (Html.BeginForm("Login", "Accounts", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        <div class="form-group">
+            @Html.Label("Email: ", new { @class = "control-label col-sm-2" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            </div>
+        </div>
+                <div class="form-group">
+                    @Html.Label("Heslo: ", new { @class = "control-label col-sm-2" })
+                    <div class="col-sm-10">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" value="Prihlásiť" id="btnSubmit" class="btn btn-info" />
+                 </div>
+                    </div>
 
-@Html.ActionLink("Ak ešte nemáš účet tak sa registruj!", "Register", "Accounts")
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            @Html.ActionLink("Ak ešte nemáš účet tak sa registruj!", "Register", "Accounts")
+                           </div>
+                        </div>
+
+    }
+
+                       
+                    </div>
