@@ -17,6 +17,11 @@
             <ul class="nav navbar-nav">
                 <li>@Html.ActionLink("Kalendár", "Calendar", "Calendar")</li>
                 <li>@Html.ActionLink("Môj profil", "UserProfile", "Accounts")</li>
+                @if (Session["IsAdmin"] != null && (bool)Session["IsAdmin"])
+                {
+                    <li>@Html.ActionLink("Správa používateľov", "AdminUsers", "AdminUsers")</li>
+                    <li>@Html.ActionLink("Správa tréningov", "AdminTrainings", "AdminTrainings")</li>
+                }
             </ul>
             <ul class="nav navbar-nav navbar-right">
             <li> @Html.ActionLink("Prihlásený ako: " +Session["Email"].ToString(), "UserProfile", "Accounts") </li>  
