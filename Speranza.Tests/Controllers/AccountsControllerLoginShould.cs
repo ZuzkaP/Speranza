@@ -104,10 +104,29 @@ namespace Speranza.Tests.Controllers
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
             Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
             Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
-           
+            Assert.IsNotNull(this.controller.Session["IsAdmin"]);
+            Assert.IsFalse((bool)this.controller.Session["IsAdmin"]);
+        }
+        [TestMethod]
+        public void SetAdminFlag_When_UserIsAdmin()
+        {
+            InitializeController();
+            LoginModel model = new LoginModel();
+            model.Email = "test@test.com";
+            model.Password = "Password";
+            hasher.Setup(r => r.HashPassword(model.Password)).Returns("hash");
+            user = new Mock<IUser>();
+            user.SetupGet(r => r.PasswordHash).Returns("hash");
+            user.SetupGet(r => r.IsAdmin).Returns(true);
+            db.Setup(r => r.LoadUser(model.Email)).Returns(user.Object);
 
+            ActionResult result = controller.Login(model);
+
+            Assert.IsNotNull(this.controller.Session["IsAdmin"]);
+            Assert.IsTrue((bool)this.controller.Session["IsAdmin"]);
 
         }
+
 
         [TestMethod]
         public void Logout_When_Requested()

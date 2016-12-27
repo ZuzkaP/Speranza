@@ -12,7 +12,7 @@ namespace Speranza.Database
     public class InMemoryDatabase : IDatabaseGateway
     {
 
-        Dictionary<string, RegisterModel> users;
+        Dictionary<string, RegisteredUser> users;
         List<ITraining> trainings;
         List<UserInTraining> usersInTrainings;
         static InMemoryDatabase database;
@@ -28,9 +28,9 @@ namespace Speranza.Database
 
         private InMemoryDatabase()
         {
-            users = new Dictionary<string, RegisterModel>();
+            users = new Dictionary<string, RegisteredUser>();
             usersInTrainings = new List<UserInTraining>();
-            users.Add("admin", new RegisterModel() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Zuzana", Surname = "Papalova", PhoneNumber = "1234" });
+            users.Add("admin", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Zuzana", Surname = "Papalova", PhoneNumber = "1234" , IsAdmin = true});
             trainings = new List<ITraining>();
 
             trainings.Add(PrepareTraining(new DateTime(2017, 1, 5, 12, 00, 00), "training c.1", "Zuzka", 10 ));
@@ -49,7 +49,8 @@ namespace Speranza.Database
 
         public void RegisterNewUser(RegisterModel model)
         {
-            users.Add(model.Email, model);
+            RegisteredUser user = (RegisteredUser)model;
+            users.Add(model.Email, user);
         }
 
         public bool UserExists(string email)
@@ -61,7 +62,7 @@ namespace Speranza.Database
         {
             if (users.ContainsKey(email))
             {
-                IUser user = new User(email, users[email].Password);
+                IUser user = new User(email, users[email].Password, users[email].IsAdmin);
                 return user;
             }
 
@@ -145,6 +146,11 @@ namespace Speranza.Database
           public  string Email { get; set; }
             public DateTime Time { get;  set; }
             public string TrainingID { get; set; }
+        }
+
+        private class RegisteredUser : RegisterModel
+        {
+            public bool IsAdmin { get; set; }
         }
     }
 

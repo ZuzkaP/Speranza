@@ -14,5 +14,6 @@
         string Name { get; }
         string Surname { get; }
         string PhoneNumber { get; }
+        bool IsAdmin { get; }
     }
 }

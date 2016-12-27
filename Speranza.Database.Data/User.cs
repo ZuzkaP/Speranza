@@ -19,10 +19,13 @@ namespace Speranza.Database.Data
 
         public string PhoneNumber { get; set; }
 
-        public User(string email, string password)
+        public bool IsAdmin {  get; set; }
+
+        public User(string email, string password, bool isAdmin)
         {
             Email = email;
             PasswordHash = password;
+            IsAdmin = isAdmin;
         }
 
         public User(string email, string name, string surname, string phoneNumber)

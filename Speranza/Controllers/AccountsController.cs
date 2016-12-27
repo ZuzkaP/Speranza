@@ -56,6 +56,7 @@ namespace Speranza.Controllers
                     if (hashPass == user.PasswordHash)
                     {
                         Session["Email"] = model.Email;
+                        Session["IsAdmin"] = user.IsAdmin;
                         model.LoginSuccessful = true;
                         return RedirectToAction("Calendar", "Calendar");
                        // return View("../Calendar/Calendar", model);
