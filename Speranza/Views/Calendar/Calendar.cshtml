@@ -37,15 +37,18 @@
             </td>
             @for (int i = 6; i < 21; i++)
             {
-                ITrainingModel training = day.Trainings.FirstOrDefault(r => r.Time.Hour == i);
-                if (training != null)
-                {
-                    <td @(training.IsUserSignedUp ? Html.Raw("class=\"success\""): Html.Raw(""))>
-                        @training.Description <br />
-                        @training.Trainer <br />
-                        @training.RegisteredNumber / @training.Capacity<br />
+                IList<ITrainingModel> trainings = day.Trainings.Where(r => r.Time.Hour == i).ToList();
 
-                        @if (training.IsUserSignedUp)
+                if (trainings != null && trainings.Count > 0)
+                {
+                    <td @(trainings.Any( r=>r.IsUserSignedUp)? Html.Raw("class=\"success\""): Html.Raw(""))>
+                        @foreach (var training in trainings)
+                        {
+                            @training.Description <br />
+                            @training.Trainer<br />
+                            @training.RegisteredNumber@:/@training.Capacity <br/>
+
+                        if (training.IsUserSignedUp)
                         {
                             if (training.IsAllowedToSignOff)
                             {
@@ -59,8 +62,12 @@
                                 @Html.ActionLink("Prihlásiť", "SignUp", "Calendar", new { id = training.ID }, null);
                             }
                         }
-
-
+                            if(training != trainings.Last())
+                            {
+                                <br />
+                                <hr />
+                            }
+                        }
                     </td>
                 }
                 else

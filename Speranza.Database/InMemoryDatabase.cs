@@ -33,11 +33,11 @@ namespace Speranza.Database
             users.Add("admin", new RegisterModel() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Zuzana", Surname = "Papalova", PhoneNumber = "1234" });
             trainings = new List<ITraining>();
 
-            trainings.Add(PrepareTraining(new DateTime(2016, 12, 27, 12, 00, 00), "training c.1", "Zuzka", 10 ));
-            trainings.Add(PrepareTraining(new DateTime(2016, 12, 27, 13, 00, 00), "training c.2", "Dano", 10));
-            trainings.Add(PrepareTraining(new DateTime(2016, 12, 24, 08, 00, 00), "training c.3", "Filip", 10 ));
-            trainings.Add(PrepareTraining(new DateTime(2016, 12, 22, 08, 00, 00), "training c.4", "Filip", 10 ));
-            trainings.Add(PrepareTraining(new DateTime(2016, 12, 22, 14, 00, 00), "training c.5", "Filip", 10 ));
+            trainings.Add(PrepareTraining(new DateTime(2017, 1, 5, 12, 00, 00), "training c.1", "Zuzka", 10 ));
+            trainings.Add(PrepareTraining(new DateTime(2017, 1, 5, 14, 00, 00), "training c.2", "Dano", 10));
+            trainings.Add(PrepareTraining(new DateTime(2017, 1, 2, 08, 00, 00), "training c.4", "Filip", 10 ));
+            trainings.Add(PrepareTraining(new DateTime(2017, 1, 2, 14, 00, 00), "training c.5", "Filip", 10 ));
+            trainings.Add(PrepareTraining(new DateTime(2017, 1, 2, 09, 00, 00), "training c.3", "Filip", 10 ));
             usersInTrainings.Add(new UserInTraining() { Email = "admin", TrainingID = trainings[0].ID });
         }
 
@@ -110,9 +110,9 @@ namespace Speranza.Database
             return t ;
         }
 
-        public void AddUserToTraining(string email, string trainingID)
+        public void AddUserToTraining(string email, string trainingID, DateTime time)
         {
-            usersInTrainings.Add(new UserInTraining() { Email = email, TrainingID = trainingID });
+            usersInTrainings.Add(new UserInTraining() { Email = email, TrainingID = trainingID, Time = time});
         }
 
         public bool IsUserAlreadySignedUpInTraining(string email, string trainingID)
@@ -143,7 +143,8 @@ namespace Speranza.Database
         private class UserInTraining
         {
           public  string Email { get; set; }
-          public string TrainingID { get; set; }
+            public DateTime Time { get;  set; }
+            public string TrainingID { get; set; }
         }
     }
 

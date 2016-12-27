@@ -59,7 +59,7 @@ namespace Speranza.Controllers
                 Session["Message"] = CalendarMessages.UserAlreadySignedUp;
                 return RedirectToAction("Calendar");
             }
-            db.AddUserToTraining((string)Session["Email"], id);
+            db.AddUserToTraining((string)Session["Email"], id,dateTimeService.GetCurrentDate());
             Session["Message"] = CalendarMessages.SignUpSuccessful;
             Session["Training"] = trainingManager.CreateModel(training);
             return RedirectToAction("Calendar");
