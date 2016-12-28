@@ -133,6 +133,8 @@
     <Content Include="Views\Calendar\Calendar.cshtml" />
     <Content Include="Views\Accounts\UserProfile.cshtml" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
+    <Content Include="Views\AdminTrainings\AdminTrainings.cshtml" />
+    <Content Include="Views\AdminUsers\AdminUsers.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -142,8 +144,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\AdminTrainings\" />
-    <Folder Include="Views\AdminUsers\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Speranza.Database.Data.Interfaces\Speranza.Database.Data.Interfaces.csproj">

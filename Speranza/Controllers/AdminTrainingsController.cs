@@ -1,4 +1,5 @@
-﻿using Speranza.Services.Interfaces;
+﻿using Speranza.Services;
+using Speranza.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,11 @@ namespace Speranza.Controllers
     public class AdminTrainingsController : Controller
     {
         IUserManager userManager;
+
+        public AdminTrainingsController(): this(new UserManager())
+        {
+
+        }
 
         public AdminTrainingsController(IUserManager userManager)
         {
@@ -25,7 +31,7 @@ namespace Speranza.Controllers
                 {
                     return RedirectToAction("Calendar", "Calendar");
                 }
-                return RedirectToAction("AdminTrainings", "AdminTrainings");
+                return View();
             }
             return RedirectToAction("Index", "Home");
         }
