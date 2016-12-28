@@ -89,6 +89,8 @@
     <Compile Include="Controllers\AccountsControllerLoginShould.cs" />
     <Compile Include="Controllers\AccountsControllerProfileShould.cs" />
     <Compile Include="Controllers\AccountsControllerRegisterShould.cs" />
+    <Compile Include="Controllers\AdminTrainingsControllerShould.cs" />
+    <Compile Include="Controllers\AdminUsersControllerShould.cs" />
     <Compile Include="Controllers\CalendarControllerShould.cs" />
     <Compile Include="Controllers\CalendarControllerTrainingsShould.cs" />
     <Compile Include="Controllers\FakeControllerContext.cs" />
