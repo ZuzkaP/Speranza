@@ -34,5 +34,17 @@ namespace Speranza.Services
                 
             return false;
         }
+
+        public bool IsUserAdmin(HttpSessionStateBase session)
+        {
+            HttpSessionStateBase sessionData = session as HttpSessionStateBase;
+            if (sessionData != null && sessionData.Count != 0)
+            {
+                if (sessionData["IsAdmin"] != null &&  (bool)sessionData["IsAdmin"] == true )
+                    return true;
+            }
+
+            return false;
+        }
     }
 }

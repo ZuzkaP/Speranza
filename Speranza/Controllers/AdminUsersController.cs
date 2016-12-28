@@ -30,7 +30,7 @@ namespace Speranza.Controllers
                 {
                     return RedirectToAction("Calendar", "Calendar");
                 }
-                return View();
+                return View("AdminUsers");
             }
             return RedirectToAction("Index", "Home");
         }

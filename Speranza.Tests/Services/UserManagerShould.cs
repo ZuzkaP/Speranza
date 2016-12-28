@@ -48,7 +48,29 @@ namespace Speranza.Tests.Services
             Assert.IsTrue(manager.IsUserLoggedIn(context.HttpContext.Session));
         }
 
+        [TestMethod]
+        public void ReturnFalse_When_AdminSessionIsNull()
+        {
+            InitializeManager();
+            collection["IsAdmin"] = null;
+            Assert.IsFalse(manager.IsUserAdmin(context.HttpContext.Session));
+        }
 
+        [TestMethod]
+        public void ReturnFalse_When_AdminSessionIsFalse()
+        {
+            InitializeManager();
+            collection["IsAdmin"] = false;
+            Assert.IsFalse(manager.IsUserAdmin(context.HttpContext.Session));
+        }
+
+        [TestMethod]
+        public void ReturnTrue_When_AdminSessionIsTrue()
+        {
+            InitializeManager();
+            collection["IsAdmin"] = true;
+            Assert.IsTrue(manager.IsUserAdmin(context.HttpContext.Session));
+        }
         [TestMethod]
         public void ReturnStandardCategory_When_CategoryIsNotInSession()
         {

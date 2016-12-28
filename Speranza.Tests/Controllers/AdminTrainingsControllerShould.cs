@@ -18,7 +18,7 @@ namespace Speranza.Tests.Controllers
         [TestMethod]
         public void ReturnToCalendar_When_ClickOnAdminUsers_And_UserIsNotLogin()
         {
-            InitializeAccountController();
+            InitializeAdminTrainingsController();
             userManager.Setup(r => r.IsUserLoggedIn(controller.Session)).Returns(false);
             ActionResult result = controller.AdminTrainings();
 
@@ -31,7 +31,7 @@ namespace Speranza.Tests.Controllers
         [TestMethod]
         public void ReturnToCalendar_When_ClickOnAdminUsers_And_UserIsNotAdmin()
         {
-            InitializeAccountController();
+            InitializeAdminTrainingsController();
             controller.Session["IsAdmin"] = null;
 
             ActionResult result = controller.AdminTrainings();
@@ -44,24 +44,22 @@ namespace Speranza.Tests.Controllers
         [TestMethod]
         public void ShowView_When_ClickOnAdminUsers_And_UserIsAdmin()
         {
-            InitializeAccountController();
+            InitializeAdminTrainingsController();
             controller.Session["IsAdmin"] = true;
 
             ActionResult result = controller.AdminTrainings();
 
-            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
-            Assert.AreEqual("AdminTrainings", ((RedirectToRouteResult)result).RouteValues["controller"]);
             Assert.AreEqual("AdminTrainings", ((RedirectToRouteResult)result).RouteValues["action"]);
         }
 
-        private void InitializeAccountController()
+        private void InitializeAdminTrainingsController()
         {
             userManager = new Mock<IUserManager>();
-            userManager.Setup(r => r.IsUserLoggedIn(controller.Session)).Returns(true);
             controller = new AdminTrainingsController(userManager.Object);
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             controller.ControllerContext = new FakeControllerContext(controller, sessionItems);
             controller.Session["Email"] = USER_EMAIL;
+            userManager.Setup(r => r.IsUserLoggedIn(controller.Session)).Returns(true);
         }
     }
 }
