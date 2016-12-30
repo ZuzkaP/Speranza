@@ -9,6 +9,7 @@ using Speranza.Models;
 using Speranza.Database.Data.Interfaces;
 using System.Collections.Generic;
 using Speranza.Database;
+using Speranza.Models.Interfaces;
 
 namespace Speranza.Tests.Controllers
 {
@@ -39,7 +40,7 @@ namespace Speranza.Tests.Controllers
         {
             InitializeAdminUsersController();
             userManager.Setup(r => r.IsUserLoggedIn(controller.Session)).Returns(true);
-            controller.Session["IsAdmin"] = null;
+            userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(false);
 
             ActionResult result = controller.AdminUsers();
 
@@ -63,28 +64,24 @@ namespace Speranza.Tests.Controllers
         public void LoadUsersDatafromDBAndSendToUI_When_AdminIsLoggedIn()
         {
             InitializeAdminUsersController();
-            IList<IUser> users = new List<IUser>();
-            //db.Setup(r => r.GetTrainingsForUser(USER_EMAIL)).Returns(trainings);
+            IList<IUserForAdminModel> users = new List<IUserForAdminModel>();
+            userManager.Setup(r => r.GetAllUsersForAdmin()).Returns(users);
+            
+            ViewResult result = (ViewResult)controller.AdminUsers();
+            AdminUsersModel model = (AdminUsersModel)result.Model;
 
-            //ViewResult result = (ViewResult)controller.AdminUsers();
-            //AdminUsersModel model = (AdminUsersModel)result.Model;
-
-            //Assert.AreEqual(NAME, model.Name);
-            //Assert.AreEqual(SURNAME, model.Surname);
-            //Assert.AreEqual(PHONENUMBER, model.PhoneNumber);
-            //Assert.AreEqual(USER_EMAIL, model.Email);
-            Assert.Fail();
+            Assert.AreEqual(users, model.Users);
         }
 
         private void InitializeAdminUsersController()
         {
             userManager = new Mock<IUserManager>();
-            db = new Mock<IDatabaseGateway>();
             controller = new AdminUsersController(userManager.Object);
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             controller.ControllerContext = new FakeControllerContext(controller, sessionItems);
             controller.Session["Email"] = USER_EMAIL;
             userManager.Setup(r => r.IsUserLoggedIn(controller.Session)).Returns(true);
+            userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(true);
         }
     }
 }

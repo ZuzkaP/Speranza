@@ -19,5 +19,6 @@ namespace Speranza.Database
         bool IsUserAlreadySignedUpInTraining(string email, string trainingID);
         void RemoveUserFromTraining(string email, string trainingID);
         IList<ITraining> GetTrainingsForUser(string email);
+        IList<IUser> GetAllUsers();
     }
 }

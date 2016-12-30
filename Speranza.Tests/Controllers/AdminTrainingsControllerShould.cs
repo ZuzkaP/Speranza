@@ -20,10 +20,11 @@ namespace Speranza.Tests.Controllers
         {
             InitializeAdminTrainingsController();
             userManager.Setup(r => r.IsUserLoggedIn(controller.Session)).Returns(false);
+            userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(false);
+
             ActionResult result = controller.AdminTrainings();
 
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
-
             Assert.AreEqual("Home", ((RedirectToRouteResult)result).RouteValues["controller"]);
             Assert.AreEqual("Index", ((RedirectToRouteResult)result).RouteValues["action"]);
         }
@@ -32,7 +33,7 @@ namespace Speranza.Tests.Controllers
         public void ReturnToCalendar_When_ClickOnAdminUsers_And_UserIsNotAdmin()
         {
             InitializeAdminTrainingsController();
-            controller.Session["IsAdmin"] = null;
+            userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(false);
 
             ActionResult result = controller.AdminTrainings();
 
@@ -45,11 +46,10 @@ namespace Speranza.Tests.Controllers
         public void ShowView_When_ClickOnAdminUsers_And_UserIsAdmin()
         {
             InitializeAdminTrainingsController();
-            controller.Session["IsAdmin"] = true;
 
             ActionResult result = controller.AdminTrainings();
 
-            Assert.AreEqual("AdminTrainings", ((RedirectToRouteResult)result).RouteValues["action"]);
+            Assert.AreEqual("AdminTrainings", ((ViewResult)result).ViewName);
         }
 
         private void InitializeAdminTrainingsController()
@@ -60,6 +60,7 @@ namespace Speranza.Tests.Controllers
             controller.ControllerContext = new FakeControllerContext(controller, sessionItems);
             controller.Session["Email"] = USER_EMAIL;
             userManager.Setup(r => r.IsUserLoggedIn(controller.Session)).Returns(true);
+            userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(true);
         }
     }
 }

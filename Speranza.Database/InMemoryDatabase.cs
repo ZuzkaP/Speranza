@@ -141,6 +141,11 @@ namespace Speranza.Database
             return selectedTrainings;
         }
 
+        public IList<IUser> GetAllUsers()
+        {
+            throw new NotImplementedException();
+        }
+
         private class UserInTraining
         {
           public  string Email { get; set; }

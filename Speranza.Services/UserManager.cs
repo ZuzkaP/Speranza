@@ -6,6 +6,7 @@ using Speranza.Services.Interfaces;
 using System.Collections.Generic;
 using System.Web.SessionState;
 using System.Web;
+using Speranza.Models.Interfaces;
 
 namespace Speranza.Services
 {
@@ -35,7 +36,7 @@ namespace Speranza.Services
             return false;
         }
 
-        public bool IsUserAdmin(HttpSessionStateBase session)
+        public bool IsUserAdmin(ICollection session)
         {
             HttpSessionStateBase sessionData = session as HttpSessionStateBase;
             if (sessionData != null && sessionData.Count != 0)
@@ -45,6 +46,11 @@ namespace Speranza.Services
             }
 
             return false;
+        }
+
+        public IList<IUserForAdminModel> GetAllUsersForAdmin()
+        {
+            throw new NotImplementedException();
         }
     }
 }

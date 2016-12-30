@@ -27,11 +27,11 @@ namespace Speranza.Controllers
         {
             if (userManager.IsUserLoggedIn(Session))
             {
-                if (Session["IsAdmin"] == null || !(bool)Session["IsAdmin"])
+                if (!userManager.IsUserAdmin(Session))
                 {
                     return RedirectToAction("Calendar", "Calendar");
                 }
-                return View();
+                return View("AdminTrainings");
             }
             return RedirectToAction("Index", "Home");
         }

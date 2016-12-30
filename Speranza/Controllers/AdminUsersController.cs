@@ -1,4 +1,8 @@
-﻿using Speranza.Services;
+﻿using Speranza.Database;
+using Speranza.Database.Data.Interfaces;
+using Speranza.Models;
+using Speranza.Models.Interfaces;
+using Speranza.Services;
 using Speranza.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -12,12 +16,12 @@ namespace Speranza.Controllers
     {
         IUserManager userManager;
 
-        public AdminUsersController(): this(new UserManager())
+        public AdminUsersController(): this( new UserManager())
         {
 
         }
 
-        public AdminUsersController(IUserManager userManager)
+        public AdminUsersController( IUserManager userManager)
         {
             this.userManager = userManager;
         }
@@ -26,11 +30,16 @@ namespace Speranza.Controllers
         {
             if(userManager.IsUserLoggedIn(Session))
             {
-                if(Session["IsAdmin"] == null || !(bool)Session["IsAdmin"])
+                if (!userManager.IsUserAdmin(Session))
                 {
                     return RedirectToAction("Calendar", "Calendar");
                 }
-                return View("AdminUsers");
+
+                IList<IUserForAdminModel> users = userManager.GetAllUsersForAdmin();
+                AdminUsersModel model = new AdminUsersModel();
+                model.Users = users;
+
+                return View("AdminUsers",model);
             }
             return RedirectToAction("Index", "Home");
         }
