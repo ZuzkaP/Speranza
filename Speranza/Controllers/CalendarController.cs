@@ -1,4 +1,5 @@
-﻿using Speranza.Database;
+﻿using Speranza.App_Start;
+using Speranza.Database;
 using Speranza.Database.Data.Interfaces;
 using Speranza.Models;
 using Speranza.Models.Interfaces;
@@ -23,7 +24,7 @@ namespace Speranza.Controllers
         IDateTimeService dateTimeService;
         private IDatabaseGateway db;
 
-        public CalendarController() : this(InMemoryDatabase.Instance, new UserManager(InMemoryDatabase.Instance,null), new DaysManager(InMemoryDatabase.Instance, new TrainingsManager(), new DateTimeService()), new DateTimeService(), new TrainingsManager())
+        public CalendarController() : this(Initializer.Db,Initializer.UserManager, Initializer.DaysManager, Initializer.DateTimeService, Initializer.TrainingsManager)
         {
 
         }

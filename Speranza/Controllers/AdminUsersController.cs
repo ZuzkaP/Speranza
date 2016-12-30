@@ -1,4 +1,5 @@
-﻿using Speranza.Database;
+﻿using Speranza.App_Start;
+using Speranza.Database;
 using Speranza.Database.Data.Interfaces;
 using Speranza.Models;
 using Speranza.Models.Interfaces;
@@ -16,7 +17,7 @@ namespace Speranza.Controllers
     {
         IUserManager userManager;
 
-        public AdminUsersController(): this( new UserManager(InMemoryDatabase.Instance,null))
+        public AdminUsersController(): this(Initializer.UserManager)
         {
 
         }

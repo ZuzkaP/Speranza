@@ -9,6 +9,7 @@ using Speranza.Services.Interfaces;
 using System.Web.Mvc;
 using Speranza.Models.Interfaces;
 using System.Collections.Generic;
+using Speranza.App_Start;
 
 namespace Speranza.Controllers
 {
@@ -21,7 +22,7 @@ namespace Speranza.Controllers
         private IDateTimeService dateTimeService;
         const int PASSWORD_LENGTH = 6;
 
-        public AccountsController() : this(InMemoryDatabase.Instance,new Hasher(),new UserManager(InMemoryDatabase.Instance,null),new TrainingsManager(),new DateTimeService())
+        public AccountsController() : this(Initializer.Db, Initializer.Hasher, Initializer.UserManager, Initializer.TrainingsManager, Initializer.DateTimeService)
         {
 
         }
