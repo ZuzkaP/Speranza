@@ -16,7 +16,7 @@ namespace Speranza.Controllers
     {
         IUserManager userManager;
 
-        public AdminUsersController(): this( new UserManager())
+        public AdminUsersController(): this( new UserManager(InMemoryDatabase.Instance,null))
         {
 
         }

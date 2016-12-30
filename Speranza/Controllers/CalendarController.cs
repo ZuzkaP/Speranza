@@ -23,7 +23,7 @@ namespace Speranza.Controllers
         IDateTimeService dateTimeService;
         private IDatabaseGateway db;
 
-        public CalendarController() : this(InMemoryDatabase.Instance, new UserManager(), new DaysManager(InMemoryDatabase.Instance, new TrainingsManager(), new DateTimeService()), new DateTimeService(), new TrainingsManager())
+        public CalendarController() : this(InMemoryDatabase.Instance, new UserManager(InMemoryDatabase.Instance,null), new DaysManager(InMemoryDatabase.Instance, new TrainingsManager(), new DateTimeService()), new DateTimeService(), new TrainingsManager())
         {
 
         }

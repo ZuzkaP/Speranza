@@ -7,11 +7,21 @@ using System.Collections.Generic;
 using System.Web.SessionState;
 using System.Web;
 using Speranza.Models.Interfaces;
+using Speranza.Database;
 
 namespace Speranza.Services
 {
     public class UserManager : IUserManager
     {
+        private IDatabaseGateway db;
+        private IModelFactory factory;
+
+        public UserManager(IDatabaseGateway db, IModelFactory factory)
+        {
+            this.db = db;
+            this.factory = factory;
+        }
+
         public UserCategories GetUserCategory(ICollection session)
         {
             HttpSessionStateBase sessionData = session as HttpSessionStateBase;
@@ -50,7 +60,14 @@ namespace Speranza.Services
 
         public IList<IUserForAdminModel> GetAllUsersForAdmin()
         {
-            throw new NotImplementedException();
+            var usersFromDB = db.GetAllUsers();
+            var modelsList = new List<IUserForAdminModel>();
+            foreach (var item in usersFromDB)
+            {
+                IUserForAdminModel userModel = factory.CreateUserForAdminModel(item);
+                modelsList.Add(userModel);
+            }
+            return modelsList;
         }
     }
 }

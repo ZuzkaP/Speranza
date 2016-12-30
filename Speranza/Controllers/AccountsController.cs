@@ -21,7 +21,7 @@ namespace Speranza.Controllers
         private IDateTimeService dateTimeService;
         const int PASSWORD_LENGTH = 6;
 
-        public AccountsController() : this(InMemoryDatabase.Instance,new Hasher(),new UserManager(),new TrainingsManager(),new DateTimeService())
+        public AccountsController() : this(InMemoryDatabase.Instance,new Hasher(),new UserManager(InMemoryDatabase.Instance,null),new TrainingsManager(),new DateTimeService())
         {
 
         }

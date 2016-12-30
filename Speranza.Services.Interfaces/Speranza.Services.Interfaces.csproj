@@ -43,6 +43,7 @@
     <Compile Include="IDateTimeService.cs" />
     <Compile Include="IDaysManager.cs" />
     <Compile Include="IHasher.cs" />
+    <Compile Include="IModelFactory.cs" />
     <Compile Include="ITrainingsManager.cs" />
     <Compile Include="IUserManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

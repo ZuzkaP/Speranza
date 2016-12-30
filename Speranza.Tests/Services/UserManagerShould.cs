@@ -6,6 +6,10 @@ using System.Web.SessionState;
 using Speranza.Services;
 using Speranza.Database.Data.Interfaces;
 using Speranza.Tests.Controllers;
+using Speranza.Models.Interfaces;
+using System.Collections.Generic;
+using Moq;
+using Speranza.Database;
 
 namespace Speranza.Tests.Services
 {
@@ -15,6 +19,10 @@ namespace Speranza.Tests.Services
         private SessionStateItemCollection collection;
         private UserManager manager;
         private FakeControllerContext context;
+        private Mock<IDatabaseGateway> db;
+        private Mock<IModelFactory> factory;
+        private Mock<IUserForAdminModel> userModel1;
+        private Mock<IUserForAdminModel> userModel2;
 
         [TestMethod]
         public void ReturnFalse_When_SessionIsEmpty()
@@ -87,11 +95,61 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(UserCategories.Gold, manager.GetUserCategory(context.HttpContext.Session));
         }
 
+        [TestMethod]
+        public void ReturnEmptyUsersList_When_NoUserIsInDb()
+        {
+            InitializeManager();
+            PrepareDBWithNoUser();
+
+            IList<IUserForAdminModel> usersList =manager.GetAllUsersForAdmin();
+
+            Assert.IsNotNull(usersList);
+            Assert.AreEqual(0, usersList.Count);
+
+        }
+
+        [TestMethod]
+        public void ReturnUsersList_When_UsersExistInDb()
+        {
+            InitializeManager();
+            PrepareDBWithTwoUsers();
+
+            IList<IUserForAdminModel> usersList = manager.GetAllUsersForAdmin();
+
+            Assert.IsNotNull(usersList);
+            Assert.AreEqual(2, usersList.Count);
+            Assert.AreEqual(userModel1.Object, usersList[0]);
+            Assert.AreEqual(userModel2.Object, usersList[1]);
+
+        }
+
+        private void PrepareDBWithTwoUsers()
+        {
+            var user1 = new Mock<IUser>();
+            var user2 = new Mock<IUser>();
+            var usersList = new List<IUser>() { user1.Object, user2.Object};
+            db.Setup(r => r.GetAllUsers()).Returns(usersList);
+
+            userModel1 = new Mock<IUserForAdminModel>();
+            userModel2 = new Mock<IUserForAdminModel>();
+
+            factory.Setup(r => r.CreateUserForAdminModel(user1.Object)).Returns(userModel1.Object);
+            factory.Setup(r => r.CreateUserForAdminModel(user2.Object)).Returns(userModel2.Object);
+        }
+
+        private void PrepareDBWithNoUser()
+        {
+            db.Setup(r => r.GetAllUsers()).Returns(new List<IUser>());
+        }
+
         private void InitializeManager()
         {
-            manager = new UserManager();
+            factory = new Mock<IModelFactory>();
+            db = new Mock<IDatabaseGateway>();
+            manager = new UserManager(db.Object, factory.Object);
             collection = new SessionStateItemCollection();
             context = new FakeControllerContext(null, collection);
+
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Speranza.Services;
+﻿using Speranza.Database;
+using Speranza.Services;
 using Speranza.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace Speranza.Controllers
     {
         IUserManager userManager;
 
-        public AdminTrainingsController(): this(new UserManager())
+        public AdminTrainingsController(): this(new UserManager(InMemoryDatabase.Instance,null))
         {
 
         }
