@@ -8,9 +8,9 @@ namespace Speranza.Models.Interfaces
 {
    public interface IUserForAdminModel
     {
-         string Email { get; set; }
-         string Name { get; set; }
-         string Surname { get; set; }
-         string PhoneNumber { get; set; }
+         string Email { get; }
+         string Name { get;  }
+         string Surname { get; }
+         string PhoneNumber { get;  }
     }
 }
