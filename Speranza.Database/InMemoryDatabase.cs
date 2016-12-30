@@ -49,7 +49,14 @@ namespace Speranza.Database
 
         public void RegisterNewUser(RegisterModel model)
         {
-            RegisteredUser user = (RegisteredUser)model;
+            RegisteredUser user = new RegisteredUser();
+            user.Name =model.Name;
+            user.Email =model.Email;
+            user.IsAdmin =false;
+            user.Password =model.Password;
+            user.PhoneNumber =model.PhoneNumber;
+            user.Surname =model.Surname;
+
             users.Add(model.Email, user);
         }
 

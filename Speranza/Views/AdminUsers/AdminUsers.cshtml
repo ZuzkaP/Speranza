@@ -1,8 +1,36 @@
-﻿
+﻿@model Speranza.Models.AdminUsersModel
 @{
-    ViewBag.Title = "AdminUsers";
+    ViewBag.Title = "Správa používateľov";
     Layout = "~/Views/Layout.cshtml";
 }
 
-<h2>AdminUsers</h2>
+<div class="container">
+    <h2>Správa používateľov</h2>
 
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Meno</th>
+                <th>Priezvisko</th>
+                <th>Email</th>
+                <th>Tel. číslo</th>
+                <th>Kategória</th>
+                <th>Stav permanentky</th>
+                <th>Akcie</th>
+            </tr>
+        </thead>
+        @foreach (var user in Model.Users)
+        {
+            <tr>
+                <td>@user.Name</td>
+                <td>@user.Surname</td>
+                <td>@user.Email</td>
+                <td>@user.PhoneNumber</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        }
+
+    </table>
+</div>
