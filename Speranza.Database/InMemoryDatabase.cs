@@ -143,7 +143,14 @@ namespace Speranza.Database
 
         public IList<IUser> GetAllUsers()
         {
-            throw new NotImplementedException();
+            var allusers = new List<IUser>();
+            foreach (var item in users)
+            {
+                string email = item.Key;
+                IUser user = new User(email, users[email].Name, users[email].Surname, users[email].PhoneNumber);
+                allusers.Add(user);
+            }
+            return allusers;
         }
 
         private class UserInTraining
