@@ -1,5 +1,7 @@
 ﻿using Speranza.App_Start;
 using Speranza.Database;
+using Speranza.Models;
+using Speranza.Models.Interfaces;
 using Speranza.Services;
 using Speranza.Services.Interfaces;
 using System;
@@ -12,16 +14,18 @@ namespace Speranza.Controllers
 {
     public class AdminTrainingsController : Controller
     {
+        private ITrainingsManager trainingManager;
         IUserManager userManager;
 
-        public AdminTrainingsController(): this(Initializer.UserManager)
+        public AdminTrainingsController(): this(Initializer.UserManager,Initializer.TrainingsManager)
         {
 
         }
 
-        public AdminTrainingsController(IUserManager userManager)
+        public AdminTrainingsController(IUserManager userManager,ITrainingsManager trainingManager)
         {
             this.userManager = userManager;
+            this.trainingManager = trainingManager;
         }
 
         // GET: AdminTrainings
@@ -33,7 +37,11 @@ namespace Speranza.Controllers
                 {
                     return RedirectToAction("Calendar", "Calendar");
                 }
-                return View("AdminTrainings");
+
+                IList<ITrainingForAdminModel> trainings = trainingManager.GetAllTrainingsForAdmin();
+                AdminTrainingsModel model = new AdminTrainingsModel();
+                model.Trainings = trainings;
+                return View("AdminTrainings",model);
             }
             return RedirectToAction("Index", "Home");
         }

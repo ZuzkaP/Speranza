@@ -38,7 +38,9 @@ namespace Speranza.Database
             trainings.Add(PrepareTraining(new DateTime(2017, 1, 2, 08, 00, 00), "training c.4", "Filip", 10 ));
             trainings.Add(PrepareTraining(new DateTime(2017, 1, 2, 14, 00, 00), "training c.5", "Filip", 10 ));
             trainings.Add(PrepareTraining(new DateTime(2017, 1, 2, 09, 00, 00), "training c.3", "Filip", 10 ));
+            trainings.Add(PrepareTraining(new DateTime(2016, 12, 25, 09, 00, 00), "training c.3", "Filip", 10 ));
             usersInTrainings.Add(new UserInTraining() { Email = "admin", TrainingID = trainings[0].ID });
+            usersInTrainings.Add(new UserInTraining() { Email = "admin", TrainingID = trainings[5].ID });
         }
 
         private ITraining PrepareTraining(DateTime dateTime, string v1, string v2, int v3)
@@ -158,6 +160,11 @@ namespace Speranza.Database
                 allusers.Add(user);
             }
             return allusers;
+        }
+
+        public IList<ITraining> GetAllTrainings()
+        {
+            throw new NotImplementedException();
         }
 
         private class UserInTraining

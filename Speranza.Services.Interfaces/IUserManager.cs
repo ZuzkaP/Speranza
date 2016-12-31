@@ -12,5 +12,6 @@ namespace Speranza.Services.Interfaces
         UserCategories GetUserCategory(ICollection session);
         bool IsUserAdmin(ICollection session);
         IList<IUserForAdminModel> GetAllUsersForAdmin();
+        
     }
 }

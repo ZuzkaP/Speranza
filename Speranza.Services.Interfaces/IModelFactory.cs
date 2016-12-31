@@ -11,5 +11,6 @@ namespace Speranza.Services.Interfaces
     public interface IModelFactory
     {
         IUserForAdminModel CreateUserForAdminModel(IUser user);
+        ITrainingForAdminModel CreateTrainingForAdminModel(ITraining training);
     }
 }

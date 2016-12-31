@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="IDayModel.cs" />
     <Compile Include="ITrainingModel.cs" />
+    <Compile Include="ITrainingsForAdminModel.cs" />
     <Compile Include="IUserForAdminModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

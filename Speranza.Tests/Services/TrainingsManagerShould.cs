@@ -4,6 +4,9 @@ using Speranza.Services;
 using Moq;
 using Speranza.Database.Data.Interfaces;
 using Speranza.Models.Interfaces;
+using Speranza.Database;
+using System.Collections.Generic;
+using Speranza.Services.Interfaces;
 
 namespace Speranza.Tests.Services
 {
@@ -18,7 +21,13 @@ namespace Speranza.Tests.Services
         private const string ID = "testID";
         private const int CAPACITY = 10;
         private const int REGISTERED = 8;
-        
+        private Mock<IDatabaseGateway> db;
+        private Mock<ITraining> training1;
+        private Mock<ITraining> training2;
+        private Mock<IModelFactory> factory;
+        private Mock<ITrainingForAdminModel> training2Model;
+        private Mock<ITrainingForAdminModel> training1Model;
+
         [TestMethod]
         public void ReturnTheRightModelForEachTraining()
         {
@@ -37,6 +46,56 @@ namespace Speranza.Tests.Services
 
         }
 
+        [TestMethod]
+        public void ReturnEmptyList_When_NoTrainingExistsInDB()
+        {
+            InitializeManager();
+            PrepareDBWithNoTrainings();
+
+           var trainings = manager.GetAllTrainingsForAdmin();
+
+            Assert.AreNotEqual(null, trainings);
+            Assert.AreEqual(0, trainings.Count);
+
+        }
+
+        [TestMethod]
+        public void ReturnListWithTraining_When_TrainingExistsInDB()
+        {
+            InitializeManager();
+            PrepareDBWithTwoTrainings();
+            PrepareFactory();
+
+            var trainings = manager.GetAllTrainingsForAdmin();
+
+            Assert.IsNotNull(trainings);
+            Assert.AreEqual(2, trainings.Count);
+            Assert.AreEqual(training1Model.Object, trainings[0]);
+            Assert.AreEqual(training2Model.Object, trainings[1]);
+        }
+
+        private void PrepareFactory()
+        {
+            training1Model = new Mock<ITrainingForAdminModel>();
+            training2Model = new Mock<ITrainingForAdminModel>();
+            factory.Setup(r => r.CreateTrainingForAdminModel(training1.Object)).Returns(training1Model.Object);
+            factory.Setup(r => r.CreateTrainingForAdminModel(training2.Object)).Returns(training2Model.Object);
+        }
+
+        private void PrepareDBWithTwoTrainings()
+        {
+            training1 = new Mock<ITraining>();
+            training2 = new Mock<ITraining>();
+            var trainingsFromDB = new List<ITraining>() { training1.Object,training2.Object};
+
+            db.Setup(r => r.GetAllTrainings()).Returns(trainingsFromDB);
+        }
+
+        private void PrepareDBWithNoTrainings()
+        {
+            db.Setup(r => r.GetAllTrainings()).Returns(new List<ITraining>());
+        }
+
         private void PrepareTraining()
         {
             training = new Mock<ITraining>();
@@ -52,8 +111,9 @@ namespace Speranza.Tests.Services
 
         private void InitializeManager()
         {
-
-            manager = new TrainingsManager();
+            db = new Mock<IDatabaseGateway>();
+            factory = new Mock<IModelFactory>();
+            manager = new TrainingsManager(db.Object,factory.Object);
         }
     }
 }

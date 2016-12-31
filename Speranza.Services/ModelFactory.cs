@@ -12,6 +12,19 @@ namespace Speranza.Services
 {
     public class ModelFactory : IModelFactory
     {
+        public ITrainingForAdminModel CreateTrainingForAdminModel(ITraining training)
+        {
+            ITrainingForAdminModel model = new TrainingForAdminModel();
+            model.Capacity = training.Capacity;
+            model.Description = training.Description;
+            model.ID = training.ID;
+            model.RegisteredNumber = training.RegisteredNumber;
+            model.Time = training.Time;
+            model.Trainer = training.Trainer;
+
+            return model;
+        }
+
         public IUserForAdminModel CreateUserForAdminModel(IUser user)
         {
             UserForAdminModel model = new UserForAdminModel();

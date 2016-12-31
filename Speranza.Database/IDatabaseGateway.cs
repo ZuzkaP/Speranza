@@ -20,5 +20,6 @@ namespace Speranza.Database
         void RemoveUserFromTraining(string email, string trainingID);
         IList<ITraining> GetTrainingsForUser(string email);
         IList<IUser> GetAllUsers();
+        IList<ITraining> GetAllTrainings();
     }
 }

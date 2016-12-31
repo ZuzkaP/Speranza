@@ -21,10 +21,10 @@ namespace Speranza.App_Start
         {
             Db = InMemoryDatabase.Instance;
             Hasher = new Hasher();
-            TrainingsManager = new TrainingsManager();
             DateTimeService = new DateTimeService();
             DaysManager = new DaysManager(Db,TrainingsManager,DateTimeService);
             var factory = new ModelFactory();
+            TrainingsManager = new TrainingsManager(Db,factory);
             UserManager = new UserManager(Db, factory);
         }
     }

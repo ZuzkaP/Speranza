@@ -5,6 +5,9 @@ using Moq;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using Speranza.Controllers;
+using Speranza.Models.Interfaces;
+using System.Collections.Generic;
+using Speranza.Models;
 
 namespace Speranza.Tests.Controllers
 {
@@ -14,6 +17,7 @@ namespace Speranza.Tests.Controllers
         private AdminTrainingsController controller;
         private Mock<IUserManager> userManager;
         private const string USER_EMAIL = "test";
+        private Mock<ITrainingsManager> trainingManager;
 
         [TestMethod]
         public void ReturnToCalendar_When_ClickOnAdminUsers_And_UserIsNotLogin()
@@ -51,11 +55,25 @@ namespace Speranza.Tests.Controllers
 
             Assert.AreEqual("AdminTrainings", ((ViewResult)result).ViewName);
         }
+      
+        [TestMethod]
+        public void LoadTrainingsFromDB_And_SendTOUI()
+        {
+            InitializeAdminTrainingsController();
+            IList<ITrainingForAdminModel> trainings = new List<ITrainingForAdminModel>();
+            trainingManager.Setup(r => r.GetAllTrainingsForAdmin()).Returns(trainings);
+
+            ViewResult result = (ViewResult)controller.AdminTrainings();
+            AdminTrainingsModel model = (AdminTrainingsModel)result.Model;
+
+            Assert.AreEqual(trainings, model.Trainings);
+        }
 
         private void InitializeAdminTrainingsController()
         {
             userManager = new Mock<IUserManager>();
-            controller = new AdminTrainingsController(userManager.Object);
+            trainingManager = new Mock<ITrainingsManager>();
+            controller = new AdminTrainingsController(userManager.Object,trainingManager.Object);
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             controller.ControllerContext = new FakeControllerContext(controller, sessionItems);
             controller.Session["Email"] = USER_EMAIL;
