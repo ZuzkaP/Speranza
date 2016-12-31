@@ -164,7 +164,12 @@ namespace Speranza.Database
 
         public IList<ITraining> GetAllTrainings()
         {
-            throw new NotImplementedException();
+            var copy = new List<ITraining>(trainings);
+            foreach (var item in copy)
+            {
+                item.RegisteredNumber = usersInTrainings.Count(r => r.TrainingID == item.ID);
+            }
+            return copy;
         }
 
         private class UserInTraining
