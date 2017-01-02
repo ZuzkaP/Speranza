@@ -8,7 +8,9 @@ using Speranza.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 
 namespace Speranza.Controllers
@@ -43,6 +45,12 @@ namespace Speranza.Controllers
                 return View("AdminUsers",model);
             }
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public ActionResult IsAdmin(string id)
+        {
+            return Json("IsAdmin" + id);
         }
     }
 }

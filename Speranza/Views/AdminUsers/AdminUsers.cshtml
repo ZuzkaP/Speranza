@@ -16,7 +16,7 @@
                 <th>Tel. číslo</th>
                 <th>Kategória</th>
                 <th>Stav permanentky</th>
-                <th>Akcie</th>
+                <th>Admin</th>
             </tr>
         </thead>
         @foreach (var user in Model.Users)
@@ -28,9 +28,39 @@
                 <td>@user.PhoneNumber</td>
                 <td></td>
                 <td></td>
-                <td></td>
+                <td>@Html.CheckBox( "IsAdmin",new { id=user.Email, @class="IsAdmin", data_url = Url.Action("IsAdmin", "AdminUsers") }) </td>
             </tr>
         }
 
     </table>
 </div>
+
+@section scripts {
+    <script>
+        $(function() {
+            $('.IsAdmin').change(function () {
+                
+                var self = $(this);
+                var url = self.data('url');
+                var id = self.attr('id');
+                var value = self.prop('checked');
+                $.ajax({
+                    url: "IsAdmin",
+                    data:' { id:'+ id + ' }',
+                    type: 'POST',
+                    dataType: "json",
+                    success: function(response) {
+                        alert("success"+ response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+               
+            });
+        });
+    </script>
+}
