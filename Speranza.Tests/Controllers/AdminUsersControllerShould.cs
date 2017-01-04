@@ -126,6 +126,22 @@ namespace Speranza.Tests.Controllers
             Assert.AreEqual(USER_EMAIL, ((ToggleAdminModel)result.Data).Email);
         }
 
+        [TestMethod]
+        public void SendCategoriesToUI()
+        {
+            InitializeAdminUsersController();
+
+            ViewResult result = (ViewResult)controller.AdminUsers();
+
+            AdminUsersModel model = (AdminUsersModel)result.Model;
+            Assert.AreEqual(3, model.Categories.Count);
+            Assert.AreEqual(UserCategories.Gold.ToString(), model.Categories[2]);
+            Assert.AreEqual(UserCategories.Silver.ToString(), model.Categories[1]);
+            Assert.AreEqual(UserCategories.Standard.ToString(), model.Categories[0]);
+
+
+        }
+
         private void InitializeAdminUsersController()
         {
             userManager = new Mock<IUserManager>();

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Speranza.Views
 {
@@ -56,6 +57,11 @@ namespace Speranza.Views
             }
 
             return outputMessage;
+        }
+
+        public static IList<SelectListItem> CreateSelectListItems(IList<string> items)
+        {
+            return items.Select(r => new SelectListItem() { Text = r}).ToList();
         }
     }
 }

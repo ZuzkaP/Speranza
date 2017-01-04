@@ -1,4 +1,5 @@
 ﻿@using Speranza.Models
+@using Speranza.Views
 @model Speranza.Models.AdminUsersModel
 @{
     ViewBag.Title = "Správa používateľov";
@@ -32,7 +33,9 @@
                 <td>@user.Surname</td>
                 <td>@user.Email</td>
                 <td>@user.PhoneNumber</td>
-                <td></td>
+                <td>
+                    @Html.DropDownList("CategoryCombo", ViewHelper.CreateSelectListItems(Model.Categories))
+                </td>
                 <td></td>
                 <td>@Html.CheckBox("IsAdmin", user.IsAdmin, new { id = user.Email, @class = "IsAdmin" }) </td>
             </tr>

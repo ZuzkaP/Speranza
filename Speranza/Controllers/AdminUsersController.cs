@@ -41,6 +41,9 @@ namespace Speranza.Controllers
                 IList<IUserForAdminModel> users = userManager.GetAllUsersForAdmin();
                 AdminUsersModel model = new AdminUsersModel();
                 model.Users = users;
+                model.Categories.Add(UserCategories.Standard.ToString());
+                model.Categories.Add(UserCategories.Silver.ToString());
+                model.Categories.Add(UserCategories.Gold.ToString());
 
                 return View("AdminUsers",model);
             }
