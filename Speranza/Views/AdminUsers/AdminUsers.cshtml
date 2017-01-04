@@ -1,4 +1,5 @@
-﻿@model Speranza.Models.AdminUsersModel
+﻿@using Speranza.Models
+@model Speranza.Models.AdminUsersModel
 @{
     ViewBag.Title = "Správa používateľov";
     Layout = "~/Views/Layout.cshtml";
@@ -6,6 +7,11 @@
 
 <div class="container">
     <h2>Správa používateľov</h2>
+
+
+
+    <div id="messageBox" style="display:none;" class="alert alert-success" role="alert"></div>
+
 
     <table class="table table-striped table-hover">
         <thead>
@@ -28,29 +34,33 @@
                 <td>@user.PhoneNumber</td>
                 <td></td>
                 <td></td>
-                <td>@Html.CheckBox("IsAdmin",user.IsAdmin,new { id = user.Email, @class = "IsAdmin" }) </td>
+                <td>@Html.CheckBox("IsAdmin", user.IsAdmin, new { id = user.Email, @class = "IsAdmin" }) </td>
             </tr>
         }
-
     </table>
 </div>
 
 @section scripts {
     <script>
-        $(function() {
+        $(function () {
             $('.IsAdmin').change(function () {
-                
+
                 var self = $(this);
                 var url = self.data('url');
                 var id = self.attr('id');
                 var value = self.prop('checked');
                 $.ajax({
                     url: "ToggleAdmin",
-                    data: { id: id, isAdmin:value },
+                    data: { id: id, isAdmin: value },
                     type: 'POST',
                     dataType: "json",
-                    success: function(response) {
-                        alert("success"+ response);
+                    success: function (response) {
+                        if (response.Message == 1)
+                        $('#messageBox').text("Zrušenie administrátorských práv pre používateľa:  " + response.Email);
+                        else if (response.Message == 2)
+                        $('#messageBox').text("Pridanie administrátorských práv pre používateľa:  " + response.Email);
+
+                        $('#messageBox').show();
                     },
                     failure: function (response) {
                         alert(response.responseText);
@@ -59,7 +69,7 @@
                         alert(response.responseText);
                     }
                 });
-               
+
             });
         });
     </script>

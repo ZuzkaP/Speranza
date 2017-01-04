@@ -49,6 +49,7 @@
     <Compile Include="LoginModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisterModel.cs" />
+    <Compile Include="ToggleAdminModel.cs" />
     <Compile Include="TrainingForAdminModel.cs" />
     <Compile Include="TrainingModel.cs" />
     <Compile Include="UserForAdminModel.cs" />

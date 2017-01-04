@@ -60,15 +60,18 @@ namespace Speranza.Controllers
             }
 
             userManager.SetUserRoleToAdmin(id, isAdmin);
+            ToggleAdminModel model = new ToggleAdminModel();
+            model.Email = id;
 
             if(isAdmin)
             {
-                return Json(UsersAdminMessages.SuccessfullySetAdminRole);
+                model.Message = UsersAdminMessages.SuccessfullySetAdminRole;
             }
             else
             {
-                return Json(UsersAdminMessages.SuccessfullyClearAdminRole);
+                model.Message = UsersAdminMessages.SuccessfullyClearAdminRole;
             }
+            return Json(model);
         }
     }
 }

@@ -109,7 +109,8 @@ namespace Speranza.Tests.Controllers
             JsonResult result = (JsonResult)controller.ToggleAdmin(USER_EMAIL, true);
 
             userManager.Verify(r => r.SetUserRoleToAdmin(USER_EMAIL, true), Times.Once);
-            Assert.AreEqual(UsersAdminMessages.SuccessfullySetAdminRole, result.Data);
+            Assert.AreEqual(UsersAdminMessages.SuccessfullySetAdminRole, ((ToggleAdminModel)result.Data).Message);
+            Assert.AreEqual(USER_EMAIL, ((ToggleAdminModel)result.Data).Email);
         }
 
         [TestMethod]
@@ -120,7 +121,9 @@ namespace Speranza.Tests.Controllers
             JsonResult result = (JsonResult)controller.ToggleAdmin(USER_EMAIL, false);
 
             userManager.Verify(r => r.SetUserRoleToAdmin(USER_EMAIL, false), Times.Once);
-            Assert.AreEqual(UsersAdminMessages.SuccessfullyClearAdminRole, result.Data);
+
+            Assert.AreEqual(UsersAdminMessages.SuccessfullyClearAdminRole,((ToggleAdminModel) result.Data).Message);
+            Assert.AreEqual(USER_EMAIL, ((ToggleAdminModel)result.Data).Email);
         }
 
         private void InitializeAdminUsersController()
