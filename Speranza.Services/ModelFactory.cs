@@ -33,6 +33,7 @@ namespace Speranza.Services
             model.Email = user.Email;
             model.PhoneNumber = user.PhoneNumber;
             model.IsAdmin = user.IsAdmin;
+            model.Category = user.Category.ToString();
 
             return model;
         }

@@ -18,5 +18,7 @@ namespace Speranza.Models
         public string Surname { get; set; }
 
         public bool IsAdmin { get; set; }
+
+        public string Category { get; set; }
     }
 }

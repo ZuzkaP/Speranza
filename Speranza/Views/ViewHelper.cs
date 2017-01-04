@@ -59,9 +59,9 @@ namespace Speranza.Views
             return outputMessage;
         }
 
-        public static IList<SelectListItem> CreateSelectListItems(IList<string> items)
+        public static IList<SelectListItem> CreateSelectListItems(IList<string> items,string selectedItem)
         {
-            return items.Select(r => new SelectListItem() { Text = r}).ToList();
+            return items.Select(r => new SelectListItem() { Text = r, Selected = r == selectedItem}).ToList();
         }
     }
 }

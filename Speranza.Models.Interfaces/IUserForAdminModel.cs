@@ -13,5 +13,6 @@ namespace Speranza.Models.Interfaces
          string Surname { get; }
          string PhoneNumber { get;  }
          bool IsAdmin { get; }
+         string Category { get; set; }
     }
 }

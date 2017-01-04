@@ -34,7 +34,7 @@
                 <td>@user.Email</td>
                 <td>@user.PhoneNumber</td>
                 <td>
-                    @Html.DropDownList("CategoryCombo", ViewHelper.CreateSelectListItems(Model.Categories))
+                    @Html.DropDownList("CategoryCombo", ViewHelper.CreateSelectListItems(Model.Categories,user.Category))
                 </td>
                 <td></td>
                 <td>@Html.CheckBox("IsAdmin", user.IsAdmin, new { id = user.Email, @class = "IsAdmin" }) </td>

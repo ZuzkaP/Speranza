@@ -21,6 +21,8 @@ namespace Speranza.Database.Data
 
         public bool IsAdmin {  get; set; }
 
+        public UserCategories Category { get; set; }
+
         public User(string email, string password, bool isAdmin)
         {
             Email = email;

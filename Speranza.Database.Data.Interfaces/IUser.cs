@@ -15,5 +15,6 @@
         string Surname { get; }
         string PhoneNumber { get; }
         bool IsAdmin { get; }
+        UserCategories Category { get; set; }
     }
 }

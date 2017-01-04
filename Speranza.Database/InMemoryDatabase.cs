@@ -30,7 +30,8 @@ namespace Speranza.Database
         {
             users = new Dictionary<string, RegisteredUser>();
             usersInTrainings = new List<UserInTraining>();
-            users.Add("admin", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Zuzana", Surname = "Papalova", PhoneNumber = "1234" , IsAdmin = true});
+            users.Add("admin", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Zuzana", Surname = "Papalova", PhoneNumber = "1234" , IsAdmin = true, Category = UserCategories.Silver});
+            
             users.Add("miro", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Miro", Surname = "Pavlicko", PhoneNumber = "1234" , IsAdmin = false});
             trainings = new List<ITraining>();
 
@@ -158,6 +159,7 @@ namespace Speranza.Database
             {
                 string email = item.Key;
                 IUser user = new User(email, users[email].Name, users[email].Surname, users[email].PhoneNumber, users[email].IsAdmin);
+                user.Category = users[email].Category;
                 allusers.Add(user);
             }
             return allusers;
@@ -190,6 +192,7 @@ namespace Speranza.Database
 
         private class RegisteredUser : RegisterModel
         {
+            public UserCategories Category { get; internal set; }
             public bool IsAdmin { get; set; }
         }
     }
