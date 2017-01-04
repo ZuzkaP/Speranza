@@ -23,6 +23,7 @@ namespace Speranza.Tests.Services
         private Mock<IModelFactory> factory;
         private Mock<IUserForAdminModel> userModel1;
         private Mock<IUserForAdminModel> userModel2;
+        private const string EMAIL = "test";
 
         [TestMethod]
         public void ReturnFalse_When_SessionIsEmpty()
@@ -137,6 +138,17 @@ namespace Speranza.Tests.Services
             factory.Setup(r => r.CreateUserForAdminModel(user2.Object)).Returns(userModel2.Object);
         }
 
+
+        [TestMethod]
+        public void SetAdminRoleToUser()
+        {
+            InitializeManager();
+
+            manager.SetUserRoleToAdmin(EMAIL, true);
+
+            db.Verify(r => r.SetAdminRole(EMAIL, true), Times.Once);
+        }
+        
         private void PrepareDBWithNoUser()
         {
             db.Setup(r => r.GetAllUsers()).Returns(new List<IUser>());

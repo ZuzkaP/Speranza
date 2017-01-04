@@ -21,6 +21,7 @@ namespace Speranza.Tests.Controllers
         private const string USER_EMAIL = "test";
         private Mock<IDatabaseGateway> db;
 
+
         [TestMethod]
         public void ReturnToCalendar_When_ClickOnAdminUsers_And_UserIsNotLogin()
         {
@@ -71,6 +72,55 @@ namespace Speranza.Tests.Controllers
             AdminUsersModel model = (AdminUsersModel)result.Model;
 
             Assert.AreEqual(users, model.Users);
+        }
+
+        [TestMethod]
+        public void NotChangeIsAdminRoleForUser_When_UserEmailIsEmpty()
+        {
+            InitializeAdminUsersController();
+
+            JsonResult result =(JsonResult) controller.ToggleAdmin(null,true);
+
+            Assert.AreEqual(string.Empty, result.Data);
+            userManager.Verify(r => r.SetUserRoleToAdmin(It.IsAny<string>(), It.IsAny<bool>()), Times.Never);
+
+        }
+
+
+        [TestMethod]
+        public void NotChangeIsAdminRoleForUser_When_LoggedUserIsNotAdmin()
+        {
+            InitializeAdminUsersController();
+            userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(false);
+
+            ActionResult result = controller.ToggleAdmin(USER_EMAIL, true);
+
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
+            userManager.Verify(r => r.SetUserRoleToAdmin(It.IsAny<string>(), It.IsAny<bool>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void SetAdminRoleForUser_When_LoggedUserIsAdmin()
+        {
+            InitializeAdminUsersController();
+
+            JsonResult result = (JsonResult)controller.ToggleAdmin(USER_EMAIL, true);
+
+            userManager.Verify(r => r.SetUserRoleToAdmin(USER_EMAIL, true), Times.Once);
+            Assert.AreEqual(UsersAdminMessages.SuccessfullySetAdminRole, result.Data);
+        }
+
+        [TestMethod]
+        public void ClearAdminRoleForUser_When_LoggedUserIsAdmin()
+        {
+            InitializeAdminUsersController();
+
+            JsonResult result = (JsonResult)controller.ToggleAdmin(USER_EMAIL, false);
+
+            userManager.Verify(r => r.SetUserRoleToAdmin(USER_EMAIL, false), Times.Once);
+            Assert.AreEqual(UsersAdminMessages.SuccessfullyClearAdminRole, result.Data);
         }
 
         private void InitializeAdminUsersController()

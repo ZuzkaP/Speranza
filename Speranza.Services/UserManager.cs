@@ -69,5 +69,10 @@ namespace Speranza.Services
             }
             return modelsList;
         }
+
+        public void SetUserRoleToAdmin(string email, bool isAdmin)
+        {
+            db.SetAdminRole(email, isAdmin);
+        }
     }
 }

@@ -48,9 +48,27 @@ namespace Speranza.Controllers
         }
 
         [HttpPost]
-        public ActionResult IsAdmin(string id)
+        public ActionResult ToggleAdmin(string id,bool isAdmin)
         {
-            return Json("IsAdmin" + id);
+            if (!userManager.IsUserAdmin(Session))
+            {
+                return RedirectToAction("Calendar", "Calendar");
+            }
+            if (string.IsNullOrEmpty(id))
+            {
+                return Json(string.Empty);
+            }
+
+            userManager.SetUserRoleToAdmin(id, isAdmin);
+
+            if(isAdmin)
+            {
+                return Json(UsersAdminMessages.SuccessfullySetAdminRole);
+            }
+            else
+            {
+                return Json(UsersAdminMessages.SuccessfullyClearAdminRole);
+            }
         }
     }
 }

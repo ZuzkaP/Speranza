@@ -172,6 +172,14 @@ namespace Speranza.Database
             return copy;
         }
 
+        public void SetAdminRole(string email, bool isAdmin)
+        {
+            if( users.ContainsKey(email))
+            {
+                users[email].IsAdmin = isAdmin;
+            }
+        }
+
         private class UserInTraining
         {
           public  string Email { get; set; }
