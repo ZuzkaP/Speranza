@@ -28,7 +28,7 @@
                 <td>@user.PhoneNumber</td>
                 <td></td>
                 <td></td>
-                <td>@Html.CheckBox( "IsAdmin",new { id = user.Email, @class = "IsAdmin" }) </td>
+                <td>@Html.CheckBox("IsAdmin",user.IsAdmin,new { id = user.Email, @class = "IsAdmin" }) </td>
             </tr>
         }
 

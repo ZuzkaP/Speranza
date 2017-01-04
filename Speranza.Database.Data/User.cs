@@ -28,12 +28,13 @@ namespace Speranza.Database.Data
             IsAdmin = isAdmin;
         }
 
-        public User(string email, string name, string surname, string phoneNumber)
+        public User(string email, string name, string surname, string phoneNumber, bool isAdmin)
         {
             Email = email;
             Name = name;
             Surname = surname;
             PhoneNumber = phoneNumber;
+            IsAdmin = isAdmin;
         }
     }
 }

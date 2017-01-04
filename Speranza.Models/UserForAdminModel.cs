@@ -16,5 +16,7 @@ namespace Speranza.Models
         public string PhoneNumber { get; set; }
 
         public string Surname { get; set; }
+
+        public bool IsAdmin { get; set; }
     }
 }

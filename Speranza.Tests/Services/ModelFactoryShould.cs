@@ -24,6 +24,7 @@ namespace Speranza.Tests.Services
         private const string DESCRIPTION ="test training";
         private const int CAPACITY = 10;
         private const string ID = "ID";
+        private const bool ISADMIN = true;
 
         [TestMethod]
         public void CorrectlyCreateUserForAdminModel()
@@ -37,6 +38,7 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(SURNAME, model.Surname);
             Assert.AreEqual(EMAIL, model.Email);
             Assert.AreEqual(PHONENUMBER, model.PhoneNumber);
+            Assert.AreEqual(ISADMIN, model.IsAdmin);
 
         }
 
@@ -75,6 +77,7 @@ namespace Speranza.Tests.Services
             user.SetupGet(r => r.Surname).Returns(SURNAME);
             user.SetupGet(r => r.Email).Returns(EMAIL);
             user.SetupGet(r => r.PhoneNumber).Returns(PHONENUMBER);
+            user.SetupGet(r => r.IsAdmin).Returns(ISADMIN);
         }
 
         private void InitializeModelFactory()

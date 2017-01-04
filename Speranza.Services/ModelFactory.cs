@@ -32,6 +32,7 @@ namespace Speranza.Services
             model.Surname = user.Surname;
             model.Email = user.Email;
             model.PhoneNumber = user.PhoneNumber;
+            model.IsAdmin = user.IsAdmin;
 
             return model;
         }
