@@ -10,7 +10,8 @@ namespace Speranza.Models
     {
         NoMessage = 0,
         SuccessfullyClearAdminRole = 1,
-        SuccessfullySetAdminRole = 2
+        SuccessfullySetAdminRole = 2,
+        SuccessfullyChangedCategory = 3
     }
     public class ToggleAdminModel
     {

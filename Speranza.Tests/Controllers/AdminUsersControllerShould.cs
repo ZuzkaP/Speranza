@@ -19,8 +19,7 @@ namespace Speranza.Tests.Controllers
         private AdminUsersController controller;
         private Mock<IUserManager> userManager;
         private const string USER_EMAIL = "test";
-        private Mock<IDatabaseGateway> db;
-        private const string CATEGORY = "GOLD";
+        private const string CATEGORY = "Gold";
 
         [TestMethod]
         public void ReturnToCalendar_When_ClickOnAdminUsers_And_UserIsNotLogin()
@@ -160,7 +159,7 @@ namespace Speranza.Tests.Controllers
         {
             InitializeAdminUsersController();
 
-            JsonResult result = (JsonResult) controller.UserCategory(USER_EMAIL, CATEGORY);
+            JsonResult result = (JsonResult) controller.UserCategory(string.Empty, CATEGORY);
 
             Assert.AreEqual(string.Empty, result.Data);
             userManager.Verify(r => r.SetUserCategory(It.IsAny<string>(), It.IsAny<UserCategories>()), Times.Never);
@@ -175,8 +174,22 @@ namespace Speranza.Tests.Controllers
 
             Assert.AreEqual(string.Empty, result.Data);
             userManager.Verify(r => r.SetUserCategory(It.IsAny<string>(), It.IsAny<UserCategories>()), Times.Never);
-
         }
+
+        [TestMethod]
+        public void ChangeUserCategory()
+        {
+            InitializeAdminUsersController();
+
+            JsonResult result =(JsonResult) controller.UserCategory(USER_EMAIL, CATEGORY);
+            
+            userManager.Verify(r => r.SetUserCategory(USER_EMAIL,UserCategories.Gold), Times.Once);
+            Assert.AreEqual(UsersAdminMessages.SuccessfullyChangedCategory, ((UpdateCategoryModel)result.Data).Message);
+            Assert.AreEqual(USER_EMAIL, ((UpdateCategoryModel)result.Data).Email);
+            Assert.AreEqual(CATEGORY, ((UpdateCategoryModel)result.Data).Category);
+        }
+
+
         private void InitializeAdminUsersController()
         {
             userManager = new Mock<IUserManager>();

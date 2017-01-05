@@ -87,8 +87,15 @@ namespace Speranza.Controllers
             {
                 return Json(string.Empty);
             }
-            return Json("");
+            UserCategories categoryToDb;
+            bool resultOfCategoryParse = Enum.TryParse<UserCategories>(category,out categoryToDb);
+            userManager.SetUserCategory(id, categoryToDb);
 
+            UpdateCategoryModel model = new UpdateCategoryModel();
+            model.Category = category;
+            model.Email = id;
+            model.Message = UsersAdminMessages.SuccessfullyChangedCategory;
+            return Json(model);
         }
 
     }
