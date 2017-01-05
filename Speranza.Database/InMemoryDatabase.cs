@@ -107,7 +107,8 @@ namespace Speranza.Database
                 user.Name = users[email].Name;
                 user.Surname = users[email].Surname;
                 user.PhoneNumber = users[email].PhoneNumber;
-
+                user.NumberOfFreeSignUps = users[email].NumberOfFreeSignUps;
+                user.NumberOfPastTrainings = usersInTrainings.Count(r=> r.Email == email && trainings.First(p=>p.ID == r.TrainingID).Time < DateTime.Now);
                 return user;
             }
 
@@ -221,6 +222,7 @@ namespace Speranza.Database
         {
             public UserCategories Category { get; internal set; }
             public bool IsAdmin { get; set; }
+            public int NumberOfFreeSignUps { get; internal set; }
         }
     }
 
