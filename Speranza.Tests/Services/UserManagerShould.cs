@@ -148,6 +148,16 @@ namespace Speranza.Tests.Services
 
             db.Verify(r => r.SetAdminRole(EMAIL, true), Times.Once);
         }
+
+        [TestMethod]
+        public void SetCategoryToUserByAdmin()
+        {
+            InitializeManager();
+
+            manager.SetUserCategory(EMAIL, UserCategories.Gold);
+
+            db.Verify(r => r.SetUserCategory(EMAIL, UserCategories.Gold), Times.Once);
+        }
         
         private void PrepareDBWithNoUser()
         {

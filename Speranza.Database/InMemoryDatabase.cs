@@ -183,6 +183,14 @@ namespace Speranza.Database
             }
         }
 
+        public void SetUserCategory(string email, UserCategories category)
+        {
+            if (users.ContainsKey(email))
+            {
+                users[email].Category = category;
+            }
+        }
+
         private class UserInTraining
         {
           public  string Email { get; set; }

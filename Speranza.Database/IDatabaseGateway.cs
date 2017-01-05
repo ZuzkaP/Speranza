@@ -22,5 +22,6 @@ namespace Speranza.Database
         IList<IUser> GetAllUsers();
         IList<ITraining> GetAllTrainings();
         void SetAdminRole(string email, bool isAdmin);
+        void SetUserCategory(string email, UserCategories category);
     }
 }

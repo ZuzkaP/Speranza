@@ -77,7 +77,7 @@ namespace Speranza.Services
 
         public void SetUserCategory(string email, UserCategories category)
         {
-            throw new NotImplementedException();
+            db.SetUserCategory(email, category);
         }
     }
 }
