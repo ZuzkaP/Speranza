@@ -177,7 +177,6 @@ namespace Speranza.Controllers
                 Session["Message"] = null;
                 Session["Training"] = null;
                 return View(model);
-
             }
             return RedirectToAction("Index", "Home");
         }

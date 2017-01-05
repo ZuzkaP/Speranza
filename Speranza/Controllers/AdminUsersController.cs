@@ -98,5 +98,10 @@ namespace Speranza.Controllers
             return Json(model);
         }
 
+        public ActionResult UpdateSignUpCount(string id, int countUpdate)
+        {
+            return Json("");
+        }
+
     }
 }

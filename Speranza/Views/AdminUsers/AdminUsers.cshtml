@@ -36,7 +36,17 @@
                 <td>
                     @Html.DropDownList("CategoryCombo", ViewHelper.CreateSelectListItems(Model.Categories,user.Category), new { id = user.Email, @class = "Category" })
                 </td>
-                <td></td>
+                <td>
+                    5
+                    <div class="btn-group btn-group-xs col-lg-offset-1" >
+                        <button type="button" class="btn btn-primary SignUpCount" data-count="1" data-email="@user.Email"> +1</button>
+                        <button type="button" class="btn btn-primary SignUpCount" data-count="10" data-email="@user.Email">+10</button>
+                        <button type="button" class="btn btn-primary SignUpCount" data-count="20" data-email="@user.Email">+20</button>
+                        <button type="button" class="btn btn-danger  SignUpCount" data-count="-1" data-email="@user.Email"> -1</button>
+                        <button type="button" class="btn btn-danger  SignUpCount" data-count="-10" data-email="@user.Email">-10</button>
+                        <button type="button" class="btn btn-danger  SignUpCount" data-count="-20" data-email="@user.Email">-20</button>
+                    </div>
+                </td>
                 <td>@Html.CheckBox("IsAdmin", user.IsAdmin, new { id = user.Email, @class = "IsAdmin" }) </td>
             </tr>
         }
@@ -49,7 +59,6 @@
             $('.IsAdmin').change(function () {
 
                 var self = $(this);
-                var url = self.data('url');
                 var id = self.attr('id');
                 var value = self.prop('checked');
                 $.ajax({
@@ -64,24 +73,16 @@
                             $('#messageBox').html("<b>Pridanie</b> administrátorských práv pre používateľa: <b>" + response.Email + "</b>");
 
                         $('#messageBox').show();
-                    },
-                    failure: function (response) {
-                        alert(response.responseText);
-                    },
-                    error: function (response) {
-                        alert(response.responseText);
                     }
                 });
 
             });
         });
    
-
         $(function () {
             $('.Category').change(function () {
 
                 var self = $(this);
-                var url = self.data('url');
                 var id = self.attr('id');
                 var value = self.val();
                 $.ajax({
@@ -93,12 +94,25 @@
                         if (response.Message == 3)
                             $('#messageBox').html("Kategória pre používateľa <b>" + response.Email + "</b> bola zmenená na: <b>" + response.Category + "</b>");
                         $('#messageBox').show();
-                    },
-                    failure: function (response) {
-                        alert(response.responseText);
-                    },
-                    error: function (response) {
-                        alert(response.responseText);
+                    }
+                });
+
+            });
+        });
+
+        $(function () {
+            $('.SignUpCount').click(function () {
+                var self = $(this);
+                var count = self.data("count");
+                var email = self.data("email");
+                alert(count);
+                $.ajax({
+                    url: "UpdateSignUpCount",
+                    data: { id: email, countUpdate: count },
+                    type: 'POST',
+                    dataType: "json",
+                    success: function (response) {
+                        
                     }
                 });
 
