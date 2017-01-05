@@ -16,5 +16,7 @@
         string PhoneNumber { get; }
         bool IsAdmin { get; }
         UserCategories Category { get; set; }
+        int NumberOfFreeSignUps { get; set; }
+        int NumberOfPastTrainings { get; set; }
     }
 }

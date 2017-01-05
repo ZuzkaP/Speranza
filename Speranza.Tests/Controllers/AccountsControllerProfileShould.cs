@@ -31,6 +31,10 @@ namespace Speranza.Tests.Controllers
         private Mock<IDateTimeService> dateTimeService;
         private readonly DateTime date = new DateTime(2016, 12, 2, 10, 00, 00);
 
+        public const string CATEGORY = "Silver";
+        public const int NUMBEROFFREESIGNUPS = 5;
+        public const int NUMBEROFPASTRAININGS = 42;
+
         [TestMethod]
         public void ReturnToLogin_When_UserIsNotLoggedIn()
         {
@@ -48,13 +52,37 @@ namespace Speranza.Tests.Controllers
         public void LoadUSerDatafromDBAndSendToUI_When_UserIsLoggedIn()
         {
             InitializeAccountController();
+
             ViewResult result = (ViewResult)controller.UserProfile();
+
             UserProfileModel model = (UserProfileModel) result.Model;
             Assert.AreEqual(NAME, model.Name);
             Assert.AreEqual(SURNAME, model.Surname);
             Assert.AreEqual(PHONENUMBER, model.PhoneNumber);
             Assert.AreEqual(USER_EMAIL, model.Email);
 
+        }
+
+        [TestMethod]
+        public void LoadCategory_And_NumberOfFreeSignUps_And_NumberOfPastTrainings()
+        {
+            InitializeAccountController();
+            PrepareUserFromDB();
+
+            ViewResult result = (ViewResult)controller.UserProfile();
+
+            UserProfileModel model = (UserProfileModel)result.Model;
+
+            Assert.AreEqual(CATEGORY, model.Category);
+            Assert.AreEqual(NUMBEROFFREESIGNUPS, model.NumberOfFreeSignUps);
+            Assert.AreEqual(NUMBEROFPASTRAININGS, model.NumberOfPastTrainings);
+        }
+
+        private void PrepareUserFromDB()
+        {
+            userData.SetupGet(u => u.Category).Returns(UserCategories.Silver);
+            userData.SetupGet(u => u.NumberOfFreeSignUps).Returns(NUMBEROFFREESIGNUPS);
+            userData.SetupGet(u => u.NumberOfPastTrainings).Returns(NUMBEROFPASTRAININGS);
         }
 
         [TestMethod]

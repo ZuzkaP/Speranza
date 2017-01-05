@@ -23,6 +23,9 @@ namespace Speranza.Database.Data
 
         public UserCategories Category { get; set; }
 
+        public int NumberOfPastTrainings { get; set; }
+
+        public int NumberOfFreeSignUps { get; set; }
        
     }
 }

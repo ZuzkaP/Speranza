@@ -163,6 +163,9 @@ namespace Speranza.Controllers
                 model.Name = user.Name;
                 model.Surname = user.Surname;
                 model.PhoneNumber = user.PhoneNumber;
+                model.Category = user.Category.ToString();
+                model.NumberOfFreeSignUps = user.NumberOfFreeSignUps;
+                model.NumberOfPastTrainings = user.NumberOfPastTrainings;
                 model.Trainings = new List<ITrainingModel>();
                 model.SignedUpOrSignedOffTraining = (ITrainingModel) Session["Training"];
                 OrderAndAssignTrainings(model);
