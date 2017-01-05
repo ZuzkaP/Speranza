@@ -5,7 +5,13 @@ using System.Web;
 
 namespace Speranza.Models
 {
-    
+    public enum UsersAdminMessages
+    {
+        NoMessage = 0,
+        SuccessfullyClearAdminRole = 1,
+        SuccessfullySetAdminRole = 2,
+        SuccessfullyChangedCategory = 3
+    }
     public class AdminUsersModel 
     {
         public IList<string> Categories { get;private set; }

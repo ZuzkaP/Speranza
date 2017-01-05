@@ -58,9 +58,9 @@ namespace Speranza.Controllers
                     {
                         Session["Email"] = model.Email;
                         Session["IsAdmin"] = user.IsAdmin;
+                        Session["Category"] = user.Category;
                         model.LoginSuccessful = true;
                         return RedirectToAction("Calendar", "Calendar");
-                       // return View("../Calendar/Calendar", model);
                     }
                 }
 
