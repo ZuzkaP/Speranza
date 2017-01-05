@@ -23,20 +23,6 @@ namespace Speranza.Database.Data
 
         public UserCategories Category { get; set; }
 
-        public User(string email, string password, bool isAdmin)
-        {
-            Email = email;
-            PasswordHash = password;
-            IsAdmin = isAdmin;
-        }
-
-        public User(string email, string name, string surname, string phoneNumber, bool isAdmin)
-        {
-            Email = email;
-            Name = name;
-            Surname = surname;
-            PhoneNumber = phoneNumber;
-            IsAdmin = isAdmin;
-        }
+       
     }
 }

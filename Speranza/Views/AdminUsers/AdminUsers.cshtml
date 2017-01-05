@@ -59,9 +59,9 @@
                     dataType: "json",
                     success: function (response) {
                         if (response.Message == 1)
-                        $('#messageBox').text("Zrušenie administrátorských práv pre používateľa:  " + response.Email);
+                        $('#messageBox').html("<b>Zrušenie</b> administrátorských práv pre používateľa: <b>" + response.Email + "</b>");
                         else if (response.Message == 2)
-                        $('#messageBox').text("Pridanie administrátorských práv pre používateľa:  " + response.Email);
+                            $('#messageBox').html("<b>Pridanie</b> administrátorských práv pre používateľa: <b>" + response.Email + "</b>");
 
                         $('#messageBox').show();
                     },
@@ -90,6 +90,9 @@
                     type: 'POST',
                     dataType: "json",
                     success: function (response) {
+                        if (response.Message == 3)
+                            $('#messageBox').html("Kategória pre používateľa <b>" + response.Email + "</b> bola zmenená na: <b>" + response.Category + "</b>");
+                        $('#messageBox').show();
                     },
                     failure: function (response) {
                         alert(response.responseText);

@@ -73,7 +73,12 @@ namespace Speranza.Database
         {
             if (users.ContainsKey(email))
             {
-                IUser user = new User(email, users[email].Password, users[email].IsAdmin);
+                User user = new User();
+                user.Email = email;
+                user.Category = users[email].Category;
+                user.IsAdmin = users[email].IsAdmin;
+                user.PasswordHash = users[email].Password;
+
                 return user;
             }
 
@@ -95,7 +100,14 @@ namespace Speranza.Database
         {
             if (users.ContainsKey(email))
             {
-                IUser user = new User(email, users[email].Name, users[email].Surname, users[email].PhoneNumber, users[email].IsAdmin);
+                User user = new User();
+                user.Email = email;
+                user.Category = users[email].Category;
+                user.IsAdmin = users[email].IsAdmin;
+                user.Name = users[email].Name;
+                user.Surname = users[email].Surname;
+                user.PhoneNumber = users[email].PhoneNumber;
+
                 return user;
             }
 
@@ -158,8 +170,15 @@ namespace Speranza.Database
             foreach (var item in users)
             {
                 string email = item.Key;
-                IUser user = new User(email, users[email].Name, users[email].Surname, users[email].PhoneNumber, users[email].IsAdmin);
+
+                User user = new User();
+                user.Email = email;
                 user.Category = users[email].Category;
+                user.IsAdmin = users[email].IsAdmin;
+                user.Name = users[email].Name;
+                user.Surname = users[email].Surname;
+                user.PhoneNumber = users[email].PhoneNumber;
+
                 allusers.Add(user);
             }
             return allusers;
