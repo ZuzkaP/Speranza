@@ -74,5 +74,10 @@ namespace Speranza.Services
         {
             db.SetAdminRole(email, isAdmin);
         }
+
+        public void SetUserCategory(string email, UserCategories category)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

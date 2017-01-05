@@ -76,5 +76,20 @@ namespace Speranza.Controllers
             }
             return Json(model);
         }
+
+        public ActionResult UserCategory(string id, string category)
+        {
+            if (!userManager.IsUserAdmin(Session))
+            {
+                return RedirectToAction("Calendar", "Calendar");
+            }
+            if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(category))
+            {
+                return Json(string.Empty);
+            }
+            return Json("");
+
+        }
+
     }
 }

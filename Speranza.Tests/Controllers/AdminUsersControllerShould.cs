@@ -20,7 +20,7 @@ namespace Speranza.Tests.Controllers
         private Mock<IUserManager> userManager;
         private const string USER_EMAIL = "test";
         private Mock<IDatabaseGateway> db;
-
+        private const string CATEGORY = "GOLD";
 
         [TestMethod]
         public void ReturnToCalendar_When_ClickOnAdminUsers_And_UserIsNotLogin()
@@ -138,10 +138,45 @@ namespace Speranza.Tests.Controllers
             Assert.AreEqual(UserCategories.Gold.ToString(), model.Categories[2]);
             Assert.AreEqual(UserCategories.Silver.ToString(), model.Categories[1]);
             Assert.AreEqual(UserCategories.Standard.ToString(), model.Categories[0]);
+        }
 
+        [TestMethod]
+        public void NotChangeUserCategory_When_LoggedUserIsNotAdmin()
+        {
+            InitializeAdminUsersController();
+            userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(false);
+
+            ActionResult result = controller.UserCategory(USER_EMAIL, CATEGORY);
+
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
+            userManager.Verify(r => r.SetUserCategory(It.IsAny<string>(), It.IsAny<UserCategories>()), Times.Never);
 
         }
 
+        [TestMethod]
+        public void NotChangeUserCategory_When_UserEmailIsEmpty()
+        {
+            InitializeAdminUsersController();
+
+            JsonResult result = (JsonResult) controller.UserCategory(USER_EMAIL, CATEGORY);
+
+            Assert.AreEqual(string.Empty, result.Data);
+            userManager.Verify(r => r.SetUserCategory(It.IsAny<string>(), It.IsAny<UserCategories>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void NotChangeUserCategory_When_UserCategoryEmpty()
+        {
+            InitializeAdminUsersController();
+
+            JsonResult result = (JsonResult)controller.UserCategory(USER_EMAIL, string.Empty);
+
+            Assert.AreEqual(string.Empty, result.Data);
+            userManager.Verify(r => r.SetUserCategory(It.IsAny<string>(), It.IsAny<UserCategories>()), Times.Never);
+
+        }
         private void InitializeAdminUsersController()
         {
             userManager = new Mock<IUserManager>();

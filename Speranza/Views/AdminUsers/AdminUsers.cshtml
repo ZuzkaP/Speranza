@@ -34,7 +34,7 @@
                 <td>@user.Email</td>
                 <td>@user.PhoneNumber</td>
                 <td>
-                    @Html.DropDownList("CategoryCombo", ViewHelper.CreateSelectListItems(Model.Categories,user.Category))
+                    @Html.DropDownList("CategoryCombo", ViewHelper.CreateSelectListItems(Model.Categories,user.Category), new { id = user.Email, @class = "Category" })
                 </td>
                 <td></td>
                 <td>@Html.CheckBox("IsAdmin", user.IsAdmin, new { id = user.Email, @class = "IsAdmin" }) </td>
@@ -75,5 +75,31 @@
 
             });
         });
-    </script>
+   
+
+        $(function () {
+            $('.Category').change(function () {
+
+                var self = $(this);
+                var url = self.data('url');
+                var id = self.attr('id');
+                var value = self.val();
+                $.ajax({
+                    url: "UserCategory",
+                    data: { id: id, category: value },
+                    type: 'POST',
+                    dataType: "json",
+                    success: function (response) {
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+
+            });
+        });
+</script>
 }

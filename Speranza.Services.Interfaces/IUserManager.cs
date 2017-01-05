@@ -13,5 +13,6 @@ namespace Speranza.Services.Interfaces
         bool IsUserAdmin(ICollection session);
         IList<IUserForAdminModel> GetAllUsersForAdmin();
         void SetUserRoleToAdmin(string email, bool isAdmin);
+        void SetUserCategory(string email, UserCategories category);
     }
 }
