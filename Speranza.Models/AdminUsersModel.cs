@@ -10,7 +10,9 @@ namespace Speranza.Models
         NoMessage = 0,
         SuccessfullyClearAdminRole = 1,
         SuccessfullySetAdminRole = 2,
-        SuccessfullyChangedCategory = 3
+        SuccessfullyChangedCategory = 3,
+        SuccessfullyIncreasedCountOfSignUps = 4,
+        SuccessfullyDecreasedCountOfSignUps = 5
     }
     public class AdminUsersModel 
     {

@@ -21,6 +21,11 @@ namespace Speranza.Tests.Controllers
         private const string USER_EMAIL = "test";
         private const string CATEGORY = "Gold";
 
+        private const int INCREASECOUNT = 10;
+        private const int DECREASECOUNT = -20;
+
+        private const int CHANGEDCOUNT = 12;
+
         [TestMethod]
         public void ReturnToCalendar_When_ClickOnAdminUsers_And_UserIsNotLogin()
         {
@@ -189,6 +194,61 @@ namespace Speranza.Tests.Controllers
             Assert.AreEqual(CATEGORY, ((UpdateCategoryModel)result.Data).Category);
         }
 
+
+        [TestMethod]
+        public void NotChangeCountOfFreeSignUps_When_LoggedUserIsNotAdmin()
+        {
+            InitializeAdminUsersController();
+            userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(false);
+
+            ActionResult result = controller.UpdateSignUpCount(USER_EMAIL, DECREASECOUNT);
+
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
+            userManager.Verify(r => r.UpdateCountOfFreeSignUps(It.IsAny<string>(), It.IsAny<int>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void NotChangeCountOfFreeSignUps_When_UserEmailIsEmpty()
+        {
+            InitializeAdminUsersController();
+
+            JsonResult result = (JsonResult)controller.UpdateSignUpCount(string.Empty, DECREASECOUNT);
+
+            Assert.AreEqual(string.Empty, result.Data);
+            userManager.Verify(r => r.UpdateCountOfFreeSignUps(It.IsAny<string>(), It.IsAny<int>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void IncreasedCountOfFreeSignUps()
+        {
+            InitializeAdminUsersController();
+            userManager.Setup(r => r.UpdateCountOfFreeSignUps(USER_EMAIL, INCREASECOUNT)).Returns(CHANGEDCOUNT);
+
+            JsonResult result = (JsonResult)controller.UpdateSignUpCount(USER_EMAIL, INCREASECOUNT);
+
+            userManager.Verify(r => r.UpdateCountOfFreeSignUps(USER_EMAIL, INCREASECOUNT), Times.Once);
+            Assert.AreEqual(UsersAdminMessages.SuccessfullyIncreasedCountOfSignUps, ((UpdateCountOfSignUpsModel)result.Data).Message);
+            Assert.AreEqual(USER_EMAIL, ((UpdateCountOfSignUpsModel)result.Data).Email);
+            Assert.AreEqual(CHANGEDCOUNT, ((UpdateCountOfSignUpsModel)result.Data).AfterChangeNumberOfSignUps);
+            Assert.AreEqual(INCREASECOUNT, ((UpdateCountOfSignUpsModel)result.Data).ChangeNumberOfSignUps);
+        }
+
+        [TestMethod]
+        public void DecreasedCountOfFreeSignUps()
+        {
+            InitializeAdminUsersController();
+            userManager.Setup(r => r.UpdateCountOfFreeSignUps(USER_EMAIL, DECREASECOUNT)).Returns(CHANGEDCOUNT);
+
+            JsonResult result = (JsonResult)controller.UpdateSignUpCount(USER_EMAIL, DECREASECOUNT);
+
+            userManager.Verify(r => r.UpdateCountOfFreeSignUps(USER_EMAIL, DECREASECOUNT), Times.Once);
+            Assert.AreEqual(UsersAdminMessages.SuccessfullyDecreasedCountOfSignUps, ((UpdateCountOfSignUpsModel)result.Data).Message);
+            Assert.AreEqual(USER_EMAIL, ((UpdateCountOfSignUpsModel)result.Data).Email);
+            Assert.AreEqual(CHANGEDCOUNT, ((UpdateCountOfSignUpsModel)result.Data).AfterChangeNumberOfSignUps);
+            Assert.AreEqual(DECREASECOUNT*(-1), ((UpdateCountOfSignUpsModel)result.Data).ChangeNumberOfSignUps);
+        }
 
         private void InitializeAdminUsersController()
         {

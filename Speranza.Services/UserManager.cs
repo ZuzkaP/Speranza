@@ -79,5 +79,10 @@ namespace Speranza.Services
         {
             db.SetUserCategory(email, category);
         }
+
+        public int UpdateCountOfFreeSignUps(string email, int changeNumberOfSignUps)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

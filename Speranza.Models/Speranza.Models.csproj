@@ -53,6 +53,7 @@
     <Compile Include="TrainingForAdminModel.cs" />
     <Compile Include="TrainingModel.cs" />
     <Compile Include="UpdateCategoryModel.cs" />
+    <Compile Include="UpdateCountOfSignUpsModel.cs" />
     <Compile Include="UserForAdminModel.cs" />
     <Compile Include="UserProfileModel.cs" />
   </ItemGroup>

@@ -100,7 +100,31 @@ namespace Speranza.Controllers
 
         public ActionResult UpdateSignUpCount(string id, int countUpdate)
         {
-            return Json("");
+            if (!userManager.IsUserAdmin(Session))
+            {
+                return RedirectToAction("Calendar", "Calendar");
+            }
+            if (string.IsNullOrEmpty(id))
+            {
+                return Json(string.Empty);
+            }
+            int afterChangeNumberOfSignUps = userManager.UpdateCountOfFreeSignUps(id, countUpdate);
+
+            UpdateCountOfSignUpsModel model = new UpdateCountOfSignUpsModel();
+            model.Email = id;
+            model.AfterChangeNumberOfSignUps = afterChangeNumberOfSignUps;
+
+            if(countUpdate > 0)
+            {
+                model.ChangeNumberOfSignUps = countUpdate;
+                model.Message = UsersAdminMessages.SuccessfullyIncreasedCountOfSignUps;
+            }
+            else
+            {
+                model.ChangeNumberOfSignUps = countUpdate*(-1);
+                model.Message = UsersAdminMessages.SuccessfullyDecreasedCountOfSignUps;
+            }
+            return Json(model);
         }
 
     }

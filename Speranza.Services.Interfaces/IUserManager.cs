@@ -14,5 +14,6 @@ namespace Speranza.Services.Interfaces
         IList<IUserForAdminModel> GetAllUsersForAdmin();
         void SetUserRoleToAdmin(string email, bool isAdmin);
         void SetUserCategory(string email, UserCategories category);
+        int UpdateCountOfFreeSignUps(string email, int changeNumberOfSignUps);
     }
 }
