@@ -35,11 +35,11 @@
                 <td>@user.Email</td>
                 <td>@user.PhoneNumber</td>
                 <td>
-                    @Html.DropDownList("CategoryCombo", ViewHelper.CreateSelectListItems(Model.Categories,user.Category), new { id = user.Email, @class = "Category" })
+                    @Html.DropDownList("CategoryCombo", ViewHelper.CreateSelectListItems(Model.Categories, user.Category), new { id = user.Email, @class = "Category" })
                 </td>
                 <td>
                     <span id="freeSignUpsCell-@user.Email"> @user.NumberOfFreeSignUps </span>
-                    <div class="btn-group btn-group-xs col-lg-offset-1",new { id = user.Email } >
+                    <div class="btn-group btn-group-xs col-lg-offset-1">
                         <button type="button" class="btn btn-primary SignUpCount" data-count="1" data-email="@user.Email"> +1</button>
                         <button type="button" class="btn btn-primary SignUpCount" data-count="10" data-email="@user.Email">+10</button>
                         <button type="button" class="btn btn-primary SignUpCount" data-count="20" data-email="@user.Email">+20</button>
@@ -50,7 +50,7 @@
                 </td>
                 <td>
                     <span>@user.TrainingCount</span>
-                    <span class="label label-info">Detail</span>
+                    <span class="label label-info trainingsDetails" data-email="@user.Email">Detail</span>
                 </td>
                 <td>@Html.CheckBox("IsAdmin", user.IsAdmin, new { id = user.Email, @class = "IsAdmin" }) </td>
             </tr>
@@ -73,7 +73,7 @@
                     dataType: "json",
                     success: function (response) {
                         if (response.Message == 1)
-                        $('#messageBox').html("<b>Zrušenie</b> administrátorských práv pre používateľa: <b>" + response.Email + "</b>");
+                            $('#messageBox').html("<b>Zrušenie</b> administrátorských práv pre používateľa: <b>" + response.Email + "</b>");
                         else if (response.Message == 2)
                             $('#messageBox').html("<b>Pridanie</b> administrátorských práv pre používateľa: <b>" + response.Email + "</b>");
 
@@ -118,17 +118,15 @@
                     success: function (response) {
                         if (response.Message == 4)
                             $('#messageBox').html("Počet vstupov užívateľovi <b>" + response.Email + "</b> bol zvýšený o <b>" + response.ChangeNumberOfSignUps + "</b>");
-                        else if (response.Message == 5)
-                        {
+                        else if (response.Message == 5) {
                             var changedCount = response.ChangeNumberOfSignUps;
-                            if ($('#freeSignUpsCell-' + response.Email).text() < response.ChangeNumberOfSignUps)
-                            {
+                            if ($('#freeSignUpsCell-' + response.Email).text() < response.ChangeNumberOfSignUps) {
                                 changedCount = $('#freeSignUpsCell-' + response.Email).text();
                             }
                             $('#messageBox').html("Počet vstupov užívateľovi <b>" + response.Email + "</b> bol znížený o <b>" + changedCount + "</b>");
 
                         }
-                            
+
                         $('#messageBox').show();
                         $('#freeSignUpsCell-' + response.Email).text(response.AfterChangeNumberOfSignUps);
                     }
@@ -136,5 +134,25 @@
 
             });
         });
-</script>
+
+
+        $(function () {
+            $('.trainingsDetails').click(function () {
+                var self = $(this);
+                var email = self.data("email");
+                alert(self.data("email"));
+                $.ajax({
+                    url: "TrainingsDetails",
+                    data: { id: email },
+                    type: 'POST',
+                    dataType: "json",
+                    success: function (response) {
+
+                    }
+
+                });
+
+            });
+        });
+    </script>
 }

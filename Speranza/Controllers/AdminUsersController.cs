@@ -127,5 +127,10 @@ namespace Speranza.Controllers
             return Json(model);
         }
 
+        public ActionResult TrainingsDetails(string id)
+        {
+            return Json("");
+        }
+
     }
 }
