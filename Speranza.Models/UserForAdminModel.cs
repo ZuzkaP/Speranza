@@ -20,5 +20,8 @@ namespace Speranza.Models
         public bool IsAdmin { get; set; }
 
         public string Category { get; set; }
+
+        public int NumberOfFreeSignUps { get; set; }
+
     }
 }

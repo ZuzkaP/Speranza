@@ -26,6 +26,7 @@ namespace Speranza.Tests.Services
         private const string ID = "ID";
         private const bool ISADMIN = true;
         private const  UserCategories USERCATEGORY = UserCategories.Gold;
+        private const int  NUMBEROFFREESIGNUPS = 5;
 
         [TestMethod]
         public void CorrectlyCreateUserForAdminModel()
@@ -41,8 +42,10 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(PHONENUMBER, model.PhoneNumber);
             Assert.AreEqual(ISADMIN, model.IsAdmin);
             Assert.AreEqual(USERCATEGORY.ToString(), model.Category);
-
+            Assert.AreEqual(NUMBEROFFREESIGNUPS, model.NumberOfFreeSignUps);
         }
+
+
 
         [TestMethod]
         public void CorrectlyCreateTrainingsForAdminModel()
@@ -81,6 +84,7 @@ namespace Speranza.Tests.Services
             user.SetupGet(r => r.PhoneNumber).Returns(PHONENUMBER);
             user.SetupGet(r => r.IsAdmin).Returns(ISADMIN);
             user.SetupGet(r => r.Category).Returns(USERCATEGORY);
+            user.SetupGet(r => r.NumberOfFreeSignUps).Returns(NUMBEROFFREESIGNUPS);
         }
 
         private void InitializeModelFactory()

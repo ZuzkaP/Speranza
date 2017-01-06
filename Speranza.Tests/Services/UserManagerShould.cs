@@ -24,18 +24,20 @@ namespace Speranza.Tests.Services
         private Mock<IUserForAdminModel> userModel1;
         private Mock<IUserForAdminModel> userModel2;
         private const string EMAIL = "test";
+        private readonly int INCRESENUMBEROFSIGNUPS = 10;
+        private readonly int DECREASENUMBEROFSIGNUPS = -10;
 
         [TestMethod]
         public void ReturnFalse_When_SessionIsEmpty()
         {
-            InitializeManager();
+            InitializeUserManager();
            Assert.IsFalse(manager.IsUserLoggedIn(context.HttpContext.Session));
         }
 
         [TestMethod]
         public void ReturnFalse_When_EmailInSessionDoesNotExist()
         {
-            InitializeManager();
+            InitializeUserManager();
             collection["notEmail"] = "test";
             Assert.IsFalse(manager.IsUserLoggedIn(context.HttpContext.Session));
         }
@@ -43,7 +45,7 @@ namespace Speranza.Tests.Services
         [TestMethod]
         public void ReturnFalse_When_EmailIsEmpty()
         {
-            InitializeManager();
+            InitializeUserManager();
             collection["Email"] = "";
             Assert.IsFalse(manager.IsUserLoggedIn(context.HttpContext.Session));
             
@@ -52,7 +54,7 @@ namespace Speranza.Tests.Services
         [TestMethod]
         public void ReturnTrue_When_EmailSessionDoesExist()
         {
-            InitializeManager();
+            InitializeUserManager();
             collection["Email"] = "test";
             Assert.IsTrue(manager.IsUserLoggedIn(context.HttpContext.Session));
         }
@@ -60,7 +62,7 @@ namespace Speranza.Tests.Services
         [TestMethod]
         public void ReturnFalse_When_AdminSessionIsNull()
         {
-            InitializeManager();
+            InitializeUserManager();
             collection["IsAdmin"] = null;
             Assert.IsFalse(manager.IsUserAdmin(context.HttpContext.Session));
         }
@@ -68,7 +70,7 @@ namespace Speranza.Tests.Services
         [TestMethod]
         public void ReturnFalse_When_AdminSessionIsFalse()
         {
-            InitializeManager();
+            InitializeUserManager();
             collection["IsAdmin"] = false;
             Assert.IsFalse(manager.IsUserAdmin(context.HttpContext.Session));
         }
@@ -76,14 +78,14 @@ namespace Speranza.Tests.Services
         [TestMethod]
         public void ReturnTrue_When_AdminSessionIsTrue()
         {
-            InitializeManager();
+            InitializeUserManager();
             collection["IsAdmin"] = true;
             Assert.IsTrue(manager.IsUserAdmin(context.HttpContext.Session));
         }
         [TestMethod]
         public void ReturnStandardCategory_When_CategoryIsNotInSession()
         {
-            InitializeManager();
+            InitializeUserManager();
             Assert.AreEqual(UserCategories.Standard,manager.GetUserCategory(context.HttpContext.Session));
 
         }
@@ -91,7 +93,7 @@ namespace Speranza.Tests.Services
         [TestMethod]
         public void ReturnTheRightCategory_When_CategoryIsInSession()
         {
-            InitializeManager();
+            InitializeUserManager();
             collection["Category"] = UserCategories.Gold;
             Assert.AreEqual(UserCategories.Gold, manager.GetUserCategory(context.HttpContext.Session));
         }
@@ -99,7 +101,7 @@ namespace Speranza.Tests.Services
         [TestMethod]
         public void ReturnEmptyUsersList_When_NoUserIsInDb()
         {
-            InitializeManager();
+            InitializeUserManager();
             PrepareDBWithNoUser();
 
             IList<IUserForAdminModel> usersList =manager.GetAllUsersForAdmin();
@@ -112,7 +114,7 @@ namespace Speranza.Tests.Services
         [TestMethod]
         public void ReturnUsersList_When_UsersExistInDb()
         {
-            InitializeManager();
+            InitializeUserManager();
             PrepareDBWithTwoUsers();
 
             IList<IUserForAdminModel> usersList = manager.GetAllUsersForAdmin();
@@ -124,6 +126,18 @@ namespace Speranza.Tests.Services
 
         }
 
+        [TestMethod]
+        public void ChangeCountOfFreeSignUps_When_AdminChangesTheValue()
+        {
+            InitializeUserManager();
+            db.Setup(r => r.UpdateCountOfFreeSignUps(EMAIL, INCRESENUMBEROFSIGNUPS)).Returns(25);
+           
+            int updatedCount = manager.UpdateCountOfFreeSignUps(EMAIL, INCRESENUMBEROFSIGNUPS);
+
+            db.Verify(r => r.UpdateCountOfFreeSignUps(EMAIL,INCRESENUMBEROFSIGNUPS), Times.Once);
+            Assert.AreEqual(25, updatedCount);
+        }
+        
         private void PrepareDBWithTwoUsers()
         {
             var user1 = new Mock<IUser>();
@@ -142,7 +156,7 @@ namespace Speranza.Tests.Services
         [TestMethod]
         public void SetAdminRoleToUser()
         {
-            InitializeManager();
+            InitializeUserManager();
 
             manager.SetUserRoleToAdmin(EMAIL, true);
 
@@ -152,7 +166,7 @@ namespace Speranza.Tests.Services
         [TestMethod]
         public void SetCategoryToUserByAdmin()
         {
-            InitializeManager();
+            InitializeUserManager();
 
             manager.SetUserCategory(EMAIL, UserCategories.Gold);
 
@@ -164,7 +178,7 @@ namespace Speranza.Tests.Services
             db.Setup(r => r.GetAllUsers()).Returns(new List<IUser>());
         }
 
-        private void InitializeManager()
+        private void InitializeUserManager()
         {
             factory = new Mock<IModelFactory>();
             db = new Mock<IDatabaseGateway>();

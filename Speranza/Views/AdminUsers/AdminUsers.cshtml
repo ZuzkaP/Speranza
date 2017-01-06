@@ -37,8 +37,8 @@
                     @Html.DropDownList("CategoryCombo", ViewHelper.CreateSelectListItems(Model.Categories,user.Category), new { id = user.Email, @class = "Category" })
                 </td>
                 <td>
-                    5
-                    <div class="btn-group btn-group-xs col-lg-offset-1" >
+                    <span id="freeSignUpsCell-@user.Email"> @user.NumberOfFreeSignUps </span>
+                    <div class="btn-group btn-group-xs col-lg-offset-1",new { id = user.Email } >
                         <button type="button" class="btn btn-primary SignUpCount" data-count="1" data-email="@user.Email"> +1</button>
                         <button type="button" class="btn btn-primary SignUpCount" data-count="10" data-email="@user.Email">+10</button>
                         <button type="button" class="btn btn-primary SignUpCount" data-count="20" data-email="@user.Email">+20</button>
@@ -78,7 +78,7 @@
 
             });
         });
-   
+
         $(function () {
             $('.Category').change(function () {
 
@@ -105,14 +105,19 @@
                 var self = $(this);
                 var count = self.data("count");
                 var email = self.data("email");
-                alert(count);
                 $.ajax({
                     url: "UpdateSignUpCount",
                     data: { id: email, countUpdate: count },
                     type: 'POST',
                     dataType: "json",
                     success: function (response) {
-                        
+                        if (response.Message == 4)
+                            $('#messageBox').html("Počet vstupov užívateľovi <b>" + response.Email + "</b> bol zvýšený o <b>" + response.ChangeNumberOfSignUps + "</b>");
+                        else if (response.Message == 5)
+                            $('#messageBox').html("Počet vstupov užívateľovi <b>" + response.Email + "</b> bola znížený o <b>" + response.ChangeNumberOfSignUps + "</b>");
+
+                        $('#messageBox').show();
+                        $('#freeSignUpsCell-' + response.Email).text(response.AfterChangeNumberOfSignUps);
                     }
                 });
 

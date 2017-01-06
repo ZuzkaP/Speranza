@@ -82,7 +82,7 @@ namespace Speranza.Services
 
         public int UpdateCountOfFreeSignUps(string email, int changeNumberOfSignUps)
         {
-            throw new NotImplementedException();
+           return db.UpdateCountOfFreeSignUps(email, changeNumberOfSignUps);
         }
     }
 }

@@ -32,7 +32,7 @@ namespace Speranza.Database
             usersInTrainings = new List<UserInTraining>();
             users.Add("admin", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Zuzana", Surname = "Papalova", PhoneNumber = "1234" , IsAdmin = true, Category = UserCategories.Silver});
             
-            users.Add("miro", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Miro", Surname = "Pavlicko", PhoneNumber = "1234" , IsAdmin = false});
+            users.Add("miro", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Miro", Surname = "Pavlicko", PhoneNumber = "1234" , IsAdmin = false , NumberOfFreeSignUps = 10});
             trainings = new List<ITraining>();
 
             trainings.Add(PrepareTraining(new DateTime(2017, 1, 5, 12, 00, 00), "training c.1", "Zuzka", 10 ));
@@ -179,6 +179,7 @@ namespace Speranza.Database
                 user.Name = users[email].Name;
                 user.Surname = users[email].Surname;
                 user.PhoneNumber = users[email].PhoneNumber;
+                user.NumberOfFreeSignUps = users[email].NumberOfFreeSignUps;
 
                 allusers.Add(user);
             }
@@ -209,6 +210,19 @@ namespace Speranza.Database
             {
                 users[email].Category = category;
             }
+        }
+
+        public int UpdateCountOfFreeSignUps(string email, int changeNumberOfSignUps)
+        {
+            if (users.ContainsKey(email))
+            {
+                users[email].NumberOfFreeSignUps += changeNumberOfSignUps;
+            }
+            if(users[email].NumberOfFreeSignUps >= 0)
+            {
+                return users[email].NumberOfFreeSignUps;
+            }
+            return 0;
         }
 
         private class UserInTraining
