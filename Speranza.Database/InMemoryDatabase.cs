@@ -217,9 +217,10 @@ namespace Speranza.Database
             if (users.ContainsKey(email))
             {
                 users[email].NumberOfFreeSignUps += changeNumberOfSignUps;
-            }
-            if(users[email].NumberOfFreeSignUps >= 0)
-            {
+                if (users[email].NumberOfFreeSignUps < 0)
+                {
+                    users[email].NumberOfFreeSignUps = 0;
+                }
                 return users[email].NumberOfFreeSignUps;
             }
             return 0;
