@@ -114,8 +114,16 @@
                         if (response.Message == 4)
                             $('#messageBox').html("Počet vstupov užívateľovi <b>" + response.Email + "</b> bol zvýšený o <b>" + response.ChangeNumberOfSignUps + "</b>");
                         else if (response.Message == 5)
-                            $('#messageBox').html("Počet vstupov užívateľovi <b>" + response.Email + "</b> bola znížený o <b>" + response.ChangeNumberOfSignUps + "</b>");
+                        {
+                            var changedCount = response.ChangeNumberOfSignUps;
+                            if ($('#freeSignUpsCell-' + response.Email).text() < response.ChangeNumberOfSignUps)
+                            {
+                                changedCount = $('#freeSignUpsCell-' + response.Email).text();
+                            }
+                            $('#messageBox').html("Počet vstupov užívateľovi <b>" + response.Email + "</b> bol znížený o <b>" + changedCount + "</b>");
 
+                        }
+                            
                         $('#messageBox').show();
                         $('#freeSignUpsCell-' + response.Email).text(response.AfterChangeNumberOfSignUps);
                     }
