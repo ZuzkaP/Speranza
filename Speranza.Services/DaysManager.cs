@@ -10,13 +10,15 @@ namespace Speranza.Services
     {
         private IDateTimeService dateTimeService;
         IDatabaseGateway db;
+        private IModelFactory factory;
         private ITrainingsManager manager;
 
-        public DaysManager(IDatabaseGateway db, ITrainingsManager manager, IDateTimeService dateTimeService)
+        public DaysManager(IDatabaseGateway db, ITrainingsManager manager, IDateTimeService dateTimeService, IModelFactory factory)
         {
             this.db = db;
             this.manager = manager;
             this.dateTimeService = dateTimeService;
+            this.factory = factory;
         }
 
         public IDayModel GetDay(DateTime date, string email)
@@ -28,7 +30,7 @@ namespace Speranza.Services
             {
                 foreach (var item in trainings)
                 {
-                    ITrainingModel trainingModel = manager.CreateModel(item);
+                    ITrainingModel trainingModel = factory.CreateTrainingModel(item);
                     trainingModel.IsUserSignedUp = db.IsUserAlreadySignedUpInTraining(email, item.ID);
                     DateTime currentDate = dateTimeService.GetCurrentDate();
                     trainingModel.IsAllowedToSignOff = !(trainingModel.Time - currentDate < TimeSpan.FromHours(4));

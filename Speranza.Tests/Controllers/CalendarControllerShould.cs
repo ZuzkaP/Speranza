@@ -143,7 +143,7 @@ namespace Speranza.Tests.Controllers
             daysManager = new Mock<IDaysManager>();
             dateTimeService = new Mock<IDateTimeService>();
             dateTimeService.Setup(r => r.GetCurrentDate()).Returns(CURRENTDATE);
-            calendar = new CalendarController(null,userManager.Object,daysManager.Object,dateTimeService.Object,null);
+            calendar = new CalendarController(null,userManager.Object,daysManager.Object,dateTimeService.Object,null,null);
            
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             calendar.ControllerContext = new FakeControllerContext(calendar, sessionItems);

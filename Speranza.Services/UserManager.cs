@@ -8,6 +8,7 @@ using System.Web.SessionState;
 using System.Web;
 using Speranza.Models.Interfaces;
 using Speranza.Database;
+using System.Linq;
 
 namespace Speranza.Services
 {
@@ -15,11 +16,13 @@ namespace Speranza.Services
     {
         private IDatabaseGateway db;
         private IModelFactory factory;
+        private IDateTimeService dateTimeService;
 
-        public UserManager(IDatabaseGateway db, IModelFactory factory)
+        public UserManager(IDatabaseGateway db, IModelFactory factory, IDateTimeService dateTimeService)
         {
             this.db = db;
             this.factory = factory;
+            this.dateTimeService = dateTimeService;
         }
 
         public UserCategories GetUserCategory(ICollection session)
@@ -83,6 +86,19 @@ namespace Speranza.Services
         public int UpdateCountOfFreeSignUps(string email, int changeNumberOfSignUps)
         {
            return db.UpdateCountOfFreeSignUps(email, changeNumberOfSignUps);
+        }
+
+        public IList<ITrainingModel> GetFutureTrainingsForUser(string email)
+        {
+            IList<ITraining> alluserTrainings = db.GetTrainingsForUser(email);
+            IList<ITraining> futureUserTrainings = alluserTrainings.Where(r => r.Time > dateTimeService.GetCurrentDate()).ToList();
+            IList<ITrainingModel> trainingsModels = new List<ITrainingModel>();
+            foreach (var training in futureUserTrainings)
+            {
+                ITrainingModel model = factory.CreateTrainingModel(training);
+                trainingsModels.Add(model);
+            }
+            return trainingsModels;
         }
     }
 }

@@ -23,18 +23,20 @@ namespace Speranza.Controllers
         ITrainingsManager trainingManager;
         IDateTimeService dateTimeService;
         private IDatabaseGateway db;
+        private IModelFactory factory;
 
-        public CalendarController() : this(Initializer.Db,Initializer.UserManager, Initializer.DaysManager, Initializer.DateTimeService, Initializer.TrainingsManager)
+        public CalendarController() : this(Initializer.Db,Initializer.UserManager, Initializer.DaysManager, Initializer.DateTimeService, Initializer.TrainingsManager, Initializer.factory)
         {
 
         }
-        public CalendarController(IDatabaseGateway db, IUserManager userManager, IDaysManager dayManager, IDateTimeService dateTimeService, ITrainingsManager trainingManager)
+        public CalendarController(IDatabaseGateway db, IUserManager userManager, IDaysManager dayManager, IDateTimeService dateTimeService, ITrainingsManager trainingManager, IModelFactory factory)
         {
             this.db = db;
             this.userManager = userManager;
             this.dayManager = dayManager;
             this.dateTimeService = dateTimeService;
             this.trainingManager = trainingManager;
+            this.factory = factory;
         }
 
         public RedirectToRouteResult SignUp(string id)
@@ -62,7 +64,7 @@ namespace Speranza.Controllers
             }
             db.AddUserToTraining((string)Session["Email"], id,dateTimeService.GetCurrentDate());
             Session["Message"] = CalendarMessages.SignUpSuccessful;
-            Session["Training"] = trainingManager.CreateModel(training);
+            Session["Training"] = factory.CreateTrainingModel(training);
             return RedirectToAction("Calendar");
         }
 
@@ -108,7 +110,7 @@ namespace Speranza.Controllers
             db.RemoveUserFromTraining((string)Session["Email"], id);
             Session["Message"] = CalendarMessages.UserWasSignedOff;
             ITraining training = db.GetTrainingData(id);
-            Session["Training"] = trainingManager.CreateModel(training);
+            Session["Training"] = factory.CreateTrainingModel(training);
 
             if (Request.UrlReferrer != null)
             {

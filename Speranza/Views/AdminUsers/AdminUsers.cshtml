@@ -140,7 +140,6 @@
             $('.trainingsDetails').click(function () {
                 var self = $(this);
                 var email = self.data("email");
-                alert(self.data("email"));
                 $.ajax({
                     url: "TrainingsDetails",
                     data: { id: email },

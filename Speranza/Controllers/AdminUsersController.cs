@@ -129,7 +129,19 @@ namespace Speranza.Controllers
 
         public ActionResult TrainingsDetails(string id)
         {
-            return Json("");
+            if (!userManager.IsUserAdmin(Session))
+            {
+                return RedirectToAction("Calendar", "Calendar");
+            }
+            if (string.IsNullOrEmpty(id))
+            {
+                return Json(string.Empty);
+            }
+            IList<ITrainingModel> trainings = userManager.GetFutureTrainingsForUser(id);
+            TrainingsDetailsModel model = new TrainingsDetailsModel();
+            model.Trainings = trainings;
+
+            return PartialView("TrainingsDetails",model);
         }
 
     }

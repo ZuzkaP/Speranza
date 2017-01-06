@@ -12,5 +12,6 @@ namespace Speranza.Services.Interfaces
     {
         IUserForAdminModel CreateUserForAdminModel(IUser user);
         ITrainingForAdminModel CreateTrainingForAdminModel(ITraining training);
+        ITrainingModel CreateTrainingModel(ITraining training);
     }
 }

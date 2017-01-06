@@ -15,5 +15,6 @@ namespace Speranza.Services.Interfaces
         void SetUserRoleToAdmin(string email, bool isAdmin);
         void SetUserCategory(string email, UserCategories category);
         int UpdateCountOfFreeSignUps(string email, int changeNumberOfSignUps);
+        IList<ITrainingModel> GetFutureTrainingsForUser(string v);
     }
 }

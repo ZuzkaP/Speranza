@@ -1,0 +1,32 @@
+﻿
+@model Speranza.Models.TrainingsDetailsModel
+
+@if(Model.Trainings == null || Model.Trainings.Count == 0)
+{
+    <p>Užívateľ nie je prihlásený na žiaden tréning.</p>
+}
+else
+{
+<table>
+    <thead>
+        <tr> 
+            <th>Dátum</th>
+            <th>Čas</th>
+            <th>Tréner</th>
+            <th>Popis</th>
+            <th>Akcie</th>
+        </tr>
+    </thead>
+
+    @foreach (var training in Model.Trainings)
+    {
+        <tr>
+            <td>@training.Time.ToString("dd.MM.yyyy")</td>
+            <td>@training.Time.ToString("hh:mm")</td>
+            <td>@training.Trainer</td>
+            <td>@training.Description</td>
+            <td>Odhlas pouzivatela</td>
+        </tr>
+    }
+</table>
+}

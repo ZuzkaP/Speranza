@@ -250,6 +250,45 @@ namespace Speranza.Tests.Controllers
             Assert.AreEqual(DECREASECOUNT*(-1), ((UpdateCountOfSignUpsModel)result.Data).ChangeNumberOfSignUps);
         }
 
+        [TestMethod]
+        public void NotShowTrainingsDetails_When_EmailIsEmpty()
+        {
+            InitializeAdminUsersController();
+
+            JsonResult result = (JsonResult)controller.TrainingsDetails(string.Empty);
+
+            Assert.AreEqual(string.Empty, result.Data);
+            userManager.Verify(r => r.GetFutureTrainingsForUser(It.IsAny<string>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void NotShowTrainingsDetails_When_LoggedUserIsNotAdmin()
+        {
+            InitializeAdminUsersController();
+            userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(false);
+
+            ActionResult result = controller.TrainingsDetails(USER_EMAIL);
+
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
+            userManager.Verify(r => r.GetFutureTrainingsForUser(It.IsAny<string>()), Times.Never);
+        }
+        
+        [TestMethod]
+        public void ShowTrainingsDetails()
+        {
+            InitializeAdminUsersController();
+            IList<ITrainingModel> trainings = new List<ITrainingModel>();
+            userManager.Setup(r => r.GetFutureTrainingsForUser(USER_EMAIL)).Returns(trainings);
+
+            PartialViewResult result = (PartialViewResult)controller.TrainingsDetails(USER_EMAIL);
+
+            TrainingsDetailsModel model = (TrainingsDetailsModel) result.Model;
+            Assert.AreEqual("TrainingsDetails", result.ViewName);
+            Assert.AreEqual(trainings, model.Trainings);
+        }
+
         private void InitializeAdminUsersController()
         {
             userManager = new Mock<IUserManager>();

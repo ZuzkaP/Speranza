@@ -6,7 +6,6 @@ namespace Speranza.Services.Interfaces
 {
     public interface ITrainingsManager
     {
-        ITrainingModel CreateModel(ITraining training);
         IList<ITrainingForAdminModel> GetAllTrainingsForAdmin();
     }
 }

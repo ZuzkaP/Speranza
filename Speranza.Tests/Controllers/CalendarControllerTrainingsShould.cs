@@ -26,6 +26,7 @@ namespace Speranza.Tests.Controllers
         private const string EMAIL = "testEmail";
         private Mock<ITrainingsManager> trainingManager;
         private readonly DateTime CURRENT_TIME = new DateTime(2017,1,1,10,00,00);
+        private Mock<IModelFactory> factory;
 
         [TestMethod]
         public void ReturnToLogin_When_UserIsNotLoggedIn()
@@ -122,7 +123,7 @@ namespace Speranza.Tests.Controllers
         {
             InitializeController();
             Mock<ITrainingModel> trainingModel = new Mock<ITrainingModel>();
-            trainingManager.Setup(r => r.CreateModel(training.Object)).Returns(trainingModel.Object);
+            factory.Setup(r => r.CreateTrainingModel(training.Object)).Returns(trainingModel.Object);
 
             RedirectToRouteResult result = calendar.SignOff(ID);
            
@@ -134,7 +135,7 @@ namespace Speranza.Tests.Controllers
         {
             InitializeController();
             Mock<ITrainingModel> trainingModel = new Mock<ITrainingModel>();
-            trainingManager.Setup(r => r.CreateModel(training.Object)).Returns(trainingModel.Object);
+            factory.Setup(r => r.CreateTrainingModel(training.Object)).Returns(trainingModel.Object);
 
             RedirectToRouteResult result = calendar.SignUp(ID);
 
@@ -159,6 +160,7 @@ namespace Speranza.Tests.Controllers
             userManager = new Mock<IUserManager>();
             daysManager = new Mock<IDaysManager>();
             trainingManager = new Mock<ITrainingsManager>();
+            factory = new Mock<IModelFactory>();
             dateTimeService = new Mock<IDateTimeService>();
             training = new Mock<ITraining>();
 
@@ -170,7 +172,7 @@ namespace Speranza.Tests.Controllers
 
             db = new Mock<IDatabaseGateway>();
             
-            calendar = new CalendarController(db.Object,userManager.Object, daysManager.Object, dateTimeService.Object,trainingManager.Object);
+            calendar = new CalendarController(db.Object,userManager.Object, daysManager.Object, dateTimeService.Object,trainingManager.Object,factory.Object);
             
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             calendar.ControllerContext = new FakeControllerContext(calendar, sessionItems);

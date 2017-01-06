@@ -26,6 +26,7 @@ namespace Speranza.Tests.Services
         private const string ID1 = "testID1";
         private const string ID2 = "testID2";
         private const string EMAIL= "testEmail";
+        private Mock<IModelFactory> factory;
 
         [TestMethod]
         public void ShowEmptyTrainingList_When_NoTrainingExists()
@@ -91,8 +92,8 @@ namespace Speranza.Tests.Services
 
             trainingModel1 = new Mock<ITrainingModel>();
             trainingModel2 = new Mock<ITrainingModel>();
-            trainingsManager.Setup(r => r.CreateModel(training1.Object)).Returns(trainingModel1.Object);
-            trainingsManager.Setup(r => r.CreateModel(training2.Object)).Returns(trainingModel2.Object);
+            factory.Setup(r => r.CreateTrainingModel(training1.Object)).Returns(trainingModel1.Object);
+            factory.Setup(r => r.CreateTrainingModel(training2.Object)).Returns(trainingModel2.Object);
         }
 
         [TestMethod]
@@ -176,7 +177,8 @@ namespace Speranza.Tests.Services
             db = new Mock<IDatabaseGateway>();
             trainingsManager = new Mock<ITrainingsManager>();
             dateTimeService = new Mock<IDateTimeService>();
-            manager = new DaysManager(db.Object, trainingsManager.Object, dateTimeService.Object);
+            factory = new Mock<IModelFactory>();
+            manager = new DaysManager(db.Object, trainingsManager.Object, dateTimeService.Object, factory.Object);
             dateTimeService.Setup(r => r.GetDayName(date)).Returns(MONDAY);
 
         }

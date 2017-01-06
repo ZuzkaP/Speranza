@@ -21,19 +21,21 @@ namespace Speranza.Controllers
         private ITrainingsManager trainingManager;
         private IDateTimeService dateTimeService;
         const int PASSWORD_LENGTH = 6;
+        private IModelFactory factory;
 
-        public AccountsController() : this(Initializer.Db, Initializer.Hasher, Initializer.UserManager, Initializer.TrainingsManager, Initializer.DateTimeService)
+        public AccountsController() : this(Initializer.Db, Initializer.Hasher, Initializer.UserManager, Initializer.TrainingsManager, Initializer.DateTimeService,Initializer.factory )
         {
 
         }
 
-        public AccountsController(IDatabaseGateway db, IHasher hasher,IUserManager userManager,ITrainingsManager trainingManager, IDateTimeService dateTimeService)
+        public AccountsController(IDatabaseGateway db, IHasher hasher,IUserManager userManager,ITrainingsManager trainingManager, IDateTimeService dateTimeService, IModelFactory factory)
         {
             this.db = db;
             this.hasher = hasher;
             this.userManager = userManager;
             this.trainingManager = trainingManager;
             this.dateTimeService = dateTimeService;
+            this.factory = factory;
         }
 
         // GET: Accounts
@@ -190,7 +192,7 @@ namespace Speranza.Controllers
                 List<ITrainingModel> pastTrainings = new List<ITrainingModel>();
                 foreach (var item in trainings)
                 {
-                    ITrainingModel trainingModel = trainingManager.CreateModel(item);
+                    ITrainingModel trainingModel = factory.CreateTrainingModel(item);
                     DateTime currentDate = dateTimeService.GetCurrentDate();
                     trainingModel.IsAllowedToSignOff = !(trainingModel.Time - currentDate < TimeSpan.FromHours(4));
                     

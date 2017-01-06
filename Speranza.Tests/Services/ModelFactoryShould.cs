@@ -29,6 +29,8 @@ namespace Speranza.Tests.Services
         private const int  NUMBEROFFREESIGNUPS = 5;
         private const int  NUMBEROFSIGNEDUPTRAININGS = 3;
 
+        private const int REGISTERED = 8;
+
         [TestMethod]
         public void CorrectlyCreateUserForAdminModel()
         {
@@ -63,6 +65,37 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(REGISTEREDNUMBER, model.RegisteredNumber);
             Assert.AreEqual(TIME, model.Time);
             Assert.AreEqual(TRAINER, model.Trainer);
+        }
+        
+        [TestMethod]
+        public void ReturnTheRightModelForEachTraining()
+        {
+            InitializeModelFactory();
+            PrepareTraining();
+
+            ITrainingModel model = factory.CreateTrainingModel(training.Object);
+
+            Assert.AreEqual(ID, model.ID);
+            Assert.AreEqual(TIME, model.Time);
+            Assert.AreEqual(CAPACITY, model.Capacity);
+            Assert.AreEqual(DESCRIPTION, model.Description);
+            Assert.AreEqual(TRAINER, model.Trainer);
+            Assert.AreEqual(REGISTERED, model.RegisteredNumber);
+            Assert.AreEqual(false, model.IsUserSignedUp);
+
+        }
+
+        private void PrepareTraining()
+        {
+            training = new Mock<ITraining>();
+
+            training.SetupGet(r => r.ID).Returns(ID);
+            training.SetupGet(r => r.Time).Returns(TIME);
+            training.SetupGet(r => r.Description).Returns(DESCRIPTION);
+            training.SetupGet(r => r.Trainer).Returns(TRAINER);
+            training.SetupGet(r => r.Capacity).Returns(CAPACITY);
+            training.SetupGet(r => r.RegisteredNumber).Returns(REGISTERED);
+
         }
 
         private void PrepareTrainingFromDatabase()

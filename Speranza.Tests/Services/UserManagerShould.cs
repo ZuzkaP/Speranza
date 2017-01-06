@@ -26,6 +26,9 @@ namespace Speranza.Tests.Services
         private const string EMAIL = "test";
         private readonly int INCRESENUMBEROFSIGNUPS = 10;
         private readonly int DECREASENUMBEROFSIGNUPS = -10;
+        private Mock<IDateTimeService> datetimeService;
+        private Mock<ITrainingModel> training2Model;
+        private Mock<ITrainingModel> training3Model;
 
         [TestMethod]
         public void ReturnFalse_When_SessionIsEmpty()
@@ -172,7 +175,35 @@ namespace Speranza.Tests.Services
 
             db.Verify(r => r.SetUserCategory(EMAIL, UserCategories.Gold), Times.Once);
         }
-        
+
+        [TestMethod]
+        public void GetOnlyFutureTrainingsFromDB()
+        {
+            InitializeUserManager();
+            PrepareDBAndFactoryWithThreeTrainings();
+            
+            IList<ITrainingModel> trainings = manager.GetFutureTrainingsForUser(EMAIL);
+            Assert.AreEqual(2, trainings.Count);
+            Assert.AreEqual(training2Model.Object, trainings[0]);
+            Assert.AreEqual(training3Model.Object, trainings[1]);
+        }
+
+        private void PrepareDBAndFactoryWithThreeTrainings()
+        {
+            Mock<ITraining> training1 = new Mock<ITraining>();
+            Mock<ITraining> training2 = new Mock<ITraining>();
+            Mock<ITraining> training3 = new Mock<ITraining>();
+            training2Model = new Mock<ITrainingModel>();
+            training3Model = new Mock<ITrainingModel>();
+            training1.SetupGet(r => r.Time).Returns(new DateTime(2016, 12, 31));
+            training2.SetupGet(r => r.Time).Returns(new DateTime(2017, 01, 20));
+            training3.SetupGet(r => r.Time).Returns(new DateTime(2017, 01, 15));
+            IList<ITraining> userTrainings = new List<ITraining>() { training1.Object,training2.Object,training3.Object};
+            db.Setup(r => r.GetTrainingsForUser(EMAIL)).Returns(userTrainings);
+            factory.Setup(r => r.CreateTrainingModel(training2.Object)).Returns(training2Model.Object);
+            factory.Setup(r => r.CreateTrainingModel(training3.Object)).Returns(training3Model.Object);
+        }
+
         private void PrepareDBWithNoUser()
         {
             db.Setup(r => r.GetAllUsers()).Returns(new List<IUser>());
@@ -182,10 +213,11 @@ namespace Speranza.Tests.Services
         {
             factory = new Mock<IModelFactory>();
             db = new Mock<IDatabaseGateway>();
-            manager = new UserManager(db.Object, factory.Object);
+            datetimeService = new Mock<IDateTimeService>();
+            manager = new UserManager(db.Object, factory.Object,datetimeService.Object);
             collection = new SessionStateItemCollection();
             context = new FakeControllerContext(null, collection);
-
+            datetimeService.Setup(r => r.GetCurrentDate()).Returns(new DateTime(2017, 01, 06));
         }
     }
 }

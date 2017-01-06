@@ -34,6 +34,7 @@ namespace Speranza.Tests.Controllers
         public const string CATEGORY = "Silver";
         public const int NUMBEROFFREESIGNUPS = 5;
         public const int NUMBEROFPASTRAININGS = 42;
+        private Mock<IModelFactory> factory;
 
         [TestMethod]
         public void ReturnToLogin_When_UserIsNotLoggedIn()
@@ -132,7 +133,7 @@ namespace Speranza.Tests.Controllers
             db.Setup(r => r.GetTrainingsForUser(USER_EMAIL)).Returns(trainings);
             Mock<ITraining> training1 = new Mock<ITraining>();
             Mock<ITrainingModel> training1Model = new Mock<ITrainingModel>();
-            trainingManager.Setup(r => r.CreateModel(training1.Object)).Returns(training1Model.Object);
+            factory.Setup(r => r.CreateTrainingModel(training1.Object)).Returns(training1Model.Object);
             trainings.Add(training1.Object);
 
             ViewResult result = (ViewResult)controller.UserProfile();
@@ -188,10 +189,10 @@ namespace Speranza.Tests.Controllers
             trainingModelB.SetupGet(r => r.Time).Returns(new DateTime(2016, 12, 5));
             trainingModelC.SetupGet(r => r.Time).Returns(new DateTime(2016, 12, 12));
             trainingModelD.SetupGet(r => r.Time).Returns(new DateTime(2016, 12, 22));
-            trainingManager.Setup(r => r.CreateModel(trainingA.Object)).Returns(trainingModelA.Object);
-            trainingManager.Setup(r => r.CreateModel(trainingB.Object)).Returns(trainingModelB.Object);
-            trainingManager.Setup(r => r.CreateModel(trainingC.Object)).Returns(trainingModelC.Object);
-            trainingManager.Setup(r => r.CreateModel(trainingD.Object)).Returns(trainingModelD.Object);
+            factory.Setup(r => r.CreateTrainingModel(trainingA.Object)).Returns(trainingModelA.Object);
+            factory.Setup(r => r.CreateTrainingModel(trainingB.Object)).Returns(trainingModelB.Object);
+            factory.Setup(r => r.CreateTrainingModel(trainingC.Object)).Returns(trainingModelC.Object);
+            factory.Setup(r => r.CreateTrainingModel(trainingD.Object)).Returns(trainingModelD.Object);
 
             dateTimeService.Setup(r => r.GetCurrentDate()).Returns(new DateTime(2016, 12, 17));
 
@@ -234,7 +235,7 @@ namespace Speranza.Tests.Controllers
 
             trainingModel = new Mock<ITrainingModel>();
             trainingModel.SetupGet(r => r.Time).Returns(new DateTime(2016, 12, 2, 18, 00, 00));
-            trainingManager.Setup(r => r.CreateModel(trainingD.Object)).Returns(trainingModel.Object);
+            factory.Setup(r => r.CreateTrainingModel(trainingD.Object)).Returns(trainingModel.Object);
 
             dateTimeService.Setup(r => r.GetCurrentDate()).Returns(date);
         }
@@ -247,7 +248,7 @@ namespace Speranza.Tests.Controllers
 
             trainingModel = new Mock<ITrainingModel>();
             trainingModel.SetupGet(r => r.Time).Returns(new DateTime(2016, 12, 2, 12,00,00));
-            trainingManager.Setup(r => r.CreateModel(trainingD.Object)).Returns(trainingModel.Object);
+            factory.Setup(r => r.CreateTrainingModel(trainingD.Object)).Returns(trainingModel.Object);
 
             dateTimeService.Setup(r => r.GetCurrentDate()).Returns(date);
         }
@@ -258,7 +259,8 @@ namespace Speranza.Tests.Controllers
             userManager = new Mock<IUserManager>();
             trainingManager = new Mock<ITrainingsManager>();
             dateTimeService = new Mock<IDateTimeService>();
-            controller = new AccountsController(db.Object,null,userManager.Object, trainingManager.Object,dateTimeService.Object);
+            factory = new Mock<IModelFactory>();
+            controller = new AccountsController(db.Object,null,userManager.Object, trainingManager.Object,dateTimeService.Object,factory.Object);
             userData = new Mock<IUser>();
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             controller.ControllerContext = new FakeControllerContext(controller, sessionItems);

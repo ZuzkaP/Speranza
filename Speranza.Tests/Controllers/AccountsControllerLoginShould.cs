@@ -20,12 +20,14 @@ namespace Speranza.Tests.Controllers
         private Mock<IDatabaseGateway> db;
         private Mock<IUser> user;
         private Mock<IHasher> hasher;
+        private Mock<IModelFactory> factory;
 
         private void InitializeController()
         {
             db = new Mock<IDatabaseGateway>();
             hasher = new Mock<IHasher>();
-            controller = new AccountsController(db.Object,hasher.Object,null,null,null);
+            factory = new Mock<IModelFactory>();
+            controller = new AccountsController(db.Object,hasher.Object,null,null,null,factory.Object);
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
 
             controller.ControllerContext = new FakeControllerContext(controller, sessionItems);
