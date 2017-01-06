@@ -35,12 +35,12 @@ namespace Speranza.Database
             users.Add("miro", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Miro", Surname = "Pavlicko", PhoneNumber = "1234" , IsAdmin = false , NumberOfFreeSignUps = 10});
             trainings = new List<ITraining>();
 
-            trainings.Add(PrepareTraining(new DateTime(2017, 1, 5, 12, 00, 00), "training c.1", "Zuzka", 10 ));
-            trainings.Add(PrepareTraining(new DateTime(2017, 1, 5, 14, 00, 00), "training c.2", "Dano", 10));
-            trainings.Add(PrepareTraining(new DateTime(2017, 1, 2, 08, 00, 00), "training c.4", "Filip", 10 ));
-            trainings.Add(PrepareTraining(new DateTime(2017, 1, 2, 14, 00, 00), "training c.5", "Filip", 10 ));
-            trainings.Add(PrepareTraining(new DateTime(2017, 1, 2, 09, 00, 00), "training c.3", "Filip", 10 ));
-            trainings.Add(PrepareTraining(new DateTime(2016, 12, 25, 09, 00, 00), "training c.3", "Filip", 10 ));
+            trainings.Add(PrepareTraining(new DateTime(2017, 1, 15, 12, 00, 00), "training c.1", "Zuzka", 10 ));
+            trainings.Add(PrepareTraining(new DateTime(2017, 1, 10, 14, 00, 00), "training c.2", "Dano", 10));
+            trainings.Add(PrepareTraining(new DateTime(2017, 1, 10, 08, 00, 00), "training c.4", "Filip", 10 ));
+            trainings.Add(PrepareTraining(new DateTime(2017, 1, 19, 14, 00, 00), "training c.5", "Filip", 10 ));
+            trainings.Add(PrepareTraining(new DateTime(2017, 1, 13, 09, 00, 00), "training c.3", "Filip", 10 ));
+            trainings.Add(PrepareTraining(new DateTime(2016, 12,18, 09, 00, 00), "training c.3", "Filip", 10 ));
             usersInTrainings.Add(new UserInTraining() { Email = "admin", TrainingID = trainings[0].ID });
             usersInTrainings.Add(new UserInTraining() { Email = "admin", TrainingID = trainings[5].ID });
         }
@@ -107,7 +107,7 @@ namespace Speranza.Database
                 user.Name = users[email].Name;
                 user.Surname = users[email].Surname;
                 user.PhoneNumber = users[email].PhoneNumber;
-                user.NumberOfFreeSignUps = users[email].NumberOfFreeSignUps;
+                user.NumberOfFreeSignUpsOnSeasonTicket = users[email].NumberOfFreeSignUps;
                 user.NumberOfPastTrainings = usersInTrainings.Count(r=> r.Email == email && trainings.First(p=>p.ID == r.TrainingID).Time < DateTime.Now);
                 return user;
             }
@@ -179,8 +179,9 @@ namespace Speranza.Database
                 user.Name = users[email].Name;
                 user.Surname = users[email].Surname;
                 user.PhoneNumber = users[email].PhoneNumber;
-                user.NumberOfFreeSignUps = users[email].NumberOfFreeSignUps;
-
+                user.NumberOfFreeSignUpsOnSeasonTicket = users[email].NumberOfFreeSignUps;
+                user.NumberOfSignedUpTrainings = usersInTrainings.Count(r => r.Email == email && trainings.First(p => p.ID == r.TrainingID).Time > DateTime.Now);
+                
                 allusers.Add(user);
             }
             return allusers;

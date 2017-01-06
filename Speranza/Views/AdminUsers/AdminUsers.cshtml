@@ -23,6 +23,7 @@
                 <th>Tel. číslo</th>
                 <th>Kategória</th>
                 <th>Stav permanentky</th>
+                <th>Tréningy</th>
                 <th>Admin</th>
             </tr>
         </thead>
@@ -46,6 +47,10 @@
                         <button type="button" class="btn btn-danger  SignUpCount" data-count="-10" data-email="@user.Email">-10</button>
                         <button type="button" class="btn btn-danger  SignUpCount" data-count="-20" data-email="@user.Email">-20</button>
                     </div>
+                </td>
+                <td>
+                    <span>@user.TrainingCount</span>
+                    <span class="label label-info">Detail</span>
                 </td>
                 <td>@Html.CheckBox("IsAdmin", user.IsAdmin, new { id = user.Email, @class = "IsAdmin" }) </td>
             </tr>

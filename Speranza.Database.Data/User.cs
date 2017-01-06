@@ -25,7 +25,9 @@ namespace Speranza.Database.Data
 
         public int NumberOfPastTrainings { get; set; }
 
-        public int NumberOfFreeSignUps { get; set; }
-       
+        public int NumberOfFreeSignUpsOnSeasonTicket { get; set; }
+
+        public int NumberOfSignedUpTrainings { get; set; }
+
     }
 }

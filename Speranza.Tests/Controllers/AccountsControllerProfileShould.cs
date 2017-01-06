@@ -81,7 +81,7 @@ namespace Speranza.Tests.Controllers
         private void PrepareUserFromDB()
         {
             userData.SetupGet(u => u.Category).Returns(UserCategories.Silver);
-            userData.SetupGet(u => u.NumberOfFreeSignUps).Returns(NUMBEROFFREESIGNUPS);
+            userData.SetupGet(u => u.NumberOfFreeSignUpsOnSeasonTicket).Returns(NUMBEROFFREESIGNUPS);
             userData.SetupGet(u => u.NumberOfPastTrainings).Returns(NUMBEROFPASTRAININGS);
         }
 

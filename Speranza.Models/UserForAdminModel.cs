@@ -23,5 +23,7 @@ namespace Speranza.Models
 
         public int NumberOfFreeSignUps { get; set; }
 
+        public int TrainingCount { get; set; }
+
     }
 }

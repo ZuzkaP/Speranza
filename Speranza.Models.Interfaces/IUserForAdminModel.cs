@@ -15,5 +15,6 @@ namespace Speranza.Models.Interfaces
          bool IsAdmin { get; }
          string Category { get; set; }
          int NumberOfFreeSignUps { get; set; }
+        int TrainingCount { get; set; }
     }
 }

@@ -34,7 +34,8 @@ namespace Speranza.Services
             model.PhoneNumber = user.PhoneNumber;
             model.IsAdmin = user.IsAdmin;
             model.Category = user.Category.ToString();
-            model.NumberOfFreeSignUps = user.NumberOfFreeSignUps;
+            model.NumberOfFreeSignUps = user.NumberOfFreeSignUpsOnSeasonTicket;
+            model.TrainingCount = user.NumberOfSignedUpTrainings;
 
             return model;
         }
