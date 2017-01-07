@@ -25,8 +25,31 @@ else
                 <td>@training.Time.ToString("hh:mm")</td>
                 <td>@training.Trainer</td>
                 <td>@training.Description</td>
-                <td>Odhlas pouzivatela</td>
+                <td><a id="UserSignOut" data-email="@Model.Email" data-training="@training.ID">Odhlás používateľa</a></td>
             </tr>
         }
     </table>
+
+    <script>
+
+     $(function() {
+            $('#UserSignOut').click(function() {
+
+                var self = $(this);
+                var id = self.data('email');
+                var training = self.data('training');
+                $.ajax({
+                    url: "SignOutFromTraining",
+                    data: { id: id, training: training },
+                    type: 'POST',
+                    dataType: "json",
+                    success: function(response) {
+                    }
+                });
+
+            });
+     });
+
+        </script>
+
 }

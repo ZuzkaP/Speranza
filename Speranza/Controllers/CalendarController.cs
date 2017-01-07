@@ -107,10 +107,9 @@ namespace Speranza.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            db.RemoveUserFromTraining((string)Session["Email"], id);
+            ITrainingModel model = trainingManager.RemoveUserFromTraining((string)Session["Email"], id);
             Session["Message"] = CalendarMessages.UserWasSignedOff;
-            ITraining training = db.GetTrainingData(id);
-            Session["Training"] = factory.CreateTrainingModel(training);
+            Session["Training"] = model;
 
             if (Request.UrlReferrer != null)
             {

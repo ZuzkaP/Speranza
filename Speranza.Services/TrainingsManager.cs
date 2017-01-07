@@ -31,5 +31,16 @@ namespace Speranza.Services
             }
             return trainingsForAdmin;
         }
+
+
+
+        public ITrainingModel RemoveUserFromTraining(string email, string id)
+        {
+            db.RemoveUserFromTraining(email, id);
+            ITraining training = db.GetTrainingData(id);
+            ITrainingModel model = factory.CreateTrainingModel(training);
+
+            return model;
+        }
     }
 }

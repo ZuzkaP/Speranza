@@ -99,7 +99,7 @@ namespace Speranza.Tests.Controllers
 
             RedirectToRouteResult result = calendar.SignOff(ID);
 
-            db.Verify(r => r.RemoveUserFromTraining(EMAIL, ID));
+            trainingManager.Verify(r => r.RemoveUserFromTraining(EMAIL, ID));
             Assert.AreEqual("Calendar", result.RouteValues["action"]);
             Assert.AreEqual(CalendarMessages.UserWasSignedOff, calendar.Session["Message"]);
         }
@@ -112,7 +112,7 @@ namespace Speranza.Tests.Controllers
                 
             RedirectToRouteResult result = calendar.SignOff(ID);
 
-            db.Verify(r => r.RemoveUserFromTraining(EMAIL, ID));
+            trainingManager.Verify(r => r.RemoveUserFromTraining(EMAIL, ID));
             Assert.AreEqual("UserProfile", result.RouteValues["action"]);
             Assert.AreEqual("Accounts", result.RouteValues["controller"]);
             Assert.AreEqual(CalendarMessages.UserWasSignedOff, calendar.Session["Message"]);
@@ -123,7 +123,7 @@ namespace Speranza.Tests.Controllers
         {
             InitializeController();
             Mock<ITrainingModel> trainingModel = new Mock<ITrainingModel>();
-            factory.Setup(r => r.CreateTrainingModel(training.Object)).Returns(trainingModel.Object);
+            trainingManager.Setup(r => r.RemoveUserFromTraining(EMAIL, ID)).Returns(trainingModel.Object);
 
             RedirectToRouteResult result = calendar.SignOff(ID);
            

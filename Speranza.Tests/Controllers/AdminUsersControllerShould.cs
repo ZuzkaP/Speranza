@@ -289,6 +289,34 @@ namespace Speranza.Tests.Controllers
             Assert.AreEqual(trainings, model.Trainings);
         }
 
+        [TestMethod]
+        public void ShowUserEmail()
+        {
+            InitializeAdminUsersController();
+            IList<ITrainingModel> trainings = new List<ITrainingModel>();
+            userManager.Setup(r => r.GetFutureTrainingsForUser(USER_EMAIL)).Returns(trainings);
+
+            PartialViewResult result = (PartialViewResult)controller.TrainingsDetails(USER_EMAIL);
+
+            TrainingsDetailsModel model = (TrainingsDetailsModel)result.Model;
+            Assert.AreEqual(USER_EMAIL, model.Email);
+        }
+
+        //[TestMethod]
+        //public void ShouldNotSignOut_When_UserIsNotAdmin()
+        //{
+        //    InitializeAdminUsersController();
+        //    userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(false);
+
+        //    ActionResult result = controller.SignOutFromTraining(USER_EMAIL,TRAINING_ID);
+
+        //    Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+        //    Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
+        //    Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
+        //    userManager.Verify(r => r.GetFutureTrainingsForUser(It.IsAny<string>()), Times.Never);
+
+        //}
+
         private void InitializeAdminUsersController()
         {
             userManager = new Mock<IUserManager>();

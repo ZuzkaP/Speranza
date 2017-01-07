@@ -26,7 +26,8 @@ namespace Speranza.Tests.Services
         private Mock<IModelFactory> factory;
         private Mock<ITrainingForAdminModel> training2Model;
         private Mock<ITrainingForAdminModel> training1Model;
-
+        private const string EMAIL = "test";
+        private const string TRAINING_ID = "testID";
 
         [TestMethod]
         public void ReturnEmptyList_When_NoTrainingExistsInDB()
@@ -54,6 +55,33 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(2, trainings.Count);
             Assert.AreEqual(training1Model.Object, trainings[0]);
             Assert.AreEqual(training2Model.Object, trainings[1]);
+        }
+
+        [TestMethod]
+        public void RemoveUserFromTraining()
+        {
+            InitializeManager();
+
+            manager.RemoveUserFromTraining(EMAIL, ID);
+
+            db.Verify(r => r.RemoveUserFromTraining(EMAIL, TRAINING_ID));
+
+        }
+
+        [TestMethod]
+        public void RemoveUserFromTraining_And_ReturnModel()
+        {
+            InitializeManager();
+            var factoryModel = new Mock<ITrainingModel>();
+            var training = new Mock<ITraining>();
+            db.Setup(r => r.GetTrainingData(ID)).Returns(training.Object);
+            factory.Setup(r => r.CreateTrainingModel(training.Object)).Returns(factoryModel.Object);
+           
+            ITrainingModel model = manager.RemoveUserFromTraining(EMAIL, ID);
+
+            Assert.AreEqual(factoryModel.Object, model);
+
+
         }
 
         private void PrepareFactory()

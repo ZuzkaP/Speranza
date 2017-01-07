@@ -9,6 +9,7 @@ namespace Speranza.Models
 {
     public class TrainingsDetailsModel
     {
+        public string Email { get; set; }
         public IList<ITrainingModel> Trainings { get; set; }
     }
 }

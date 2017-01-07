@@ -140,8 +140,14 @@ namespace Speranza.Controllers
             IList<ITrainingModel> trainings = userManager.GetFutureTrainingsForUser(id);
             TrainingsDetailsModel model = new TrainingsDetailsModel();
             model.Trainings = trainings;
+            model.Email = id;
 
             return PartialView("TrainingsDetails",model);
+        }
+
+        public ActionResult SignOutFromTraining(string id, string training)
+        {
+            return Json("");
         }
 
     }
