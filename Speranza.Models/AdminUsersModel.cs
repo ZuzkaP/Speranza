@@ -5,14 +5,15 @@ using System.Web;
 
 namespace Speranza.Models
 {
-    public enum UsersAdminMessages
+    public enum AdminUsersMessages
     {
         NoMessage = 0,
         SuccessfullyClearAdminRole = 1,
         SuccessfullySetAdminRole = 2,
         SuccessfullyChangedCategory = 3,
         SuccessfullyIncreasedCountOfSignUps = 4,
-        SuccessfullyDecreasedCountOfSignUps = 5
+        SuccessfullyDecreasedCountOfSignUps = 5,
+        SuccessfullyUserSignOffFromTraining = 6
     }
     public class AdminUsersModel 
     {

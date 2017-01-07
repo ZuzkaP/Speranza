@@ -18,15 +18,17 @@ namespace Speranza.Controllers
     public class AdminUsersController : Controller
     {
         IUserManager userManager;
+        private ITrainingsManager trainingManager;
 
-        public AdminUsersController(): this(Initializer.UserManager)
+        public AdminUsersController(): this(Initializer.UserManager,Initializer.TrainingsManager)
         {
 
         }
 
-        public AdminUsersController( IUserManager userManager)
+        public AdminUsersController( IUserManager userManager, ITrainingsManager trainingManager)
         {
             this.userManager = userManager;
+            this.trainingManager = trainingManager;
         }
         // GET: AdminUsers
         public ActionResult AdminUsers()
@@ -68,11 +70,11 @@ namespace Speranza.Controllers
 
             if(isAdmin)
             {
-                model.Message = UsersAdminMessages.SuccessfullySetAdminRole;
+                model.Message = AdminUsersMessages.SuccessfullySetAdminRole;
             }
             else
             {
-                model.Message = UsersAdminMessages.SuccessfullyClearAdminRole;
+                model.Message = AdminUsersMessages.SuccessfullyClearAdminRole;
             }
             return Json(model);
         }
@@ -94,7 +96,7 @@ namespace Speranza.Controllers
             UpdateCategoryModel model = new UpdateCategoryModel();
             model.Category = category;
             model.Email = id;
-            model.Message = UsersAdminMessages.SuccessfullyChangedCategory;
+            model.Message = AdminUsersMessages.SuccessfullyChangedCategory;
             return Json(model);
         }
 
@@ -117,12 +119,12 @@ namespace Speranza.Controllers
             if(countUpdate > 0)
             {
                 model.ChangeNumberOfSignUps = countUpdate;
-                model.Message = UsersAdminMessages.SuccessfullyIncreasedCountOfSignUps;
+                model.Message = AdminUsersMessages.SuccessfullyIncreasedCountOfSignUps;
             }
             else
             {
                 model.ChangeNumberOfSignUps = countUpdate*(-1);
-                model.Message = UsersAdminMessages.SuccessfullyDecreasedCountOfSignUps;
+                model.Message = AdminUsersMessages.SuccessfullyDecreasedCountOfSignUps;
             }
             return Json(model);
         }
@@ -147,7 +149,18 @@ namespace Speranza.Controllers
 
         public ActionResult SignOutFromTraining(string id, string training)
         {
-            return Json("");
+            if (!userManager.IsUserAdmin(Session))
+            {
+                return RedirectToAction("Calendar", "Calendar");
+            }
+            if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(training))
+            {
+                return Json(string.Empty);
+            }
+            trainingManager.RemoveUserFromTraining(id, training);
+            UserSignOffModel model = new UserSignOffModel();
+            model.Message = AdminUsersMessages.SuccessfullyUserSignOffFromTraining;
+            return Json(model);
         }
 
     }

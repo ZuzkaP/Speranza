@@ -11,6 +11,6 @@ namespace Speranza.Models
         public int AfterChangeNumberOfSignUps { get; set; }
         public string Email { get; set; }
         public int ChangeNumberOfSignUps { get; set; }
-        public UsersAdminMessages Message { get; set; }
+        public AdminUsersMessages Message { get; set; }
     }
 }

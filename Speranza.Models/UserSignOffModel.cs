@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Speranza.Models
 {
-    public class ToggleAdminModel
+   public class UserSignOffModel
     {
         public AdminUsersMessages Message { get; set; }
-        public string Email { get; set; }
     }
 }

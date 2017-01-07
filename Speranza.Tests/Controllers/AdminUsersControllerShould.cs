@@ -25,6 +25,8 @@ namespace Speranza.Tests.Controllers
         private const int DECREASECOUNT = -20;
 
         private const int CHANGEDCOUNT = 12;
+        private const string TRAINING_ID = "id";
+        private Mock<ITrainingsManager> trainingManager;
 
         [TestMethod]
         public void ReturnToCalendar_When_ClickOnAdminUsers_And_UserIsNotLogin()
@@ -113,7 +115,7 @@ namespace Speranza.Tests.Controllers
             JsonResult result = (JsonResult)controller.ToggleAdmin(USER_EMAIL, true);
 
             userManager.Verify(r => r.SetUserRoleToAdmin(USER_EMAIL, true), Times.Once);
-            Assert.AreEqual(UsersAdminMessages.SuccessfullySetAdminRole, ((ToggleAdminModel)result.Data).Message);
+            Assert.AreEqual(AdminUsersMessages.SuccessfullySetAdminRole, ((ToggleAdminModel)result.Data).Message);
             Assert.AreEqual(USER_EMAIL, ((ToggleAdminModel)result.Data).Email);
         }
 
@@ -126,7 +128,7 @@ namespace Speranza.Tests.Controllers
 
             userManager.Verify(r => r.SetUserRoleToAdmin(USER_EMAIL, false), Times.Once);
 
-            Assert.AreEqual(UsersAdminMessages.SuccessfullyClearAdminRole,((ToggleAdminModel) result.Data).Message);
+            Assert.AreEqual(AdminUsersMessages.SuccessfullyClearAdminRole,((ToggleAdminModel) result.Data).Message);
             Assert.AreEqual(USER_EMAIL, ((ToggleAdminModel)result.Data).Email);
         }
 
@@ -189,7 +191,7 @@ namespace Speranza.Tests.Controllers
             JsonResult result =(JsonResult) controller.UserCategory(USER_EMAIL, CATEGORY);
             
             userManager.Verify(r => r.SetUserCategory(USER_EMAIL,UserCategories.Gold), Times.Once);
-            Assert.AreEqual(UsersAdminMessages.SuccessfullyChangedCategory, ((UpdateCategoryModel)result.Data).Message);
+            Assert.AreEqual(AdminUsersMessages.SuccessfullyChangedCategory, ((UpdateCategoryModel)result.Data).Message);
             Assert.AreEqual(USER_EMAIL, ((UpdateCategoryModel)result.Data).Email);
             Assert.AreEqual(CATEGORY, ((UpdateCategoryModel)result.Data).Category);
         }
@@ -229,7 +231,7 @@ namespace Speranza.Tests.Controllers
             JsonResult result = (JsonResult)controller.UpdateSignUpCount(USER_EMAIL, INCREASECOUNT);
 
             userManager.Verify(r => r.UpdateCountOfFreeSignUps(USER_EMAIL, INCREASECOUNT), Times.Once);
-            Assert.AreEqual(UsersAdminMessages.SuccessfullyIncreasedCountOfSignUps, ((UpdateCountOfSignUpsModel)result.Data).Message);
+            Assert.AreEqual(AdminUsersMessages.SuccessfullyIncreasedCountOfSignUps, ((UpdateCountOfSignUpsModel)result.Data).Message);
             Assert.AreEqual(USER_EMAIL, ((UpdateCountOfSignUpsModel)result.Data).Email);
             Assert.AreEqual(CHANGEDCOUNT, ((UpdateCountOfSignUpsModel)result.Data).AfterChangeNumberOfSignUps);
             Assert.AreEqual(INCREASECOUNT, ((UpdateCountOfSignUpsModel)result.Data).ChangeNumberOfSignUps);
@@ -244,7 +246,7 @@ namespace Speranza.Tests.Controllers
             JsonResult result = (JsonResult)controller.UpdateSignUpCount(USER_EMAIL, DECREASECOUNT);
 
             userManager.Verify(r => r.UpdateCountOfFreeSignUps(USER_EMAIL, DECREASECOUNT), Times.Once);
-            Assert.AreEqual(UsersAdminMessages.SuccessfullyDecreasedCountOfSignUps, ((UpdateCountOfSignUpsModel)result.Data).Message);
+            Assert.AreEqual(AdminUsersMessages.SuccessfullyDecreasedCountOfSignUps, ((UpdateCountOfSignUpsModel)result.Data).Message);
             Assert.AreEqual(USER_EMAIL, ((UpdateCountOfSignUpsModel)result.Data).Email);
             Assert.AreEqual(CHANGEDCOUNT, ((UpdateCountOfSignUpsModel)result.Data).AfterChangeNumberOfSignUps);
             Assert.AreEqual(DECREASECOUNT*(-1), ((UpdateCountOfSignUpsModel)result.Data).ChangeNumberOfSignUps);
@@ -302,25 +304,58 @@ namespace Speranza.Tests.Controllers
             Assert.AreEqual(USER_EMAIL, model.Email);
         }
 
-        //[TestMethod]
-        //public void ShouldNotSignOut_When_UserIsNotAdmin()
-        //{
-        //    InitializeAdminUsersController();
-        //    userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(false);
+        [TestMethod]
+        public void NotSignOut_When_UserIsNotAdmin()
+        {
+            InitializeAdminUsersController();
+            userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(false);
 
-        //    ActionResult result = controller.SignOutFromTraining(USER_EMAIL,TRAINING_ID);
+            ActionResult result = controller.SignOutFromTraining(USER_EMAIL, TRAINING_ID);
 
-        //    Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
-        //    Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
-        //    Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
-        //    userManager.Verify(r => r.GetFutureTrainingsForUser(It.IsAny<string>()), Times.Never);
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
+            trainingManager.Verify(r => r.RemoveUserFromTraining(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
 
-        //}
+        [TestMethod]
+        public void NotSignOut_When_EmailIsEmpty()
+        {
+            InitializeAdminUsersController();
+
+            JsonResult result = (JsonResult)controller.SignOutFromTraining(string.Empty, TRAINING_ID);
+
+            Assert.AreEqual(string.Empty, result.Data);
+            trainingManager.Verify(r => r.RemoveUserFromTraining(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void NotSignOut_When_TrainingIDisEmpty()
+        {
+            InitializeAdminUsersController();
+
+            JsonResult result = (JsonResult)controller.SignOutFromTraining(USER_EMAIL, string.Empty);
+
+            Assert.AreEqual(string.Empty, result.Data);
+            trainingManager.Verify(r => r.RemoveUserFromTraining(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+        
+        [TestMethod]
+        public void SignOff()
+        {
+            InitializeAdminUsersController();
+
+            JsonResult result = (JsonResult)controller.SignOutFromTraining(USER_EMAIL, TRAINING_ID);
+            
+            trainingManager.Verify(r => r.RemoveUserFromTraining(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            Assert.AreEqual(AdminUsersMessages.SuccessfullyUserSignOffFromTraining, ((UserSignOffModel)result.Data).Message);
+        }
 
         private void InitializeAdminUsersController()
         {
             userManager = new Mock<IUserManager>();
-            controller = new AdminUsersController(userManager.Object);
+            trainingManager = new Mock<ITrainingsManager>();
+            controller = new AdminUsersController(userManager.Object,trainingManager.Object);
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             controller.ControllerContext = new FakeControllerContext(controller, sessionItems);
             controller.Session["Email"] = USER_EMAIL;

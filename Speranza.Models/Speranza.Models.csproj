@@ -57,6 +57,7 @@
     <Compile Include="UpdateCountOfSignUpsModel.cs" />
     <Compile Include="UserForAdminModel.cs" />
     <Compile Include="UserProfileModel.cs" />
+    <Compile Include="UserSignOffModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Speranza.Models.Interfaces\Speranza.Models.Interfaces.csproj">

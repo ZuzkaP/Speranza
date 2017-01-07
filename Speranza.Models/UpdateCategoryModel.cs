@@ -10,6 +10,6 @@ namespace Speranza.Models
     {
         public string Category { get; set; }
         public string Email { get; set; }
-        public UsersAdminMessages Message { get; set; }
+        public AdminUsersMessages Message { get; set; }
     }
 }
