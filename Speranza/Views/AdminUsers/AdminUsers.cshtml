@@ -22,7 +22,7 @@
                 <th>Email</th>
                 <th>Tel. číslo</th>
                 <th>Kategória</th>
-                <th>Stav permanentky</th>
+                <th colspan="2">Stav permanentky</th>
                 <th>Tréningy</th>
                 <th>Admin</th>
             </tr>
@@ -39,7 +39,9 @@
                 </td>
                 <td>
                     <span id="freeSignUpsCell-@user.Email"> @user.NumberOfFreeSignUps </span>
-                    <div class="btn-group btn-group-xs col-lg-offset-1">
+                    </td>
+                    <td>
+                    <div class="btn-group btn-group-xs">
                         <button type="button" class="btn btn-primary SignUpCount" data-count="1" data-email="@user.Email"> +1</button>
                         <button type="button" class="btn btn-primary SignUpCount" data-count="10" data-email="@user.Email">+10</button>
                         <button type="button" class="btn btn-primary SignUpCount" data-count="20" data-email="@user.Email">+20</button>
@@ -50,13 +52,31 @@
                 </td>
                 <td>
                     <span>@user.TrainingCount</span>
-                    <span class="label label-info trainingsDetails" data-email="@user.Email">Detail</span>
+                        <span class="label label-info trainingsDetails" style="cursor:pointer" data-email="@user.Email">Detail</span>
                 </td>
                 <td>@Html.CheckBox("IsAdmin", user.IsAdmin, new { id = user.Email, @class = "IsAdmin" }) </td>
             </tr>
         }
     </table>
+
 </div>
+
+<div class="modal fade" id="trainingDetailsModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Tréningy používateľa <span id="modalTitleEmail"></span></h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Zatvoriť</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 @section scripts {
     <script>
@@ -144,11 +164,12 @@
                     url: "TrainingsDetails",
                     data: { id: email },
                     type: 'POST',
-                    dataType: "json",
+                    dataType: "html",
                     success: function (response) {
-
+                        $('.modal-body').html(response);
+                        $('#modalTitleEmail').html(email);
+                        $('#trainingDetailsModal').modal('show');
                     }
-
                 });
 
             });
