@@ -27,6 +27,7 @@ namespace Speranza.Tests.Controllers
         private const int CHANGEDCOUNT = 12;
         private const string TRAINING_ID = "id";
         private Mock<ITrainingsManager> trainingManager;
+        private readonly DateTime TRAININGDATE = new DateTime(2017, 01, 01, 00, 00, 00);
 
         [TestMethod]
         public void ReturnToCalendar_When_ClickOnAdminUsers_And_UserIsNotLogin()
@@ -344,11 +345,17 @@ namespace Speranza.Tests.Controllers
         public void SignOff()
         {
             InitializeAdminUsersController();
+            var trainingModel = new Mock<ITrainingModel>();
+            trainingModel.SetupGet(r => r.Time).Returns(TRAININGDATE);
+            trainingManager.Setup(r => r.RemoveUserFromTraining(USER_EMAIL, TRAINING_ID)).Returns(trainingModel.Object);
 
             JsonResult result = (JsonResult)controller.SignOutFromTraining(USER_EMAIL, TRAINING_ID);
             
             trainingManager.Verify(r => r.RemoveUserFromTraining(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
             Assert.AreEqual(AdminUsersMessages.SuccessfullyUserSignOffFromTraining, ((UserSignOffModel)result.Data).Message);
+            Assert.AreEqual(USER_EMAIL, ((UserSignOffModel)result.Data).Email);
+            Assert.AreEqual(TRAININGDATE.ToString("dd/MM/yyyy"), ((UserSignOffModel)result.Data).TrainingDate);
+            Assert.AreEqual(TRAININGDATE.ToString("hh:mm"), ((UserSignOffModel)result.Data).TrainingTime);
         }
 
         private void InitializeAdminUsersController()
