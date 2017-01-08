@@ -15,13 +15,17 @@ else
                 <th>Akcia</th>
             </tr>
             </thead>
+
         @foreach (var user in Model.Users)
         {
-            <tr>@user.Name </tr>
-            <tr>@user.Surname </tr>
-            <tr>@user.Email</tr>
-            <tr>Odhlásiť</tr>
+         <tr>
+            <td>@user.Name </td>
+            <td>@user.Surname </td>
+            <td>@user.Email</td>
+            <td>Odhlásiť</td>
+        </tr>
         }
 
         </table>
+
 }
