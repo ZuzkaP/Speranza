@@ -236,6 +236,13 @@ namespace Speranza.Database
             }
         }
 
+        public IList<IUser> GetUsersInTraining(string trainingID)
+        {
+            var usersInTraining = usersInTrainings.Where(r => r.TrainingID == trainingID);
+
+            return usersInTraining.Select(r => GetUserData(r.Email)).ToList();
+        }
+
         private class UserInTraining
         {
           public  string Email { get; set; }

@@ -32,7 +32,17 @@ namespace Speranza.Services
             return trainingsForAdmin;
         }
 
-
+        public IList<IUserForTrainingDetailModel> GetAllUsersInTraining(string trainingID)
+        {
+           IList<IUser> users = db.GetUsersInTraining(trainingID);
+            IList<IUserForTrainingDetailModel> models = new List<IUserForTrainingDetailModel>();
+            foreach (var item in users)
+            {
+                IUserForTrainingDetailModel model = factory.CreateUsersForTrainingDetailModel(item);
+                models.Add(model);
+            }
+            return models;
+        }
 
         public ITrainingModel RemoveUserFromTraining(string email, string id)
         {

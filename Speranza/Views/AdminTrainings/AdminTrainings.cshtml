@@ -45,6 +45,7 @@
 
                 var self = $(this);
                 var trainingID = self.data('training');
+                //value z textboxu
                 var value = self.prop('value');
                 $.ajax({
                     url: "ChangeTrainer",
@@ -58,6 +59,27 @@
                             $('#messageBox').show();
                         }
                            
+                    }
+                });
+
+            });
+        });
+
+
+        $(function () {
+            $('.trainingsDetails').click(function () {
+
+                var self = $(this);
+                var trainingID = self.data('training');
+                $.ajax({
+                    //controller method
+                    url: "TrainingDetails",
+                    //controller method parameter : trainingID
+                    data: { trainingID: trainingID },
+                    type: 'POST',
+                    dataType: "json",
+                    success: function (response) {
+                         
                     }
                 });
 

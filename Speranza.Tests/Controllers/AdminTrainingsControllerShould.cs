@@ -119,6 +119,45 @@ namespace Speranza.Tests.Controllers
             trainingManager.Verify(r => r.SetTrainer(TRAINING_ID, TRAINER), Times.Once);
         }
 
+        [TestMethod]
+        public void NotShowTrainingsDetails_When_TrainingIsEmpty()
+        {
+            InitializeAdminTrainingsController();
+
+            JsonResult result = (JsonResult)controller.TrainingDetails(string.Empty);
+
+            Assert.AreEqual(string.Empty, result.Data);
+            trainingManager.Verify(r => r.GetAllUsersInTraining(It.IsAny<string>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void NotShowTrainingsDetails_When_LoggedUserIsNotAdmin()
+        {
+            InitializeAdminTrainingsController();
+            userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(false);
+
+            ActionResult result = controller.TrainingDetails(TRAINING_ID);
+
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
+            trainingManager.Verify(r => r.GetAllUsersInTraining(It.IsAny<string>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void ShowTrainingsDetails()
+        {
+            InitializeAdminTrainingsController();
+            IList<IUserForTrainingDetailModel> users = new List<IUserForTrainingDetailModel>();
+            trainingManager.Setup(r => r.GetAllUsersInTraining(TRAINING_ID)).Returns(users);
+
+            PartialViewResult result = (PartialViewResult)controller.TrainingDetails(TRAINING_ID);
+
+            UsersInTrainingModel model = (UsersInTrainingModel)result.Model;
+            Assert.AreEqual("UsersInTraining", result.ViewName);
+            Assert.AreEqual(users, model.Users);
+        }
+
         private void InitializeAdminTrainingsController()
         {
             userManager = new Mock<IUserManager>();

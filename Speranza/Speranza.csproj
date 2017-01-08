@@ -139,6 +139,7 @@
     <Content Include="Views\AdminTrainings\AdminTrainings.cshtml" />
     <Content Include="Views\AdminUsers\AdminUsers.cshtml" />
     <Content Include="Views\AdminUsers\TrainingsDetails.cshtml" />
+    <Content Include="Views\AdminTrainings\UsersInTraining.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

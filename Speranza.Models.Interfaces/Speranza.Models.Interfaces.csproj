@@ -44,6 +44,7 @@
     <Compile Include="ITrainingModel.cs" />
     <Compile Include="ITrainingsForAdminModel.cs" />
     <Compile Include="IUserForAdminModel.cs" />
+    <Compile Include="IUserForTrainingDetailModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

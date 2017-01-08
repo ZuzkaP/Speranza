@@ -26,6 +26,8 @@ namespace Speranza.Tests.Services
         private Mock<ITrainingForAdminModel> training1Model;
         private const string EMAIL = "test";
         private const string TRAINING_ID = "testID";
+        private Mock<IUserForTrainingDetailModel> user2Model;
+        private Mock<IUserForTrainingDetailModel> user1Model;
 
         [TestMethod]
         public void ReturnEmptyList_When_NoTrainingExistsInDB()
@@ -88,6 +90,33 @@ namespace Speranza.Tests.Services
             manager.SetTrainer(TRAINING_ID, TRAINER);
 
             db.Verify(r => r.SetTrainer(TRAINING_ID, TRAINER), Times.Once);
+        }
+
+        [TestMethod]
+        public void GetUsersInTrainingFromDB()
+        {
+            InitializeTrainingManager();
+            PrepareDBAndFactoryWithTwoUsers();
+
+            var users = manager.GetAllUsersInTraining(TRAINING_ID);
+
+            Assert.AreEqual(2, users.Count);
+            Assert.AreEqual(user1Model.Object, users[0]);
+            Assert.AreEqual(user2Model.Object, users[1]);
+        }
+
+        private void PrepareDBAndFactoryWithTwoUsers()
+        {
+            var user1 = new Mock<IUser>();
+            var user2 = new Mock<IUser>();
+            var users = new List<IUser>() { user1.Object, user2.Object };
+            db.Setup(r => r.GetUsersInTraining(TRAINING_ID)).Returns(users);
+
+            user1Model = new Mock<IUserForTrainingDetailModel>();
+            user2Model = new Mock<IUserForTrainingDetailModel>();
+
+            factory.Setup(r => r.CreateUsersForTrainingDetailModel(user1.Object)).Returns(user1Model.Object);
+            factory.Setup(r => r.CreateUsersForTrainingDetailModel(user2.Object)).Returns(user2Model.Object);
         }
 
         private void PrepareFactory()

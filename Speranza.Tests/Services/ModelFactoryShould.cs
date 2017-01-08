@@ -82,7 +82,20 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(TRAINER, model.Trainer);
             Assert.AreEqual(REGISTERED, model.RegisteredNumber);
             Assert.AreEqual(false, model.IsUserSignedUp);
+        }
 
+        [TestMethod]
+        public void ReturnUsersInTrainingModel()
+        {
+            InitializeModelFactory();
+            PrepareUserFromDatabase();
+
+            IUserForTrainingDetailModel model = factory.CreateUsersForTrainingDetailModel(user.Object);
+
+            Assert.AreEqual(NAME, model.Name);
+            Assert.AreEqual(SURNAME, model.Surname);
+            Assert.AreEqual(EMAIL, model.Email);
+            
         }
 
         private void PrepareTraining()

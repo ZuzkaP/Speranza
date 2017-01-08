@@ -25,5 +25,6 @@ namespace Speranza.Database
         void SetUserCategory(string email, UserCategories category);
         int UpdateCountOfFreeSignUps(string email, int changeNumberOfSignUps);
         void SetTrainer(string trainingID, string trainer);
+        IList<IUser> GetUsersInTraining(string trainingID);
     }
 }

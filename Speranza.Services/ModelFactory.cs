@@ -54,5 +54,15 @@ namespace Speranza.Services
 
             return model;
         }
+
+        public IUserForTrainingDetailModel CreateUsersForTrainingDetailModel(IUser user)
+        {
+            IUserForTrainingDetailModel model = new UserForTrainingDetailModel();
+            model.Name = user.Name;
+            model.Surname = user.Surname;
+            model.Email = user.Email;
+
+            return model;
+        }
     }
 }
