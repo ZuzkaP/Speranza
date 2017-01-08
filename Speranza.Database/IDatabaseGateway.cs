@@ -24,5 +24,6 @@ namespace Speranza.Database
         void SetAdminRole(string email, bool isAdmin);
         void SetUserCategory(string email, UserCategories category);
         int UpdateCountOfFreeSignUps(string email, int changeNumberOfSignUps);
+        void SetTrainer(string trainingID, string trainer);
     }
 }

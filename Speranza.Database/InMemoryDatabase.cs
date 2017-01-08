@@ -227,6 +227,15 @@ namespace Speranza.Database
             return 0;
         }
 
+        public void SetTrainer(string trainingID, string trainer)
+        {
+            var training = trainings.FirstOrDefault(r => r.ID == trainingID);
+            if(training != null)
+            {
+                training.Trainer = trainer;
+            }
+        }
+
         private class UserInTraining
         {
           public  string Email { get; set; }

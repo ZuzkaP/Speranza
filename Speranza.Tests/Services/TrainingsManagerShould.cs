@@ -14,11 +14,9 @@ namespace Speranza.Tests.Services
     public class TrainingsManagerShould
     {
         private TrainingsManager manager;
-        private Mock<ITraining> training;
         private readonly DateTime TIME = new DateTime(2016,1,1,16,00,00);
         private const string DESCRIPTION = "description";
         private const string TRAINER = "trainer";
-        private const string ID = "testID";
         private const int CAPACITY = 10;
         private Mock<IDatabaseGateway> db;
         private Mock<ITraining> training1;
@@ -32,7 +30,7 @@ namespace Speranza.Tests.Services
         [TestMethod]
         public void ReturnEmptyList_When_NoTrainingExistsInDB()
         {
-            InitializeManager();
+            InitializeTrainingManager();
             PrepareDBWithNoTrainings();
 
            var trainings = manager.GetAllTrainingsForAdmin();
@@ -45,7 +43,7 @@ namespace Speranza.Tests.Services
         [TestMethod]
         public void ReturnListWithTraining_When_TrainingExistsInDB()
         {
-            InitializeManager();
+            InitializeTrainingManager();
             PrepareDBWithTwoTrainings();
             PrepareFactory();
 
@@ -60,9 +58,9 @@ namespace Speranza.Tests.Services
         [TestMethod]
         public void RemoveUserFromTraining()
         {
-            InitializeManager();
+            InitializeTrainingManager();
 
-            manager.RemoveUserFromTraining(EMAIL, ID);
+            manager.RemoveUserFromTraining(EMAIL,TRAINING_ID);
 
             db.Verify(r => r.RemoveUserFromTraining(EMAIL, TRAINING_ID));
 
@@ -71,17 +69,25 @@ namespace Speranza.Tests.Services
         [TestMethod]
         public void RemoveUserFromTraining_And_ReturnModel()
         {
-            InitializeManager();
+            InitializeTrainingManager();
             var factoryModel = new Mock<ITrainingModel>();
             var training = new Mock<ITraining>();
-            db.Setup(r => r.GetTrainingData(ID)).Returns(training.Object);
+            db.Setup(r => r.GetTrainingData(TRAINING_ID)).Returns(training.Object);
             factory.Setup(r => r.CreateTrainingModel(training.Object)).Returns(factoryModel.Object);
            
-            ITrainingModel model = manager.RemoveUserFromTraining(EMAIL, ID);
+            ITrainingModel model = manager.RemoveUserFromTraining(EMAIL, TRAINING_ID);
 
             Assert.AreEqual(factoryModel.Object, model);
+        }
 
+        [TestMethod]
+        public void SetTrainer()
+        {
+            InitializeTrainingManager();
 
+            manager.SetTrainer(TRAINING_ID, TRAINER);
+
+            db.Verify(r => r.SetTrainer(TRAINING_ID, TRAINER), Times.Once);
         }
 
         private void PrepareFactory()
@@ -106,7 +112,7 @@ namespace Speranza.Tests.Services
             db.Setup(r => r.GetAllTrainings()).Returns(new List<ITraining>());
         }
         
-        private void InitializeManager()
+        private void InitializeTrainingManager()
         {
             db = new Mock<IDatabaseGateway>();
             factory = new Mock<IModelFactory>();

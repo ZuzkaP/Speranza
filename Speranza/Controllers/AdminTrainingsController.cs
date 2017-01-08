@@ -45,5 +45,20 @@ namespace Speranza.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
+
+        public ActionResult ChangeTrainer(string trainingID, string trainer)
+        {
+            if (!userManager.IsUserAdmin(Session))
+            {
+                return RedirectToAction("Calendar", "Calendar");
+            }
+            if(string.IsNullOrEmpty(trainer) || string.IsNullOrEmpty(trainingID))
+            {
+                return Json("");
+            }
+            trainingManager.SetTrainer(trainingID, trainer);
+            
+            return Json(AdminTrainingsMessages.TrainerWasSuccessfullyChanged);
+        }
     }
 }

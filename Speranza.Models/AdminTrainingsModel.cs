@@ -7,6 +7,12 @@ using Speranza.Models.Interfaces;
 
 namespace Speranza.Models
 {
+    public enum AdminTrainingsMessages
+    {
+        NoMessage = 0,
+        TrainerWasSuccessfullyChanged = 1
+    }
+
     public class AdminTrainingsModel
     {
         public IList<ITrainingForAdminModel> Trainings { get; set; }
