@@ -29,7 +29,7 @@
             <tr>
                 <td id="@item.ID-date">@item.Time.ToString("dd.MM.yyyy")</td>
                 <td id="@item.ID-time">@item.Time.ToString("HH:mm")</td>
-                <td><input type="text" value="@item.Description" class="trainingDescription form-control input-sm" data-training="@item.ID" /></td>
+                <td><textarea  class="trainingDescription form-control input-sm" rows="1" data-training="@item.ID">@item.Description</textarea></td>
                 <td><input type="text" value="@item.Trainer" class="trainingTrainer form-control input-sm" data-training="@item.ID"/></td>
                 <td>
                 @item.RegisteredNumber
@@ -42,6 +42,7 @@
     </table>
 </div>
 
+@*Modal window with All users sign up in training*@
 <div class="modal fade" id="trainingDetailsModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -60,6 +61,7 @@
 </div><!-- /.modal -->
 
 
+@*New training modal window*@
 <div class="modal fade" id="NewTraining" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -67,9 +69,9 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Vytvoriť nový tréning</h4>
             </div>
-            <div class="modal-body">
+            <div class="modal-body form-horizontal">
 
-
+                @*Training date*@
                 <div class="form-group" id="TrainingDate">
                     @Html.Label("Dátum: ", new { @class = "control-label col-sm-3" })
                     <div class="input-group date col-sm-2">
@@ -77,34 +79,35 @@
                     </div>
                 </div>
 
-
-
-
+               @*Training time*@
                 <div class="form-group">
                     @Html.Label("Čas", new { @class = "control-label col-sm-3" })
                     <div class="input-group bootstrap-timepicker timepicker col-sm-2">
                         <input  id="TrainingTime" data-format="hh:mm" type="text" class="form-control"/>
-                        <span class="input-group-addon">
+                        <span class="input-group-addon" id="trainingTimeButton">
                             <i class="glyphicon glyphicon-time">
                             </i>
                         </span>
                     </div>
                 </div>
 
+                @*Training trainer*@
                     <div class="form-group">
-                        @Html.Label("Tréner", new { @class = "control-label col-sm-3" })
-                        <div class="col-sm-9">
-                            @Html.TextBox("Trainer", new { @class = "form-control" })
+                        @Html.Label("Tréner", new { @class = "control-label col-sm-3", @for= "Trainer" })
+                        <div class="col-sm-4">
+                            @Html.TextBox("Trainer","", new { @class = "form-control" })
                         </div>
                     </div>
 
+                @*Training Description*@
                     <div class="form-group">
-                        @Html.Label("Popis ", new { @class = "control-label col-sm-3" })
-                        <div class="col-sm-9">
-                            @Html.TextBox("Description", new { @class = "form-control" })
+                        @Html.Label("Popis ", new { @class = "control-label col-sm-3", @for = "Description" })
+                        <div class="col-sm-4">
+                            @Html.TextArea("Description","", new { @class = "form-control" })
                         </div>
                     </div>
 
+                @*SaveButton*@
                     <button type="button" class="btn btn-default" data-dismiss="modal">Uložiť</button>
 
                 </div>
@@ -243,7 +246,17 @@
         });
 
      
-        $('#TrainingTime .input-group.date').timepicker(
+        $('#TrainingTime').timepicker(
+            {
+                showPeriodLabels: false,
+                showOn: 'both',
+                button: '#trainingTimeButton',
+                hourText: 'Hodiny',            
+                minuteText: 'Minúty',
+                minutes: {               
+                    interval: 15          
+                }
+            }
           );
     
 
