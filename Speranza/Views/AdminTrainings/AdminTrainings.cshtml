@@ -131,7 +131,9 @@
                     type: 'POST',
                     dataType: "json",
                     success: function (response) {
-                        if (response == 1) {
+                        if (response == 1)
+                        {
+                            $('#messageBoxWarning').hide();
                             $('#messageBox').html("Tréningu <b>" + $('#' + trainingID + "-date").html() + " " + $('#' + trainingID + "-time").html() + "</b> bol zmenený popis na: <b>" + value + "</b>");
                             $('#messageBox').show();
                         }
@@ -157,6 +159,7 @@
                     success: function (response) {
                         if (response == 2)
                         {
+                            $('#messageBoxWarning').hide();
                             $('#messageBox').html("Tréningu <b>" + $('#' + trainingID + "-date").html() + " " + $('#' + trainingID + "-time").html() + "</b> bol priradený nový tréner: <b>" + value + "</b>");
                             $('#messageBox').show();
                         }
@@ -166,7 +169,6 @@
 
             });
         });
-
 
         $(function () {
             $('.trainingCapacity').change(function () {
@@ -182,11 +184,13 @@
                     dataType: "json",
                     success: function (response) {
                         if (response == 3) {
+                            $('#messageBoxWarning').hide();
                             $('#messageBox').html("Kapacita tréningu <b>" + $('#' + trainingID + "-date").html() + " " + $('#' + trainingID + "-time").html() + "</b> bola zmenená na: <b>" + value + "</b>");
                             $('#messageBox').show();
                         }
                         else if(response == 4)
                         {
+                            $('#messageBox').hide();
                             $('#messageBoxWarning').html("Kapacita tréningu nemôže byť menšia ako 0!!");
                             $('#messageBoxWarning').show();
                         }
