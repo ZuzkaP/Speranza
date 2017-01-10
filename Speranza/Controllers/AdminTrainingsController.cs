@@ -40,7 +40,7 @@ namespace Speranza.Controllers
 
                 IList<ITrainingForAdminModel> trainings = trainingManager.GetAllTrainingsForAdmin();
                 AdminTrainingsModel model = new AdminTrainingsModel();
-                model.Trainings = trainings;
+                model.Trainings = trainings.OrderBy(s => s.Time).ToList();
                 return View("AdminTrainings",model);
             }
             return RedirectToAction("Index", "Home");
