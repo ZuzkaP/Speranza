@@ -63,7 +63,7 @@
 
 @*New training modal window*@
 <div class="modal fade" id="NewTraining" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -73,8 +73,8 @@
 
                 @*Training date*@
                 <div class="form-group" id="TrainingDate">
-                    @Html.Label("Dátum: ", new { @class = "control-label col-sm-3" })
-                    <div class="input-group date col-sm-2">
+                    @Html.Label("Dátum", new { @class = "control-label col-sm-3" })
+                    <div class="input-group date col-sm-4">
                         <input type="text" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                     </div>
                 </div>
@@ -82,7 +82,7 @@
                @*Training time*@
                 <div class="form-group">
                     @Html.Label("Čas", new { @class = "control-label col-sm-3" })
-                    <div class="input-group bootstrap-timepicker timepicker col-sm-2">
+                    <div class="input-group col-sm-4">
                         <input  id="TrainingTime" data-format="hh:mm" type="text" class="form-control"/>
                         <span class="input-group-addon" id="trainingTimeButton">
                             <i class="glyphicon glyphicon-time">
@@ -94,25 +94,25 @@
                 @*Training trainer*@
                     <div class="form-group">
                         @Html.Label("Tréner", new { @class = "control-label col-sm-3", @for= "Trainer" })
-                        <div class="col-sm-4">
+                        <div class="col-sm-6 input-group">
                             @Html.TextBox("Trainer","", new { @class = "form-control" })
                         </div>
                     </div>
 
                 @*Training Description*@
                     <div class="form-group">
-                        @Html.Label("Popis ", new { @class = "control-label col-sm-3", @for = "Description" })
-                        <div class="col-sm-4">
+                        @Html.Label("Popis", new { @class = "control-label col-sm-3", @for = "Description" })
+                        <div class="col-sm-6 input-group">
                             @Html.TextArea("Description","", new { @class = "form-control" })
                         </div>
                     </div>
 
-                @*SaveButton*@
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Uložiť</button>
-
+               
                 </div>
            
             <div class="modal-footer">
+                @*SaveButton*@
+                <button type="button" class="btn btn-default" data-dismiss="modal">Vytvoriť</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Zrušiť</button>
             </div>
         </div><!-- /.modal-content -->
