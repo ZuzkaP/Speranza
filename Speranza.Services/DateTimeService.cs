@@ -2,6 +2,7 @@
 using Speranza.Models.Interfaces;
 using Speranza.Services;
 using Speranza.Services.Interfaces;
+using Speranza.Services.Interfaces.Exceptions;
 
 namespace Speranza.Services
 {
@@ -19,7 +20,26 @@ namespace Speranza.Services
 
         public DateTime ParseDateTime(string date, string time)
         {
-            throw new NotImplementedException();
+            if(string.IsNullOrEmpty(date))
+            {
+                throw new InvalidDateException();
+            }
+            if(string.IsNullOrEmpty(time))
+            {
+                throw new InvalidTimeException();
+            }
+            DateTime resultDate;
+            if (!DateTime.TryParse(date, out resultDate))
+            {
+                throw new InvalidDateException();
+            }
+            DateTime resultTime;
+            if (!DateTime.TryParse(time, out resultTime))
+            {
+                throw new InvalidTimeException();
+            }
+
+            return resultDate.AddHours(resultTime.Hour).AddMinutes(resultTime.Minute);
         }
     }
 }

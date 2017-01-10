@@ -24,7 +24,6 @@ namespace Speranza.Tests.Controllers
         private const string TRAINER ="Zuzka";
         private Mock<ITrainingsManager> trainingManager;
         private Mock<IUserManager> userManager;
-        private const string INVALID_DATE = "jozko";
         private Mock<IDateTimeService> dateTimeService;
         private readonly DateTime DATETIME= new DateTime(2017,01,01,12,00,00);
         private const string TRAINING_ID = "trainingID";
