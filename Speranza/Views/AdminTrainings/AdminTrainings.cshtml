@@ -24,7 +24,7 @@
                 <th>Akcia</th>
             </tr>
         </thead>
-        @foreach (var item in Model.Trainings)
+        @foreach (var item in Model.Trainings.OrderBy(s => s.Time))
         {
             <tr>
                 <td id="@item.ID-date">@item.Time.ToString("dd.MM.yyyy")</td>
@@ -191,7 +191,7 @@
                         else if(response == 4)
                         {
                             $('#messageBox').hide();
-                            $('#messageBoxWarning').html("Kapacita tréningu nemôže byť menšia ako 0!!");
+                            $('#messageBoxWarning').html("Kapacita tréningu nemôže byť menšia ako 0!");
                             $('#messageBoxWarning').show();
                         }
 

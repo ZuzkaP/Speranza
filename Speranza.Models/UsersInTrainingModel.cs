@@ -10,5 +10,7 @@ namespace Speranza.Models
    public class UsersInTrainingModel
     {
         public IList<IUserForTrainingDetailModel> Users { get; set; }
+
+        public string TrainingID { get; set; }
     }
 }
