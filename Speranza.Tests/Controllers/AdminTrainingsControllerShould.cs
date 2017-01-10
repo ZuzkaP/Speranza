@@ -20,6 +20,7 @@ namespace Speranza.Tests.Controllers
         private Mock<ITrainingsManager> trainingManager;
         private const string TRAINING_ID = "testID";
         private const string TRAINER = "Miro";
+        private const string TRAINING_DESCRIPTION = "description";
 
         [TestMethod]
         public void ReturnToCalendar_When_ClickOnAdminUsers_And_UserIsNotLogin()
@@ -115,8 +116,56 @@ namespace Speranza.Tests.Controllers
 
             JsonResult result = (JsonResult)controller.ChangeTrainer(TRAINING_ID, TRAINER);
 
-            Assert.AreEqual(AdminTrainingsMessages.TrainerWasSuccessfullyChanged, result.Data);
+            Assert.AreEqual(AdminTrainingsMessages.TraininingDescriptionWasSuccessfullyChanged, result.Data);
             trainingManager.Verify(r => r.SetTrainer(TRAINING_ID, TRAINER), Times.Once);
+        }
+
+        [TestMethod]
+        public void ReturnToCalendar_When_ChangingTrainingDescription_And_UserIsNotAdmin()
+        {
+            InitializeAdminTrainingsController();
+            userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(false);
+
+            ActionResult result = controller.ChangeTrainingDescription(TRAINING_ID, TRAINING_DESCRIPTION);
+
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
+            trainingManager.Verify(r => r.SetTrainingDescription(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+
+        }
+
+        [TestMethod]
+        public void ReturnToCalendar_When_ChangingTrainingDescription_And_TrainingIsNull()
+        {
+            InitializeAdminTrainingsController();
+
+            JsonResult result = (JsonResult)controller.ChangeTrainingDescription(string.Empty, TRAINING_DESCRIPTION);
+
+            Assert.AreEqual(string.Empty, result.Data);
+            trainingManager.Verify(r => r.SetTrainingDescription(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void ReturnToCalendar_When_ChangingTrainingDescription_And_TrainingDescriptionIsNull()
+        {
+            InitializeAdminTrainingsController();
+
+            JsonResult result = (JsonResult)controller.ChangeTrainingDescription(TRAINING_ID, string.Empty);
+
+            Assert.AreEqual(string.Empty, result.Data);
+            trainingManager.Verify(r => r.SetTrainingDescription(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void ChangeTrainingDescription()
+        {
+            InitializeAdminTrainingsController();
+
+            JsonResult result = (JsonResult)controller.ChangeTrainingDescription(TRAINING_ID, TRAINING_DESCRIPTION);
+
+            Assert.AreEqual(AdminTrainingsMessages.TraininingDescriptionWasSuccessfullyChanged, result.Data);
+            trainingManager.Verify(r => r.SetTrainingDescription(TRAINING_ID, TRAINING_DESCRIPTION), Times.Once);
         }
 
         [TestMethod]

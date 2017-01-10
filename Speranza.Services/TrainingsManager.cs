@@ -57,5 +57,10 @@ namespace Speranza.Services
         {
             db.SetTrainer(trainingID, trainer);
         }
+
+        public void SetTrainingDescription(string trainingID, string trainingDescription)
+        {
+            db.SetTrainingDescription(trainingID, trainingDescription);
+        }
     }
 }

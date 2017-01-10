@@ -61,6 +61,21 @@ namespace Speranza.Controllers
             return Json(AdminTrainingsMessages.TrainerWasSuccessfullyChanged);
         }
 
+        public ActionResult ChangeTrainingDescription(string trainingID, string description)
+        {
+            if (!userManager.IsUserAdmin(Session))
+            {
+                return RedirectToAction("Calendar", "Calendar");
+            }
+            if (string.IsNullOrEmpty(description) || string.IsNullOrEmpty(trainingID))
+            {
+                return Json("");
+            }
+            trainingManager.SetTrainingDescription(trainingID, description);
+
+            return Json(AdminTrainingsMessages.TraininingDescriptionWasSuccessfullyChanged);
+        }
+
         public ActionResult TrainingDetails(string trainingID)
         {
             if (!userManager.IsUserAdmin(Session))

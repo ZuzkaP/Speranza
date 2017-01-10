@@ -10,5 +10,6 @@ namespace Speranza.Services.Interfaces
         ITrainingModel RemoveUserFromTraining(string email, string id);
         void SetTrainer(string traininingID, string trainer);
         IList<IUserForTrainingDetailModel> GetAllUsersInTraining(string trainingID);
+        void SetTrainingDescription(string trainingID, string trainingDescription);
     }
 }

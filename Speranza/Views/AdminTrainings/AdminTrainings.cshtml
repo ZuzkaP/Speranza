@@ -4,7 +4,10 @@
     Layout = "~/Views/Layout.cshtml";
 }
 <div class="container">
-    <h2>Správa tréningov</h2>
+    <h2>
+        Správa tréningov
+        <button id="AddNewTraining" class="btn btn-warning"><span class="glyphicon glyphicon-plus"></span></button>
+    </h2>
 
     <div id="messageBox" style="display:none;" class="alert alert-success" role="alert"></div>
 
@@ -25,7 +28,7 @@
             <tr>
                 <td id="@item.ID-date">@item.Time.ToString("dd.MM.yyyy")</td>
                 <td id="@item.ID-time">@item.Time.ToString("HH:mm")</td>
-                <td><input type="text" value="@item.Description" class="trainingDescription form-control input-sm" /></td>
+                <td><input type="text" value="@item.Description" class="trainingDescription form-control input-sm" data-training="@item.ID" /></td>
                 <td><input type="text" value="@item.Trainer" class="trainingTrainer form-control input-sm" data-training="@item.ID"/></td>
                 <td>
                 @item.RegisteredNumber
@@ -55,8 +58,89 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+
+<div class="modal fade" id="NewTraining" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Vytvoriť nový tréning</h4>
+            </div>
+            <div class="modal-body">
+
+
+                <div class="form-group" id="TrainingDate">
+                    @Html.Label("Dátum: ", new { @class = "control-label col-sm-3" })
+                    <div class="input-group date col-sm-2">
+                        <input type="text" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                    </div>
+                </div>
+
+
+
+
+                <div class="form-group">
+                    @Html.Label("Čas", new { @class = "control-label col-sm-3" })
+                    <div class="input-group bootstrap-timepicker timepicker col-sm-2">
+                        <input  id="TrainingTime" data-format="hh:mm" type="text" class="form-control"/>
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-time">
+                            </i>
+                        </span>
+                    </div>
+                </div>
+
+                    <div class="form-group">
+                        @Html.Label("Tréner", new { @class = "control-label col-sm-3" })
+                        <div class="col-sm-9">
+                            @Html.TextBox("Trainer", new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Popis ", new { @class = "control-label col-sm-3" })
+                        <div class="col-sm-9">
+                            @Html.TextBox("Description", new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Uložiť</button>
+
+                </div>
+           
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Zrušiť</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 @section scripts {
     <script>
+        $(function () {
+            $('.trainingDescription').change(function () {
+
+                var self = $(this);
+                var trainingID = self.data('training');
+                //value z textboxu
+                var value = self.prop('value');
+                $.ajax({
+                    url: "ChangeTrainingDescription",
+                    data: { trainingID: trainingID, description: value },
+                    type: 'POST',
+                    dataType: "json",
+                    success: function (response) {
+                        if (response == 1) {
+                            $('#messageBox').html("Tréningu <b>" + $('#' + trainingID + "-date").html() + " " + $('#' + trainingID + "-time").html() + "</b> bol zmenený pospis na: <b>" + value + "</b>");
+                            $('#messageBox').show();
+                        }
+
+                    }
+                });
+
+            });
+        });
+
         $(function () {
             $('.trainingTrainer').change(function () {
 
@@ -70,7 +154,7 @@
                     type: 'POST',
                     dataType: "json",
                     success: function (response) {
-                        if (response == 1)
+                        if (response == 2)
                         {
                             $('#messageBox').html("Tréningu <b>" + $('#' + trainingID + "-date").html() + " " + $('#' + trainingID + "-time").html() + "</b> bol priradený nový tréner: <b>" + value + "</b>");
                             $('#messageBox').show();
@@ -104,5 +188,29 @@
 
             });
         });
+
+        $(function () {
+            $('#AddNewTraining').click(function () {
+                $('#NewTraining').modal('show');
+
+            });
+
+        });
+
+        $('#TrainingDate .input-group.date').datepicker({
+            format: "dd.mm.yyyy",
+            weekStart: 1,
+            maxViewMode: 2,
+            language: "sk",
+            daysOfWeekHighlighted: "0,6",
+            todayHighlight: true,
+            todayBtn: "linked"
+        });
+
+     
+        $('#TrainingTime .input-group.date').timepicker(
+          );
+    
+
     </script>
     }

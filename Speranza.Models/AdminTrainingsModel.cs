@@ -10,7 +10,8 @@ namespace Speranza.Models
     public enum AdminTrainingsMessages
     {
         NoMessage = 0,
-        TrainerWasSuccessfullyChanged = 1
+        TraininingDescriptionWasSuccessfullyChanged = 1,
+        TrainerWasSuccessfullyChanged = 2
     }
 
     public class AdminTrainingsModel
