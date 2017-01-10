@@ -8,8 +8,9 @@
         Správa tréningov
         <button id="AddNewTraining" class="btn btn-warning"><span class="glyphicon glyphicon-plus"></span></button>
     </h2>
-
+    
     <div id="messageBox" style="display:none;" class="alert alert-success" role="alert"></div>
+    <div id="messageBoxWarning" style="display:none;" class="alert alert-warning" role="alert"></div>
 
     <table class="table table-striped table-hover">
         <thead>
@@ -34,7 +35,7 @@
                 @item.RegisteredNumber
                 <span class="label label-info trainingsDetails" style="cursor:pointer" data-training="@item.ID">Detail</span>
                 </td>
-                <td><input type="text" value="@item.Capacity" class="trainingCapacity form-control input-sm "/></td>
+                <td><input type="text" value="@item.Capacity" class="trainingCapacity form-control input-sm "data-training="@item.ID"/></td>
                 <td>Zrušiť tréning</td>
             </tr>
         }
@@ -131,7 +132,7 @@
                     dataType: "json",
                     success: function (response) {
                         if (response == 1) {
-                            $('#messageBox').html("Tréningu <b>" + $('#' + trainingID + "-date").html() + " " + $('#' + trainingID + "-time").html() + "</b> bol zmenený pospis na: <b>" + value + "</b>");
+                            $('#messageBox').html("Tréningu <b>" + $('#' + trainingID + "-date").html() + " " + $('#' + trainingID + "-time").html() + "</b> bol zmenený popis na: <b>" + value + "</b>");
                             $('#messageBox').show();
                         }
 
@@ -166,6 +167,36 @@
             });
         });
 
+
+        $(function () {
+            $('.trainingCapacity').change(function () {
+
+                var self = $(this);
+                var trainingID = self.data('training');
+                //value z textboxu
+                var value = self.prop('value');
+                $.ajax({
+                    url: "ChangeTrainingCapacity",
+                    data: { trainingID: trainingID, capacity: value },
+                    type: 'POST',
+                    dataType: "json",
+                    success: function (response) {
+                        if (response == 3) {
+                            $('#messageBox').html("Kapacita tréningu <b>" + $('#' + trainingID + "-date").html() + " " + $('#' + trainingID + "-time").html() + "</b> bola zmenená na: <b>" + value + "</b>");
+                            $('#messageBox').show();
+                        }
+                        else if(response == 4)
+                        {
+                            $('#messageBoxWarning').html("Kapacita tréningu nemôže byť menšia ako 0!!");
+                            $('#messageBoxWarning').show();
+                        }
+
+                      
+                        }
+                });
+
+            });
+        });
 
         $(function () {
             $('.trainingsDetails').click(function () {

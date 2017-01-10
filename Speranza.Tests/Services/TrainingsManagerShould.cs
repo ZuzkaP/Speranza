@@ -29,6 +29,7 @@ namespace Speranza.Tests.Services
         private Mock<IUserForTrainingDetailModel> user2Model;
         private Mock<IUserForTrainingDetailModel> user1Model;
         private const string TRAINING_DESCRIPTION = "description";
+        private const int TRAINING_CAPACITY = 10;
 
         [TestMethod]
         public void ReturnEmptyList_When_NoTrainingExistsInDB()
@@ -101,6 +102,16 @@ namespace Speranza.Tests.Services
             manager.SetTrainingDescription(TRAINING_ID, TRAINING_DESCRIPTION);
 
             db.Verify(r => r.SetTrainingDescription(TRAINING_ID, TRAINING_DESCRIPTION), Times.Once);
+        }
+
+        [TestMethod]
+        public void SetTrainingCapacity()
+        {
+            InitializeTrainingManager();
+
+            manager.SetTrainingCapacity(TRAINING_ID, TRAINING_CAPACITY);
+
+            db.Verify(r => r.SetTrainingCapacity(TRAINING_ID, TRAINING_CAPACITY), Times.Once);
         }
 
         [TestMethod]

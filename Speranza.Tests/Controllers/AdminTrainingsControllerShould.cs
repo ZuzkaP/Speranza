@@ -21,6 +21,8 @@ namespace Speranza.Tests.Controllers
         private const string TRAINING_ID = "testID";
         private const string TRAINER = "Miro";
         private const string TRAINING_DESCRIPTION = "description";
+        private const int TRAINING_CAPACITY = 8;
+        private const int TRAINING_CAPACITY_UNCORRECT = -1;
 
         [TestMethod]
         public void ReturnToCalendar_When_ClickOnAdminUsers_And_UserIsNotLogin()
@@ -88,7 +90,7 @@ namespace Speranza.Tests.Controllers
         }
 
         [TestMethod]
-        public void ReturnToCalendar_When_ChangingTrainer_And_TrainerIsNull()
+        public void NotToBeSet_When_ChangingTrainer_And_TrainerIsNull()
         {
             InitializeAdminTrainingsController();
 
@@ -99,7 +101,7 @@ namespace Speranza.Tests.Controllers
         }
 
         [TestMethod]
-        public void ReturnToCalendar_When_ChangingTrainer_And_TrainingIsNull()
+        public void NotToBeSet_When_ChangingTrainer_And_TrainingIsNull()
         {
             InitializeAdminTrainingsController();
 
@@ -116,7 +118,7 @@ namespace Speranza.Tests.Controllers
 
             JsonResult result = (JsonResult)controller.ChangeTrainer(TRAINING_ID, TRAINER);
 
-            Assert.AreEqual(AdminTrainingsMessages.TraininingDescriptionWasSuccessfullyChanged, result.Data);
+            Assert.AreEqual(AdminTrainingsMessages.TrainerWasSuccessfullyChanged, result.Data);
             trainingManager.Verify(r => r.SetTrainer(TRAINING_ID, TRAINER), Times.Once);
         }
 
@@ -136,7 +138,7 @@ namespace Speranza.Tests.Controllers
         }
 
         [TestMethod]
-        public void ReturnToCalendar_When_ChangingTrainingDescription_And_TrainingIsNull()
+        public void NotToBeSet_When_ChangingTrainingDescription_And_TrainingIsNull()
         {
             InitializeAdminTrainingsController();
 
@@ -147,7 +149,7 @@ namespace Speranza.Tests.Controllers
         }
 
         [TestMethod]
-        public void ReturnToCalendar_When_ChangingTrainingDescription_And_TrainingDescriptionIsNull()
+        public void NotToBeSet_When_ChangingTrainingCapacity_And_TrainingCapacityIsLessThanZero_When_ChangingTrainingDescription_And_TrainingDescriptionIsNull()
         {
             InitializeAdminTrainingsController();
 
@@ -166,6 +168,54 @@ namespace Speranza.Tests.Controllers
 
             Assert.AreEqual(AdminTrainingsMessages.TraininingDescriptionWasSuccessfullyChanged, result.Data);
             trainingManager.Verify(r => r.SetTrainingDescription(TRAINING_ID, TRAINING_DESCRIPTION), Times.Once);
+        }
+
+
+
+        [TestMethod]
+        public void ReturnToCalendar_When_ChangingTrainingCapacity_And_UserIsNotAdmin()
+        {
+            InitializeAdminTrainingsController();
+            userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(false);
+
+            ActionResult result = controller.ChangeTrainingCapacity(TRAINING_ID, TRAINING_CAPACITY);
+
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
+            trainingManager.Verify(r => r.SetTrainingCapacity(It.IsAny<string>(), It.IsAny<int>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void NotToBeSet_When_ChangingTrainingCapacity_And_TrainingCapacityIsLessThanZero()
+        {
+            InitializeAdminTrainingsController();
+
+            JsonResult result = (JsonResult)controller.ChangeTrainingCapacity(TRAINING_ID, TRAINING_CAPACITY_UNCORRECT);
+
+            Assert.AreEqual(AdminTrainingsMessages.TraininingCapacityCannotBeLessThanZero, result.Data);
+            trainingManager.Verify(r => r.SetTrainingCapacity(It.IsAny<string>(), It.IsAny<int>()), Times.Never);
+        }
+        [TestMethod]
+        public void NotToBeSet_ChangingTrainingCapacity_When_TrainingIDIsNull()
+        {
+            InitializeAdminTrainingsController();
+
+            JsonResult result = (JsonResult)controller.ChangeTrainingCapacity(string.Empty, TRAINING_CAPACITY_UNCORRECT);
+
+            Assert.AreEqual(string.Empty, result.Data);
+            trainingManager.Verify(r => r.SetTrainingCapacity(It.IsAny<string>(), It.IsAny<int>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void ChangeTrainingCapacity()
+        {
+            InitializeAdminTrainingsController();
+
+            JsonResult result = (JsonResult)controller.ChangeTrainingCapacity(TRAINING_ID, TRAINING_CAPACITY);
+
+            Assert.AreEqual(AdminTrainingsMessages.TraininingCapacityWasSuccessfullyChanged, result.Data);
+            trainingManager.Verify(r => r.SetTrainingCapacity(TRAINING_ID, TRAINING_CAPACITY), Times.Once);
         }
 
         [TestMethod]

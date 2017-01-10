@@ -11,7 +11,9 @@ namespace Speranza.Models
     {
         NoMessage = 0,
         TraininingDescriptionWasSuccessfullyChanged = 1,
-        TrainerWasSuccessfullyChanged = 2
+        TrainerWasSuccessfullyChanged = 2,
+        TraininingCapacityWasSuccessfullyChanged = 3,
+        TraininingCapacityCannotBeLessThanZero = 4
     }
 
     public class AdminTrainingsModel

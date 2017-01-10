@@ -252,6 +252,15 @@ namespace Speranza.Database
             }
         }
 
+        public void SetTrainingCapacity(string trainingID, int capacity)
+        {
+            var training = trainings.FirstOrDefault(r => r.ID == trainingID);
+            if (training != null)
+            {
+                training.Capacity = capacity;
+            }
+        }
+
         private class UserInTraining
         {
           public  string Email { get; set; }

@@ -11,5 +11,6 @@ namespace Speranza.Services.Interfaces
         void SetTrainer(string traininingID, string trainer);
         IList<IUserForTrainingDetailModel> GetAllUsersInTraining(string trainingID);
         void SetTrainingDescription(string trainingID, string trainingDescription);
+        void SetTrainingCapacity(string trainingID, int capacity);
     }
 }

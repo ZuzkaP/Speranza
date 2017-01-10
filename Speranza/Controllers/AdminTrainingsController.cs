@@ -76,6 +76,27 @@ namespace Speranza.Controllers
             return Json(AdminTrainingsMessages.TraininingDescriptionWasSuccessfullyChanged);
         }
 
+        public ActionResult ChangeTrainingCapacity(string trainingID, int capacity)
+        {
+            if (!userManager.IsUserAdmin(Session))
+            {
+                return RedirectToAction("Calendar", "Calendar");
+            }
+            if (string.IsNullOrEmpty(trainingID))
+            {
+                return Json("");
+            }
+            if (capacity < 0)
+            {
+                return Json(AdminTrainingsMessages.TraininingCapacityCannotBeLessThanZero);
+            }
+
+            trainingManager.SetTrainingCapacity(trainingID, capacity);
+
+            return Json(AdminTrainingsMessages.TraininingCapacityWasSuccessfullyChanged);
+        }
+        
+
         public ActionResult TrainingDetails(string trainingID)
         {
             if (!userManager.IsUserAdmin(Session))
