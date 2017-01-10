@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\InvalidDateException.cs" />
+    <Compile Include="Exceptions\InvalidTimeException.cs" />
     <Compile Include="IDateTimeService.cs" />
     <Compile Include="IDaysManager.cs" />
     <Compile Include="IHasher.cs" />

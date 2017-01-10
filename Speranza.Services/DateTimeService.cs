@@ -16,5 +16,10 @@ namespace Speranza.Services
         {
             return (DayNames) Enum.Parse(typeof(DayNames),date.DayOfWeek.ToString());
         }
+
+        public DateTime ParseDateTime(string date, string time)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

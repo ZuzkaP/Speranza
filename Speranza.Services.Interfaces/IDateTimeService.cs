@@ -11,5 +11,6 @@ namespace Speranza.Services.Interfaces
     {
         DateTime GetCurrentDate();
         DayNames GetDayName(DateTime date);
+        DateTime ParseDateTime(string date, string time);
     }
 }

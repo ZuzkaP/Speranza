@@ -13,7 +13,12 @@ namespace Speranza.Models
         TraininingDescriptionWasSuccessfullyChanged = 1,
         TrainerWasSuccessfullyChanged = 2,
         TraininingCapacityWasSuccessfullyChanged = 3,
-        TraininingCapacityCannotBeLessThanZero = 4
+        TraininingCapacityCannotBeLessThanZero = 4,
+        NewTrainingNoTrainer = 5,
+        NewTrainingNoDescription = 6,
+        NewTrainingDateInvalid = 7,
+        NewTrainingTimeInvalid = 8,
+        NewTrainingSuccessfullyCreated = 9
     }
 
     public class AdminTrainingsModel

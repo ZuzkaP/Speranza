@@ -23,6 +23,7 @@ namespace Speranza.Tests.Controllers
         private const string TRAINING_DESCRIPTION = "description";
         private const int TRAINING_CAPACITY = 8;
         private const int TRAINING_CAPACITY_UNCORRECT = -1;
+        private Mock<IDateTimeService> dateTimeService;
 
         [TestMethod]
         public void ReturnToCalendar_When_ClickOnAdminUsers_And_UserIsNotLogin()
@@ -262,7 +263,8 @@ namespace Speranza.Tests.Controllers
         {
             userManager = new Mock<IUserManager>();
             trainingManager = new Mock<ITrainingsManager>();
-            controller = new AdminTrainingsController(userManager.Object,trainingManager.Object);
+            dateTimeService = new Mock<IDateTimeService>();
+            controller = new AdminTrainingsController(userManager.Object,trainingManager.Object,dateTimeService.Object);
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             controller.ControllerContext = new FakeControllerContext(controller, sessionItems);
             controller.Session["Email"] = USER_EMAIL;

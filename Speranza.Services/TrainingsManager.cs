@@ -19,6 +19,10 @@ namespace Speranza.Services
             this.factory = factory;
         }
 
+        public string CreateNewTraining(DateTime dateTime, string trainer, string description)
+        {
+            throw new NotImplementedException();
+        }
 
         public IList<ITrainingForAdminModel> GetAllTrainingsForAdmin()
         {
