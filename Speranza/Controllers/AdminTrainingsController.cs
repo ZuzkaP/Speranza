@@ -114,5 +114,10 @@ namespace Speranza.Controllers
 
            return PartialView("UsersInTraining",model);
         }
+
+        public ActionResult CreateNewTraining(string date, string time, string trainer,string description)
+        {
+            return Json("");
+        }
     }
 }

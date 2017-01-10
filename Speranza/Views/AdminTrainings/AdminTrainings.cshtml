@@ -75,7 +75,7 @@
                 <div class="form-group" id="TrainingDate">
                     @Html.Label("Dátum", new { @class = "control-label col-sm-3" })
                     <div class="input-group date col-sm-4">
-                        <input type="text" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                        <input id="NewTrainingDate" type="text" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                     </div>
                 </div>
 
@@ -95,7 +95,7 @@
                     <div class="form-group">
                         @Html.Label("Tréner", new { @class = "control-label col-sm-3", @for= "Trainer" })
                         <div class="col-sm-6 input-group">
-                            @Html.TextBox("Trainer","", new { @class = "form-control" })
+                            @Html.TextBox("Trainer","", new { @class = "form-control", id = "NewTrainingTrainer" })
                         </div>
                     </div>
 
@@ -103,7 +103,7 @@
                     <div class="form-group">
                         @Html.Label("Popis", new { @class = "control-label col-sm-3", @for = "Description" })
                         <div class="col-sm-6 input-group">
-                            @Html.TextArea("Description","", new { @class = "form-control" })
+                            @Html.TextArea("Description","", new { @class = "form-control" , id = "NewTrainingDescription" })
                         </div>
                     </div>
 
@@ -112,7 +112,7 @@
            
             <div class="modal-footer">
                 @*SaveButton*@
-                <button type="button" class="btn btn-default" data-dismiss="modal">Vytvoriť</button>
+                <button id="CreateTrainingButton" type="button" class="btn btn-default" data-dismiss="modal">Vytvoriť</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Zrušiť</button>
             </div>
         </div><!-- /.modal-content -->
@@ -232,8 +232,25 @@
                 $('#NewTraining').modal('show');
 
             });
-
         });
+        
+        $('#CreateTrainingButton').click(function () {
+            var date = $('#NewTrainingDate').prop('value');
+            var time = $('#TrainingTime').prop('value');
+            var trainer = $('#NewTrainingTrainer').prop('value');
+            var description = $('#NewTrainingDescription').val();
+            $.ajax({
+                //controller method
+                url: "CreateNewTraining",
+                //controller method parameter : trainingID
+                data: { date: date , time : time, trainer: trainer, description: description },
+                type: 'POST',
+                dataType: "json",
+                success: function (response) {
+                }
+            });
+        });
+
 
         $('#TrainingDate .input-group.date').datepicker({
             format: "dd.mm.yyyy",
