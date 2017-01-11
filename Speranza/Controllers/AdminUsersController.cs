@@ -160,8 +160,8 @@ namespace Speranza.Controllers
             ITrainingModel trainingModel = trainingManager.RemoveUserFromTraining(id, training);
             UserSignOffModel model = new UserSignOffModel();
             model.Email = id;
-            model.TrainingDate = trainingModel.Time.ToString("dd/MM/yyyy");
-            model.TrainingTime = trainingModel.Time.ToString("hh:mm");
+            model.TrainingDate = trainingModel.Time.ToString("dd.MM.yyyy");
+            model.TrainingTime = trainingModel.Time.ToString("HH:mm");
             model.Message = AdminUsersMessages.SuccessfullyUserSignOffFromTraining;
             return Json(model);
         }

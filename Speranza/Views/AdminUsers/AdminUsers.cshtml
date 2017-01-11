@@ -51,7 +51,7 @@
                     </div>
                 </td>
                 <td>
-                    <span>@user.TrainingCount</span>
+                    <span id="@user.Email-TrainingCount">@user.TrainingCount</span>
                         <span class="label label-info trainingsDetails" style="cursor:pointer" data-email="@user.Email">Detail</span>
                 </td>
                 <td>@Html.CheckBox("IsAdmin", user.IsAdmin, new { id = user.Email, @class = "IsAdmin" }) </td>

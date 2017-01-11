@@ -24,7 +24,7 @@ else
         {
             <tr id="@training.ID">
                 <td>@training.Time.ToString("dd.MM.yyyy")</td>
-                <td>@training.Time.ToString("hh:mm")</td>
+                <td>@training.Time.ToString("HH:mm")</td>
                 <td>@training.Trainer</td>
                 <td>@training.Description</td>
                 <td><a class="UserSignOut" data-email="@Model.Email" data-training="@training.ID" href="#">Odhlás používateľa</a></td>
@@ -50,9 +50,10 @@ else
                             $('#' + training).remove();
                             $('#messageBoxTrainingDetails').html("Užívateľ <b>" + response.Email + "</b> bol úspešne odhlásený z tréningu <b>" + response.TrainingDate + "</b> o: <b>" + response.TrainingTime + "</b>!");
                             $('#messageBoxTrainingDetails').show();
+                            $('#' + id + '-TrainingCount').html($('#' + id + '-TrainingCount').html() - 1);
                         }
-                          
-                            
+
+
                     }
                 });
 
