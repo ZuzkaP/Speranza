@@ -32,7 +32,7 @@
                 <td><textarea  class="trainingDescription form-control input-sm" rows="1" data-training="@item.ID">@item.Description</textarea></td>
                 <td><input type="text" value="@item.Trainer" class="trainingTrainer form-control input-sm" data-training="@item.ID"/></td>
                 <td>
-                @item.RegisteredNumber
+               <span id="@item.ID-RegisteredNumber">@item.RegisteredNumber</span> 
                 <span class="label label-info trainingsDetails" style="cursor:pointer" data-training="@item.ID">Detail</span>
                 </td>
                 <td><input type="text" value="@item.Capacity" class="trainingCapacity form-control input-sm "data-training="@item.ID"/></td>

@@ -49,6 +49,7 @@ else
                         $('#' + training).remove();
                         $('#messageBoxTrainingDetails').html("Užívateľ <b>" + response.Email + "</b> bol úspešne odhlásený z tréningu <b>" + response.TrainingDate + "</b> o: <b>" + response.TrainingTime + "</b>!");
                         $('#messageBoxTrainingDetails').show();
+                        $('#' + training + '-RegisteredNumber').html($('#' + training + '-RegisteredNumber').html()-1);
                     }
                 }
             });
