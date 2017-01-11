@@ -65,9 +65,8 @@ namespace Speranza.Controllers
                         return RedirectToAction("Calendar", "Calendar");
                     }
                 }
-
             }
-            return View("Index", "Home", model);
+            return View("../Home/Index",model);
         }
 
         [HttpPost]
