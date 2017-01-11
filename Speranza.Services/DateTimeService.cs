@@ -38,7 +38,6 @@ namespace Speranza.Services
             {
                 throw new InvalidTimeException();
             }
-
             return resultDate.AddHours(resultTime.Hour).AddMinutes(resultTime.Minute);
         }
     }
