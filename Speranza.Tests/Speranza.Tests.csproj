@@ -102,6 +102,7 @@
     <Compile Include="Services\HasherShould.cs" />
     <Compile Include="Services\ModelFactoryShould.cs" />
     <Compile Include="Services\TrainingsManagerShould.cs" />
+    <Compile Include="Services\UidServiceShould.cs" />
     <Compile Include="Services\UserManagerShould.cs" />
   </ItemGroup>
   <ItemGroup>

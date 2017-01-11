@@ -11,7 +11,7 @@ namespace Speranza.Services
     {
         public string CreateID()
         {
-            throw new NotImplementedException();
+            return Guid.NewGuid().ToString();
         }
     }
 }
