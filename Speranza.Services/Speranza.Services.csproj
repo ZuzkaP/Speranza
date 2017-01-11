@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UidService.cs" />
     <Compile Include="DateTimeService.cs" />
     <Compile Include="DaysManager.cs" />
     <Compile Include="Hasher.cs" />

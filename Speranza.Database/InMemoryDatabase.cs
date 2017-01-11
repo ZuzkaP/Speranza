@@ -263,6 +263,11 @@ namespace Speranza.Database
             }
         }
 
+        public void CreateNewTraining(string trainingID, DateTime dateTime, string trainer, string trainingDescription)
+        {
+            throw new NotImplementedException();
+        }
+
         private class UserInTraining
         {
           public  string Email { get; set; }

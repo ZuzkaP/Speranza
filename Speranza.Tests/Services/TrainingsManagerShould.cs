@@ -14,7 +14,7 @@ namespace Speranza.Tests.Services
     public class TrainingsManagerShould
     {
         private TrainingsManager manager;
-        private readonly DateTime TIME = new DateTime(2016,1,1,16,00,00);
+        private readonly DateTime DATE_TIME = new DateTime(2016,1,1,16,00,00);
         private const string DESCRIPTION = "description";
         private const string TRAINER = "trainer";
         private const int CAPACITY = 10;
@@ -30,6 +30,7 @@ namespace Speranza.Tests.Services
         private Mock<IUserForTrainingDetailModel> user1Model;
         private const string TRAINING_DESCRIPTION = "description";
         private const int TRAINING_CAPACITY = 10;
+        private Mock<IUidService> uidService;
 
         [TestMethod]
         public void ReturnEmptyList_When_NoTrainingExistsInDB()
@@ -127,6 +128,20 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(user2Model.Object, users[1]);
         }
 
+        [TestMethod]
+        public void CreateNewTraning()
+        {
+            InitializeTrainingManager();
+            uidService.Setup(r => r.CreateID()).Returns(TRAINING_ID);
+
+            string trainingID = manager.CreateNewTraining(DATE_TIME, TRAINER, DESCRIPTION);
+
+            db.Verify(r => r.CreateNewTraining(TRAINING_ID,DATE_TIME, TRAINER, DESCRIPTION), Times.Once);
+            Assert.AreEqual(TRAINING_ID, trainingID);
+
+        }
+
+
         private void PrepareDBAndFactoryWithTwoUsers()
         {
             var user1 = new Mock<IUser>();
@@ -163,11 +178,13 @@ namespace Speranza.Tests.Services
             db.Setup(r => r.GetAllTrainings()).Returns(new List<ITraining>());
         }
         
+
         private void InitializeTrainingManager()
         {
             db = new Mock<IDatabaseGateway>();
             factory = new Mock<IModelFactory>();
-            manager = new TrainingsManager(db.Object,factory.Object);
+            uidService = new Mock<IUidService>();
+            manager = new TrainingsManager(db.Object,factory.Object,uidService.Object);
         }
     }
 }

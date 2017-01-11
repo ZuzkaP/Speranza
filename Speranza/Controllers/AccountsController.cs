@@ -23,7 +23,7 @@ namespace Speranza.Controllers
         const int PASSWORD_LENGTH = 6;
         private IModelFactory factory;
 
-        public AccountsController() : this(Initializer.Db, Initializer.Hasher, Initializer.UserManager, Initializer.TrainingsManager, Initializer.DateTimeService,Initializer.factory )
+        public AccountsController() : this(Initializer.Db, Initializer.Hasher, Initializer.UserManager, Initializer.TrainingsManager, Initializer.DateTimeService,Initializer.Factory )
         {
 
         }

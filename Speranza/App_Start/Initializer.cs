@@ -10,23 +10,26 @@ namespace Speranza.App_Start
 {
     public class Initializer
     {
+        private static UidService uidService;
+
         public static IDatabaseGateway Db { get;private set; }
         public static IHasher Hasher { get; private set; }
         public static IUserManager UserManager { get;private set; }
         public static ITrainingsManager TrainingsManager { get;private set; }
         public static IDateTimeService DateTimeService  { get;private set; }
         public static IDaysManager DaysManager { get; private set; }
-        public static ModelFactory factory { get; private set; }
+        public static ModelFactory Factory { get; private set; }
 
         static  Initializer()
         {
             Db = InMemoryDatabase.Instance;
             Hasher = new Hasher();
             DateTimeService = new DateTimeService();
-            factory = new ModelFactory();
-            TrainingsManager = new TrainingsManager(Db,factory);
-            DaysManager = new DaysManager(Db, TrainingsManager, DateTimeService,factory);
-            UserManager = new UserManager(Db, factory,DateTimeService);
+            Factory = new ModelFactory();
+            uidService = new UidService();
+            TrainingsManager = new TrainingsManager(Db,Factory, uidService);
+            DaysManager = new DaysManager(Db, TrainingsManager, DateTimeService,Factory);
+            UserManager = new UserManager(Db, Factory,DateTimeService);
         }
     }
 }

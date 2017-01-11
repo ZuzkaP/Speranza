@@ -12,16 +12,21 @@ namespace Speranza.Services
     {
         private IDatabaseGateway db;
         private IModelFactory factory;
+        private IUidService uidService;
 
-        public TrainingsManager(IDatabaseGateway db,IModelFactory factory)
+        public TrainingsManager(IDatabaseGateway db,IModelFactory factory, IUidService uidService)
         {
             this.db = db;
             this.factory = factory;
+            this.uidService = uidService;
         }
 
         public string CreateNewTraining(DateTime dateTime, string trainer, string description)
         {
-            throw new NotImplementedException();
+            string trainingID = uidService.CreateID();
+            db.CreateNewTraining(trainingID, dateTime, trainer, description);
+
+            return trainingID;
         }
 
         public IList<ITrainingForAdminModel> GetAllTrainingsForAdmin()

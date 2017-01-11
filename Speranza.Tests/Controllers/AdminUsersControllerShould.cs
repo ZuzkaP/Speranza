@@ -354,8 +354,8 @@ namespace Speranza.Tests.Controllers
             trainingManager.Verify(r => r.RemoveUserFromTraining(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
             Assert.AreEqual(AdminUsersMessages.SuccessfullyUserSignOffFromTraining, ((UserSignOffModel)result.Data).Message);
             Assert.AreEqual(USER_EMAIL, ((UserSignOffModel)result.Data).Email);
-            Assert.AreEqual(TRAININGDATE.ToString("dd/MM/yyyy"), ((UserSignOffModel)result.Data).TrainingDate);
-            Assert.AreEqual(TRAININGDATE.ToString("hh:mm"), ((UserSignOffModel)result.Data).TrainingTime);
+            Assert.AreEqual(TRAININGDATE.ToString("dd.MM.yyyy"), ((UserSignOffModel)result.Data).TrainingDate);
+            Assert.AreEqual(TRAININGDATE.ToString("HH:mm"), ((UserSignOffModel)result.Data).TrainingTime);
         }
 
         private void InitializeAdminUsersController()

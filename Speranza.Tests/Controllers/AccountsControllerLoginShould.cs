@@ -43,7 +43,7 @@ namespace Speranza.Tests.Controllers
             ViewResult result = (ViewResult) controller.Login(model);
 
             db.Verify(r => r.LoadUser(It.IsAny<string>()), Times.Never);
-            Assert.AreEqual("Index", result.ViewName);
+            Assert.AreEqual("../Home/Index", result.ViewName);
 
             LoginModel modelFromServer = (LoginModel)result.Model;
             Assert.IsFalse(modelFromServer.LoginSuccessful);
@@ -61,7 +61,7 @@ namespace Speranza.Tests.Controllers
             db.Setup(r => r.LoadUser(model.Email)).Returns((IUser)null);
             ViewResult result = (ViewResult) controller.Login(model);
             
-            Assert.AreEqual("Index", result.ViewName);
+            Assert.AreEqual("../Home/Index", result.ViewName);
 
             LoginModel modelFromServer = (LoginModel)result.Model;
             Assert.IsFalse(modelFromServer.LoginSuccessful);
@@ -81,7 +81,7 @@ namespace Speranza.Tests.Controllers
             db.Setup(r => r.LoadUser(model.Email)).Returns(user.Object);
             ViewResult result = (ViewResult) controller.Login(model);
 
-            Assert.AreEqual("Index", result.ViewName);
+            Assert.AreEqual("../Home/Index", result.ViewName);
 
             LoginModel modelFromServer = (LoginModel)result.Model;
             Assert.IsFalse(modelFromServer.LoginSuccessful);

@@ -25,7 +25,7 @@ namespace Speranza.Controllers
         private IDatabaseGateway db;
         private IModelFactory factory;
 
-        public CalendarController() : this(Initializer.Db,Initializer.UserManager, Initializer.DaysManager, Initializer.DateTimeService, Initializer.TrainingsManager, Initializer.factory)
+        public CalendarController() : this(Initializer.Db,Initializer.UserManager, Initializer.DaysManager, Initializer.DateTimeService, Initializer.TrainingsManager, Initializer.Factory)
         {
 
         }
