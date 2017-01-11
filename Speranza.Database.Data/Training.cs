@@ -17,14 +17,13 @@ namespace Speranza.Database.Data
         public string Trainer { get; set; }
 
 
-        public Training(string id,DateTime dateTime, string v1, string v2, int v3, int v4)
+        public Training(string id,DateTime dateTime, string description, string trainer, int capacity)
         {
             this.ID = id;
             this.Time = dateTime;
-            this.Description = v1;
-            this.Trainer = v2;
-            this.Capacity = v3;
-            this.RegisteredNumber = v4;
+            this.Description = description;
+            this.Trainer = trainer;
+            this.Capacity = capacity;
         }
 
       

@@ -50,7 +50,7 @@ namespace Speranza.Database
         private ITraining PrepareTraining(DateTime dateTime, string v1, string v2, int v3)
         {
 
-            return new Training(Guid.NewGuid().ToString(),dateTime, v1, v2, v3,0);
+            return new Training(Guid.NewGuid().ToString(),dateTime, v1, v2, v3);
         }
 
         public void RegisterNewUser(RegisterModel model)
@@ -265,7 +265,7 @@ namespace Speranza.Database
 
         public void CreateNewTraining(string trainingID, DateTime dateTime, string trainer, string trainingDescription)
         {
-            throw new NotImplementedException();
+            trainings.Add(new Training(trainingID, dateTime, trainingDescription, trainer, 10));
         }
 
         private class UserInTraining
