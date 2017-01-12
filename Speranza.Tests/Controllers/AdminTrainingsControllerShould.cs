@@ -264,13 +264,14 @@ namespace Speranza.Tests.Controllers
         }
 
         [TestMethod]
-        [ExpectedException(typeof(IInvalidTrainingIDException))]
+      
         public void NotCancelTraining_WhenTrainingIDIsNull()
         {
             InitializeAdminTrainingsController();
 
             JsonResult result = (JsonResult)controller.CancelTraining(string.Empty);
 
+            Assert.AreEqual(AdminTrainingsMessages.TrainingIDInvalid, result.Data);
             trainingManager.Verify(r => r.CancelTraining(It.IsAny<string>()), Times.Never);
         }
              
@@ -292,28 +293,12 @@ namespace Speranza.Tests.Controllers
         public void CancelTraining()
         {
             InitializeAdminTrainingsController();
-           /// PrepareModelWithTwoTrainings();
 
             JsonResult result = (JsonResult)controller.CancelTraining(TRAINING_ID);
-
-            //AdminTrainingsModel model = (UsersInTrainingModel)result.Model;
-            //Assert.AreEqual("UsersInTraining", result.ViewName);
-            //Assert.AreEqual(users, model.Users);
-            //Assert.AreEqual(TRAINING_ID, model.TrainingID);
            
             Assert.AreEqual(AdminTrainingsMessages.TrainingWasCanceled, result.Data);
             trainingManager.Verify(r => r.CancelTraining(TRAINING_ID), Times.Once);
         }
-
-        //private void PrepareModelWithTwoTrainings()
-        //{
-        //    trainingModel = new Mock<ITrainingForAdminModel>();
-        //    trainingModel.SetupGet(r => r.ID).Returns(TRAINING_ID);
-        //    trainings = new List<ITrainingForAdminModel>();
-        //    trainings.Add(trainingModel.Object);
-        //    model = new Mock<IAdminTrainingsModel>();
-        //    model.SetupGet(r => r.Trainings).Returns(trainings);
-        //}
 
         private void InitializeAdminTrainingsController()
         {

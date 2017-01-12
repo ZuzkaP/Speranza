@@ -13,7 +13,7 @@ namespace Speranza.Services.Interfaces
         IList<IUserForTrainingDetailModel> GetAllUsersInTraining(string trainingID);
         void SetTrainingDescription(string trainingID, string trainingDescription);
         void SetTrainingCapacity(string trainingID, int capacity);
-        string CreateNewTraining(DateTime dateTime, string trainer, string description);
+        string CreateNewTraining(DateTime dateTime, string trainer, string description, int capacity);
         void CancelTraining(string trainingID);
     }
 }

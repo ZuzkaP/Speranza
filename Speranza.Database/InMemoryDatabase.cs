@@ -263,9 +263,9 @@ namespace Speranza.Database
             }
         }
 
-        public void CreateNewTraining(string trainingID, DateTime dateTime, string trainer, string trainingDescription)
+        public void CreateNewTraining(string trainingID, DateTime dateTime, string trainer, string trainingDescription, int capacity)
         {
-            trainings.Add(new Training(trainingID, dateTime, trainingDescription, trainer, 10));
+            trainings.Add(new Training(trainingID, dateTime, trainingDescription, trainer, capacity));
         }
 
         public void CancelTraining(string trainingID)

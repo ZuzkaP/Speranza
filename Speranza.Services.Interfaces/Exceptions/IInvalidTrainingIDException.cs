@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Speranza.Services.Interfaces.Exceptions
 {
-    public class IInvalidTrainingIDException : Exception
+    public class InvalidTrainingIDException : Exception
     {
     }
 }

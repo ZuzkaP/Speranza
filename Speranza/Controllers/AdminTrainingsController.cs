@@ -118,7 +118,7 @@ namespace Speranza.Controllers
             return PartialView("UsersInTraining", model);
         }
 
-        public ActionResult CreateNewTraining(string date, string time, string trainer, string description)
+        public ActionResult CreateNewTraining(string date, string time, string trainer, string description,int capacity)
         {
             if (!userManager.IsUserAdmin(Session))
             {
@@ -135,13 +135,14 @@ namespace Speranza.Controllers
             try
             {
                 DateTime dateTime = dateTimeService.ParseDateTime(date, time);
-                string trainingID = trainingManager.CreateNewTraining(dateTime, trainer, description);
+                string trainingID = trainingManager.CreateNewTraining(dateTime, trainer, description, capacity);
                 CreateTrainingModel model = new CreateTrainingModel();
                 model.TrainingID = trainingID;
                 model.Date = dateTime;
                 model.Description = description;
                 model.Trainer = trainer;
                 model.Message = AdminTrainingsMessages.NewTrainingSuccessfullyCreated;
+                model.Capacity = capacity;
                 return Json(model);
             }
             catch (InvalidDateException)
@@ -162,7 +163,7 @@ namespace Speranza.Controllers
             }
             if (string.IsNullOrEmpty(trainingID))
             {
-                throw new IInvalidTrainingIDException();
+                return Json(AdminTrainingsMessages.TrainingIDInvalid);
             }
             trainingManager.CancelTraining(trainingID);
             return Json(AdminTrainingsMessages.TrainingWasCanceled);

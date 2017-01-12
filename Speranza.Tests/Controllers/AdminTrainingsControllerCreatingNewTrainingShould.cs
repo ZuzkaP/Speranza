@@ -27,6 +27,7 @@ namespace Speranza.Tests.Controllers
         private Mock<IDateTimeService> dateTimeService;
         private readonly DateTime DATETIME= new DateTime(2017,01,01,12,00,00);
         private const string TRAINING_ID = "trainingID";
+        private const int  CAPACITY = 10;
 
         [TestMethod]
         public void ReturnToCalendar_When_UserIsNotAdmin()
@@ -34,12 +35,12 @@ namespace Speranza.Tests.Controllers
             InitializeController();
             userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(false);
 
-           ActionResult result = controller.CreateNewTraining(DATE, TIME, TRAINER, DESCRIPTION);
+           ActionResult result = controller.CreateNewTraining(DATE, TIME, TRAINER, DESCRIPTION, CAPACITY);
 
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
             Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
             Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
-            trainingManager.Verify(r => r.CreateNewTraining(It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            trainingManager.Verify(r => r.CreateNewTraining(It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()), Times.Never);
         }
 
         [TestMethod]
@@ -47,10 +48,10 @@ namespace Speranza.Tests.Controllers
         {
             InitializeController();
 
-            JsonResult result = (JsonResult)controller.CreateNewTraining(DATE, TIME, string.Empty, DESCRIPTION);
+            JsonResult result = (JsonResult)controller.CreateNewTraining(DATE, TIME, string.Empty, DESCRIPTION,CAPACITY);
 
             Assert.AreEqual(AdminTrainingsMessages.NewTrainingNoTrainer, result.Data);
-            trainingManager.Verify(r => r.CreateNewTraining(It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            trainingManager.Verify(r => r.CreateNewTraining(It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()), Times.Never);
         }
 
         [TestMethod]
@@ -58,10 +59,10 @@ namespace Speranza.Tests.Controllers
         {
             InitializeController();
 
-            JsonResult result = (JsonResult)controller.CreateNewTraining(DATE, TIME, TRAINER, string.Empty);
+            JsonResult result = (JsonResult)controller.CreateNewTraining(DATE, TIME, TRAINER, string.Empty,CAPACITY);
 
             Assert.AreEqual(AdminTrainingsMessages.NewTrainingNoDescription, result.Data);
-            trainingManager.Verify(r => r.CreateNewTraining(It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            trainingManager.Verify(r => r.CreateNewTraining(It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()), Times.Never);
         }
 
         [TestMethod]
@@ -70,10 +71,10 @@ namespace Speranza.Tests.Controllers
             InitializeController();
             dateTimeService.Setup(r => r.ParseDateTime(DATE, TIME)).Throws(new InvalidDateException());
 
-            JsonResult result = (JsonResult)controller.CreateNewTraining(DATE, TIME, TRAINER,DESCRIPTION);
+            JsonResult result = (JsonResult)controller.CreateNewTraining(DATE, TIME, TRAINER,DESCRIPTION,CAPACITY);
 
             Assert.AreEqual(AdminTrainingsMessages.NewTrainingDateInvalid, result.Data);
-            trainingManager.Verify(r => r.CreateNewTraining(It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            trainingManager.Verify(r => r.CreateNewTraining(It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()), Times.Never);
         }
 
         [TestMethod]
@@ -82,10 +83,10 @@ namespace Speranza.Tests.Controllers
             InitializeController();
             dateTimeService.Setup(r => r.ParseDateTime(DATE, TIME)).Throws(new InvalidTimeException());
 
-            JsonResult result = (JsonResult)controller.CreateNewTraining(DATE, TIME, TRAINER, DESCRIPTION);
+            JsonResult result = (JsonResult)controller.CreateNewTraining(DATE, TIME, TRAINER, DESCRIPTION,CAPACITY);
 
             Assert.AreEqual(AdminTrainingsMessages.NewTrainingTimeInvalid, result.Data);
-            trainingManager.Verify(r => r.CreateNewTraining(It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            trainingManager.Verify(r => r.CreateNewTraining(It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()), Times.Never);
         }
 
         [TestMethod]
@@ -93,16 +94,17 @@ namespace Speranza.Tests.Controllers
         {
             InitializeController();
             dateTimeService.Setup(r => r.ParseDateTime(DATE, TIME)).Returns(DATETIME);
-            trainingManager.Setup(r => r.CreateNewTraining(DATETIME, TRAINER, DESCRIPTION)).Returns(TRAINING_ID);
+            trainingManager.Setup(r => r.CreateNewTraining(DATETIME, TRAINER, DESCRIPTION,CAPACITY)).Returns(TRAINING_ID);
 
-            JsonResult result = (JsonResult)controller.CreateNewTraining(DATE, TIME, TRAINER, DESCRIPTION);
+            JsonResult result = (JsonResult)controller.CreateNewTraining(DATE, TIME, TRAINER, DESCRIPTION,CAPACITY);
 
             Assert.AreEqual(AdminTrainingsMessages.NewTrainingSuccessfullyCreated, ((CreateTrainingModel) result.Data).Message);
             Assert.AreEqual(DATETIME, ((CreateTrainingModel) result.Data).Date);
             Assert.AreEqual(TRAINING_ID, ((CreateTrainingModel) result.Data).TrainingID);
             Assert.AreEqual(TRAINER, ((CreateTrainingModel) result.Data).Trainer);
             Assert.AreEqual(DESCRIPTION, ((CreateTrainingModel) result.Data).Description);
-            trainingManager.Verify(r => r.CreateNewTraining(DATETIME, TRAINER, DESCRIPTION),Times.Once);
+            Assert.AreEqual(CAPACITY, ((CreateTrainingModel) result.Data).Capacity);
+            trainingManager.Verify(r => r.CreateNewTraining(DATETIME, TRAINER, DESCRIPTION, CAPACITY),Times.Once);
 
         }
 

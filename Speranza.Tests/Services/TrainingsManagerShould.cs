@@ -134,9 +134,9 @@ namespace Speranza.Tests.Services
             InitializeTrainingManager();
             uidService.Setup(r => r.CreateID()).Returns(TRAINING_ID);
 
-            string trainingID = manager.CreateNewTraining(DATE_TIME, TRAINER, DESCRIPTION);
+            string trainingID = manager.CreateNewTraining(DATE_TIME, TRAINER, DESCRIPTION,CAPACITY);
 
-            db.Verify(r => r.CreateNewTraining(TRAINING_ID,DATE_TIME, TRAINER, DESCRIPTION), Times.Once);
+            db.Verify(r => r.CreateNewTraining(TRAINING_ID,DATE_TIME, TRAINER, DESCRIPTION,CAPACITY), Times.Once);
             Assert.AreEqual(TRAINING_ID, trainingID);
 
         }

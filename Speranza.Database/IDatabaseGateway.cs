@@ -28,7 +28,7 @@ namespace Speranza.Database
         IList<IUser> GetUsersInTraining(string trainingID);
         void SetTrainingDescription(string trainingID, string trainingDescription);
         void SetTrainingCapacity(string trainingID, int capacity);
-        void CreateNewTraining(string trainingID, DateTime dateTime, string trainer, string trainingDescription);
+        void CreateNewTraining(string trainingID, DateTime dateTime, string trainer, string trainingDescription, int capacity);
         void CancelTraining(string trainingID);
     }
 }

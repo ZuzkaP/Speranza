@@ -35,7 +35,7 @@
                <span id="@item.ID-RegisteredNumber">@item.RegisteredNumber</span> 
                 <span class="label label-info trainingsDetails" style="cursor:pointer" data-training="@item.ID">Detail</span>
                 </td>
-                <td><input type="text" value="@item.Capacity" class="trainingCapacity form-control input-sm "data-training="@item.ID"/></td>
+                <td><input type="number" value="@item.Capacity" min="1" class="trainingCapacity form-control input-sm "data-training="@item.ID"/></td>
                 <td><a class="CancelTraining" data-training="@item.ID" href="#">Zrušiť tréning</a></td>
             </tr>
         }
@@ -107,6 +107,13 @@
                         </div>
                     </div>
 
+                @*Training Capacity*@
+                <div class="form-group">
+                    @Html.Label("Kapacita", new { @class = "control-label col-sm-3", @for = "Capacity" })
+                    <div class="col-sm-6 input-group">
+                        <input type="number" name="Capacity" min="1" class = "form-control" id = "NewTrainingCapacity">
+                    </div>
+                </div>
                
                 </div>
            
@@ -266,7 +273,7 @@
                 //controller method
                 url: "CreateNewTraining",
                 //controller method parameter : trainingID
-                data: { date: date , time : time, trainer: trainer, description: description },
+                data: { date: date , time : time, trainer: trainer, description: description,capacity :capacity },
                 type: 'POST',
                 dataType: "json",
                 success: function (response) {

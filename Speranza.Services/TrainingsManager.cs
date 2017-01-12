@@ -26,10 +26,10 @@ namespace Speranza.Services
             db.CancelTraining(trainingID);
         }
 
-        public string CreateNewTraining(DateTime dateTime, string trainer, string description)
+        public string CreateNewTraining(DateTime dateTime, string trainer, string description, int capacity)
         {
             string trainingID = uidService.CreateID();
-            db.CreateNewTraining(trainingID, dateTime, trainer, description);
+            db.CreateNewTraining(trainingID, dateTime, trainer, description, capacity);
 
             return trainingID;
         }
