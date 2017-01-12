@@ -21,6 +21,11 @@ namespace Speranza.Services
             this.uidService = uidService;
         }
 
+        public void CancelTraining(string trainingID)
+        {
+            throw new NotImplementedException();
+        }
+
         public string CreateNewTraining(DateTime dateTime, string trainer, string description)
         {
             string trainingID = uidService.CreateID();

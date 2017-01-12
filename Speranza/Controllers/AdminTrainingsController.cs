@@ -153,5 +153,19 @@ namespace Speranza.Controllers
                 return Json(AdminTrainingsMessages.NewTrainingTimeInvalid);
             }
         }
+
+        public ActionResult CancelTraining(string trainingID)
+        {
+            if (!userManager.IsUserAdmin(Session))
+            {
+                return RedirectToAction("Calendar", "Calendar");
+            }
+            if (string.IsNullOrEmpty(trainingID))
+            {
+                throw new IInvalidTrainingIDException();
+            }
+            return Json("");
+        }
+
     }
 }

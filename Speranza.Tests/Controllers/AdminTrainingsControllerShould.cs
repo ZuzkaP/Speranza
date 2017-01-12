@@ -8,6 +8,7 @@ using Speranza.Controllers;
 using Speranza.Models.Interfaces;
 using System.Collections.Generic;
 using Speranza.Models;
+using Speranza.Services.Interfaces.Exceptions;
 
 namespace Speranza.Tests.Controllers
 {
@@ -258,6 +259,32 @@ namespace Speranza.Tests.Controllers
             Assert.AreEqual(users, model.Users);
             Assert.AreEqual(TRAINING_ID, model.TrainingID);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(IInvalidTrainingIDException))]
+        public void NotCancelTraining_WhenTrainingIDIsNull()
+        {
+            InitializeAdminTrainingsController();
+
+            JsonResult result = (JsonResult)controller.CancelTraining(string.Empty);
+
+            trainingManager.Verify(r => r.CancelTraining(It.IsAny<string>()), Times.Never);
+        }
+             
+       [TestMethod]
+        public void NotCancelTraining_WhenUserIsNotAdmin()
+        {
+            InitializeAdminTrainingsController();
+            userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(false);
+
+            ActionResult result = controller.CancelTraining(TRAINING_ID);
+
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
+            trainingManager.Verify(r => r.CancelTraining(It.IsAny<string>()), Times.Never);
+        }
+  
 
         private void InitializeAdminTrainingsController()
         {

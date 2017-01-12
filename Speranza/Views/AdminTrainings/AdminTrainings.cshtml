@@ -36,7 +36,7 @@
                 <span class="label label-info trainingsDetails" style="cursor:pointer" data-training="@item.ID">Detail</span>
                 </td>
                 <td><input type="text" value="@item.Capacity" class="trainingCapacity form-control input-sm "data-training="@item.ID"/></td>
-                <td>Zrušiť tréning</td>
+                <td><a class="CancelTraining" data-training="@item.ID" href="#">Zrušiť tréning</a></td>
             </tr>
         }
     </table>
@@ -166,7 +166,7 @@
                             $('#messageBox').html("Tréningu <b>" + $('#' + trainingID + "-date").html() + " " + $('#' + trainingID + "-time").html() + "</b> bol priradený nový tréner: <b>" + value + "</b>");
                             $('#messageBox').show();
                         }
-                           
+
                     }
                 });
 
@@ -198,7 +198,7 @@
                             $('#messageBoxWarning').show();
                         }
 
-                      
+
                         }
                 });
 
@@ -228,12 +228,31 @@
         });
 
         $(function () {
+            $('.CancelTraining').click(function () {
+                var self = $(this);
+                var trainingID = self.data('training');
+                $.ajax({
+                    //controller method
+                    url: "CancelTraining",
+                    //controller method parameter : trainingID
+                    data: { trainingID: trainingID },
+                    type: 'POST',
+                    dataType: "json",
+                    success: function (response) {
+
+                    }
+                })
+
+            });
+        });
+
+        $(function () {
             $('#AddNewTraining').click(function () {
                 $('#NewTraining').modal('show');
 
             });
         });
-        
+
         $('#CreateTrainingButton').click(function () {
             var date = $('#NewTrainingDate').prop('value');
             var time = $('#TrainingTime').prop('value');
@@ -247,6 +266,20 @@
                 type: 'POST',
                 dataType: "json",
                 success: function (response) {
+
+                    var newRow = '<tr>' +
+                    '<td id="' + response.TrainingID + '-date">' + response.Date + '</td>' +
+                    '<td id="' + response.TrainingID + '-time">' + response.Time + '</td>' +
+                    '<td><textarea  class="trainingDescription form-control input-sm" rows="1" data-training="' + response.TrainingID + '">' + response.Description + '</textarea></td>' +
+                    '<td><input type="text" value="' + response.Trainer + '" class="trainingTrainer form-control input-sm" data-training="' + response.TrainingID + '"/></td>' +
+                    '<td>' +
+                    '<span id="' + response.TrainingID + '-RegisteredNumber">0</span>' +
+                    '<span class="label label-info trainingsDetails" style="cursor:pointer" data-training="' + response.TrainingID + '">Detail</span>' +
+                    '</td>' +
+                    '<td><input type="text" value="' + response.Capacity + '" class="trainingCapacity form-control input-sm "data-training="' + response.TrainingID + '"/></td>' +
+                    '<td>Zrušiť tréning</td>' +
+                    '</tr>';
+
                 }
             });
         });
@@ -262,20 +295,20 @@
             todayBtn: "linked"
         });
 
-     
+
         $('#TrainingTime').timepicker(
             {
                 showPeriodLabels: false,
                 showOn: 'both',
                 button: '#trainingTimeButton',
-                hourText: 'Hodiny',            
+                hourText: 'Hodiny',
                 minuteText: 'Minúty',
-                minutes: {               
-                    interval: 15          
+                minutes: {
+                    interval: 15
                 }
             }
           );
-    
+
 
     </script>
     }

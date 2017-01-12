@@ -14,5 +14,6 @@ namespace Speranza.Services.Interfaces
         void SetTrainingDescription(string trainingID, string trainingDescription);
         void SetTrainingCapacity(string trainingID, int capacity);
         string CreateNewTraining(DateTime dateTime, string trainer, string description);
+        void CancelTraining(string trainingID);
     }
 }
