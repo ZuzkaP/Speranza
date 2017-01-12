@@ -18,10 +18,11 @@ namespace Speranza.Models
         NewTrainingNoDescription = 6,
         NewTrainingDateInvalid = 7,
         NewTrainingTimeInvalid = 8,
-        NewTrainingSuccessfullyCreated = 9
+        NewTrainingSuccessfullyCreated = 9,
+        TrainingWasCanceled = 10
     }
 
-    public class AdminTrainingsModel
+    public class AdminTrainingsModel : IAdminTrainingsModel
     {
         public IList<ITrainingForAdminModel> Trainings { get; set; }
     }

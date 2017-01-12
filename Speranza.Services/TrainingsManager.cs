@@ -23,7 +23,7 @@ namespace Speranza.Services
 
         public void CancelTraining(string trainingID)
         {
-            throw new NotImplementedException();
+            db.CancelTraining(trainingID);
         }
 
         public string CreateNewTraining(DateTime dateTime, string trainer, string description)

@@ -268,6 +268,16 @@ namespace Speranza.Database
             trainings.Add(new Training(trainingID, dateTime, trainingDescription, trainer, 10));
         }
 
+        public void CancelTraining(string trainingID)
+        {
+            var training = trainings.FirstOrDefault(r => r.ID == trainingID);
+            if (training != null)
+            {
+                trainings.Remove(training);
+            }
+           
+        }
+
         private class UserInTraining
         {
           public  string Email { get; set; }

@@ -26,7 +26,7 @@
         </thead>
         @foreach (var item in Model.Trainings.OrderBy(s => s.Time))
         {
-            <tr>
+            <tr id="@item.ID-Row">
                 <td id="@item.ID-date">@item.Time.ToString("dd.MM.yyyy")</td>
                 <td id="@item.ID-time">@item.Time.ToString("HH:mm")</td>
                 <td><textarea  class="trainingDescription form-control input-sm" rows="1" data-training="@item.ID">@item.Description</textarea></td>
@@ -239,7 +239,11 @@
                     type: 'POST',
                     dataType: "json",
                     success: function (response) {
-
+                        if (response == 10) {
+                            $('#' + trainingID +'-Row').remove();
+                            $('#messageBoxWarning').html("Tréning <b>" + $('#' + trainingID + "-date").html() + " " + $('#' + trainingID + "-time").html() + "</b> bola zrušený!!!");
+                            $('#messageBoxWarning').show();
+                        }
                     }
                 })
 

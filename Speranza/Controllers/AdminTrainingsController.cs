@@ -164,7 +164,8 @@ namespace Speranza.Controllers
             {
                 throw new IInvalidTrainingIDException();
             }
-            return Json("");
+            trainingManager.CancelTraining(trainingID);
+            return Json(AdminTrainingsMessages.TrainingWasCanceled);
         }
 
     }

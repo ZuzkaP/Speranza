@@ -25,6 +25,9 @@ namespace Speranza.Tests.Controllers
         private const int TRAINING_CAPACITY = 8;
         private const int TRAINING_CAPACITY_UNCORRECT = -1;
         private Mock<IDateTimeService> dateTimeService;
+        private Mock<ITrainingForAdminModel> trainingModel;
+        private List<ITrainingForAdminModel> trainings;
+        private Mock<IAdminTrainingsModel> model;
 
         [TestMethod]
         public void ReturnToCalendar_When_ClickOnAdminUsers_And_UserIsNotLogin()
@@ -284,19 +287,46 @@ namespace Speranza.Tests.Controllers
             Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
             trainingManager.Verify(r => r.CancelTraining(It.IsAny<string>()), Times.Never);
         }
-  
+
+        [TestMethod]
+        public void CancelTraining()
+        {
+            InitializeAdminTrainingsController();
+           /// PrepareModelWithTwoTrainings();
+
+            JsonResult result = (JsonResult)controller.CancelTraining(TRAINING_ID);
+
+            //AdminTrainingsModel model = (UsersInTrainingModel)result.Model;
+            //Assert.AreEqual("UsersInTraining", result.ViewName);
+            //Assert.AreEqual(users, model.Users);
+            //Assert.AreEqual(TRAINING_ID, model.TrainingID);
+           
+            Assert.AreEqual(AdminTrainingsMessages.TrainingWasCanceled, result.Data);
+            trainingManager.Verify(r => r.CancelTraining(TRAINING_ID), Times.Once);
+        }
+
+        //private void PrepareModelWithTwoTrainings()
+        //{
+        //    trainingModel = new Mock<ITrainingForAdminModel>();
+        //    trainingModel.SetupGet(r => r.ID).Returns(TRAINING_ID);
+        //    trainings = new List<ITrainingForAdminModel>();
+        //    trainings.Add(trainingModel.Object);
+        //    model = new Mock<IAdminTrainingsModel>();
+        //    model.SetupGet(r => r.Trainings).Returns(trainings);
+        //}
 
         private void InitializeAdminTrainingsController()
         {
             userManager = new Mock<IUserManager>();
             trainingManager = new Mock<ITrainingsManager>();
             dateTimeService = new Mock<IDateTimeService>();
-            controller = new AdminTrainingsController(userManager.Object,trainingManager.Object,dateTimeService.Object);
+            controller = new AdminTrainingsController(userManager.Object, trainingManager.Object, dateTimeService.Object);
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             controller.ControllerContext = new FakeControllerContext(controller, sessionItems);
             controller.Session["Email"] = USER_EMAIL;
             userManager.Setup(r => r.IsUserLoggedIn(controller.Session)).Returns(true);
             userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(true);
+
         }
     }
 }

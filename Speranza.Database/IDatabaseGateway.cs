@@ -29,5 +29,6 @@ namespace Speranza.Database
         void SetTrainingDescription(string trainingID, string trainingDescription);
         void SetTrainingCapacity(string trainingID, int capacity);
         void CreateNewTraining(string trainingID, DateTime dateTime, string trainer, string trainingDescription);
+        void CancelTraining(string trainingID);
     }
 }

@@ -141,6 +141,16 @@ namespace Speranza.Tests.Services
 
         }
 
+        [TestMethod]
+        public void CancelTraining()
+        {
+            InitializeTrainingManager();
+
+             manager.CancelTraining(TRAINING_ID);
+
+            db.Verify(r => r.CancelTraining(TRAINING_ID), Times.Once);
+        }
+
 
         private void PrepareDBAndFactoryWithTwoUsers()
         {
