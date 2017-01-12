@@ -31,6 +31,10 @@ namespace Speranza.Tests.Services
         private const string TRAINING_DESCRIPTION = "description";
         private const int TRAINING_CAPACITY = 10;
         private Mock<IUidService> uidService;
+        private readonly DateTime DATE_IN_PAST = new DateTime(2016,12,12);
+        private readonly DateTime DATE_IN_FUTURE = new DateTime(2017, 12, 12);
+        private readonly DateTime CURRENT_DATE = new DateTime(2017, 01, 12);
+        private Mock<IDateTimeService> dateTimeService;
 
         [TestMethod]
         public void ReturnEmptyList_When_NoTrainingExistsInDB()
@@ -38,7 +42,7 @@ namespace Speranza.Tests.Services
             InitializeTrainingManager();
             PrepareDBWithNoTrainings();
 
-           var trainings = manager.GetAllTrainingsForAdmin();
+           var trainings = manager.GetAllFutureTrainings();
 
             Assert.AreNotEqual(null, trainings);
             Assert.AreEqual(0, trainings.Count);
@@ -52,12 +56,27 @@ namespace Speranza.Tests.Services
             PrepareDBWithTwoTrainings();
             PrepareFactory();
 
-            var trainings = manager.GetAllTrainingsForAdmin();
+            var trainings = manager.GetAllFutureTrainings();
 
             Assert.IsNotNull(trainings);
             Assert.AreEqual(2, trainings.Count);
             Assert.AreEqual(training1Model.Object, trainings[0]);
             Assert.AreEqual(training2Model.Object, trainings[1]);
+        }
+        
+
+        [TestMethod]
+        public void GetOnlyFutureTrainingsFromDB()
+        {
+            InitializeTrainingManager();
+            PrepareDBWithOnePastAndOneFutureTraining();
+            PrepareFactory();
+
+            var trainings = manager.GetAllFutureTrainings();
+
+            Assert.AreEqual(1, trainings.Count);
+            Assert.AreEqual(training2Model.Object, trainings[0]);
+            
         }
 
         [TestMethod]
@@ -178,7 +197,20 @@ namespace Speranza.Tests.Services
         {
             training1 = new Mock<ITraining>();
             training2 = new Mock<ITraining>();
+            training1.Setup(r => r.Time).Returns(DATE_IN_FUTURE);
+            training2.Setup(r => r.Time).Returns(DATE_IN_FUTURE);
             var trainingsFromDB = new List<ITraining>() { training1.Object,training2.Object};
+
+            db.Setup(r => r.GetAllTrainings()).Returns(trainingsFromDB);
+        }
+
+        private void PrepareDBWithOnePastAndOneFutureTraining()
+        {
+            training1 = new Mock<ITraining>();
+            training1.Setup(r => r.Time).Returns(DATE_IN_PAST);
+            training2 = new Mock<ITraining>();
+            training2.Setup(r => r.Time).Returns(DATE_IN_FUTURE);
+            var trainingsFromDB = new List<ITraining>() { training1.Object, training2.Object };
 
             db.Setup(r => r.GetAllTrainings()).Returns(trainingsFromDB);
         }
@@ -194,7 +226,9 @@ namespace Speranza.Tests.Services
             db = new Mock<IDatabaseGateway>();
             factory = new Mock<IModelFactory>();
             uidService = new Mock<IUidService>();
-            manager = new TrainingsManager(db.Object,factory.Object,uidService.Object);
+            dateTimeService = new Mock<IDateTimeService>();
+            dateTimeService.Setup(r => r.GetCurrentDate()).Returns(CURRENT_DATE);
+            manager = new TrainingsManager(db.Object,factory.Object,uidService.Object,dateTimeService.Object);
         }
     }
 }

@@ -71,13 +71,14 @@ namespace Speranza.Tests.Controllers
         {
             InitializeAdminTrainingsController();
             IList<ITrainingForAdminModel> trainings = new List<ITrainingForAdminModel>();
-            trainingManager.Setup(r => r.GetAllTrainingsForAdmin()).Returns(trainings);
+            trainingManager.Setup(r => r.GetAllFutureTrainings()).Returns(trainings);
 
             ViewResult result = (ViewResult)controller.AdminTrainings();
             AdminTrainingsModel model = (AdminTrainingsModel)result.Model;
 
             Assert.AreEqual(trainings, model.Trainings);
         }
+        
 
         [TestMethod]
         public void ReturnToCalendar_When_ChangingTrainer_And_UserIsNotAdmin()

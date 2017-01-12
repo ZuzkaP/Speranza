@@ -111,7 +111,7 @@
                 <div class="form-group">
                     @Html.Label("Kapacita", new { @class = "control-label col-sm-3", @for = "Capacity" })
                     <div class="col-sm-6 input-group">
-                        <input type="number" name="Capacity" min="1" class = "form-control" id = "NewTrainingCapacity">
+                        <input type="number" name="Capacity" min="1" class="form-control" id="NewTrainingCapacity">
                     </div>
                 </div>
                
@@ -269,6 +269,7 @@
             var time = $('#TrainingTime').prop('value');
             var trainer = $('#NewTrainingTrainer').prop('value');
             var description = $('#NewTrainingDescription').val();
+            var capacity = $('#NewTrainingCapacity').val();
             $.ajax({
                 //controller method
                 url: "CreateNewTraining",

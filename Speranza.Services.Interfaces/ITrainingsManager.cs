@@ -7,7 +7,7 @@ namespace Speranza.Services.Interfaces
 {
     public interface ITrainingsManager
     {
-        IList<ITrainingForAdminModel> GetAllTrainingsForAdmin();
+        IList<ITrainingForAdminModel> GetAllFutureTrainings();
         ITrainingModel RemoveUserFromTraining(string email, string id);
         void SetTrainer(string traininingID, string trainer);
         IList<IUserForTrainingDetailModel> GetAllUsersInTraining(string trainingID);

@@ -41,7 +41,7 @@ namespace Speranza.Controllers
                     return RedirectToAction("Calendar", "Calendar");
                 }
 
-                IList<ITrainingForAdminModel> trainings = trainingManager.GetAllTrainingsForAdmin();
+                IList<ITrainingForAdminModel> trainings = trainingManager.GetAllFutureTrainings();
                 AdminTrainingsModel model = new AdminTrainingsModel();
                 model.Trainings = trainings;
                 return View("AdminTrainings", model);

@@ -10,15 +10,17 @@ namespace Speranza.Services
 {
     public class TrainingsManager: ITrainingsManager
     {
+        private IDateTimeService dateTimeService;
         private IDatabaseGateway db;
         private IModelFactory factory;
         private IUidService uidService;
 
-        public TrainingsManager(IDatabaseGateway db,IModelFactory factory, IUidService uidService)
+        public TrainingsManager(IDatabaseGateway db,IModelFactory factory, IUidService uidService, IDateTimeService dateTimeService)
         {
             this.db = db;
             this.factory = factory;
             this.uidService = uidService;
+            this.dateTimeService = dateTimeService;
         }
 
         public void CancelTraining(string trainingID)
@@ -34,14 +36,17 @@ namespace Speranza.Services
             return trainingID;
         }
 
-        public IList<ITrainingForAdminModel> GetAllTrainingsForAdmin()
+        public IList<ITrainingForAdminModel> GetAllFutureTrainings()
         {
             var trainingsFromDB = db.GetAllTrainings();
             var trainingsForAdmin = new List<ITrainingForAdminModel>();
             foreach (var item in trainingsFromDB)
             {
-               ITrainingForAdminModel model = factory.CreateTrainingForAdminModel(item);
-                trainingsForAdmin.Add(model);
+               if(item.Time > dateTimeService.GetCurrentDate())
+                {
+                    ITrainingForAdminModel model = factory.CreateTrainingForAdminModel(item);
+                    trainingsForAdmin.Add(model);
+                }
             }
             return trainingsForAdmin;
         }
