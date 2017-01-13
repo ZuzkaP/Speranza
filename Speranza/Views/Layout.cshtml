@@ -4,11 +4,9 @@
 }
 <html>
 <head>
-    <link href="~/Content/bootstrap.css" type="text/css" rel="stylesheet" />
-    <link href="~/Content/bootstrap-datepicker3.css" rel="stylesheet" />   
-    <link href="~/Content/jquery-ui-1.10.0.custom.min.css" rel="stylesheet" />
-    <link href="~/Content/jquery.ui.timepicker.css" rel="stylesheet" /> 
     <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">*@
     <title>@ViewBag.Title</title>
 </head>
 <body>
@@ -35,16 +33,11 @@
     <div>
         @RenderBody()
     </div>
-    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
-    <script src="~/Scripts/bootstrap.js"></script>
-    <script src="~/Scripts/bootstrap-datepicker.js"></script>
-    <script src="~/Scripts/locales/bootstrap-datepicker.sk.min.js"></script>
-    <script src="~/Scripts/jquery.ui.widget.min.js"></script>
-    <script src="~/Scripts/jquery.ui.tabs.min.js"></script>
-    <script src="~/Scripts/jquery.ui.position.min.js"></script>
-    <script src="~/Scripts/jquery.ui.core.min.js"></script>
+    <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
     <script src="~/Scripts/jquery.ui.timepicker.js"></script>
-    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     @RenderSection("scripts",false);
 </body>
 </html>

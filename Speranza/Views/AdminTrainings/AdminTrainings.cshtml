@@ -72,10 +72,10 @@
             <div class="modal-body form-horizontal">
                 <div id="messageBoxNewTraining" style="display:none;" class="alert alert-warning" role="alert"></div>
                 @*Training date*@
-                <div class="form-group" id="TrainingDate">
+                <div class="form-group" >
                     @Html.Label("Dátum", new { @class = "control-label col-sm-3" })
                     <div class="input-group date col-sm-4">
-                        <input id="NewTrainingDate" type="text" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                        <input id="TrainingDate" type="text" class="form-control"><span id="trainingDateButton" class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                     </div>
                 </div>
 
@@ -260,13 +260,14 @@
 
         $(function () {
             $('#AddNewTraining').click(function () {
+              
                 $('#NewTraining').modal('show');
 
             });
         });
 
         $('#CreateTrainingButton').click(function () {
-            var date = $('#NewTrainingDate').prop('value');
+            var date = $('#TrainingDate').prop('value');
             var time = $('#TrainingTime').prop('value');
             var trainer = $('#NewTrainingTrainer').prop('value');
             var description = $('#NewTrainingDescription').val();
@@ -331,16 +332,17 @@
         });
 
 
-        $('#TrainingDate .input-group.date').datepicker({
-            format: "dd.mm.yyyy",
-            weekStart: 1,
-            maxViewMode: 2,
-            language: "sk",
-            daysOfWeekHighlighted: "0,6",
-            todayHighlight: true,
-            todayBtn: "linked"
-        });
+        $(function () {
+            $("#TrainingDate").datepicker({
+                beforeShow: function () {
+                    setTimeout(function () {
+                        $('.ui-datepicker').css('z-index', 99999999999999);
+                    }, 0);
+                }
 
+            });
+        });
+       
 
         $('#TrainingTime').timepicker(
             {
