@@ -20,7 +20,8 @@ namespace Speranza.Models
         NewTrainingTimeInvalid = 8,
         NewTrainingSuccessfullyCreated = 9,
         TrainingWasCanceled = 10,
-        TrainingIDInvalid = 11
+        TrainingIDInvalid = 11,
+        NewTrainingDateInPast = 12
     }
 
     public class AdminTrainingsModel : IAdminTrainingsModel

@@ -11,7 +11,8 @@ namespace Speranza.Models
         public AdminTrainingsMessages Message { get; set; }
         public string Trainer { get; set; }
         public string TrainingID { get; set; }
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
+        public string Time { get; set; }
         public string Description { get; set; }
         public int Capacity { get; set; }
     }

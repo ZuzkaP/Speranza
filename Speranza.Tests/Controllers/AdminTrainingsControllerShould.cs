@@ -193,7 +193,7 @@ namespace Speranza.Tests.Controllers
         }
 
         [TestMethod]
-        public void NotToBeSet_When_ChangingTrainingCapacity_And_TrainingCapacityIsLessThanZero()
+        public void NotToBeSet_When_ChangingTrainingCapacity_And_TrainingCapacityIsLessThanOne()
         {
             InitializeAdminTrainingsController();
 

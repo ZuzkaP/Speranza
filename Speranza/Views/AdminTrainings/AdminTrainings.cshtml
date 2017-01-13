@@ -12,7 +12,7 @@
     <div id="messageBox" style="display:none;" class="alert alert-success" role="alert"></div>
     <div id="messageBoxWarning" style="display:none;" class="alert alert-warning" role="alert"></div>
 
-    <table class="table table-striped table-hover">
+    <table class="table table-striped table-hover" id="TrainingsTable">
         <thead>
             <tr>
                 <th class="col-xs-1">Dátum</th>
@@ -70,7 +70,7 @@
                 <h4 class="modal-title">Vytvoriť nový tréning</h4>
             </div>
             <div class="modal-body form-horizontal">
-
+                <div id="messageBoxNewTraining" style="display:none;" class="alert alert-warning" role="alert"></div>
                 @*Training date*@
                 <div class="form-group" id="TrainingDate">
                     @Html.Label("Dátum", new { @class = "control-label col-sm-3" })
@@ -119,7 +119,7 @@
            
             <div class="modal-footer">
                 @*SaveButton*@
-                <button id="CreateTrainingButton" type="button" class="btn btn-default" data-dismiss="modal">Vytvoriť</button>
+                <button id="CreateTrainingButton" type="button" class="btn btn-default">Vytvoriť</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Zrušiť</button>
             </div>
         </div><!-- /.modal-content -->
@@ -201,7 +201,7 @@
                         else if(response == 4)
                         {
                             $('#messageBox').hide();
-                            $('#messageBoxWarning').html("Kapacita tréningu nemôže byť menšia ako 0!");
+                            $('#messageBoxWarning').html("Kapacita tréningu nemôže byť menšia ako 1!");
                             $('#messageBoxWarning').show();
                         }
 
@@ -234,10 +234,12 @@
             });
         });
 
-        $(function () {
-            $('.CancelTraining').click(function () {
-                var self = $(this);
-                var trainingID = self.data('training');
+        $("#TrainingsTable").on("click", ".CancelTraining", function (event) {
+            CancelTraining($(this));
+            event.stopImmediatePropagation();
+        });
+        function CancelTraining(changedElement) {
+                var trainingID = changedElement.data('training');
                 $.ajax({
                     //controller method
                     url: "CancelTraining",
@@ -247,15 +249,14 @@
                     dataType: "json",
                     success: function (response) {
                         if (response == 10) {
+                            alert(trainingID);
                             $('#' + trainingID +'-Row').remove();
                             $('#messageBoxWarning').html("Tréning <b>" + $('#' + trainingID + "-date").html() + " " + $('#' + trainingID + "-time").html() + "</b> bola zrušený!!!");
                             $('#messageBoxWarning').show();
                         }
                     }
                 })
-
-            });
-        });
+            }
 
         $(function () {
             $('#AddNewTraining').click(function () {
@@ -278,20 +279,49 @@
                 type: 'POST',
                 dataType: "json",
                 success: function (response) {
+                    switch (response) {
+                        case 12:
+                            $('#messageBoxNewTraining').html("Nie je možné vytvoriť tréning v minulosti!");
+                            $('#messageBoxNewTraining').show();
+                            return;
+                        case 5:
+                            $('#messageBoxNewTraining').html("Je potrebné zadať aj trénera!");
+                            $('#messageBoxNewTraining').show();
+                            return;
+                        case 6:
+                            $('#messageBoxNewTraining').html("Je potrebné zadať aj popis tréningu!");
+                            $('#messageBoxNewTraining').show();
+                            return;
+                        case 7:
+                            $('#messageBoxNewTraining').html("Dátum je nesprávny!");
+                            $('#messageBoxNewTraining').show();
+                            return;
+                        case 8:
+                            $('#messageBoxNewTraining').html("Čas je nesprávny!");
+                            $('#messageBoxNewTraining').show();
+                            return;
+                        default:
+                            $('#NewTraining').modal('hide');
 
-                    var newRow = '<tr>' +
-                    '<td id="' + response.TrainingID + '-date">' + response.Date + '</td>' +
-                    '<td id="' + response.TrainingID + '-time">' + response.Time + '</td>' +
-                    '<td><textarea  class="trainingDescription form-control input-sm" rows="1" data-training="' + response.TrainingID + '">' + response.Description + '</textarea></td>' +
-                    '<td><input type="text" value="' + response.Trainer + '" class="trainingTrainer form-control input-sm" data-training="' + response.TrainingID + '"/></td>' +
-                    '<td>' +
-                    '<span id="' + response.TrainingID + '-RegisteredNumber">0</span>' +
-                    '<span class="label label-info trainingsDetails" style="cursor:pointer" data-training="' + response.TrainingID + '">Detail</span>' +
-                    '</td>' +
-                    '<td><input type="text" value="' + response.Capacity + '" class="trainingCapacity form-control input-sm "data-training="' + response.TrainingID + '"/></td>' +
-                    '<td>Zrušiť tréning</td>' +
-                    '</tr>';
+                            var newRow = '<tr>' +
+                              '<td id="' + response.TrainingID + '-date">' + response.Date + '</td>' +
+                              '<td id="' + response.TrainingID + '-time">' + response.Time + '</td>' +
+                              '<td><textarea  class="trainingDescription form-control input-sm" rows="1" data-training="' + response.TrainingID + '">' + response.Description + '</textarea></td>' +
+                              '<td><input type="text" value="' + response.Trainer + '" class="trainingTrainer form-control input-sm" data-training="' + response.TrainingID + '"/></td>' +
+                              '<td>' +
+                              '<span id="' + response.TrainingID + '-RegisteredNumber">0</span> ' +
+                              '<span class="label label-info trainingsDetails" style="cursor:pointer" data-training="' + response.TrainingID + '">Detail</span>' +
+                              '</td>' +
+                              '<td><input type="number" min="1" value="' + response.Capacity + '" class="trainingCapacity form-control input-sm "data-training="' + response.TrainingID + '"/></td>' +
+                              '<td><a class="CancelTraining" data-training="' + response.TrainingID + '" href="#">Zrušiť tréning</a></td>' +
+                              '</tr>';
 
+                            $('#TrainingsTable').prepend(newRow);
+                            $("#TrainingsTable").on("click", ".CancelTraining", function (event) {
+                                CancelTraining($(this));
+                                event.stopImmediatePropagation();
+                            });
+                    }
                 }
             });
         });

@@ -89,7 +89,7 @@ namespace Speranza.Controllers
             {
                 return Json("");
             }
-            if (capacity < 0)
+            if (capacity < 1)
             {
                 return Json(AdminTrainingsMessages.TraininingCapacityCannotBeLessThanZero);
             }
@@ -135,10 +135,15 @@ namespace Speranza.Controllers
             try
             {
                 DateTime dateTime = dateTimeService.ParseDateTime(date, time);
+                if(dateTime < dateTimeService.GetCurrentDate())
+                {
+                    return Json(AdminTrainingsMessages.NewTrainingDateInPast);
+                }
                 string trainingID = trainingManager.CreateNewTraining(dateTime, trainer, description, capacity);
                 CreateTrainingModel model = new CreateTrainingModel();
                 model.TrainingID = trainingID;
-                model.Date = dateTime;
+                model.Date = dateTime.ToString("dd.MM.yyyy");
+                model.Time = dateTime.ToString("HH:mm");
                 model.Description = description;
                 model.Trainer = trainer;
                 model.Message = AdminTrainingsMessages.NewTrainingSuccessfullyCreated;
