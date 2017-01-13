@@ -300,6 +300,10 @@
                             $('#messageBoxNewTraining').html("Čas je nesprávny!");
                             $('#messageBoxNewTraining').show();
                             return;
+                        case 4:
+                            $('#messageBoxNewTraining').html("Kapacita tréningu nemôže byť menej ako 1!");
+                            $('#messageBoxNewTraining').show();
+                            return;
                         default:
                             $('#NewTraining').modal('hide');
 

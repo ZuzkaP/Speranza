@@ -199,7 +199,7 @@ namespace Speranza.Tests.Controllers
 
             JsonResult result = (JsonResult)controller.ChangeTrainingCapacity(TRAINING_ID, TRAINING_CAPACITY_UNCORRECT);
 
-            Assert.AreEqual(AdminTrainingsMessages.TraininingCapacityCannotBeLessThanZero, result.Data);
+            Assert.AreEqual(AdminTrainingsMessages.TraininingCapacityCannotBeLessThanOne, result.Data);
             trainingManager.Verify(r => r.SetTrainingCapacity(It.IsAny<string>(), It.IsAny<int>()), Times.Never);
         }
         [TestMethod]

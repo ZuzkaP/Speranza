@@ -28,7 +28,8 @@ namespace Speranza.Tests.Controllers
         private readonly DateTime DATETIME= new DateTime(2017,01,01,12,00,00);
         private const string TRAINING_ID = "trainingID";
         private const int  CAPACITY = 10;
-        private readonly DateTime DATETIME_IN_PAST = new DateTime(2016, 01, 01, 12, 00, 00); 
+        private readonly DateTime DATETIME_IN_PAST = new DateTime(2016, 01, 01, 12, 00, 00);
+        private const int UNCORRECT_CAPACITY = 0;
 
         [TestMethod]
         public void ReturnToCalendar_When_UserIsNotAdmin()
@@ -65,6 +66,18 @@ namespace Speranza.Tests.Controllers
             Assert.AreEqual(AdminTrainingsMessages.NewTrainingNoDescription, result.Data);
             trainingManager.Verify(r => r.CreateNewTraining(It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()), Times.Never);
         }
+
+        [TestMethod]
+        public void NotCreateTraining_When_CapacityIsLessThan1()
+        {
+            InitializeController();
+
+            JsonResult result = (JsonResult)controller.CreateNewTraining(DATE, TIME, TRAINER, DESCRIPTION, UNCORRECT_CAPACITY);
+
+            Assert.AreEqual(AdminTrainingsMessages.TraininingCapacityCannotBeLessThanOne, result.Data);
+            trainingManager.Verify(r => r.CreateNewTraining(It.IsAny<DateTime>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()), Times.Never);
+        }
+
 
         [TestMethod]
         public void NotCreateTraining_When_DateIsNotParsable()

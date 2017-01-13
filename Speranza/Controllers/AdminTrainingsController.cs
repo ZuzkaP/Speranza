@@ -91,7 +91,7 @@ namespace Speranza.Controllers
             }
             if (capacity < 1)
             {
-                return Json(AdminTrainingsMessages.TraininingCapacityCannotBeLessThanZero);
+                return Json(AdminTrainingsMessages.TraininingCapacityCannotBeLessThanOne);
             }
 
             trainingManager.SetTrainingCapacity(trainingID, capacity);
@@ -131,6 +131,10 @@ namespace Speranza.Controllers
             if (string.IsNullOrEmpty(description))
             {
                 return Json(AdminTrainingsMessages.NewTrainingNoDescription);
+            }
+            if (capacity < 1)
+            {
+                return Json(AdminTrainingsMessages.TraininingCapacityCannotBeLessThanOne);
             }
             try
             {
