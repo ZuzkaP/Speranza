@@ -18,7 +18,7 @@ else
                 <th>Akcia</th>
             </tr>
             </thead>
-
+        Model.Trainings.OrderBy(s => s.Time)
         @foreach (var user in Model.Users)
         {
          <tr id="@Model.TrainingID">

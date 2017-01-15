@@ -81,7 +81,7 @@
                     <th class="col-sm-2">Odhlásiť</th>
                 </tr>
             </thead>
-            @foreach (var item in Model.Trainings)
+            @foreach (var item in Model.Trainings.OrderBy(s => s.Time))
                 {
                 <tr>
                     <td>@item.Time.ToString("dd.MM.yyyy")</td>

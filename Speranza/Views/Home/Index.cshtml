@@ -8,6 +8,14 @@
 <div class="container">
     <h2>Login</h2>
 
+    @if (Model != null)
+    {
+        if (!Model.LoginSuccessful)
+        {
+            <p> <div class="alert alert-warning" role="alert">Meno alebo heslo nie je správne!</div></p>
+        }
+    }
+
     @using (Html.BeginForm("Login", "Accounts", FormMethod.Post, new { @class = "form-horizontal" }))
     {
         <div class="form-group">
