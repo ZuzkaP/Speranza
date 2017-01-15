@@ -251,7 +251,7 @@
                         if (response == 10) {
                             alert(trainingID);
                             $('#' + trainingID +'-Row').remove();
-                            $('#messageBoxWarning').html("Tréning <b>" + $('#' + trainingID + "-date").html() + " " + $('#' + trainingID + "-time").html() + "</b> bola zrušený!!!");
+                            $('#messageBoxWarning').html("Tréning <b>" + $('#' + trainingID + "-date").html() + " " + $('#' + trainingID + "-time").html() + "</b> bol zrušený!");
                             $('#messageBoxWarning').show();
                         }
                     }
@@ -272,6 +272,10 @@
             var trainer = $('#NewTrainingTrainer').prop('value');
             var description = $('#NewTrainingDescription').val();
             var capacity = $('#NewTrainingCapacity').val();
+            if (capacity == null || capacity =="")
+            {
+                capacity = -1;
+            }
             $.ajax({
                 //controller method
                 url: "CreateNewTraining",
