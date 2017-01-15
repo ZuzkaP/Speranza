@@ -331,6 +331,8 @@
                               '</tr>';
 
                             $('#TrainingsTable').prepend(newRow);
+                            $("#messageBox").html("Nový tréning <b>" + response.Date + " " + response.Time + "</b> bol vytvorený!");
+                            $("#messageBox").show();
                     }
                 }
             });
