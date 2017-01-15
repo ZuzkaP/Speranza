@@ -128,13 +128,14 @@
 
 @section scripts {
     <script>
-        $(function () {
-            $('.trainingDescription').change(function () {
+        $("#TrainingsTable").on("change", ".trainingDescription", function (event) {
+            TrainingDescription($(this));
+        });
 
-                var self = $(this);
-                var trainingID = self.data('training');
+      function TrainingDescription(element){
+                var trainingID = element.data('training');
                 //value z textboxu
-                var value = self.prop('value');
+                var value = element.prop('value');
                 $.ajax({
                     url: "ChangeTrainingDescription",
                     data: { trainingID: trainingID, description: value },
@@ -151,11 +152,11 @@
                     }
                 });
 
-            });
-        });
+            };
+       
+
         $("#TrainingsTable").on("change", ".trainingTrainer", function (event) {
             TrainingTrainer($(this));
-            event.stopImmediatePropagation();
         });
         
         function TrainingTrainer(element) {
@@ -181,7 +182,6 @@
 
         $("#TrainingsTable").on("change", ".trainingCapacity", function (event) {
             TrainingCapacity($(this));
-            event.stopImmediatePropagation();
         });
 
         function TrainingCapacity(element) {
@@ -214,7 +214,6 @@
 
         $("#TrainingsTable").on("click", ".TrainingDetails", function (event) {
             TrainingDetails($(this));
-            event.stopImmediatePropagation();
         });
 
         function TrainingDetails (element) {
@@ -237,7 +236,6 @@
 
         $("#TrainingsTable").on("click", ".CancelTraining", function (event) {
             CancelTraining($(this));
-            event.stopImmediatePropagation();
         });
 
         function CancelTraining(changedElement) {
