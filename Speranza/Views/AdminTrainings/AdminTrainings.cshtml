@@ -238,6 +238,7 @@
             CancelTraining($(this));
             event.stopImmediatePropagation();
         });
+
         function CancelTraining(changedElement) {
                 var trainingID = changedElement.data('training');
                 $.ajax({
@@ -249,9 +250,8 @@
                     dataType: "json",
                     success: function (response) {
                         if (response == 10) {
-                            alert(trainingID);
-                            $('#' + trainingID +'-Row').remove();
                             $('#messageBoxWarning').html("Tréning <b>" + $('#' + trainingID + "-date").html() + " " + $('#' + trainingID + "-time").html() + "</b> bol zrušený!");
+                            $('#' + trainingID + '-Row').remove();
                             $('#messageBoxWarning').show();
                         }
                     }
@@ -260,7 +260,7 @@
 
         $(function () {
             $('#AddNewTraining').click(function () {
-              
+
                 $('#NewTraining').modal('show');
 
             });
@@ -312,7 +312,7 @@
                         default:
                             $('#NewTraining').modal('hide');
 
-                            var newRow = '<tr>' +
+                            var newRow = '<tr id="'+response.TrainingID + '-Row">' +
                               '<td id="' + response.TrainingID + '-date">' + response.Date + '</td>' +
                               '<td id="' + response.TrainingID + '-time">' + response.Time + '</td>' +
                               '<td><textarea  class="trainingDescription form-control input-sm" rows="1" data-training="' + response.TrainingID + '">' + response.Description + '</textarea></td>' +
@@ -353,7 +353,7 @@
                 firstDay: 1
             });
         });
-       
+
 
         $('#TrainingTime').timepicker(
             {
