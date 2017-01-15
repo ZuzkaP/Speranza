@@ -35,7 +35,7 @@
                <span id="@item.ID-RegisteredNumber">@item.RegisteredNumber</span> 
                 <span class="label label-info TrainingDetails" style="cursor:pointer" data-training="@item.ID">Detail</span>
                 </td>
-                <td><input type="number" value="@item.Capacity" min="1" class="trainingCapacity form-control input-sm " data-training="@item.ID"/></td>
+                <td><input id="TrainingCapacity" type="number" value="@item.Capacity" min="@item.Capacity" class="trainingCapacity form-control input-sm " data-training="@item.ID"/></td>
                 <td><a class="CancelTraining" data-training="@item.ID" href="#">Zrušiť tréning</a></td>
             </tr>
         }
@@ -205,7 +205,11 @@
                             $('#messageBoxWarning').html("Kapacita tréningu nemôže byť menšia ako 1!");
                             $('#messageBoxWarning').show();
                         }
-
+                        else if (response == 13) {
+                            $('#messageBox').hide();
+                            $('#messageBoxWarning').html("Kapacita tréningu nemôže byť menšia ako počet prihlásených cvičiacich!");
+                            $('#messageBoxWarning').show();
+                        }
 
                         }
                 });

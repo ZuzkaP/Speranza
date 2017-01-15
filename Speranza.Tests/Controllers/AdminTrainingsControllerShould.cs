@@ -22,7 +22,7 @@ namespace Speranza.Tests.Controllers
         private const string TRAINING_ID = "testID";
         private const string TRAINER = "Miro";
         private const string TRAINING_DESCRIPTION = "description";
-        private const int TRAINING_CAPACITY = 8;
+        private const int TRAINING_CAPACITY = 3;
         private const int TRAINING_CAPACITY_UNCORRECT = -1;
         private Mock<IDateTimeService> dateTimeService;
         private Mock<ITrainingForAdminModel> trainingModel;
@@ -213,6 +213,20 @@ namespace Speranza.Tests.Controllers
             trainingManager.Verify(r => r.SetTrainingCapacity(It.IsAny<string>(), It.IsAny<int>()), Times.Never);
         }
 
+
+        [TestMethod]
+        public void NotChangeCapacityLowerThanCountOfSignedUpUsers()
+        {
+            InitializeAdminTrainingsController();
+            // PrepareTrainingWithFourUsersSignedUp();
+            trainingManager.Setup(r => r.GetAllUsersInTraining(TRAINING_ID).Count).Returns(6);
+
+            JsonResult result = (JsonResult)controller.ChangeTrainingCapacity(TRAINING_ID, TRAINING_CAPACITY);
+
+            Assert.AreEqual(AdminTrainingsMessages.TraininingCapacityLowerThanCountOfSignedUpUsers, result.Data);
+            trainingManager.Verify(r => r.SetTrainingCapacity(TRAINING_ID, TRAINING_CAPACITY), Times.Never);
+        }
+
         [TestMethod]
         public void ChangeTrainingCapacity()
         {
@@ -300,6 +314,13 @@ namespace Speranza.Tests.Controllers
             Assert.AreEqual(AdminTrainingsMessages.TrainingWasCanceled, result.Data);
             trainingManager.Verify(r => r.CancelTraining(TRAINING_ID), Times.Once);
         }
+
+
+        private void PrepareTrainingWithFourUsersSignedUp()
+        {
+            throw new NotImplementedException();
+        }
+
 
         private void InitializeAdminTrainingsController()
         {

@@ -93,6 +93,10 @@ namespace Speranza.Controllers
             {
                 return Json(AdminTrainingsMessages.TraininingCapacityCannotBeLessThanOne);
             }
+            if(trainingManager.GetAllUsersInTraining(trainingID).Count > capacity)
+            {
+                return Json(AdminTrainingsMessages.TraininingCapacityLowerThanCountOfSignedUpUsers);
+            }
 
             trainingManager.SetTrainingCapacity(trainingID, capacity);
 

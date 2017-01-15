@@ -21,7 +21,8 @@ namespace Speranza.Models
         NewTrainingSuccessfullyCreated = 9,
         TrainingWasCanceled = 10,
         TrainingIDInvalid = 11,
-        NewTrainingDateInPast = 12
+        NewTrainingDateInPast = 12,
+        TraininingCapacityLowerThanCountOfSignedUpUsers = 13
     }
 
     public class AdminTrainingsModel : IAdminTrainingsModel
