@@ -5,6 +5,7 @@
   margin: 5px auto 0;
   font: 9pt Arial, sans-serif;
   background:#ffffff;
+  display: none;
   border-width:1px;
   border-color:#000000;
   border-style:solid;
