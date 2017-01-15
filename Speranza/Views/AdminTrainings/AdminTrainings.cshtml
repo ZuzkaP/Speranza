@@ -35,7 +35,7 @@
                <span id="@item.ID-RegisteredNumber">@item.RegisteredNumber</span> 
                 <span class="label label-info TrainingDetails" style="cursor:pointer" data-training="@item.ID">Detail</span>
                 </td>
-                <td><input type="number" value="@item.Capacity" min="1" class="trainingCapacity form-control input-sm "data-training="@item.ID"/></td>
+                <td><input type="number" value="@item.Capacity" min="1" class="trainingCapacity form-control input-sm " data-training="@item.ID"/></td>
                 <td><a class="CancelTraining" data-training="@item.ID" href="#">Zrušiť tréning</a></td>
             </tr>
         }
@@ -180,13 +180,15 @@
             });
         });
 
-        $(function () {
-            $('.trainingCapacity').change(function () {
+        $("#TrainingsTable").on("change", ".trainingCapacity", function (event) {
+            TrainingCapacity($(this));
+            event.stopImmediatePropagation();
+        });
 
-                var self = $(this);
-                var trainingID = self.data('training');
+        function TrainingCapacity(element) {
+            var trainingID = element.data('training');
                 //value z textboxu
-                var value = self.prop('value');
+            var value = element.prop('value');
                 $.ajax({
                     url: "ChangeTrainingCapacity",
                     data: { trainingID: trainingID, capacity: value },
@@ -208,9 +210,8 @@
 
                         }
                 });
-
-            });
-        });
+            }
+       
 
         $("#TrainingsTable").on("click", ".TrainingDetails", function (event) {
             TrainingDetails($(this));
@@ -327,15 +328,6 @@
                               '</tr>';
 
                             $('#TrainingsTable').prepend(newRow);
-                            $("#TrainingsTable").on("click", ".CancelTraining", function (event) {
-                                CancelTraining($(this));
-                                event.stopImmediatePropagation();
-                            });
-                            $("#TrainingsTable").on("click", ".TrainingDetails", function (event) {
-                                alert("abc");
-                                TrainingDetails($(this));
-                                event.stopImmediatePropagation();
-                            });
                     }
                 }
             });
