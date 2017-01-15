@@ -33,7 +33,7 @@
                 <td><input type="text" value="@item.Trainer" class="trainingTrainer form-control input-sm" data-training="@item.ID"/></td>
                 <td>
                <span id="@item.ID-RegisteredNumber">@item.RegisteredNumber</span> 
-                <span class="label label-info trainingsDetails" style="cursor:pointer" data-training="@item.ID">Detail</span>
+                <span class="label label-info TrainingDetails" style="cursor:pointer" data-training="@item.ID">Detail</span>
                 </td>
                 <td><input type="number" value="@item.Capacity" min="1" class="trainingCapacity form-control input-sm "data-training="@item.ID"/></td>
                 <td><a class="CancelTraining" data-training="@item.ID" href="#">Zrušiť tréning</a></td>
@@ -50,7 +50,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Prihlásení na tréning <span id="modalTitleTraining"></span></h4>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="TrainingDetailsBody">
 
             </div>
             <div class="modal-footer">
@@ -212,11 +212,14 @@
             });
         });
 
-        $(function () {
-            $('.trainingsDetails').click(function () {
+        $("#TrainingsTable").on("click", ".TrainingDetails", function (event) {
+            TrainingDetails($(this));
+            event.stopImmediatePropagation();
+        });
 
-                var self = $(this);
-                var trainingID = self.data('training');
+        function TrainingDetails (element) {
+
+                var trainingID = element.data('training');
                 $.ajax({
                     //controller method
                     url: "TrainingDetails",
@@ -225,14 +228,12 @@
                     type: 'POST',
                     dataType: "html",
                     success: function (response) {
-                        $('.modal-body').html(response);
+                        $('#TrainingDetailsBody').html(response);
                         $('#modalTitleTraining').html($('#' + trainingID + "-date").html() + " " + $('#' + trainingID + "-time").html());
                         $('#trainingDetailsModal').modal('show');
                     }
                 });
-
-            });
-        });
+        }
 
         $("#TrainingsTable").on("click", ".CancelTraining", function (event) {
             CancelTraining($(this));
@@ -319,7 +320,7 @@
                               '<td><input type="text" value="' + response.Trainer + '" class="trainingTrainer form-control input-sm" data-training="' + response.TrainingID + '"/></td>' +
                               '<td>' +
                               '<span id="' + response.TrainingID + '-RegisteredNumber">0</span> ' +
-                              '<span class="label label-info trainingsDetails" style="cursor:pointer" data-training="' + response.TrainingID + '">Detail</span>' +
+                              '<span class="label label-info TrainingDetails" style="cursor:pointer" data-training="' + response.TrainingID + '">Detail</span>' +
                               '</td>' +
                               '<td><input type="number" min="1" value="' + response.Capacity + '" class="trainingCapacity form-control input-sm "data-training="' + response.TrainingID + '"/></td>' +
                               '<td><a class="CancelTraining" data-training="' + response.TrainingID + '" href="#">Zrušiť tréning</a></td>' +
@@ -328,6 +329,11 @@
                             $('#TrainingsTable').prepend(newRow);
                             $("#TrainingsTable").on("click", ".CancelTraining", function (event) {
                                 CancelTraining($(this));
+                                event.stopImmediatePropagation();
+                            });
+                            $("#TrainingsTable").on("click", ".TrainingDetails", function (event) {
+                                alert("abc");
+                                TrainingDetails($(this));
                                 event.stopImmediatePropagation();
                             });
                     }
