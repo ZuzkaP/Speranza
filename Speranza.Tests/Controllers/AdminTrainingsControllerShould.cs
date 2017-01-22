@@ -80,7 +80,18 @@ namespace Speranza.Tests.Controllers
 
             Assert.AreEqual(trainings, model.Trainings);
         }
-        
+
+        [TestMethod]
+        public void LoadSignOffLimitFromDB_And_SendToUI()
+        {
+            InitializeAdminTrainingsController();
+            trainingManager.Setup(r => r.GetSignOffLimit()).Returns(HOURS_LIMIT);
+
+            ViewResult result = (ViewResult)controller.AdminTrainings();
+            AdminTrainingsModel model = (AdminTrainingsModel)result.Model;
+
+            Assert.AreEqual(HOURS_LIMIT, model.SignOffLimit);
+        }
 
         [TestMethod]
         public void ReturnToCalendar_When_ChangingTrainer_And_UserIsNotAdmin()

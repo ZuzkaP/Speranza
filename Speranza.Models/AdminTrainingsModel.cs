@@ -29,5 +29,6 @@ namespace Speranza.Models
     public class AdminTrainingsModel : IAdminTrainingsModel
     {
         public IList<ITrainingForAdminModel> Trainings { get; set; }
+        public int SignOffLimit { get; set; }
     }
 }

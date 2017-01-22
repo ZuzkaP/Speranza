@@ -63,6 +63,11 @@ namespace Speranza.Services
             return models;
         }
 
+        public int GetSignOffLimit()
+        {
+            return db.GetSignOffLimit();
+        }
+
         public ITrainingModel RemoveUserFromTraining(string email, string id)
         {
             db.RemoveUserFromTraining(email, id);

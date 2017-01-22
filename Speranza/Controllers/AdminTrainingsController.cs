@@ -42,8 +42,10 @@ namespace Speranza.Controllers
                 }
 
                 IList<ITrainingForAdminModel> trainings = trainingManager.GetAllFutureTrainings();
+                int signOffLimit = trainingManager.GetSignOffLimit();
                 AdminTrainingsModel model = new AdminTrainingsModel();
                 model.Trainings = trainings;
+                model.SignOffLimit = signOffLimit;
                 return View("AdminTrainings", model);
             }
             return RedirectToAction("Index", "Home");

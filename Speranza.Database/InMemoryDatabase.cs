@@ -11,8 +11,9 @@ namespace Speranza.Database
 {
     public class InMemoryDatabase : IDatabaseGateway
     {
-
+        private const string SETTINGS_SIGN_OFF_LIMIT = "SignOffLimit";
         Dictionary<string, RegisteredUser> users;
+        Dictionary<string, object> settings;
         List<ITraining> trainings;
         List<UserInTraining> usersInTrainings;
         static InMemoryDatabase database;
@@ -30,9 +31,13 @@ namespace Speranza.Database
         {
             users = new Dictionary<string, RegisteredUser>();
             usersInTrainings = new List<UserInTraining>();
-            users.Add("admin", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Zuzana", Surname = "Papalova", PhoneNumber = "1234" , IsAdmin = true, Category = UserCategories.Silver});
+            settings = new Dictionary<string, object>();
+            users.Add("admin", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Admin", Surname = "Admin", PhoneNumber = "1234" , IsAdmin = true, Category = UserCategories.Silver});
             
             users.Add("miro", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Miro", Surname = "Pavlicko", PhoneNumber = "1234" , IsAdmin = false , NumberOfFreeSignUps = 10});
+            users.Add("Zuzka", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Zuzana", Surname = "papalova", PhoneNumber = "1234", IsAdmin = false, Category = UserCategories.Gold, NumberOfFreeSignUps = 7});
+            users.Add("Jozko", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "jozko", Surname = "Mrkvicka", PhoneNumber = "1234", IsAdmin = false, Category = UserCategories.Gold, NumberOfFreeSignUps = 8 });
+
             trainings = new List<ITraining>();
             int year = DateTime.Now.Year;
             int month = DateTime.Now.Month;
@@ -45,6 +50,8 @@ namespace Speranza.Database
             trainings.Add(PrepareTraining(new DateTime(year, month, day, 09, 00, 00).AddDays(-10), "training c.3", "Filip", 10 ));
             usersInTrainings.Add(new UserInTraining() { Email = "admin", TrainingID = trainings[0].ID });
             usersInTrainings.Add(new UserInTraining() { Email = "admin", TrainingID = trainings[5].ID });
+
+            settings.Add(SETTINGS_SIGN_OFF_LIMIT, 4);
         }
 
         private ITraining PrepareTraining(DateTime dateTime, string v1, string v2, int v3)
@@ -280,7 +287,12 @@ namespace Speranza.Database
 
         public void SetSignOffLimit(int hoursLimit)
         {
-            throw new NotImplementedException();
+            settings[SETTINGS_SIGN_OFF_LIMIT] = hoursLimit;
+        }
+
+        public int GetSignOffLimit()
+        {
+            return (int) settings[SETTINGS_SIGN_OFF_LIMIT];
         }
 
         private class UserInTraining

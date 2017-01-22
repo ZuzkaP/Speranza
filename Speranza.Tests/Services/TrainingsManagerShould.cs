@@ -181,6 +181,22 @@ namespace Speranza.Tests.Services
             db.Verify(r => r.SetSignOffLimit(HOURS_LIMIT), Times.Once);
         }
 
+        [TestMethod]
+        public void GetSignOffLimitFromDb()
+        {
+            InitializeTrainingManager();
+            PrepareDBWithSignOffSettings();
+
+            var limit = manager.GetSignOffLimit();
+
+            Assert.AreEqual(HOURS_LIMIT, limit);
+        }
+
+        private void PrepareDBWithSignOffSettings()
+        {
+            db.Setup(r => r.GetSignOffLimit()).Returns(HOURS_LIMIT);
+        }
+
         private void PrepareDBAndFactoryWithTwoUsers()
         {
             var user1 = new Mock<IUser>();

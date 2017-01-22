@@ -16,5 +16,6 @@ namespace Speranza.Services.Interfaces
         string CreateNewTraining(DateTime dateTime, string trainer, string description, int capacity);
         void CancelTraining(string trainingID);
         void SetSignOffLimit(int hoursLimit);
+        int GetSignOffLimit();
     }
 }
