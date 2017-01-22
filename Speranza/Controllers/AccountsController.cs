@@ -167,7 +167,8 @@ namespace Speranza.Controllers
                 model.Category = user.Category.ToString();
                 model.NumberOfFreeSignUps = user.NumberOfFreeSignUpsOnSeasonTicket;
                 model.NumberOfPastTrainings = user.NumberOfPastTrainings;
-                model.Trainings = new List<ITrainingModel>();
+                model.FutureTrainings = new List<ITrainingModel>();
+                model.PastTrainings = new List<ITrainingModel>();
                 model.SignedUpOrSignedOffTraining = (ITrainingModel) Session["Training"];
                 OrderAndAssignTrainings(model);
                
@@ -204,7 +205,8 @@ namespace Speranza.Controllers
                         futureTrainings.Add(trainingModel);
                     }
                 }
-                model.Trainings = futureTrainings.OrderBy(r => r.Time).Concat(pastTrainings.OrderByDescending(r => r.Time)).ToList();
+                model.FutureTrainings = futureTrainings.OrderBy(r => r.Time).ToList();
+                model.PastTrainings = pastTrainings.OrderByDescending(r => r.Time).ToList();
             }
         }
     }

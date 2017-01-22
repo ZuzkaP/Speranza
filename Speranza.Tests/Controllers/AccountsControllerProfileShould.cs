@@ -121,7 +121,7 @@ namespace Speranza.Tests.Controllers
             ViewResult result = (ViewResult)controller.UserProfile();
         
             UserProfileModel model = (UserProfileModel)result.Model;
-            Assert.AreEqual(0, model.Trainings.Count);
+            Assert.AreEqual(0, model.FutureTrainings.Count);
         }
 
 
@@ -139,8 +139,8 @@ namespace Speranza.Tests.Controllers
             ViewResult result = (ViewResult)controller.UserProfile();
 
             UserProfileModel model = (UserProfileModel)result.Model;
-            Assert.AreEqual(1, model.Trainings.Count);
-            Assert.AreEqual(training1Model.Object, model.Trainings[0]);
+            Assert.AreEqual(1, model.FutureTrainings.Count);
+            Assert.AreEqual(training1Model.Object, model.FutureTrainings[0]);
         }
 
         [TestMethod]
@@ -199,10 +199,12 @@ namespace Speranza.Tests.Controllers
             ActionResult result = controller.UserProfile();
 
             UserProfileModel model = (UserProfileModel)((ViewResult)result).Model;
-            Assert.AreEqual(trainingModelA.Object, model.Trainings[0]);
-            Assert.AreEqual(trainingModelD.Object, model.Trainings[1]);
-            Assert.AreEqual(trainingModelC.Object, model.Trainings[2]);
-            Assert.AreEqual(trainingModelB.Object, model.Trainings[3]);
+            Assert.AreEqual(trainingModelA.Object, model.FutureTrainings[0]);
+            Assert.AreEqual(trainingModelD.Object, model.FutureTrainings[1]);
+            Assert.AreEqual(trainingModelC.Object, model.PastTrainings[0]);
+            Assert.AreEqual(trainingModelB.Object, model.PastTrainings[1]);
+            Assert.AreEqual(2, model.FutureTrainings.Count);
+            Assert.AreEqual(2, model.PastTrainings.Count);
         }
 
         [TestMethod]

@@ -231,6 +231,7 @@ namespace Speranza.Tests.Controllers
         public void ChangeTrainingCapacity()
         {
             InitializeAdminTrainingsController();
+            trainingManager.Setup(r => r.GetAllUsersInTraining(TRAINING_ID).Count).Returns(1);
 
             JsonResult result = (JsonResult)controller.ChangeTrainingCapacity(TRAINING_ID, TRAINING_CAPACITY);
 
