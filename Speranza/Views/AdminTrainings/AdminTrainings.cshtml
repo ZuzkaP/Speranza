@@ -11,8 +11,9 @@
     <div class="form-group form-horizontal">
         @Html.Label("Limit pre odhlásenie: ", new { @class = "control-label col-sm-2", title = "Počet hodín pred tréningom, pokiaľ sa používateľ ešťe môže odhlásiť" })
         <div class="col-sm-3">
-            @Html.TextBox("SignOffLimit", "4", new { @class = "form-control" })
+           <input id="SignOffLimit" type="number" value="4" min="0" class="form-control" />
         </div>
+        <label id="SignOffLimitHours" class="control-label">hod.</label>
     </div>
     
     </div>
@@ -386,6 +387,30 @@
                 }
               );
 
-
+            $('#SignOffLimit').change(function () {
+                var value = $(this).val();
+                if (value == 0 || value >= 5)
+                {
+                    $("#SignOffLimitHours").html('hodín');
+                }
+                else if (value == 1) {
+                    $("#SignOffLimitHours").html('hodina');
+                }
+                else
+                {
+                    $("#SignOffLimitHours").html('hodiny');
+                }
+                $.ajax({
+                    //controller method
+                    url: "SetSignOffLimit",
+                    //controller method parameter : trainingID
+                    data: { limit: value },
+                    type: 'POST',
+                    dataType: "json",
+                    success: function (response) {
+                     
+                    }
+                })
+            });
         </script>
     }

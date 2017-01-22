@@ -182,5 +182,10 @@ namespace Speranza.Controllers
             return Json(AdminTrainingsMessages.TrainingWasCanceled);
         }
 
+        public ActionResult SetSignOffLimit(int limit)
+        {
+            return Json("");
+        }
+
     }
 }

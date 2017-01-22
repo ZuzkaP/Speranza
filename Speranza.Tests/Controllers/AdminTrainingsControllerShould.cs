@@ -218,7 +218,6 @@ namespace Speranza.Tests.Controllers
         public void NotChangeCapacityLowerThanCountOfSignedUpUsers()
         {
             InitializeAdminTrainingsController();
-            // PrepareTrainingWithFourUsersSignedUp();
             trainingManager.Setup(r => r.GetAllUsersInTraining(TRAINING_ID).Count).Returns(6);
 
             JsonResult result = (JsonResult)controller.ChangeTrainingCapacity(TRAINING_ID, TRAINING_CAPACITY);
