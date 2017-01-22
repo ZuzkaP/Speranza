@@ -184,7 +184,12 @@ namespace Speranza.Controllers
 
         public ActionResult SetSignOffLimit(int limit)
         {
-            return Json("");
+            if (!userManager.IsUserAdmin(Session))
+            {
+                return RedirectToAction("Calendar", "Calendar");
+            }
+            trainingManager.SetSignOffLimit(limit);
+            return Json(AdminTrainingsMessages.SignOffLimitWasChanged);
         }
 
     }

@@ -278,6 +278,11 @@ namespace Speranza.Database
            
         }
 
+        public void SetSignOffLimit(int hoursLimit)
+        {
+            throw new NotImplementedException();
+        }
+
         private class UserInTraining
         {
           public  string Email { get; set; }

@@ -35,6 +35,7 @@ namespace Speranza.Tests.Services
         private readonly DateTime DATE_IN_FUTURE = new DateTime(2017, 12, 12);
         private readonly DateTime CURRENT_DATE = new DateTime(2017, 01, 12);
         private Mock<IDateTimeService> dateTimeService;
+        private const int HOURS_LIMIT = 12;
 
         [TestMethod]
         public void ReturnEmptyList_When_NoTrainingExistsInDB()
@@ -170,6 +171,15 @@ namespace Speranza.Tests.Services
             db.Verify(r => r.CancelTraining(TRAINING_ID), Times.Once);
         }
 
+        [TestMethod]
+        public void ChangeSignOffLimit()
+        {
+            InitializeTrainingManager();
+
+            manager.SetSignOffLimit(HOURS_LIMIT);
+
+            db.Verify(r => r.SetSignOffLimit(HOURS_LIMIT), Times.Once);
+        }
 
         private void PrepareDBAndFactoryWithTwoUsers()
         {

@@ -72,6 +72,11 @@ namespace Speranza.Services
             return model;
         }
 
+        public void SetSignOffLimit(int hoursLimit)
+        {
+            db.SetSignOffLimit(hoursLimit);
+        }
+
         public void SetTrainer(string trainingID, string trainer)
         {
             db.SetTrainer(trainingID, trainer);

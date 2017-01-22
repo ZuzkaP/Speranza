@@ -29,6 +29,8 @@ namespace Speranza.Tests.Controllers
         private List<ITrainingForAdminModel> trainings;
         private Mock<IAdminTrainingsModel> model;
 
+        private const int HOURS_LIMIT = 12;
+
         [TestMethod]
         public void ReturnToCalendar_When_ClickOnAdminUsers_And_UserIsNotLogin()
         {
@@ -313,6 +315,31 @@ namespace Speranza.Tests.Controllers
            
             Assert.AreEqual(AdminTrainingsMessages.TrainingWasCanceled, result.Data);
             trainingManager.Verify(r => r.CancelTraining(TRAINING_ID), Times.Once);
+        }
+
+        [TestMethod]
+        public void NotChangeSignOffLimit_WhenUserIsNotAdmin()
+        {
+            InitializeAdminTrainingsController();
+            userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(false);
+
+            ActionResult result = controller.SetSignOffLimit(HOURS_LIMIT);
+
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
+            trainingManager.Verify(r => r.SetSignOffLimit(It.IsAny<int>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void ChangeSignOffLimit()
+        {
+            InitializeAdminTrainingsController();
+
+            JsonResult result = (JsonResult)controller.SetSignOffLimit(HOURS_LIMIT);
+
+            Assert.AreEqual(AdminTrainingsMessages.SignOffLimitWasChanged, result.Data);
+            trainingManager.Verify(r => r.SetSignOffLimit(HOURS_LIMIT), Times.Once);
         }
 
 
