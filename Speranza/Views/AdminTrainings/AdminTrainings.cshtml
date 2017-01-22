@@ -3,65 +3,77 @@
     ViewBag.Title = "Správa tréningov";
     Layout = "~/Views/Layout.cshtml";
 }
-<div class="container">
+
+<div class="container trainingSettings">
     <h2>
-        Správa tréningov
-        <button id="AddNewTraining" class="btn btn-warning"><span class="glyphicon glyphicon-plus"></span></button>
+        Nastavenia
     </h2>
+    <div class="form-group form-horizontal">
+        @Html.Label("Limit pre odhlásenie: ", new { @class = "control-label col-sm-2", title = "Počet hodín pred tréningom, pokiaľ sa používateľ ešťe môže odhlásiť" })
+        <div class="col-sm-3">
+            @Html.TextBox("SignOffLimit", "4", new { @class = "form-control" })
+        </div>
+    </div>
     
-    <div id="messageBox" style="display:none;" class="alert alert-success" role="alert"></div>
-    <div id="messageBoxWarning" style="display:none;" class="alert alert-warning" role="alert"></div>
+    </div>
 
-    <table class="table table-striped table-hover" id="TrainingsTable">
-        <thead>
-            <tr>
-                <th class="col-xs-1">Dátum</th>
-                <th class="col-xs-1">Čas</th>
-                <th class="col-xs-3">Popis</th>
-                <th class="col-xs-2">Tréner</th>
-                <th class="col-xs-1">Prihlásení</th>
-                <th class="col-xs-1">Kapacita</th>
-                <th>Akcia</th>
-            </tr>
-        </thead>
-        @foreach (var item in Model.Trainings.OrderBy(s => s.Time))
-        {
-            <tr id="@item.ID-Row">
-                <td id="@item.ID-date">@item.Time.ToString("dd.MM.yyyy")</td>
-                <td id="@item.ID-time">@item.Time.ToString("HH:mm")</td>
-                <td><textarea  class="trainingDescription form-control input-sm" rows="1" data-training="@item.ID">@item.Description</textarea></td>
-                <td><input type="text" value="@item.Trainer" class="trainingTrainer form-control input-sm" data-training="@item.ID"/></td>
-                <td>
-               <span id="@item.ID-RegisteredNumber">@item.RegisteredNumber</span> 
-                <span class="label label-info TrainingDetails" style="cursor:pointer" data-training="@item.ID">Detail</span>
-                </td>
-                <td><input id="TrainingCapacity" type="number" value="@item.Capacity" min="@item.Capacity" class="trainingCapacity form-control input-sm " data-training="@item.ID"/></td>
-                <td><a class="CancelTraining" data-training="@item.ID" href="#">Zrušiť tréning</a></td>
-            </tr>
-        }
-    </table>
-</div>
+    <div class="container">
+        <h2>
+            Správa tréningov
+            <button id="AddNewTraining" class="btn btn-warning"><span class="glyphicon glyphicon-plus"></span></button>
+        </h2>
 
-@*Modal window with All users sign up in training*@
-<div class="modal fade" id="trainingDetailsModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Prihlásení na tréning <span id="modalTitleTraining"></span></h4>
-            </div>
-            <div class="modal-body" id="TrainingDetailsBody">
+        <div id="messageBox" style="display:none;" class="alert alert-success" role="alert"></div>
+        <div id="messageBoxWarning" style="display:none;" class="alert alert-warning" role="alert"></div>
 
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Zatvoriť</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+        <table class="table table-striped table-hover" id="TrainingsTable">
+            <thead>
+                <tr>
+                    <th class="col-xs-1">Dátum</th>
+                    <th class="col-xs-1">Čas</th>
+                    <th class="col-xs-3">Popis</th>
+                    <th class="col-xs-2">Tréner</th>
+                    <th class="col-xs-1">Prihlásení</th>
+                    <th class="col-xs-1">Kapacita</th>
+                    <th>Akcia</th>
+                </tr>
+            </thead>
+            @foreach (var item in Model.Trainings.OrderBy(s => s.Time))
+            {
+                <tr id="@item.ID-Row">
+                    <td id="@item.ID-date">@item.Time.ToString("dd.MM.yyyy")</td>
+                    <td id="@item.ID-time">@item.Time.ToString("HH:mm")</td>
+                    <td><textarea class="trainingDescription form-control input-sm" rows="1" data-training="@item.ID">@item.Description</textarea></td>
+                    <td><input type="text" value="@item.Trainer" class="trainingTrainer form-control input-sm" data-training="@item.ID" /></td>
+                    <td>
+                        <span id="@item.ID-RegisteredNumber">@item.RegisteredNumber</span>
+                        <span class="label label-info TrainingDetails" style="cursor:pointer" data-training="@item.ID">Detail</span>
+                    </td>
+                    <td><input id="TrainingCapacity" type="number" value="@item.Capacity" min="@item.Capacity" class="trainingCapacity form-control input-sm " data-training="@item.ID" /></td>
+                    <td><a class="CancelTraining" data-training="@item.ID" href="#">Zrušiť tréning</a></td>
+                </tr>
+            }
+        </table>
+    </div>
 
+    @*Modal window with All users sign up in training*@
+    <div class="modal fade" id="trainingDetailsModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Prihlásení na tréning <span id="modalTitleTraining"></span></h4>
+                </div>
+                <div class="modal-body" id="TrainingDetailsBody">
 
-@*New training modal window*@
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Zatvoriť</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    @*New training modal window*@
     <div class="modal fade" id="NewTraining" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -73,7 +85,7 @@
                     <div id="messageBoxNewTraining" style="display:none;" class="alert alert-warning" role="alert"></div>
                     @*Training date*@
                     <div class="form-group">
-                        @Html.Label("Dátum", new { @class = "control-label col-sm-3" })
+                        @Html.Label("Dátum:", new { @class = "control-label col-sm-3" })
                         <div class="input-group date col-sm-4">
                             <input id="TrainingDate" type="text" class="form-control"><span id="trainingDateButton" class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                         </div>
@@ -81,7 +93,7 @@
 
                     @*Training time*@
                     <div class="form-group">
-                        @Html.Label("Čas", new { @class = "control-label col-sm-3" })
+                        @Html.Label("Čas:", new { @class = "control-label col-sm-3" })
                         <div class="input-group col-sm-4">
                             <input id="TrainingTime" data-format="hh:mm" type="text" class="form-control" />
                             <span class="input-group-addon" id="trainingTimeButton">
@@ -93,7 +105,7 @@
 
                     @*Training trainer*@
                     <div class="form-group">
-                        @Html.Label("Tréner", new { @class = "control-label col-sm-3", @for = "Trainer" })
+                        @Html.Label("Tréner:", new { @class = "control-label col-sm-3", @for = "Trainer" })
                         <div class="col-sm-6 input-group">
                             @Html.TextBox("Trainer", "", new { @class = "form-control", id = "NewTrainingTrainer" })
                         </div>
@@ -101,7 +113,7 @@
 
                     @*Training Description*@
                     <div class="form-group">
-                        @Html.Label("Popis", new { @class = "control-label col-sm-3", @for = "Description" })
+                        @Html.Label("Popis:", new { @class = "control-label col-sm-3", @for = "Description" })
                         <div class="col-sm-6 input-group">
                             @Html.TextArea("Description", "", new { @class = "form-control", id = "NewTrainingDescription" })
                         </div>
@@ -109,7 +121,7 @@
 
                     @*Training Capacity*@
                     <div class="form-group">
-                        @Html.Label("Kapacita", new { @class = "control-label col-sm-3", @for = "Capacity" })
+                        @Html.Label("Kapacita:", new { @class = "control-label col-sm-3", @for = "Capacity" })
                         <div class="col-sm-6 input-group">
                             <input type="number" name="Capacity" min="1" class="form-control" id="NewTrainingCapacity">
                         </div>
@@ -126,13 +138,13 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-@section scripts {
-    <script>
-        $("#TrainingsTable").on("change", ".trainingDescription", function (event) {
-            TrainingDescription($(this));
-        });
+    @section scripts {
+        <script>
+            $("#TrainingsTable").on("change", ".trainingDescription", function (event) {
+                TrainingDescription($(this));
+            });
 
-      function TrainingDescription(element){
+            function TrainingDescription(element) {
                 var trainingID = element.data('training');
                 //value z textboxu
                 var value = element.prop('value');
@@ -142,8 +154,7 @@
                     type: 'POST',
                     dataType: "json",
                     success: function (response) {
-                        if (response == 1)
-                        {
+                        if (response == 1) {
                             $('#messageBoxWarning').hide();
                             $('#messageBox').html("Tréningu <b>" + $('#' + trainingID + "-date").html() + " " + $('#' + trainingID + "-time").html() + "</b> bol zmenený popis na: <b>" + value + "</b>");
                             $('#messageBox').show();
@@ -153,43 +164,43 @@
                 });
 
             };
-       
 
-        $("#TrainingsTable").on("change", ".trainingTrainer", function (event) {
-            TrainingTrainer($(this));
-        });
-        
-        function TrainingTrainer(element) {
-            var trainingID = element.data('training');
-            //value z textboxu
-            var value = element.prop('value');
-            $.ajax({
-                url: "ChangeTrainer",
-                data: { trainingID: trainingID, trainer: value },
-                type: 'POST',
-                dataType: "json",
-                success: function (response) {
-                    if (response == 2) {
-                        $('#messageBoxWarning').hide();
-                        $('#messageBox').html("Tréningu <b>" + $('#' + trainingID + "-date").html() + " " + $('#' + trainingID + "-time").html() + "</b> bol priradený nový tréner: <b>" + value + "</b>");
-                        $('#messageBox').show();
-                    }
 
-                }
+            $("#TrainingsTable").on("change", ".trainingTrainer", function (event) {
+                TrainingTrainer($(this));
             });
 
-        };
-
-        $("#TrainingsTable").on("change", ".trainingCapacity", function (event) {
-            TrainingCapacity($(this));
-            $("#TrainingsTable").sortOrder
-
-        });
-
-        function TrainingCapacity(element) {
-            var trainingID = element.data('training');
+            function TrainingTrainer(element) {
+                var trainingID = element.data('training');
                 //value z textboxu
-            var value = element.prop('value');
+                var value = element.prop('value');
+                $.ajax({
+                    url: "ChangeTrainer",
+                    data: { trainingID: trainingID, trainer: value },
+                    type: 'POST',
+                    dataType: "json",
+                    success: function (response) {
+                        if (response == 2) {
+                            $('#messageBoxWarning').hide();
+                            $('#messageBox').html("Tréningu <b>" + $('#' + trainingID + "-date").html() + " " + $('#' + trainingID + "-time").html() + "</b> bol priradený nový tréner: <b>" + value + "</b>");
+                            $('#messageBox').show();
+                        }
+
+                    }
+                });
+
+            };
+
+            $("#TrainingsTable").on("change", ".trainingCapacity", function (event) {
+                TrainingCapacity($(this));
+                $("#TrainingsTable").sortOrder
+
+            });
+
+            function TrainingCapacity(element) {
+                var trainingID = element.data('training');
+                //value z textboxu
+                var value = element.prop('value');
                 $.ajax({
                     url: "ChangeTrainingCapacity",
                     data: { trainingID: trainingID, capacity: value },
@@ -201,8 +212,7 @@
                             $('#messageBox').html("Kapacita tréningu <b>" + $('#' + trainingID + "-date").html() + " " + $('#' + trainingID + "-time").html() + "</b> bola zmenená na: <b>" + value + "</b>");
                             $('#messageBox').show();
                         }
-                        else if(response == 4)
-                        {
+                        else if (response == 4) {
                             $('#messageBox').hide();
                             $('#messageBoxWarning').html("Kapacita tréningu nemôže byť menšia ako 1!");
                             $('#messageBoxWarning').show();
@@ -213,16 +223,16 @@
                             $('#messageBoxWarning').show();
                         }
 
-                        }
+                    }
                 });
             }
-       
 
-        $("#TrainingsTable").on("click", ".TrainingDetails", function (event) {
-            TrainingDetails($(this));
-        });
 
-        function TrainingDetails (element) {
+            $("#TrainingsTable").on("click", ".TrainingDetails", function (event) {
+                TrainingDetails($(this));
+            });
+
+            function TrainingDetails(element) {
 
                 var trainingID = element.data('training');
                 $.ajax({
@@ -238,13 +248,13 @@
                         $('#trainingDetailsModal').modal('show');
                     }
                 });
-        }
+            }
 
-        $("#TrainingsTable").on("click", ".CancelTraining", function (event) {
-            CancelTraining($(this));
-        });
+            $("#TrainingsTable").on("click", ".CancelTraining", function (event) {
+                CancelTraining($(this));
+            });
 
-        function CancelTraining(changedElement) {
+            function CancelTraining(changedElement) {
                 var trainingID = changedElement.data('training');
                 $.ajax({
                     //controller method
@@ -263,120 +273,119 @@
                 })
             }
 
-        $(function () {
-            $('#AddNewTraining').click(function () {
+            $(function () {
+                $('#AddNewTraining').click(function () {
 
-                $('#NewTraining').modal('show');
+                    $('#NewTraining').modal('show');
 
+                });
             });
-        });
 
-        $("#NewTraining").keyup(function (event) {
-            if (event.target.id != "NewTrainingDescription" && event.keyCode == 13) {
-                $("#CreateTrainingButton").click();
-            }
-        });
+            $("#NewTraining").keyup(function (event) {
+                if (event.target.id != "NewTrainingDescription" && event.keyCode == 13) {
+                    $("#CreateTrainingButton").click();
+                }
+            });
 
-        $('#CreateTrainingButton').click(function () {
-            var date = $('#TrainingDate').prop('value');
-            var time = $('#TrainingTime').prop('value');
-            var trainer = $('#NewTrainingTrainer').prop('value');
-            var description = $('#NewTrainingDescription').val();
-            var capacity = $('#NewTrainingCapacity').val();
-            if (capacity == null || capacity =="")
-            {
-                capacity = -1;
-            }
-            $.ajax({
-                //controller method
-                url: "CreateNewTraining",
-                //controller method parameter : trainingID
-                data: { date: date , time : time, trainer: trainer, description: description,capacity :capacity },
-                type: 'POST',
-                dataType: "json",
-                success: function (response) {
-                    switch (response) {
-                        case 12:
-                            $('#messageBoxNewTraining').html("Nie je možné vytvoriť tréning v minulosti!");
-                            $('#messageBoxNewTraining').show();
-                            return;
-                        case 5:
-                            $('#messageBoxNewTraining').html("Je potrebné zadať aj trénera!");
-                            $('#messageBoxNewTraining').show();
-                            return;
-                        case 6:
-                            $('#messageBoxNewTraining').html("Je potrebné zadať aj popis tréningu!");
-                            $('#messageBoxNewTraining').show();
-                            return;
-                        case 7:
-                            $('#messageBoxNewTraining').html("Dátum je nesprávny!");
-                            $('#messageBoxNewTraining').show();
-                            return;
-                        case 8:
-                            $('#messageBoxNewTraining').html("Čas je nesprávny!");
-                            $('#messageBoxNewTraining').show();
-                            return;
-                        case 4:
-                            $('#messageBoxNewTraining').html("Kapacita tréningu nemôže byť menej ako 1!");
-                            $('#messageBoxNewTraining').show();
-                            return;
-                        default:
-                            $('#NewTraining').modal('hide');
+            $('#CreateTrainingButton').click(function () {
+                var date = $('#TrainingDate').prop('value');
+                var time = $('#TrainingTime').prop('value');
+                var trainer = $('#NewTrainingTrainer').prop('value');
+                var description = $('#NewTrainingDescription').val();
+                var capacity = $('#NewTrainingCapacity').val();
+                if (capacity == null || capacity == "") {
+                    capacity = -1;
+                }
+                $.ajax({
+                    //controller method
+                    url: "CreateNewTraining",
+                    //controller method parameter : trainingID
+                    data: { date: date, time: time, trainer: trainer, description: description, capacity: capacity },
+                    type: 'POST',
+                    dataType: "json",
+                    success: function (response) {
+                        switch (response) {
+                            case 12:
+                                $('#messageBoxNewTraining').html("Nie je možné vytvoriť tréning v minulosti!");
+                                $('#messageBoxNewTraining').show();
+                                return;
+                            case 5:
+                                $('#messageBoxNewTraining').html("Je potrebné zadať aj trénera!");
+                                $('#messageBoxNewTraining').show();
+                                return;
+                            case 6:
+                                $('#messageBoxNewTraining').html("Je potrebné zadať aj popis tréningu!");
+                                $('#messageBoxNewTraining').show();
+                                return;
+                            case 7:
+                                $('#messageBoxNewTraining').html("Dátum je nesprávny!");
+                                $('#messageBoxNewTraining').show();
+                                return;
+                            case 8:
+                                $('#messageBoxNewTraining').html("Čas je nesprávny!");
+                                $('#messageBoxNewTraining').show();
+                                return;
+                            case 4:
+                                $('#messageBoxNewTraining').html("Kapacita tréningu nemôže byť menej ako 1!");
+                                $('#messageBoxNewTraining').show();
+                                return;
+                            default:
+                                $('#NewTraining').modal('hide');
 
-                            var newRow = '<tr id="'+response.TrainingID + '-Row">' +
-                              '<td id="' + response.TrainingID + '-date">' + response.Date + '</td>' +
-                              '<td id="' + response.TrainingID + '-time">' + response.Time + '</td>' +
-                              '<td><textarea  class="trainingDescription form-control input-sm" rows="1" data-training="' + response.TrainingID + '">' + response.Description + '</textarea></td>' +
-                              '<td><input type="text" value="' + response.Trainer + '" class="trainingTrainer form-control input-sm" data-training="' + response.TrainingID + '"/></td>' +
-                              '<td>' +
-                              '<span id="' + response.TrainingID + '-RegisteredNumber">0</span> ' +
-                              '<span class="label label-info TrainingDetails" style="cursor:pointer" data-training="' + response.TrainingID + '">Detail</span>' +
-                              '</td>' +
-                              '<td><input type="number" min="1" value="' + response.Capacity + '" class="trainingCapacity form-control input-sm "data-training="' + response.TrainingID + '"/></td>' +
-                              '<td><a class="CancelTraining" data-training="' + response.TrainingID + '" href="#">Zrušiť tréning</a></td>' +
-                              '</tr>';
+                                var newRow = '<tr id="' + response.TrainingID + '-Row">' +
+                                  '<td id="' + response.TrainingID + '-date">' + response.Date + '</td>' +
+                                  '<td id="' + response.TrainingID + '-time">' + response.Time + '</td>' +
+                                  '<td><textarea  class="trainingDescription form-control input-sm" rows="1" data-training="' + response.TrainingID + '">' + response.Description + '</textarea></td>' +
+                                  '<td><input type="text" value="' + response.Trainer + '" class="trainingTrainer form-control input-sm" data-training="' + response.TrainingID + '"/></td>' +
+                                  '<td>' +
+                                  '<span id="' + response.TrainingID + '-RegisteredNumber">0</span> ' +
+                                  '<span class="label label-info TrainingDetails" style="cursor:pointer" data-training="' + response.TrainingID + '">Detail</span>' +
+                                  '</td>' +
+                                  '<td><input type="number" min="1" value="' + response.Capacity + '" class="trainingCapacity form-control input-sm "data-training="' + response.TrainingID + '"/></td>' +
+                                  '<td><a class="CancelTraining" data-training="' + response.TrainingID + '" href="#">Zrušiť tréning</a></td>' +
+                                  '</tr>';
 
-                            $('#TrainingsTable').prepend(newRow);
-                            $("#messageBox").html("Nový tréning <b>" + response.Date + " " + response.Time + "</b> bol vytvorený!");
-                            $("#messageBox").show();
+                                $('#TrainingsTable').prepend(newRow);
+                                $("#messageBox").html("Nový tréning <b>" + response.Date + " " + response.Time + "</b> bol vytvorený!");
+                                $("#messageBox").show();
+                        }
+                    }
+                });
+            });
+
+
+            $(function () {
+                $("#TrainingDate").datepicker({
+                    beforeShow: function () {
+                        setTimeout(function () {
+                            $('.ui-datepicker').css('z-index', 99999999999999);
+                        }, 0);
+                    },
+                    dateFormat: "dd.mm.yy",
+                    minDate: 0,
+                    constrainInput: true,
+                    monthNames: ["Január", "Február", "Marec", "Apríl", "Máj", "Jún", "Júl", "August", "September", "Október", "November", "December"],
+                    monthNamesShort: ["Jan", "Feb", "Mar", "Apr", "Máj", "Jún", "Júl", "Aug", "Sep", "Okt", "Nov", "Dec"],
+                    dayNames: ["Nedeľa", "Pondelok", "Utorok", "Streda", "Štvrtok", "Piatok", "Sobota"],
+                    dayNamesMin: ["Ne", "Po", "Ut", "St", "Št", "Pi", "So"],
+                    firstDay: 1
+                });
+            });
+
+
+            $('#TrainingTime').timepicker(
+                {
+                    showPeriodLabels: false,
+                    showOn: 'both',
+                    button: '#trainingTimeButton',
+                    hourText: 'Hodiny',
+                    minuteText: 'Minúty',
+                    minutes: {
+                        interval: 15
                     }
                 }
-            });
-        });
+              );
 
 
-        $(function () {
-            $("#TrainingDate").datepicker({
-                beforeShow: function () {
-                    setTimeout(function () {
-                        $('.ui-datepicker').css('z-index', 99999999999999);
-                    }, 0);
-                },
-                dateFormat: "dd.mm.yy",
-                minDate: 0,
-                constrainInput: true,
-                monthNames: ["Január", "Február", "Marec", "Apríl", "Máj", "Jún", "Júl", "August", "September", "Október", "November", "December"],
-                monthNamesShort: ["Jan", "Feb", "Mar", "Apr", "Máj", "Jún", "Júl", "Aug", "Sep", "Okt", "Nov", "Dec"],
-                dayNames: ["Nedeľa", "Pondelok", "Utorok", "Streda", "Štvrtok", "Piatok", "Sobota"],
-                dayNamesMin: ["Ne", "Po", "Ut", "St", "Št", "Pi", "So"],
-                firstDay: 1
-            });
-        });
-
-
-        $('#TrainingTime').timepicker(
-            {
-                showPeriodLabels: false,
-                showOn: 'both',
-                button: '#trainingTimeButton',
-                hourText: 'Hodiny',
-                minuteText: 'Minúty',
-                minutes: {
-                    interval: 15
-                }
-            }
-          );
-
-
-    </script>
+        </script>
     }
