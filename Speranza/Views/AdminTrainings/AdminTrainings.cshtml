@@ -128,7 +128,7 @@
                     <div class="form-group">
                         @Html.Label("Kapacita:", new { @class = "control-label col-sm-3", @for = "Capacity" })
                         <div class="col-sm-6 input-group">
-                            <input type="number" name="Capacity" min="1" class="form-control" id="NewTrainingCapacity">
+                            <input type="number" name="Capacity" min="1" value="10" class="form-control" id="NewTrainingCapacity">
                         </div>
                     </div>
 
@@ -194,8 +194,6 @@
 
             $("#TrainingsTable").on("change", ".trainingCapacity", function (event) {
                 TrainingCapacity($(this));
-                $("#TrainingsTable").sortOrder
-
             });
 
             function TrainingCapacity(element) {
@@ -212,10 +210,12 @@
                             showMessageBox("Kapacita tréningu <b>" + $('#' + trainingID + "-date").html() + " " + $('#' + trainingID + "-time").html() + "</b> bola zmenená na: <b>" + value + "</b>");
                         }
                         else if (response == 4) {
-                            showMessageBoxWarning.html("Kapacita tréningu nemôže byť menšia ako 1!");
+                            showMessageBoxWarning("Kapacita tréningu nemôže byť menšia ako 1!");
                         }
                         else if (response == 13) {
-                            showMessageBoxWarning.html("Kapacita tréningu nemôže byť menšia ako počet prihlásených cvičiacich!");
+                            showMessageBoxWarning("Kapacita tréningu nemôže byť menšia ako počet prihlásených cvičiacich!");
+                            value++;
+                            element.val(value);
                         }
 
                     }
