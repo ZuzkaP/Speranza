@@ -8,7 +8,11 @@
 }
 
 <div class="container">
-    <h2>Môj profil</h2>
+    <h2>
+        Môj profil
+    </h2>
+    <button id="AddNewTraining" class="btn btn-danger"><span class="glyphicon glyphicon-lock"></span> Zmeniť heslo</button>
+
     @using (Html.BeginForm("SaveUserProfile", "Accounts", FormMethod.Post, new { @class = "form-horizontal" }))
     {
         <div class="form-group">
@@ -110,3 +114,56 @@
 
     }
 </div>
+
+@*Modal for pass reset*@
+<div class="modal fade" id="ChangePassModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Zmena hesla</h4>
+            </div>
+            <div class="modal-body">
+                
+                @*Staré heslo*@
+                <div class="form-group">
+                    @Html.Label("Staré heslo:", new { @class = "control-label col-sm-3", @for = "OldPass" })
+                    <div class="col-sm-6 input-group">
+                        @Html.TextBox("OldPass", "", new { @class = "form-control", id = "OldPass" })
+                    </div>
+                </div>
+
+                @*Nové heslo*@
+                <div class="form-group">
+                    @Html.Label("Nové heslo:", new { @class = "control-label col-sm-3", @for = "NewPass" })
+                    <div class="col-sm-6 input-group">
+                        @Html.TextBox("NewPass", "", new { @class = "form-control", id = "NewPass" })
+                    </div>
+                </div>
+
+                @*Overenie nového heslo*@
+                <div class="form-group">
+                    @Html.Label("Nové heslo ešťe raz:", new { @class = "control-label col-sm-3", @for = "ConfirmPass" })
+                    <div class="col-sm-6 input-group">
+                        @Html.TextBox("ConfirmPass", "", new { @class = "form-control", id = "ConfirmPass" })
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Uložiť</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+@section scripts {
+<script>
+
+    $('#AddNewTraining').click(function () {
+        $('#ChangePassModal').modal('show');
+    });
+
+</script>
+}
