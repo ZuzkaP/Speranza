@@ -45,6 +45,7 @@
     <Compile Include="AdminTrainingsModel.cs" />
     <Compile Include="AdminUsersModel.cs" />
     <Compile Include="CalendarModel.cs" />
+    <Compile Include="ChangePassModel.cs" />
     <Compile Include="CreateTrainingModel.cs" />
     <Compile Include="DayModel.cs" />
     <Compile Include="LoginModel.cs" />

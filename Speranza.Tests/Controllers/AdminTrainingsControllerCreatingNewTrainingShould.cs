@@ -37,7 +37,7 @@ namespace Speranza.Tests.Controllers
             InitializeController();
             userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(false);
 
-           ActionResult result = controller.CreateNewTraining(DATE, TIME, TRAINER, DESCRIPTION, CAPACITY);
+            ActionResult result = controller.CreateNewTraining(DATE, TIME, TRAINER, DESCRIPTION, CAPACITY);
 
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
             Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);

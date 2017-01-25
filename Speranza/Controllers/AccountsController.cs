@@ -186,7 +186,24 @@ namespace Speranza.Controllers
  
         public ActionResult ChangeUserPassword(string oldPass, string newPass, string confirmPass)
         {
-            return Json("");
+            if (userManager.IsUserLoggedIn(Session))
+            {
+                IUser user = db.LoadUser((string)Session["Email"]);
+
+                if(user.PasswordHash == hasher.HashPassword(oldPass))
+                {
+                    ChangePassModel model = new ChangePassModel();
+                    model.Email = (string)Session["Email"];
+                    model.oldPass = oldPass;
+                    model.newPass = newPass;
+                    model.ConfirmPass = confirmPass;
+                }
+                else
+                {
+                    return Json(UserProfileMessages.PassAndHashAreNotTheSame);
+                }
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         private void OrderAndAssignTrainings(UserProfileModel model)

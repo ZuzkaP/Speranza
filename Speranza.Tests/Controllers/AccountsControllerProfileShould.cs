@@ -31,11 +31,16 @@ namespace Speranza.Tests.Controllers
         private Mock<IDateTimeService> dateTimeService;
         private readonly DateTime date = new DateTime(2016, 12, 2, 10, 00, 00);
 
+        private const string OLDPASS = "oldPass";
+        private const string NEWPASS = "newPass";
+        private const string CONFIRMPASS = "confirmPass";
+
         public const string CATEGORY = "Silver";
         public const int NUMBEROFFREESIGNUPS = 5;
         public const int NUMBEROFPASTRAININGS = 42;
         private Mock<IModelFactory> factory;
         private Mock<IHasher> hasher;
+        private Mock<IUser> user;
 
         [TestMethod]
         public void ReturnToLogin_When_UserIsNotLoggedIn()
@@ -231,11 +236,33 @@ namespace Speranza.Tests.Controllers
         }
 
         [TestMethod]
-        public void NotChangePass_When_PassIsNotTheSameAsHash()
+        public void NotChangePass_When_UserIsNotLoggedIn()
         {
             InitializeAccountController();
+            userManager.Setup(r => r.IsUserLoggedIn(controller.Session)).Returns(false);
 
+            ActionResult result = controller.ChangeUserPassword(OLDPASS,NEWPASS,CONFIRMPASS);
 
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.AreEqual("Home", ((RedirectToRouteResult)result).RouteValues["controller"]);
+            Assert.AreEqual("Index", ((RedirectToRouteResult)result).RouteValues["action"]);
+            userManager.Verify(r => r.ChangePassword(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void NotChangePass_When_OldPassIsNotTheSameAsHash()
+        {
+            InitializeAccountController();
+            hasher.Setup(r => r.HashPassword(OLDPASS)).Returns("incorrectHash");
+            user = new Mock<IUser>();
+            user.SetupGet(u => u.Email).Returns(USER_EMAIL);
+            user.SetupGet(r => r.PasswordHash).Returns("userhash");
+            db.Setup(r => r.LoadUser(USER_EMAIL)).Returns(user.Object);
+
+            JsonResult result = (JsonResult)controller.ChangeUserPassword(OLDPASS, NEWPASS, CONFIRMPASS);
+
+            Assert.AreEqual(UserProfileMessages.PassAndHashAreNotTheSame, result.Data);
+            userManager.Verify(r => r.ChangePassword(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
         }
 
 
@@ -269,11 +296,12 @@ namespace Speranza.Tests.Controllers
         {
             db = new Mock<IDatabaseGateway>();
             userManager = new Mock<IUserManager>();
+            user = new Mock<IUser>();
             trainingManager = new Mock<ITrainingsManager>();
             dateTimeService = new Mock<IDateTimeService>();
             factory = new Mock<IModelFactory>();
             hasher = new Mock<IHasher>();
-            controller = new AccountsController(db.Object,null,userManager.Object, trainingManager.Object,dateTimeService.Object,factory.Object);
+            controller = new AccountsController(db.Object,hasher.Object,userManager.Object, trainingManager.Object,dateTimeService.Object,factory.Object);
             userData = new Mock<IUser>();
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             controller.ControllerContext = new FakeControllerContext(controller, sessionItems);
