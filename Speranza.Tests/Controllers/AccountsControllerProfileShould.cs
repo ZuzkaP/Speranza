@@ -31,9 +31,11 @@ namespace Speranza.Tests.Controllers
         private Mock<IDateTimeService> dateTimeService;
         private readonly DateTime date = new DateTime(2016, 12, 2, 10, 00, 00);
 
-        private const string OLDPASS = "oldPass";
-        private const string NEWPASS = "newPass";
-        private const string CONFIRMPASS = "confirmPass";
+        private const string OLDPASS = "oldPass12";
+        private const string NEWPASS = "newPass12";
+        private const string CONFIRMPASS = "newPass12";
+        private const string HASHPASS = "hashPass";
+        private const string BADHASH = "badhash";
 
         public const string CATEGORY = "Silver";
         public const int NUMBEROFFREESIGNUPS = 5;
@@ -253,16 +255,135 @@ namespace Speranza.Tests.Controllers
         public void NotChangePass_When_OldPassIsNotTheSameAsHash()
         {
             InitializeAccountController();
-            hasher.Setup(r => r.HashPassword(OLDPASS)).Returns("incorrectHash");
+            hasher.Setup(r => r.HashPassword(OLDPASS)).Returns(HASHPASS);
             user = new Mock<IUser>();
             user.SetupGet(u => u.Email).Returns(USER_EMAIL);
-            user.SetupGet(r => r.PasswordHash).Returns("userhash");
+            user.SetupGet(r => r.PasswordHash).Returns(BADHASH);
             db.Setup(r => r.LoadUser(USER_EMAIL)).Returns(user.Object);
 
             JsonResult result = (JsonResult)controller.ChangeUserPassword(OLDPASS, NEWPASS, CONFIRMPASS);
 
             Assert.AreEqual(UserProfileMessages.PassAndHashAreNotTheSame, result.Data);
             userManager.Verify(r => r.ChangePassword(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+
+        [TestMethod]
+        public void NotChangePass_When_NewPassIsEmpty()
+        {
+            InitializeAccountController();
+            hasher.Setup(r => r.HashPassword(OLDPASS)).Returns(HASHPASS);
+            user = new Mock<IUser>();
+            user.SetupGet(u => u.Email).Returns(USER_EMAIL);
+            user.SetupGet(r => r.PasswordHash).Returns(HASHPASS);
+            db.Setup(r => r.LoadUser(USER_EMAIL)).Returns(user.Object);
+
+            JsonResult result = (JsonResult)controller.ChangeUserPassword(OLDPASS, string.Empty, CONFIRMPASS);
+
+            Assert.AreEqual(UserProfileMessages.NewPassIsEmpty, result.Data);
+            userManager.Verify(r => r.ChangePassword(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void NotChangePass_When_ConfirmPassIsEmpty()
+        {
+            InitializeAccountController();
+            hasher.Setup(r => r.HashPassword(OLDPASS)).Returns(HASHPASS);
+            user = new Mock<IUser>();
+            user.SetupGet(u => u.Email).Returns(USER_EMAIL);
+            user.SetupGet(r => r.PasswordHash).Returns(HASHPASS);
+            db.Setup(r => r.LoadUser(USER_EMAIL)).Returns(user.Object);
+
+            JsonResult result = (JsonResult)controller.ChangeUserPassword(OLDPASS, NEWPASS, string.Empty);
+
+            Assert.AreEqual(UserProfileMessages.ConfirmPassIsEMpty, result.Data);
+            userManager.Verify(r => r.ChangePassword(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void NotChangePass_When_NewPasswordIsTooShort()
+        {
+            InitializeAccountController();
+            hasher.Setup(r => r.HashPassword(OLDPASS)).Returns(HASHPASS);
+            user = new Mock<IUser>();
+            user.SetupGet(u => u.Email).Returns(USER_EMAIL);
+            user.SetupGet(r => r.PasswordHash).Returns(HASHPASS);
+            db.Setup(r => r.LoadUser(USER_EMAIL)).Returns(user.Object);
+            string shortPass = "1Zuz";
+
+            JsonResult result = (JsonResult)controller.ChangeUserPassword(OLDPASS, shortPass, CONFIRMPASS);
+
+            Assert.AreEqual(UserProfileMessages.NewPassIsTooShort, result.Data);
+            userManager.Verify(r => r.ChangePassword(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void NotChangePass_When_NewPasswordHasNoNumber()
+        {
+            InitializeAccountController();
+            hasher.Setup(r => r.HashPassword(OLDPASS)).Returns(HASHPASS);
+            user = new Mock<IUser>();
+            user.SetupGet(u => u.Email).Returns(USER_EMAIL);
+            user.SetupGet(r => r.PasswordHash).Returns(HASHPASS);
+            db.Setup(r => r.LoadUser(USER_EMAIL)).Returns(user.Object);
+            string noNumberPass = "Zuzana";
+
+            JsonResult result = (JsonResult)controller.ChangeUserPassword(OLDPASS, noNumberPass, CONFIRMPASS);
+
+            Assert.AreEqual(UserProfileMessages.NewPassHasNoNumber, result.Data);
+            userManager.Verify(r => r.ChangePassword(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void NotChangePass_When_NewPasswordHasNoLetter()
+        {
+            InitializeAccountController();
+            hasher.Setup(r => r.HashPassword(OLDPASS)).Returns(HASHPASS);
+            user = new Mock<IUser>();
+            user.SetupGet(u => u.Email).Returns(USER_EMAIL);
+            user.SetupGet(r => r.PasswordHash).Returns(HASHPASS);
+            db.Setup(r => r.LoadUser(USER_EMAIL)).Returns(user.Object);
+            string noLetterPass = "123456789";
+
+            JsonResult result = (JsonResult)controller.ChangeUserPassword(OLDPASS, noLetterPass, CONFIRMPASS);
+
+            Assert.AreEqual(UserProfileMessages.NewPassHasNoLetter, result.Data);
+            userManager.Verify(r => r.ChangePassword(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void NotChangePass_When_NewPasswordAndConfirmPassAreNotTheSame()
+        {
+            InitializeAccountController();
+            hasher.Setup(r => r.HashPassword(OLDPASS)).Returns(HASHPASS);
+            user = new Mock<IUser>();
+            user.SetupGet(u => u.Email).Returns(USER_EMAIL);
+            user.SetupGet(r => r.PasswordHash).Returns(HASHPASS);
+            db.Setup(r => r.LoadUser(USER_EMAIL)).Returns(user.Object);
+            string passDiffFromConfirm = "12Zuzana";
+
+            JsonResult result = (JsonResult)controller.ChangeUserPassword(OLDPASS, passDiffFromConfirm, CONFIRMPASS);
+
+            Assert.AreEqual(UserProfileMessages.NewPassAndConfirmPassAreNotTheSame, result.Data);
+            userManager.Verify(r => r.ChangePassword(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void ChangePassword()
+        {
+            InitializeAccountController();
+            hasher.Setup(r => r.HashPassword(OLDPASS)).Returns(HASHPASS);
+            user = new Mock<IUser>();
+            user.SetupGet(u => u.Email).Returns(USER_EMAIL);
+            user.SetupGet(r => r.PasswordHash).Returns(HASHPASS);
+            db.Setup(r => r.LoadUser(USER_EMAIL)).Returns(user.Object);
+
+            JsonResult result = (JsonResult)controller.ChangeUserPassword(OLDPASS, NEWPASS, CONFIRMPASS);
+            
+            Assert.AreEqual(UserProfileMessages.PassWasSucessfullyChanged, ((ChangePassModel)result.Data).Message);
+            Assert.AreEqual(HASHPASS, ((ChangePassModel)result.Data).OldPass);
+            Assert.IsNull(((ChangePassModel)result.Data).ConfirmPass);
+            userManager.Verify(r => r.ChangePassword(OLDPASS, NEWPASS, CONFIRMPASS), Times.Once);
         }
 
 
