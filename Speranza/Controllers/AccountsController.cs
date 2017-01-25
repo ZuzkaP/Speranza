@@ -189,8 +189,9 @@ namespace Speranza.Controllers
             if (userManager.IsUserLoggedIn(Session))
             {
                 IUser user = db.LoadUser((string)Session["Email"]);
-                string hashPass = hasher.HashPassword(oldPass);
-                if (user.PasswordHash == hashPass)
+                string hashOldPass = hasher.HashPassword(oldPass);
+                string hashNewPass = hasher.HashPassword(newPass);
+                if (user.PasswordHash == hashOldPass)
                 {
                     if(string.IsNullOrEmpty(newPass))
                     {
@@ -198,7 +199,7 @@ namespace Speranza.Controllers
                     }
                     if (string.IsNullOrEmpty(confirmPass))
                     {
-                        return Json(UserProfileMessages.ConfirmPassIsEMpty);
+                        return Json(UserProfileMessages.ConfirmPassIsEmpty);
                     }
                     if (newPass.Length < PASSWORD_LENGTH)
                     {
@@ -221,11 +222,11 @@ namespace Speranza.Controllers
                     }
                     ChangePassModel model = new ChangePassModel();
                     model.Email = (string)Session["Email"];
-                    model.OldPass = hashPass;
-                    model.NewPass = newPass;
+                    model.OldPass = hashOldPass;
+                    model.NewPass = hashNewPass;
                     model.ConfirmPass = null;
                     model.Message = UserProfileMessages.PassWasSucessfullyChanged;
-                    userManager.ChangePassword((string)Session["Email"],newPass);
+                    userManager.ChangePassword((string)Session["Email"], hashNewPass);
                     return Json(model);
                 }
                 else

@@ -10,14 +10,14 @@ namespace Speranza.Models
 
     public enum UserProfileMessages
     {
-        PassAndHashAreNotTheSame,
-        NewPassIsEmpty,
-        ConfirmPassIsEMpty,
-        NewPassIsTooShort,
-        NewPassHasNoNumber,
-        NewPassHasNoLetter,
-        NewPassAndConfirmPassAreNotTheSame,
-        PassWasSucessfullyChanged
+        PassAndHashAreNotTheSame = 0,
+        NewPassIsEmpty = 1,
+        ConfirmPassIsEmpty = 2,
+        NewPassIsTooShort = 3,
+        NewPassHasNoNumber = 4,
+        NewPassHasNoLetter =5,
+        NewPassAndConfirmPassAreNotTheSame = 6,
+        PassWasSucessfullyChanged = 7
     }
      public class ChangePassModel : IChangePassModel
     {

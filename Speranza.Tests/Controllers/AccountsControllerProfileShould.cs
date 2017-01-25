@@ -35,6 +35,7 @@ namespace Speranza.Tests.Controllers
         private const string NEWPASS = "newPass12";
         private const string CONFIRMPASS = "newPass12";
         private const string HASHPASS = "hashPass";
+        private const string HASHNEWPASS = "hashNewPass";
         private const string BADHASH = "badhash";
 
         public const string CATEGORY = "Silver";
@@ -296,7 +297,7 @@ namespace Speranza.Tests.Controllers
 
             JsonResult result = (JsonResult)controller.ChangeUserPassword(OLDPASS, NEWPASS, string.Empty);
 
-            Assert.AreEqual(UserProfileMessages.ConfirmPassIsEMpty, result.Data);
+            Assert.AreEqual(UserProfileMessages.ConfirmPassIsEmpty, result.Data);
             userManager.Verify(r => r.ChangePassword(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
         }
 
@@ -373,6 +374,7 @@ namespace Speranza.Tests.Controllers
         {
             InitializeAccountController();
             hasher.Setup(r => r.HashPassword(OLDPASS)).Returns(HASHPASS);
+            hasher.Setup(r => r.HashPassword(NEWPASS)).Returns(HASHNEWPASS);
             user = new Mock<IUser>();
             user.SetupGet(u => u.Email).Returns(USER_EMAIL);
             user.SetupGet(r => r.PasswordHash).Returns(HASHPASS);
@@ -383,7 +385,7 @@ namespace Speranza.Tests.Controllers
             Assert.AreEqual(UserProfileMessages.PassWasSucessfullyChanged, ((ChangePassModel)result.Data).Message);
             Assert.AreEqual(HASHPASS, ((ChangePassModel)result.Data).OldPass);
             Assert.IsNull(((ChangePassModel)result.Data).ConfirmPass);
-            userManager.Verify(r => r.ChangePassword(USER_EMAIL, NEWPASS), Times.Once);
+            userManager.Verify(r => r.ChangePassword(USER_EMAIL, HASHNEWPASS), Times.Once);
         }
 
 

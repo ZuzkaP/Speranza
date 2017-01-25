@@ -103,7 +103,7 @@ namespace Speranza.Services
 
         public void ChangePassword(string email, string newPass)
         {
-            throw new NotImplementedException();
+            db.ChangePassword(email, newPass);
         }
     }
 }

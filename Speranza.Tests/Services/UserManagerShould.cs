@@ -29,6 +29,7 @@ namespace Speranza.Tests.Services
         private Mock<IDateTimeService> datetimeService;
         private Mock<ITrainingModel> training2Model;
         private Mock<ITrainingModel> training3Model;
+        private const string NEWPASSWORDHASH = "hash";
 
         [TestMethod]
         public void ReturnFalse_When_SessionIsEmpty()
@@ -176,6 +177,8 @@ namespace Speranza.Tests.Services
             db.Verify(r => r.SetUserCategory(EMAIL, UserCategories.Gold), Times.Once);
         }
 
+        
+
         [TestMethod]
         public void GetOnlyFutureTrainingsFromDB()
         {
@@ -186,6 +189,16 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(2, trainings.Count);
             Assert.AreEqual(training2Model.Object, trainings[0]);
             Assert.AreEqual(training3Model.Object, trainings[1]);
+        }
+
+        [TestMethod]
+        public void ChangePassword()
+        {
+            InitializeUserManager();
+
+            manager.ChangePassword(EMAIL, NEWPASSWORDHASH);
+
+            db.Verify(r => r.ChangePassword(EMAIL, NEWPASSWORDHASH));
         }
 
         private void PrepareDBAndFactoryWithThreeTrainings()

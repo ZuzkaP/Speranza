@@ -295,6 +295,14 @@ namespace Speranza.Database
             return (int) settings[SETTINGS_SIGN_OFF_LIMIT];
         }
 
+        public void ChangePassword(string email, string newpasswordhash)
+        {
+            if (users.ContainsKey(email))
+            {
+                users[email].Password = newpasswordhash;
+            }
+        }
+
         private class UserInTraining
         {
           public  string Email { get; set; }

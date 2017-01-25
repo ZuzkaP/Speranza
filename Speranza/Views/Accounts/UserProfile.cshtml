@@ -122,6 +122,8 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Zmena hesla</h4>
+                <div id="ModalMessageBoxSuccess" style="display:none;" class="alert alert-success" role="alert"></div>
+                <div id="ModalMessageBox" style="display:none;" class="alert alert-danger" role="alert"></div>
             </div>
             <div class="modal-body">
                 
@@ -178,6 +180,54 @@
             type: 'POST',
             dataType: "json",
             success: function (response) {
+                switch (response) {
+                    case 0:
+                        $('#ModalMessageBoxSuccess').hide();
+                        $('#ModalMessageBox').html("Vaše heslo je nesprávne!");
+                        $('#ModalMessageBox').show();
+                        return;
+                    case 1:
+                        $('#ModalMessageBoxSuccess').hide();
+                        $('#ModalMessageBox').html("Nové heslo nemôže byť prázdne!");
+                        $('#ModalMessageBox').show();
+                        return;
+                    case 2:
+                        $('#ModalMessageBoxSuccess').hide();
+                        $('#ModalMessageBox').html("Potvrdenie hesla sa nezhoduje!");
+                        $('#ModalMessageBox').show();
+                        return;
+                    case 3:
+                        $('#ModalMessageBoxSuccess').hide();
+                        $('#ModalMessageBox').html("Nové heslo musí mať aspoň 6 znakov!");
+                        $('#ModalMessageBox').show();
+                        return;
+                    case 4:
+                        $('#ModalMessageBoxSuccess').hide();
+                        $('#ModalMessageBox').html("Nové heslo musí obsahovať aspoň jedno číslo!");
+                        $('#ModalMessageBox').show();
+                        return;
+                    case 5:
+                        $('#ModalMessageBoxSuccess').hide();
+                        $('#ModalMessageBox').html("Nové heslo musí obsahovať aspoň jedno písmeno!");
+                        $('#ModalMessageBox').show();
+                        return;
+                    case 6:
+                        $('#ModalMessageBoxSuccess').hide();
+                        $('#ModalMessageBox').html("Nové heslo a potvrdenie hesla sa nezhodujú!");
+                        $('#ModalMessageBox').show();
+                        return;
+                    default:
+                        if (response.Message == 7)
+                        {
+                            $('#ModalMessageBox').hide();
+                            $('#ModalMessageBoxSuccess').html("Vaše heslo bolo úspešne zmenené!");
+                            $('#ModalMessageBoxSuccess').show();
+
+                        }
+                        return;
+                }
+
+                
             }
             });
         });

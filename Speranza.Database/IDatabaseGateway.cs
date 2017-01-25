@@ -32,5 +32,6 @@ namespace Speranza.Database
         void CancelTraining(string trainingID);
         void SetSignOffLimit(int hoursLimit);
         int GetSignOffLimit();
+        void ChangePassword(string email, string newpasswordhash);
     }
 }
