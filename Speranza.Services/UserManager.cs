@@ -101,7 +101,7 @@ namespace Speranza.Services
             return trainingsModels;
         }
 
-        public void ChangePassword(string oldPass, string newPass, string ConfirmPass)
+        public void ChangePassword(string email, string newPass)
         {
             throw new NotImplementedException();
         }

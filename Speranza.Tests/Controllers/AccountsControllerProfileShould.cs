@@ -248,7 +248,7 @@ namespace Speranza.Tests.Controllers
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
             Assert.AreEqual("Home", ((RedirectToRouteResult)result).RouteValues["controller"]);
             Assert.AreEqual("Index", ((RedirectToRouteResult)result).RouteValues["action"]);
-            userManager.Verify(r => r.ChangePassword(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            userManager.Verify(r => r.ChangePassword(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
         }
 
         [TestMethod]
@@ -264,7 +264,7 @@ namespace Speranza.Tests.Controllers
             JsonResult result = (JsonResult)controller.ChangeUserPassword(OLDPASS, NEWPASS, CONFIRMPASS);
 
             Assert.AreEqual(UserProfileMessages.PassAndHashAreNotTheSame, result.Data);
-            userManager.Verify(r => r.ChangePassword(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            userManager.Verify(r => r.ChangePassword(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
         }
 
 
@@ -281,7 +281,7 @@ namespace Speranza.Tests.Controllers
             JsonResult result = (JsonResult)controller.ChangeUserPassword(OLDPASS, string.Empty, CONFIRMPASS);
 
             Assert.AreEqual(UserProfileMessages.NewPassIsEmpty, result.Data);
-            userManager.Verify(r => r.ChangePassword(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            userManager.Verify(r => r.ChangePassword(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
         }
 
         [TestMethod]
@@ -297,7 +297,7 @@ namespace Speranza.Tests.Controllers
             JsonResult result = (JsonResult)controller.ChangeUserPassword(OLDPASS, NEWPASS, string.Empty);
 
             Assert.AreEqual(UserProfileMessages.ConfirmPassIsEMpty, result.Data);
-            userManager.Verify(r => r.ChangePassword(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            userManager.Verify(r => r.ChangePassword(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
         }
 
         [TestMethod]
@@ -314,7 +314,7 @@ namespace Speranza.Tests.Controllers
             JsonResult result = (JsonResult)controller.ChangeUserPassword(OLDPASS, shortPass, CONFIRMPASS);
 
             Assert.AreEqual(UserProfileMessages.NewPassIsTooShort, result.Data);
-            userManager.Verify(r => r.ChangePassword(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            userManager.Verify(r => r.ChangePassword(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
         }
 
         [TestMethod]
@@ -331,7 +331,7 @@ namespace Speranza.Tests.Controllers
             JsonResult result = (JsonResult)controller.ChangeUserPassword(OLDPASS, noNumberPass, CONFIRMPASS);
 
             Assert.AreEqual(UserProfileMessages.NewPassHasNoNumber, result.Data);
-            userManager.Verify(r => r.ChangePassword(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            userManager.Verify(r => r.ChangePassword(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
         }
 
         [TestMethod]
@@ -348,7 +348,7 @@ namespace Speranza.Tests.Controllers
             JsonResult result = (JsonResult)controller.ChangeUserPassword(OLDPASS, noLetterPass, CONFIRMPASS);
 
             Assert.AreEqual(UserProfileMessages.NewPassHasNoLetter, result.Data);
-            userManager.Verify(r => r.ChangePassword(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            userManager.Verify(r => r.ChangePassword(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
         }
 
         [TestMethod]
@@ -365,7 +365,7 @@ namespace Speranza.Tests.Controllers
             JsonResult result = (JsonResult)controller.ChangeUserPassword(OLDPASS, passDiffFromConfirm, CONFIRMPASS);
 
             Assert.AreEqual(UserProfileMessages.NewPassAndConfirmPassAreNotTheSame, result.Data);
-            userManager.Verify(r => r.ChangePassword(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            userManager.Verify(r => r.ChangePassword(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
         }
 
         [TestMethod]
@@ -383,7 +383,7 @@ namespace Speranza.Tests.Controllers
             Assert.AreEqual(UserProfileMessages.PassWasSucessfullyChanged, ((ChangePassModel)result.Data).Message);
             Assert.AreEqual(HASHPASS, ((ChangePassModel)result.Data).OldPass);
             Assert.IsNull(((ChangePassModel)result.Data).ConfirmPass);
-            userManager.Verify(r => r.ChangePassword(OLDPASS, NEWPASS, CONFIRMPASS), Times.Once);
+            userManager.Verify(r => r.ChangePassword(USER_EMAIL, NEWPASS), Times.Once);
         }
 
 

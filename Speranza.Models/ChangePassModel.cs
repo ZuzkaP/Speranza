@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Speranza.Models.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,12 +19,12 @@ namespace Speranza.Models
         NewPassAndConfirmPassAreNotTheSame,
         PassWasSucessfullyChanged
     }
-     public class ChangePassModel
+     public class ChangePassModel : IChangePassModel
     {
-        public string OldPass { get; set; }
-        public string NewPass { get; set; }
-        public string ConfirmPass { get; set; }
-        public string Email { get; set; }
-        public UserProfileMessages Message { get; set; }
+       public string OldPass { get; set; }
+       public string NewPass { get; set; }
+       public string ConfirmPass { get; set; }
+       public string Email { get; set; }
+       public UserProfileMessages Message { get; set; }
     }
 }
