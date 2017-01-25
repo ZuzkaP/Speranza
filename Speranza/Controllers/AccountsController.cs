@@ -183,6 +183,12 @@ namespace Speranza.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+ 
+        public ActionResult ChangeUserPassword(string oldPass, string newPass, string confirmPass)
+        {
+            return Json("");
+        }
+
         private void OrderAndAssignTrainings(UserProfileModel model)
         {
             IList<ITraining> trainings = db.GetTrainingsForUser((string)Session["Email"]);

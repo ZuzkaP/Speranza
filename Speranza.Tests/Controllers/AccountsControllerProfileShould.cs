@@ -35,6 +35,7 @@ namespace Speranza.Tests.Controllers
         public const int NUMBEROFFREESIGNUPS = 5;
         public const int NUMBEROFPASTRAININGS = 42;
         private Mock<IModelFactory> factory;
+        private Mock<IHasher> hasher;
 
         [TestMethod]
         public void ReturnToLogin_When_UserIsNotLoggedIn()
@@ -229,6 +230,15 @@ namespace Speranza.Tests.Controllers
             trainingModel.VerifySet(r => r.IsAllowedToSignOff = true);
         }
 
+        [TestMethod]
+        public void NotChangePass_When_PassIsNotTheSameAsHash()
+        {
+            InitializeAccountController();
+
+
+        }
+
+
         private void PrepareTrainingInDistantFuture()
         {
             Mock<ITraining> trainingD = new Mock<ITraining>();
@@ -262,6 +272,7 @@ namespace Speranza.Tests.Controllers
             trainingManager = new Mock<ITrainingsManager>();
             dateTimeService = new Mock<IDateTimeService>();
             factory = new Mock<IModelFactory>();
+            hasher = new Mock<IHasher>();
             controller = new AccountsController(db.Object,null,userManager.Object, trainingManager.Object,dateTimeService.Object,factory.Object);
             userData = new Mock<IUser>();
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
@@ -277,5 +288,6 @@ namespace Speranza.Tests.Controllers
             db.Setup(r => r.GetUserData(USER_EMAIL)).Returns(userData.Object);
 
         }
+
     }
 }

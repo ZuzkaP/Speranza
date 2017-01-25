@@ -127,32 +127,32 @@
                 
                 @*Staré heslo*@
                 <div class="form-group">
-                    @Html.Label("Staré heslo:", new { @class = "control-label col-sm-3", @for = "OldPass" })
+                    @Html.Label("Staré heslo:", new { @class = "control-label col-sm-3", @for = "OldPassTextBox" })
                     <div class="col-sm-6 input-group">
-                        @Html.TextBox("OldPass", "", new { @class = "form-control", id = "OldPass" })
+                        @Html.TextBox("OldPassTextBox", "", new { @class ="form-control", id ="OldPass" })
                     </div>
                 </div>
 
                 @*Nové heslo*@
                 <div class="form-group">
-                    @Html.Label("Nové heslo:", new { @class = "control-label col-sm-3", @for = "NewPass" })
+                    @Html.Label("Nové heslo:", new { @class = "control-label col-sm-3", @for ="NewPass" })
                     <div class="col-sm-6 input-group">
-                        @Html.TextBox("NewPass", "", new { @class = "form-control", id = "NewPass" })
+                        @Html.TextBox("NewPassTextBox", "", new { @class ="form-control", id ="NewPass" })
                     </div>
                 </div>
 
                 @*Overenie nového heslo*@
                 <div class="form-group">
-                    @Html.Label("Nové heslo ešťe raz:", new { @class = "control-label col-sm-3", @for = "ConfirmPass" })
+                    @Html.Label("Nové heslo ešťe raz:", new { @class ="control-label col-sm-3", @for ="ConfirmPassTextBox" })
                     <div class="col-sm-6 input-group">
-                        @Html.TextBox("ConfirmPass", "", new { @class = "form-control", id = "ConfirmPass" })
+                        @Html.TextBox("ConfirmPassTextBox", "", new { @class ="form-control", id ="ConfirmPass" })
                     </div>
                 </div>
 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Uložiť</button>
+                <button id="ChangePassButton" type="submit" class="btn btn-primary">Uložiť</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -164,6 +164,23 @@
     $('#AddNewTraining').click(function () {
         $('#ChangePassModal').modal('show');
     });
+
+
+
+    $("#ChangePassButton").click(function () {
+        var self = $(this);
+        var oldPass =  $('#OldPass').prop('value');
+        var newPass =  $('#NewPass').prop('value');
+        var confirmPass =  $('#ConfirmPass').prop('value');
+        $.ajax({
+            url: '@Url.Content("~/Accounts/ChangeUserPassword")',
+            data: { oldPass:oldPass, newPass:newPass, confirmPass:confirmPass},
+            type: 'POST',
+            dataType: "json",
+            success: function (response) {
+            }
+            });
+        });
 
 </script>
 }

@@ -78,6 +78,8 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
+
     @*New training modal window*@
     <div class="modal fade" id="NewTraining" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -278,7 +280,7 @@
             $("#NewTraining").keyup(function (event) {
                 if (event.target.id != "NewTrainingDescription" && event.keyCode == 13) {
                     $("#CreateTrainingButton").click();
-                }
+                } CreateTrainingButton
             });
 
             $('#CreateTrainingButton').click(function () {
