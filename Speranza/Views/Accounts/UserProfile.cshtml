@@ -13,6 +13,12 @@
     </h2>
     <button id="ChangePass" class="btn btn-danger"><span class="glyphicon glyphicon-lock"></span> Zmeniť heslo</button>
 
+
+    @if (Model != null)
+    {
+        <p> @Html.Raw(ViewHelper.ShowMessageInView(Model.UserProfileMessage))</p>
+    }
+
     @using (Html.BeginForm("SaveUserProfile", "Accounts", FormMethod.Post, new { @class = "form-horizontal" }))
     {
         <div class="form-group">
@@ -70,7 +76,7 @@
 
     @if (Model != null)
     {
-        <p> @Html.Raw(ViewHelper.ShowMessageInView(Model.Message, Model.SignedUpOrSignedOffTraining))</p>
+        <p> @Html.Raw(ViewHelper.ShowMessageInView(Model.CalendarMessage, Model.SignedUpOrSignedOffTraining))</p>
     }
 
     @if (Model.FutureTrainings.Count > 0 || Model.PastTrainings.Count > 0)
@@ -184,7 +190,7 @@
             dataType: "json",
             success: function (response) {
                 switch (response) {
-                    case 0:
+                    case 9:
                         $('#ModalMessageBoxSuccess').hide();
                         $('#ModalMessageBox').html("Vaše heslo je nesprávne!");
                         $('#ModalMessageBox').show();

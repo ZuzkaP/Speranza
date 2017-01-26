@@ -5,13 +5,12 @@ namespace Speranza.Models
 {
     public enum CalendarMessages
     {
-        NoMessage,
-        TrainingDoesNotExist,
-        TrainingIsFull,
-        SignUpSuccessful,
-        UserAlreadySignedUp,
-        UserWasSignedOff,
-        UserProfileWasUpdated
+        NoMessage = 0,
+        TrainingDoesNotExist = 1,
+        TrainingIsFull = 2,
+        SignUpSuccessful = 3,
+        UserAlreadySignedUp = 4,
+        UserWasSignedOff = 5
     }
 
     public class CalendarModel

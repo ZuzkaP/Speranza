@@ -73,6 +73,7 @@ namespace Speranza.Tests.Controllers
 
         }
 
+        
         [TestMethod]
         public void LoadCategory_And_NumberOfFreeSignUps_And_NumberOfPastTrainings()
         {
@@ -115,14 +116,12 @@ namespace Speranza.Tests.Controllers
         {
             InitializeAccountController();
             UserProfileModel model = new UserProfileModel();
-            controller.Session["Message"] = CalendarMessages.UserProfileWasUpdated;
+
             ActionResult result =  controller.SaveUserProfile(model);
 
-            //UserProfileModel resultModel = (UserProfileModel)((ViewResult)result).Model;
-            //Assert.AreEqual(CalendarMessages.UserProfileWasUpdated, resultModel.Message);
             Assert.AreEqual("UserProfile", ((RedirectToRouteResult)result).RouteValues["action"]);
             db.Verify(r => r.UpdateUserData(It.Is<UserProfileModel>(k=>k==model && !string.IsNullOrEmpty(model.Email) && model.Email == USER_EMAIL)));
-
+            Assert.AreEqual(UserProfileMessages.ProfileWasUpdated, controller.Session["Message"]);
         }
 
 
@@ -161,15 +160,26 @@ namespace Speranza.Tests.Controllers
         public void SendMessageToUI_When_SignOffFromTraining()
         {
             InitializeAccountController();
-
             controller.Session["Message"] = CalendarMessages.UserWasSignedOff;
+
             ActionResult result = controller.UserProfile();
             UserProfileModel model = (UserProfileModel)((ViewResult)result).Model;
 
-            Assert.AreEqual(CalendarMessages.UserWasSignedOff, model.Message);
-
+            Assert.AreEqual(CalendarMessages.UserWasSignedOff, model.CalendarMessage);
         }
-        
+
+        [TestMethod]
+        public void SendMessageToUI_When_UserChangesProfileInfo()
+        {
+            InitializeAccountController();
+            controller.Session["Message"] = UserProfileMessages.ProfileWasUpdated;
+
+            ActionResult result = controller.UserProfile();
+            UserProfileModel model = (UserProfileModel)((ViewResult)result).Model;
+
+            Assert.AreEqual(UserProfileMessages.ProfileWasUpdated, model.UserProfileMessage);
+        }
+
         [TestMethod]
         public void SendTrainingDataToUI_When_SignOffFromTraining()
         {

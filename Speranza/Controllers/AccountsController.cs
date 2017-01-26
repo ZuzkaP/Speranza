@@ -131,6 +131,7 @@ namespace Speranza.Controllers
             if (userManager.IsUserLoggedIn(Session))
             {
                 model.Email = (string) Session["Email"];
+                Session["Message"] = UserProfileMessages.ProfileWasUpdated;
                 db.UpdateUserData(model);
                 return RedirectToAction("UserProfile");
             }
@@ -174,7 +175,14 @@ namespace Speranza.Controllers
                
                 if (Session["Message"] != null)
                 {
-                    model.Message = (CalendarMessages)Session["Message"];
+                    if(Session["Message"] is UserProfileMessages)
+                    {
+                        model.UserProfileMessage = (UserProfileMessages)Session["Message"];
+                    }
+                    else
+                    {
+                        model.CalendarMessage = (CalendarMessages)Session["Message"];
+                    }
                 }
                 Session["Message"] = null;
                 Session["Training"] = null;

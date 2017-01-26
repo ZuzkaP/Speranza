@@ -10,7 +10,8 @@ namespace Speranza.Models
 
     public enum UserProfileMessages
     {
-        PassAndHashAreNotTheSame = 0,
+        NoMessage = 0,
+        PassAndHashAreNotTheSame = 9,
         NewPassIsEmpty = 1,
         ConfirmPassIsEmpty = 2,
         NewPassIsTooShort = 3,

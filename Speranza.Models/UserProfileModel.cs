@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Speranza.Models
 {
-  
+ 
     public class UserProfileModel
     {
         public string Name { get; set; }
@@ -15,7 +15,8 @@ namespace Speranza.Models
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public ITrainingModel SignedUpOrSignedOffTraining { get; set; }
-        public CalendarMessages Message { get; set; }
+        public CalendarMessages CalendarMessage { get; set; }
+        public UserProfileMessages UserProfileMessage { get; set; }
         public string Category { get; set; }
         public int NumberOfFreeSignUps { get; set; }
         public int NumberOfPastTrainings { get; set; }

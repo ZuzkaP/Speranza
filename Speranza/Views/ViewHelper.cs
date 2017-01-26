@@ -59,6 +59,18 @@ namespace Speranza.Views
             return outputMessage;
         }
 
+        public static string ShowMessageInView(UserProfileMessages message)
+        {
+            string outputMessage = string.Empty;
+            switch (message)
+            {
+                case UserProfileMessages.ProfileWasUpdated:
+                    outputMessage = "<div class=\"alert alert-success\" role=\"alert\">Profil bol aktualizovaný.</div>";
+                    break;
+            }
+            return outputMessage;
+        }
+
         public static IList<SelectListItem> CreateSelectListItems(IList<string> items,string selectedItem)
         {
             return items.Select(r => new SelectListItem() { Text = r, Selected = r == selectedItem}).ToList();
