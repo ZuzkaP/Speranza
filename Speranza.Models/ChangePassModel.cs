@@ -17,7 +17,8 @@ namespace Speranza.Models
         NewPassHasNoNumber = 4,
         NewPassHasNoLetter =5,
         NewPassAndConfirmPassAreNotTheSame = 6,
-        PassWasSucessfullyChanged = 7
+        PassWasSucessfullyChanged = 7,
+        ProfileWasUpdated = 8
     }
      public class ChangePassModel : IChangePassModel
     {

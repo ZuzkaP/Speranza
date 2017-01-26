@@ -115,9 +115,14 @@ namespace Speranza.Tests.Controllers
         {
             InitializeAccountController();
             UserProfileModel model = new UserProfileModel();
-            ActionResult result = controller.SaveUserProfile(model);
+            controller.Session["Message"] = CalendarMessages.UserProfileWasUpdated;
+            ActionResult result =  controller.SaveUserProfile(model);
+
+            //UserProfileModel resultModel = (UserProfileModel)((ViewResult)result).Model;
+            //Assert.AreEqual(CalendarMessages.UserProfileWasUpdated, resultModel.Message);
             Assert.AreEqual("UserProfile", ((RedirectToRouteResult)result).RouteValues["action"]);
             db.Verify(r => r.UpdateUserData(It.Is<UserProfileModel>(k=>k==model && !string.IsNullOrEmpty(model.Email) && model.Email == USER_EMAIL)));
+
         }
 
 

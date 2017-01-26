@@ -10,7 +10,8 @@ namespace Speranza.Models
         TrainingIsFull,
         SignUpSuccessful,
         UserAlreadySignedUp,
-        UserWasSignedOff
+        UserWasSignedOff,
+        UserProfileWasUpdated
     }
 
     public class CalendarModel
