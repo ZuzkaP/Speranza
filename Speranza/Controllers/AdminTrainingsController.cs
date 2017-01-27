@@ -40,11 +40,12 @@ namespace Speranza.Controllers
                 {
                     return RedirectToAction("Calendar", "Calendar");
                 }
-
                 IList<ITrainingForAdminModel> trainings = trainingManager.GetAllFutureTrainings();
+                IList<IUserForTrainingDetailModel> users = userManager.GetAllUsersForTrainingDetails();
                 int signOffLimit = trainingManager.GetSignOffLimit();
                 AdminTrainingsModel model = new AdminTrainingsModel();
                 model.Trainings = trainings;
+                model.Users = users;
                 model.SignOffLimit = signOffLimit;
                 return View("AdminTrainings", model);
             }

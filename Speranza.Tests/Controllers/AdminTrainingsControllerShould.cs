@@ -69,7 +69,7 @@ namespace Speranza.Tests.Controllers
         }
       
         [TestMethod]
-        public void LoadTrainingsFromDB_And_SendTOUI()
+        public void LoadTrainingsFromDB_And_SendToUI()
         {
             InitializeAdminTrainingsController();
             IList<ITrainingForAdminModel> trainings = new List<ITrainingForAdminModel>();
@@ -79,6 +79,20 @@ namespace Speranza.Tests.Controllers
             AdminTrainingsModel model = (AdminTrainingsModel)result.Model;
 
             Assert.AreEqual(trainings, model.Trainings);
+        }
+
+        [TestMethod]
+        public void LoadUsersFromDB_And_SendToUI()
+        {
+            InitializeAdminTrainingsController();
+            IList<IUserForTrainingDetailModel> users = new List<IUserForTrainingDetailModel>();
+            userManager.Setup(r => r.GetAllUsersForTrainingDetails()).Returns(users);
+
+            ViewResult result = (ViewResult)controller.AdminTrainings();
+            AdminTrainingsModel model = (AdminTrainingsModel)result.Model;
+
+            Assert.AreEqual(users, model.Users);
+
         }
 
         [TestMethod]

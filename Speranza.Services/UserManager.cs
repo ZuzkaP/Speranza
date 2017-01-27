@@ -105,5 +105,17 @@ namespace Speranza.Services
         {
             db.ChangePassword(email, newPass);
         }
+
+        public IList<IUserForTrainingDetailModel> GetAllUsersForTrainingDetails()
+        {
+            var usersFromDB = db.GetAllUsers();
+            var usersModels = new List<IUserForTrainingDetailModel>();
+            foreach (var item in usersFromDB)
+            {
+                var model = factory.CreateUsersForTrainingDetailModel(item);
+                usersModels.Add(model);
+            }
+            return usersModels.OrderBy(r => r.Surname).ToList();
+        }
     }
 }

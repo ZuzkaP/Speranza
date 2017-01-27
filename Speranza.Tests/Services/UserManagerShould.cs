@@ -30,6 +30,12 @@ namespace Speranza.Tests.Services
         private Mock<ITrainingModel> training2Model;
         private Mock<ITrainingModel> training3Model;
         private const string NEWPASSWORDHASH = "hash";
+        private Mock<IUserForTrainingDetailModel> user1Model;
+        private Mock<IUserForTrainingDetailModel> user2Model;
+        private Mock<IUserForTrainingDetailModel> user3Model;
+        private const string SURNAME_FIRST = "surnameA";
+        private const string SURNAME_THIRD = "surnameC";
+        private const string SURNAME_SECOND= "surnameB";
 
         [TestMethod]
         public void ReturnFalse_When_SessionIsEmpty()
@@ -177,6 +183,19 @@ namespace Speranza.Tests.Services
             db.Verify(r => r.SetUserCategory(EMAIL, UserCategories.Gold), Times.Once);
         }
 
+        [TestMethod]
+        public void GetAllUsersForTrainingDetails()
+        {
+            InitializeUserManager();
+            PrepareDBAndFactoryWithTwoUsers();
+
+            var users = manager.GetAllUsersForTrainingDetails();
+
+            Assert.AreEqual(3, users.Count);
+            Assert.AreEqual(user2Model.Object, users[0]);
+            Assert.AreEqual(user1Model.Object, users[1]);
+            Assert.AreEqual(user3Model.Object, users[2]);
+        }
         
 
         [TestMethod]
@@ -220,6 +239,27 @@ namespace Speranza.Tests.Services
         private void PrepareDBWithNoUser()
         {
             db.Setup(r => r.GetAllUsers()).Returns(new List<IUser>());
+        }
+
+        private void PrepareDBAndFactoryWithTwoUsers()
+        {
+            var user1 = new Mock<IUser>();
+            var user2 = new Mock<IUser>();
+            var user3 = new Mock<IUser>();
+            var users = new List<IUser>() { user1.Object, user2.Object , user3.Object};
+            db.Setup(r => r.GetAllUsers()).Returns(users);
+
+            user1Model = new Mock<IUserForTrainingDetailModel>();
+            user2Model = new Mock<IUserForTrainingDetailModel>();
+            user3Model = new Mock<IUserForTrainingDetailModel>();
+
+            user1Model.SetupGet(r => r.Surname).Returns(SURNAME_SECOND);
+            user2Model.SetupGet(r => r.Surname).Returns(SURNAME_FIRST);
+            user3Model.SetupGet(r => r.Surname).Returns(SURNAME_THIRD);
+
+            factory.Setup(r => r.CreateUsersForTrainingDetailModel(user1.Object)).Returns(user1Model.Object);
+            factory.Setup(r => r.CreateUsersForTrainingDetailModel(user2.Object)).Returns(user2Model.Object);
+            factory.Setup(r => r.CreateUsersForTrainingDetailModel(user3.Object)).Returns(user3Model.Object);
         }
 
         private void InitializeUserManager()

@@ -17,5 +17,6 @@ namespace Speranza.Services.Interfaces
         int UpdateCountOfFreeSignUps(string email, int changeNumberOfSignUps);
         IList<ITrainingModel> GetFutureTrainingsForUser(string v);
         void ChangePassword(string email, string newPass);
+        IList<IUserForTrainingDetailModel> GetAllUsersForTrainingDetails();
     }
 }
