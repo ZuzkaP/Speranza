@@ -40,7 +40,7 @@ table.tablesorter thead tr .headerSortUp {
 	background-image: url(../Images/asc.gif);
 }
 table.tablesorter thead tr .headerSortDown {
-	/*background-image: url(../Images/desc.gif);*/
+	/*background-image: url(../Images/desc.gif);
     color:red;
 }
 table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {

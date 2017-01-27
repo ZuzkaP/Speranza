@@ -61,12 +61,34 @@
     </table>
 </div>
 
-
-
 @Html.Partial("NewTrainingForm");
 @Html.Partial("TrainingDetails");
 
 @section scripts {
+    <script>
+        $(function () {
+            var people = [
+                @if(Model.Users.Count > 0)
+                {
+                    var value = "\"" + Model.Users[0].Name + " " + Model.Users[0].Surname + "\"";
+                    @Html.Raw(value);
+                    for (int i = 1; i< Model.Users.Count; i++)
+                    {
+                         value = ",\"" + Model.Users[i].Name + " " + Model.Users[i].Surname + "\"";
+                         @Html.Raw(value);
+                    }
+                }
+
+            ];
+            $("#AddUser").autocomplete({
+                source: people
+            });
+        })
+
+
+    </script>
+
+
     <script src="~/Scripts/AdminTrainings.js"></script>
     <script src="~/Scripts/jquery.tablesorter.min.js"></script>
 }
