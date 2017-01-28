@@ -105,6 +105,7 @@
     <Content Include="Images\asc.gif" />
     <Content Include="Images\desc.gif" />
     <Content Include="Scripts\AdminTrainings.js" />
+    <Content Include="Scripts\AdminUsers.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
@@ -143,11 +144,12 @@
     <Content Include="Views\Accounts\UserProfile.cshtml" />
     <Content Include="Views\AdminTrainings\AdminTrainings.cshtml" />
     <Content Include="Views\AdminUsers\AdminUsers.cshtml" />
-    <Content Include="Views\AdminUsers\TrainingsDetails.cshtml" />
+    <Content Include="Views\AdminUsers\UserTrainingsDetails.cshtml" />
     <Content Include="Views\AdminTrainings\UsersInTraining.cshtml" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Views\AdminTrainings\NewTrainingForm.cshtml" />
     <Content Include="Views\AdminTrainings\TrainingDetails.cshtml" />
+    <Content Include="Views\AdminUsers\UserTrainingsList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

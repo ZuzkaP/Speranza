@@ -144,7 +144,7 @@ namespace Speranza.Controllers
             model.Trainings = trainings;
             model.Email = id;
 
-            return PartialView("TrainingsDetails",model);
+            return PartialView("UserTrainingsDetails",model);
         }
 
         public ActionResult SignOutFromTraining(string id, string training)
