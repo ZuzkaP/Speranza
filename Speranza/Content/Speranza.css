@@ -6,6 +6,9 @@
     padding-bottom:25px;
 }
 
+.ui-autocomplete {
+    z-index: 5000;
+}
 /* tables */
 /*table.tablesorter {
 	font-family:arial;
