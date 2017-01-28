@@ -7,7 +7,7 @@
 }
 
 .ui-autocomplete {
-    z-index: 5000;
+    z-index: 500000 !important;
 }
 /* tables */
 /*table.tablesorter {
