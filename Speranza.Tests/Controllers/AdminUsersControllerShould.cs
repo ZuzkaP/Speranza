@@ -288,7 +288,7 @@ namespace Speranza.Tests.Controllers
             PartialViewResult result = (PartialViewResult)controller.TrainingsDetails(USER_EMAIL);
 
             TrainingsDetailsModel model = (TrainingsDetailsModel) result.Model;
-            Assert.AreEqual("TrainingsDetails", result.ViewName);
+            Assert.AreEqual("UserTrainingsDetails", result.ViewName);
             Assert.AreEqual(trainings, model.Trainings);
         }
 

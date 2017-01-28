@@ -117,5 +117,10 @@ namespace Speranza.Services
             }
             return usersModels.OrderBy(r => r.Surname).ToList();
         }
+
+        public bool UserExists(string email)
+        {
+            return (db.GetUserData(email) != null);
+        }
     }
 }

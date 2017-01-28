@@ -5,6 +5,7 @@ using Speranza.Services.Interfaces;
 using Speranza.Models;
 using System.Collections.Generic;
 using Speranza.Database;
+using Speranza.Services.Interfaces.Exceptions;
 
 namespace Speranza.Services
 {
@@ -14,13 +15,39 @@ namespace Speranza.Services
         private IDatabaseGateway db;
         private IModelFactory factory;
         private IUidService uidService;
+        private IUserManager userManager;
 
-        public TrainingsManager(IDatabaseGateway db,IModelFactory factory, IUidService uidService, IDateTimeService dateTimeService)
+        public TrainingsManager(IDatabaseGateway db,IModelFactory factory, IUidService uidService, IDateTimeService dateTimeService, IUserManager userManager)
         {
             this.db = db;
             this.factory = factory;
             this.uidService = uidService;
             this.dateTimeService = dateTimeService;
+            this.userManager = userManager;
+        }
+
+        public CalendarMessages AddUserToTraining(string email, string trainingID, DateTime currentDate)
+        {
+            if(!userManager.UserExists(email))
+             {
+                return CalendarMessages.UserDoesNotExist;
+             }
+            var training = db.GetTrainingData(trainingID);
+            if ( training == null)
+            {
+                return CalendarMessages.TrainingDoesNotExist;
+            }
+            if(training.Capacity <= training.RegisteredNumber)
+            {
+                return CalendarMessages.TrainingIsFull;
+            }
+            if(db.IsUserAlreadySignedUpInTraining(email,trainingID))
+            {
+               return CalendarMessages.UserAlreadySignedUp;
+            }
+            db.AddUserToTraining(email, trainingID, currentDate);
+
+            return CalendarMessages.SignUpSuccessful;
         }
 
         public void CancelTraining(string trainingID)

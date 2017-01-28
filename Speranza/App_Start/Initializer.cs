@@ -27,9 +27,9 @@ namespace Speranza.App_Start
             DateTimeService = new DateTimeService();
             Factory = new ModelFactory();
             uidService = new UidService();
-            TrainingsManager = new TrainingsManager(Db,Factory, uidService,DateTimeService);
             DaysManager = new DaysManager(Db, TrainingsManager, DateTimeService,Factory);
             UserManager = new UserManager(Db, Factory,DateTimeService);
+            TrainingsManager = new TrainingsManager(Db, Factory, uidService, DateTimeService, UserManager);
         }
     }
 }

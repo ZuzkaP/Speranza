@@ -196,7 +196,29 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(user1Model.Object, users[1]);
             Assert.AreEqual(user3Model.Object, users[2]);
         }
-        
+
+        [TestMethod]
+        public void ReturnTrue_When_UserExists()
+        {
+            InitializeUserManager();
+            db.Setup(r => r.GetUserData(EMAIL)).Returns(new Mock<IUser>().Object);
+
+            bool result = manager.UserExists(EMAIL);
+
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void ReturnFalse_When_UserDoesNotExist()
+        {
+            InitializeUserManager();
+            db.Setup(r => r.GetUserData(EMAIL)).Returns((IUser)null);
+
+            bool result = manager.UserExists(EMAIL);
+
+            Assert.IsFalse(result);
+        }
+
 
         [TestMethod]
         public void GetOnlyFutureTrainingsFromDB()

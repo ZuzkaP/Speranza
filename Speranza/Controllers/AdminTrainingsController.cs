@@ -195,5 +195,10 @@ namespace Speranza.Controllers
             return Json(AdminTrainingsMessages.SignOffLimitWasChanged);
         }
 
+        public ActionResult AddUserToTraining(string trainingID,string user)
+        {
+            return Json("");
+        }
+
     }
 }

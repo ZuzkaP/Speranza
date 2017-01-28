@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CalendarMessages.cs" />
     <Compile Include="IChangePassModel.cs" />
     <Compile Include="IDayModel.cs" />
     <Compile Include="IAdminTrainingsModel.cs" />

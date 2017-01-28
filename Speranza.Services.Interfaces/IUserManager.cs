@@ -18,5 +18,6 @@ namespace Speranza.Services.Interfaces
         IList<ITrainingModel> GetFutureTrainingsForUser(string v);
         void ChangePassword(string email, string newPass);
         IList<IUserForTrainingDetailModel> GetAllUsersForTrainingDetails();
+        bool UserExists(string email);
     }
 }

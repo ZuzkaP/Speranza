@@ -45,26 +45,31 @@ namespace Speranza.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            ITraining training = db.GetTrainingData(id);
 
-            if (training == null)
+            //if (training == null)
+            //{
+            //    Session["Message"] = CalendarMessages.TrainingDoesNotExist;
+            //    return RedirectToAction("Calendar");
+            //}
+            //if (training.RegisteredNumber >= training.Capacity)
+            //{
+            //    Session["Message"] = CalendarMessages.TrainingIsFull;
+            //    return RedirectToAction("Calendar");
+            //}
+            //if (db.IsUserAlreadySignedUpInTraining((string)Session["Email"], id))
+            //{
+            //    Session["Message"] = CalendarMessages.UserAlreadySignedUp;
+            //    return RedirectToAction("Calendar");
+            //}
+           CalendarMessages message = trainingManager.AddUserToTraining((string)Session["Email"], id,dateTimeService.GetCurrentDate());
+            if(message ==  CalendarMessages.SignUpSuccessful)
             {
-                Session["Message"] = CalendarMessages.TrainingDoesNotExist;
+                ITraining training = db.GetTrainingData(id);
+                Session["Message"] = CalendarMessages.SignUpSuccessful;
+                Session["Training"] = factory.CreateTrainingModel(training);
                 return RedirectToAction("Calendar");
             }
-            if (training.RegisteredNumber >= training.Capacity)
-            {
-                Session["Message"] = CalendarMessages.TrainingIsFull;
-                return RedirectToAction("Calendar");
-            }
-            if (db.IsUserAlreadySignedUpInTraining((string)Session["Email"], id))
-            {
-                Session["Message"] = CalendarMessages.UserAlreadySignedUp;
-                return RedirectToAction("Calendar");
-            }
-            db.AddUserToTraining((string)Session["Email"], id,dateTimeService.GetCurrentDate());
-            Session["Message"] = CalendarMessages.SignUpSuccessful;
-            Session["Training"] = factory.CreateTrainingModel(training);
+            Session["Message"] = message;
             return RedirectToAction("Calendar");
         }
 

@@ -297,7 +297,6 @@ $(document).ready(function () {
 $("#AddUserButton").click(function () {
     var trainingID = $("#AddUser").data("training");
     var user = $("#AddUser").val();
-    alert(user);
     $.ajax({
         //controller method
         url: "AddUserToTraining",

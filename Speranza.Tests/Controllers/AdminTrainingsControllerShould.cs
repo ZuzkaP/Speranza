@@ -367,12 +367,20 @@ namespace Speranza.Tests.Controllers
             trainingManager.Verify(r => r.SetSignOffLimit(HOURS_LIMIT), Times.Once);
         }
 
-
-        private void PrepareTrainingWithFourUsersSignedUp()
+        [TestMethod]
+        public void NotAddUserToTraining_When_UserIsNotAdmin()
         {
-            throw new NotImplementedException();
-        }
+            //InitializeAdminTrainingsController();
+            //userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(false);
 
+            //ActionResult result = controller.AddUserToTraining(TRAINING_ID,USER_DATA);
+
+            //Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            //Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
+            //Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
+            //userManager.Verify(r => r.(It.IsAny<int>()), Times.Never);
+            Assert.Fail("toDO");
+        }
 
         private void InitializeAdminTrainingsController()
         {

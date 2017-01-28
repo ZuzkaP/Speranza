@@ -40,9 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Exceptions\IInvalidTrainingIDException.cs" />
+    <Compile Include="Exceptions\InvalidTrainingIDException.cs" />
     <Compile Include="Exceptions\InvalidDateException.cs" />
     <Compile Include="Exceptions\InvalidTimeException.cs" />
+    <Compile Include="Exceptions\InvalidUserEmailException.cs" />
+    <Compile Include="Exceptions\TooManyPeopleInTrainingException.cs" />
     <Compile Include="IDateTimeService.cs" />
     <Compile Include="IDaysManager.cs" />
     <Compile Include="IHasher.cs" />

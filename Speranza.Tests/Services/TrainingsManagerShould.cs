@@ -7,6 +7,8 @@ using Speranza.Models.Interfaces;
 using Speranza.Database;
 using System.Collections.Generic;
 using Speranza.Services.Interfaces;
+using Speranza.Services.Interfaces.Exceptions;
+using Speranza.Models;
 
 namespace Speranza.Tests.Services
 {
@@ -26,6 +28,7 @@ namespace Speranza.Tests.Services
         private Mock<ITrainingForAdminModel> training1Model;
         private const string EMAIL = "test";
         private const string TRAINING_ID = "testID";
+        private const string FALSE_TRAINING_ID = "FalseTestID";
         private Mock<IUserForTrainingDetailModel> user2Model;
         private Mock<IUserForTrainingDetailModel> user1Model;
         private const string TRAINING_DESCRIPTION = "description";
@@ -36,6 +39,8 @@ namespace Speranza.Tests.Services
         private readonly DateTime CURRENT_DATE = new DateTime(2017, 01, 12);
         private Mock<IDateTimeService> dateTimeService;
         private const int HOURS_LIMIT = 12;
+        private const string FALSE_EMAIL = "falseEmail";
+        private Mock<IUserManager> userManager;
 
         [TestMethod]
         public void ReturnEmptyList_When_NoTrainingExistsInDB()
@@ -192,6 +197,72 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(HOURS_LIMIT, limit);
         }
 
+        
+       [TestMethod]
+        public void NotAddUserToTraining_When_UserIsNotInDB()
+        {
+            InitializeTrainingManager();
+
+            var message = manager.AddUserToTraining(FALSE_EMAIL, TRAINING_ID, CURRENT_DATE);
+
+            db.Verify(r => r.AddUserToTraining(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>()), Times.Never);
+            Assert.AreEqual(CalendarMessages.UserDoesNotExist, message);
+        }
+
+        [TestMethod]
+        public void NotAddUserToTraining_When_TrainingDoesNotExist()
+        {
+            InitializeTrainingManager();
+
+           var message = manager.AddUserToTraining(EMAIL, FALSE_TRAINING_ID, CURRENT_DATE);
+
+            db.Verify(r => r.AddUserToTraining(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>()), Times.Never);
+            Assert.AreEqual(CalendarMessages.TrainingDoesNotExist, message);
+        }
+
+        [TestMethod]
+        public void NotAddUserToTraining_When_TooManyPeopleInTrainingExist()
+        {
+            InitializeTrainingManager();
+            PrepareTrainingWithTooManySignedUpUsers();
+
+            var message = manager.AddUserToTraining(EMAIL, TRAINING_ID, CURRENT_DATE);
+
+            db.Verify(r => r.AddUserToTraining(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>()), Times.Never);
+            Assert.AreEqual(CalendarMessages.TrainingIsFull, message);
+        }
+
+        [TestMethod]
+        public void NotAddUserToTraining_When_UserAlreadySignedUpInTraining()
+        {
+            InitializeTrainingManager();
+            db.Setup(r => r.IsUserAlreadySignedUpInTraining(EMAIL, TRAINING_ID)).Returns(true);
+
+            var message = manager.AddUserToTraining(EMAIL, TRAINING_ID, CURRENT_DATE);
+
+            db.Verify(r => r.AddUserToTraining(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>()), Times.Never);
+            Assert.AreEqual(CalendarMessages.UserAlreadySignedUp, message);
+        }
+
+        private void PrepareTrainingWithTooManySignedUpUsers()
+        {
+            training1.SetupGet(r => r.RegisteredNumber).Returns(10);
+
+        }
+
+        [TestMethod]
+        public void AddUserToTraining()
+        {
+            InitializeTrainingManager();
+
+            var message = manager.AddUserToTraining(EMAIL,TRAINING_ID,CURRENT_DATE);
+
+            db.Verify(r => r.AddUserToTraining(EMAIL,TRAINING_ID,CURRENT_DATE), Times.Once);
+            Assert.AreEqual(CalendarMessages.SignUpSuccessful, message);
+
+        }
+
+
         private void PrepareDBWithSignOffSettings()
         {
             db.Setup(r => r.GetSignOffLimit()).Returns(HOURS_LIMIT);
@@ -254,7 +325,15 @@ namespace Speranza.Tests.Services
             uidService = new Mock<IUidService>();
             dateTimeService = new Mock<IDateTimeService>();
             dateTimeService.Setup(r => r.GetCurrentDate()).Returns(CURRENT_DATE);
-            manager = new TrainingsManager(db.Object,factory.Object,uidService.Object,dateTimeService.Object);
+            userManager = new Mock<IUserManager>();
+            manager = new TrainingsManager(db.Object,factory.Object,uidService.Object,dateTimeService.Object,userManager.Object);
+
+            userManager.Setup(r => r.UserExists(EMAIL)).Returns(true);
+            userManager.Setup(r => r.UserExists(FALSE_EMAIL)).Returns(false);
+            training1 = new Mock<ITraining>();
+            training1.SetupGet(r => r.Capacity).Returns(10);
+            db.Setup(r => r.GetTrainingData(TRAINING_ID)).Returns(training1.Object);
+            db.Setup(r => r.GetTrainingData(FALSE_TRAINING_ID)).Returns((ITraining)null);
         }
     }
 }
