@@ -92,7 +92,9 @@ function TrainingDetails(element) {
         success: function (response) {
             $('#TrainingDetailsBody').html(response);
             $('#modalTitleTraining').html($('#' + trainingID + "-date").html() + " " + $('#' + trainingID + "-time").html());
+            $("#AddUser").data("training", trainingID);
             $('#trainingDetailsModal').modal('show');
+
         }
     });
 }
@@ -291,3 +293,20 @@ $(document).ready(function () {
     //})
 
 });
+
+$("#AddUserButton").click(function () {
+    var trainingID = $("#AddUser").data("training");
+    var user = $("#AddUser").val();
+    alert(user);
+    $.ajax({
+        //controller method
+        url: "AddUserToTraining",
+        //controller method parameter : trainingID
+        data: { trainingID: trainingID, user:user },
+        type: 'POST',
+        dataType: "json",
+        success: function (response) {
+            
+        }
+    })
+})

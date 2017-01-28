@@ -61,8 +61,8 @@
     </table>
 </div>
 
-@Html.Partial("NewTrainingForm");
-@Html.Partial("TrainingDetails");
+@Html.Partial("NewTrainingForm")
+@Html.Partial("TrainingDetails")
 
 @section scripts {
     <script>
@@ -70,11 +70,11 @@
             var people = [
                 @if(Model.Users.Count > 0)
                 {
-                    var value = "\"" + Model.Users[0].Name + " " + Model.Users[0].Surname + "\"";
+                    var value = "\"" + Model.Users[0].Name + " " + Model.Users[0].Surname +" ("+Model.Users[0].Email+")\"";
                     @Html.Raw(value);
                     for (int i = 1; i< Model.Users.Count; i++)
                     {
-                         value = ",\"" + Model.Users[i].Name + " " + Model.Users[i].Surname + "\"";
+                        value = ",\"" + Model.Users[i].Name + " " + Model.Users[i].Surname +" (" + Model.Users[i].Email + ")\"";
                          @Html.Raw(value);
                     }
                 }
