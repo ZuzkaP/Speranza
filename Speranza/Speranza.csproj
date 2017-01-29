@@ -117,6 +117,7 @@
     <Content Include="Scripts\jquery.ui.timepicker.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\UserProfile.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +151,7 @@
     <Content Include="Views\AdminTrainings\NewTrainingForm.cshtml" />
     <Content Include="Views\AdminTrainings\TrainingDetails.cshtml" />
     <Content Include="Views\AdminUsers\UserTrainingsList.cshtml" />
+    <Content Include="Views\Accounts\ChangePasswordModal.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
