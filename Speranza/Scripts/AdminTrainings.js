@@ -123,7 +123,13 @@ function CancelTraining(changedElement) {
 
 $(function () {
     $('#AddNewTraining').click(function () {
-
+        $('#TrainingDate').val('');
+        $('#TrainingTime').val('');
+        $('#NewTrainingTrainer').val('');
+        $('#NewTrainingDescription').val('');
+        $('#NewTrainingCapacity').val(10);
+       
+        $('#messageBoxNewTraining').hide();
         $('#NewTraining').modal('show');
 
     });
