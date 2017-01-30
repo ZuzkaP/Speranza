@@ -140,7 +140,7 @@ namespace Speranza.Tests.Controllers
             userManager = new Mock<IUserManager>();
             trainingManager = new Mock<ITrainingsManager>();
             dateTimeService = new Mock<IDateTimeService>(); 
-            controller = new AdminTrainingsController(userManager.Object, trainingManager.Object, dateTimeService.Object);
+            controller = new AdminTrainingsController(userManager.Object, trainingManager.Object, dateTimeService.Object,null);
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             controller.ControllerContext = new FakeControllerContext(controller, sessionItems);
             userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(true);

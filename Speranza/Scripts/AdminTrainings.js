@@ -307,7 +307,7 @@ $("#AddUserButton").click(function () {
         //controller method
         url: "AddUserToTraining",
         //controller method parameter : trainingID
-        data: { trainingID: trainingID, user:user },
+        data: { trainingID: trainingID, userData:user },
         type: 'POST',
         dataType: "json",
         success: function (response) {

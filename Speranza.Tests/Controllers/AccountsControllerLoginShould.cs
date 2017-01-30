@@ -32,7 +32,31 @@ namespace Speranza.Tests.Controllers
 
             controller.ControllerContext = new FakeControllerContext(controller, sessionItems);
         }
-        
+        //[TestMethod]
+        //public void CorrectlyInitializeSessionAndRedirectToCalendar_When_AdminLoginWasSuccessfull()
+        //{
+        //    InitializeController();
+        //    PrepareDataForSuccessfullAdminLogin();// mock na usera ze je admin, kategoria, a z neho model
+
+        //    controller.Login();
+
+        //    //testujem nastavenie session , kategoria,isAdmin,login successfull redirect
+        //}
+
+        [TestMethod]
+        public void CorrectlyInitializeSessionAndRedirectToCalendar_When_NonAdminLoginWasSuccessfull()
+        {
+
+
+        }
+
+        [TestMethod]
+        public void NotInitializeSessionAndStayInLoginScreen_When_LoginWasNotSuccessfull()
+        {
+
+
+        }
+
         [TestMethod]
         public void NotLogin_When_EmailIsEmpty()
         {

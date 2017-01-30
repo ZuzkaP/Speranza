@@ -19,6 +19,7 @@ namespace Speranza.App_Start
         public static IDateTimeService DateTimeService  { get;private set; }
         public static IDaysManager DaysManager { get; private set; }
         public static ModelFactory Factory { get; private set; }
+        public static IUserDataParser UserDataParser { get; private set; }
 
         static  Initializer()
         {
@@ -27,6 +28,7 @@ namespace Speranza.App_Start
             DateTimeService = new DateTimeService();
             Factory = new ModelFactory();
             uidService = new UidService();
+            UserDataParser = new UserDataParser();
             DaysManager = new DaysManager(Db, TrainingsManager, DateTimeService,Factory);
             UserManager = new UserManager(Db, Factory,DateTimeService);
             TrainingsManager = new TrainingsManager(Db, Factory, uidService, DateTimeService, UserManager);

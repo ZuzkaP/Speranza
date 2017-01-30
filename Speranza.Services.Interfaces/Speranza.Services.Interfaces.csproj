@@ -51,6 +51,7 @@
     <Compile Include="IModelFactory.cs" />
     <Compile Include="ITrainingsManager.cs" />
     <Compile Include="IUidService.cs" />
+    <Compile Include="IUserDataParser.cs" />
     <Compile Include="IUserManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

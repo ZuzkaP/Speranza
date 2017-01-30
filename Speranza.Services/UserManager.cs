@@ -122,5 +122,13 @@ namespace Speranza.Services
         {
             return (db.GetUserData(email) != null);
         }
+
+        public void LoadUser(string email)
+        {
+            if (!string.IsNullOrEmpty(email))
+            {
+                db.LoadUser(email);
+            }
+        }
     }
 }

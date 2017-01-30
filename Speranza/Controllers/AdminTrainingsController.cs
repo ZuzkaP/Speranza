@@ -16,19 +16,21 @@ namespace Speranza.Controllers
     public class AdminTrainingsController : Controller
     {
         private ITrainingsManager trainingManager;
-        IUserManager userManager;
+        private IUserManager userManager;
         private IDateTimeService dateTimeService;
+        private IUserDataParser parser;
 
-        public AdminTrainingsController() : this(Initializer.UserManager, Initializer.TrainingsManager, Initializer.DateTimeService)
+        public AdminTrainingsController() : this(Initializer.UserManager, Initializer.TrainingsManager, Initializer.DateTimeService, Initializer.UserDataParser)
         {
 
         }
 
-        public AdminTrainingsController(IUserManager userManager, ITrainingsManager trainingManager, IDateTimeService dateTimeService)
+        public AdminTrainingsController(IUserManager userManager, ITrainingsManager trainingManager, IDateTimeService dateTimeService, IUserDataParser parser)
         {
             this.userManager = userManager;
             this.trainingManager = trainingManager;
             this.dateTimeService = dateTimeService;
+            this.parser = parser;
         }
 
         // GET: AdminTrainings
@@ -195,9 +197,25 @@ namespace Speranza.Controllers
             return Json(AdminTrainingsMessages.SignOffLimitWasChanged);
         }
 
-        public ActionResult AddUserToTraining(string trainingID,string user)
+        public ActionResult AddUserToTraining(string trainingID,string userData)
         {
-            return Json("");
+            if (!userManager.IsUserAdmin(Session))
+            {
+                return RedirectToAction("Calendar", "Calendar");
+            }
+            if (userData == null)
+            {
+                return Json(CalendarMessages.UserDoesNotExist);
+            }
+
+            string email = parser.ParseData(userData);
+
+            if(email == null)
+            {
+                return Json(CalendarMessages.UserDoesNotExist);
+            }
+            var message = trainingManager.AddUserToTraining(email, trainingID, dateTimeService.GetCurrentDate());
+            return Json(message);
         }
 
     }
