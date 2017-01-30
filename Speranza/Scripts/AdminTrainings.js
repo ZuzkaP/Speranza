@@ -311,7 +311,34 @@ $("#AddUserButton").click(function () {
         type: 'POST',
         dataType: "json",
         success: function (response) {
+            if (response == 3) {
+                showMessageBoxSuccessForAddingUser(user + " bol prihlásený na tento tréning.");
+            }
+            else if (response == 4) {
+                showMessageBoxWarningForAddingUser(user + " už je prihlásený na tento tréning.");
+            }
+            else if (response == 6) {
+                showMessageBoxWarningForAddingUser("Daný používateľ neexistuje.");
+            }
+            else if (response == 1) {
+                showMessageBoxWarningForAddingUser("Tréning neexistuje.");
+            }
+            else if (response == 2) {
+                showMessageBoxWarningForAddingUser("Tréning má už naplnenú kapacitu.");
+            }
             
         }
     })
 })
+
+function showMessageBoxSuccessForAddingUser(text) {
+    $('#messageBoxAddUserWarning').hide();
+    $("#messageBoxAddUserSuccess").html(text);
+    $("#messageBoxAddUserSuccess").show();
+}
+
+function showMessageBoxWarningForAddingUser(text) {
+    $('#messageBoxAddUserSuccess').hide();
+    $("#messageBoxAddUserWarning").html(text);
+    $("#messageBoxAddUserWarning").show();
+}
