@@ -18,7 +18,7 @@ else
             </thead>
         @foreach (var user in Model.Users)
         {
-         <tr id="@Model.TrainingID">
+         <tr id="@user.Email">
             <td>@user.Name </td>
             <td>@user.Surname </td>
             <td>@user.Email</td>

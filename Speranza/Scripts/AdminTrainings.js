@@ -329,9 +329,24 @@ $("#AddUserButton").click(function () {
             }
             else
             {
-                    showMessageBoxSuccessForAddingUser(response.Name + " " + response.Surname + " bol prihlásený na tento tréning.");
+                showMessageBoxSuccessForAddingUser(response.Name + " " + response.Surname + " bol prihlásený na tento tréning.");
+                if ($('#UsersInTrainingTable').val() == undefined)
+                {
+                    
+                    var newTable = '<table class="table table-striped table-hover" id="UsersInTrainingTable">' +
+                                    ' <thead>' +
+                                    '  <tr>' +
+                                    '<th>Meno</th>' +
+                                    '<th>Priezvisko</th>' +
+                                   ' <th>Email</th>' +
+                                    '<th>Akcia</th>' +
+                               ' </tr>' +
+                                '</thead>' +
+                     ' </table>';
+                    $("#TrainingDetailsBody").html(newTable);
+                }
 
-                    var newRow = '<tr id="' + trainingID + '-Row">' +
+                    var newRow = '<tr id="' + response.Email + '">' +
                          '<td>' + response.Name + '</td>' +
                          '<td>' + response.Surname + '</td>' +
                          '<td>' + response.Email + '</td>' +
@@ -362,7 +377,7 @@ function SignOutFromTraining(changedElement) {
                 success: function (response) {
                     if (response.Message == 6) {
                         $("#messageBoxAddUserWarning").hide();
-                        $('#' + training).remove();
+                        $('#' + id).remove();
                         $('#messageBoxAddUserSuccess').html("Užívateľ <b>" + response.Email + "</b> bol úspešne odhlásený z tréningu <b>" + response.TrainingDate + "</b> o: <b>" + response.TrainingTime + "</b>!");
                         $('#messageBoxAddUserSuccess').show();
                         $('#' + training + '-RegisteredNumber').html($('#' + training + '-RegisteredNumber').html()-1);
