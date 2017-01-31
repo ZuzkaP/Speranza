@@ -354,6 +354,7 @@ $("#AddUserButton").click(function () {
                          '</tr>';
 
                     $('#UsersInTrainingTable').prepend(newRow);
+                    $('#' + trainingID + '-RegisteredNumber').html(1+parseInt($('#' + trainingID + '-RegisteredNumber').html(),10));
             }
             
         }
