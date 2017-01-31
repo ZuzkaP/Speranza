@@ -82,6 +82,9 @@ $("#TrainingsTable").on("click", ".TrainingDetails", function (event) {
 function TrainingDetails(element) {
 
     var trainingID = element.data('training');
+    $("#AddUser").val('');
+    $("#messageBoxAddUserWarning").hide();
+    $("#messageBoxAddUserSuccess").hide();
     $.ajax({
         //controller method
         url: "TrainingDetails",
@@ -311,10 +314,8 @@ $("#AddUserButton").click(function () {
         type: 'POST',
         dataType: "json",
         success: function (response) {
-            if (response == 3) {
-                showMessageBoxSuccessForAddingUser(user + " bol prihlásený na tento tréning.");
-            }
-            else if (response == 4) {
+            
+            if (response == 4) {
                 showMessageBoxWarningForAddingUser(user + " už je prihlásený na tento tréning.");
             }
             else if (response == 6) {
@@ -326,10 +327,52 @@ $("#AddUserButton").click(function () {
             else if (response == 2) {
                 showMessageBoxWarningForAddingUser("Tréning má už naplnenú kapacitu.");
             }
+            else
+            {
+                    showMessageBoxSuccessForAddingUser(response.Name + " " + response.Surname + " bol prihlásený na tento tréning.");
+
+                    var newRow = '<tr id="' + trainingID + '-Row">' +
+                         '<td>' + response.Name + '</td>' +
+                         '<td>' + response.Surname + '</td>' +
+                         '<td>' + response.Email + '</td>' +
+                         '<td><a class="UserSignOutFromTraining" data-email="' + response.Email + '" data-training="' + trainingID + '" href="#">Odhlás používateľa</a></td>' +
+                         '</tr>';
+
+                    $('#UsersInTrainingTable').prepend(newRow);
+            }
             
         }
     })
 })
+
+
+$("#TrainingDetailsBody").on("click", ".UserSignOutFromTraining", function (event) {
+    SignOutFromTraining($(this));
+});
+
+function SignOutFromTraining(changedElement) {
+    {
+            var id = changedElement.data('email');
+            var training = changedElement.data('training');
+            $.ajax({
+                url: "../AdminUsers/SignOutFromTraining" ,
+                data: { id: id, training: training },
+                type: 'POST',
+                dataType: "json",
+                success: function (response) {
+                    if (response.Message == 6) {
+                        $("#messageBoxAddUserWarning").hide();
+                        $('#' + training).remove();
+                        $('#messageBoxAddUserSuccess').html("Užívateľ <b>" + response.Email + "</b> bol úspešne odhlásený z tréningu <b>" + response.TrainingDate + "</b> o: <b>" + response.TrainingTime + "</b>!");
+                        $('#messageBoxAddUserSuccess').show();
+                        $('#' + training + '-RegisteredNumber').html($('#' + training + '-RegisteredNumber').html()-1);
+                    }
+                }
+            });
+
+        }
+    };
+
 
 function showMessageBoxSuccessForAddingUser(text) {
     $('#messageBoxAddUserWarning').hide();

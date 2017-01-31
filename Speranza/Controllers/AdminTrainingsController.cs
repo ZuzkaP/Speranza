@@ -215,6 +215,10 @@ namespace Speranza.Controllers
                 return Json(CalendarMessages.UserDoesNotExist);
             }
             var message = trainingManager.AddUserToTraining(email, trainingID, dateTimeService.GetCurrentDate());
+            if(message == CalendarMessages.SignUpSuccessful)
+            {
+                return Json(userManager.GetAddedUserData(email));
+            }
             return Json(message);
         }
 

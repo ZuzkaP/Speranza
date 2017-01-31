@@ -31,7 +31,7 @@ namespace Speranza.Services
             if (sessionData != null && sessionData.Count != 0)
             {
                 if (sessionData["Category"] != null)
-                    return (UserCategories) sessionData["Category"];
+                    return (UserCategories)sessionData["Category"];
             }
 
             return UserCategories.Standard;
@@ -42,10 +42,10 @@ namespace Speranza.Services
             HttpSessionStateBase sessionData = session as HttpSessionStateBase;
             if (sessionData != null && sessionData.Count != 0)
             {
-                if(sessionData["Email"] != null && (string) sessionData["Email"] != "")
-                return true;
+                if (sessionData["Email"] != null && (string)sessionData["Email"] != "")
+                    return true;
             }
-                
+
             return false;
         }
 
@@ -54,7 +54,7 @@ namespace Speranza.Services
             HttpSessionStateBase sessionData = session as HttpSessionStateBase;
             if (sessionData != null && sessionData.Count != 0)
             {
-                if (sessionData["IsAdmin"] != null &&  (bool)sessionData["IsAdmin"] == true )
+                if (sessionData["IsAdmin"] != null && (bool)sessionData["IsAdmin"] == true)
                     return true;
             }
 
@@ -85,7 +85,7 @@ namespace Speranza.Services
 
         public int UpdateCountOfFreeSignUps(string email, int changeNumberOfSignUps)
         {
-           return db.UpdateCountOfFreeSignUps(email, changeNumberOfSignUps);
+            return db.UpdateCountOfFreeSignUps(email, changeNumberOfSignUps);
         }
 
         public IList<ITrainingModel> GetFutureTrainingsForUser(string email)
@@ -123,12 +123,11 @@ namespace Speranza.Services
             return (db.GetUserData(email) != null);
         }
 
-        public void LoadUser(string email)
+        public IUserForTrainingDetailModel GetAddedUserData(string email)
         {
-            if (!string.IsNullOrEmpty(email))
-            {
-                db.LoadUser(email);
-            }
+            IUser user = db.GetUserData(email);
+            IUserForTrainingDetailModel model = factory.CreateUsersForTrainingDetailModel(user);
+            return model;
         }
     }
 }

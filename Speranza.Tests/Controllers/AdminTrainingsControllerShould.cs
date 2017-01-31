@@ -408,16 +408,19 @@ namespace Speranza.Tests.Controllers
         }
 
         [TestMethod]
-        public void AddUserToTraining_When_UserDataContainEmail()
+        public void SetAddedUserDataToUi_When_UserSuccessfullyAddedToTraining()
         {
             InitializeAdminTrainingsController();
             userDataParser.Setup(r => r.ParseData(USER_DATA)).Returns(USER_EMAIL);
             dateTimeService.Setup(r => r.GetCurrentDate()).Returns(CURRENT_DATE);
             trainingManager.Setup(r => r.AddUserToTraining(USER_EMAIL, TRAINING_ID, CURRENT_DATE)).Returns(CalendarMessages.SignUpSuccessful);
+            var user = new Mock<IUserForTrainingDetailModel>();
+            userManager.Setup(r => r.GetAddedUserData(USER_EMAIL)).Returns(user.Object);
 
-            JsonResult result = (JsonResult)controller.AddUserToTraining(TRAINING_ID, USER_DATA);
+            JsonResult result = (JsonResult) controller.AddUserToTraining(TRAINING_ID, USER_DATA);
 
-            Assert.AreEqual(CalendarMessages.SignUpSuccessful, result.Data);
+            IUserForTrainingDetailModel model = (IUserForTrainingDetailModel)result.Data;
+            Assert.AreEqual(user.Object, model);
             trainingManager.Verify(r => r.AddUserToTraining(USER_EMAIL, TRAINING_ID, CURRENT_DATE), Times.Once);
         }
 

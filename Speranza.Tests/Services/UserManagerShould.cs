@@ -242,6 +242,19 @@ namespace Speranza.Tests.Services
             db.Verify(r => r.ChangePassword(EMAIL, NEWPASSWORDHASH));
         }
 
+        [TestMethod]
+        public void ReturnAddedUserData()
+        {
+            InitializeUserManager();
+            PrepareDBAndFactoryWithOneUserForTRainingDetailModel();
+
+            IUserForTrainingDetailModel model = manager.GetAddedUserData(EMAIL);
+
+            db.Verify(r => r.GetUserData(EMAIL));
+            Assert.AreEqual(user1Model.Object, model);
+
+        }
+
         private void PrepareDBAndFactoryWithThreeTrainings()
         {
             Mock<ITraining> training1 = new Mock<ITraining>();
@@ -284,6 +297,15 @@ namespace Speranza.Tests.Services
             factory.Setup(r => r.CreateUsersForTrainingDetailModel(user3.Object)).Returns(user3Model.Object);
         }
 
+
+        private void PrepareDBAndFactoryWithOneUserForTRainingDetailModel()
+        {
+            var user1 = new Mock<IUser>();
+            db.Setup(r => r.GetUserData(EMAIL)).Returns(user1.Object);
+            user1Model = new Mock<IUserForTrainingDetailModel>();
+            
+            factory.Setup(r => r.CreateUsersForTrainingDetailModel(user1.Object)).Returns(user1Model.Object);
+        }
         private void InitializeUserManager()
         {
             factory = new Mock<IModelFactory>();
