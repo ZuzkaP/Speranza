@@ -314,7 +314,7 @@ $("#AddUserButton").click(function () {
         type: 'POST',
         dataType: "json",
         success: function (response) {
-            
+            $("#AddUser").val("");
             if (response == 4) {
                 showMessageBoxWarningForAddingUser(user + " už je prihlásený na tento tréning.");
             }
