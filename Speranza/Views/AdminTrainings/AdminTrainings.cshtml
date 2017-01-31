@@ -15,10 +15,10 @@
     </h2>
     <div class="form-group form-horizontal">
         @Html.Label("Limit pre odhlásenie: ", new { @class = "control-label col-sm-2", title = "Počet hodín pred tréningom, pokiaľ sa používateľ ešťe môže odhlásiť" })
-        <div class="col-sm-3">
+        <div class="input-group col-sm-2">
             <input id="SignOffLimit" type="number" value="@Model.SignOffLimit" min="0" class="form-control" />
+            <div id="SignOffLimitHours" class="control-label input-group-addon">hod.</div>
         </div>
-        <label id="SignOffLimitHours" class="control-label">hod.</label>
     </div>
 
 </div>
