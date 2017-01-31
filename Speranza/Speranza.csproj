@@ -152,6 +152,7 @@
     <Content Include="Views\AdminTrainings\TrainingDetails.cshtml" />
     <Content Include="Views\AdminUsers\UserTrainingsList.cshtml" />
     <Content Include="Views\Accounts\ChangePasswordModal.cshtml" />
+    <Content Include="Views\AdminTrainings\Recurring.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

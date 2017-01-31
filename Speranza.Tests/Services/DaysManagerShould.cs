@@ -128,10 +128,12 @@ namespace Speranza.Tests.Services
             RequestDay();
 
             trainingModel1.VerifySet(r => r.IsAllowedToSignOff = false);
+            trainingsManager.Verify(r => r.GetSignOffLimit());
+
         }
 
         [TestMethod]
-        public void AllowToSignOffFromTrainingInMoreDistant()
+        public void AllowToSignOffFromTrainingInMoreDistantFuture()
         {
             InitializeDaysManager();
             PrepareTrainingInDistantFuture();
@@ -139,6 +141,7 @@ namespace Speranza.Tests.Services
             RequestDay();
 
             trainingModel1.VerifySet(r => r.IsAllowedToSignOff = true);
+            trainingsManager.Verify(r => r.GetSignOffLimit());
         }
 
         private void PrepareTrainingInDistantFuture()
@@ -180,6 +183,7 @@ namespace Speranza.Tests.Services
             factory = new Mock<IModelFactory>();
             manager = new DaysManager(db.Object, trainingsManager.Object, dateTimeService.Object, factory.Object);
             dateTimeService.Setup(r => r.GetDayName(date)).Returns(MONDAY);
+            trainingsManager.Setup(r => r.GetSignOffLimit()).Returns(4);
 
         }
     }

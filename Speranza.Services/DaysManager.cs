@@ -11,12 +11,12 @@ namespace Speranza.Services
         private IDateTimeService dateTimeService;
         IDatabaseGateway db;
         private IModelFactory factory;
-        private ITrainingsManager manager;
+        private ITrainingsManager trainingManager;
 
-        public DaysManager(IDatabaseGateway db, ITrainingsManager manager, IDateTimeService dateTimeService, IModelFactory factory)
+        public DaysManager(IDatabaseGateway db, ITrainingsManager trainingManager, IDateTimeService dateTimeService, IModelFactory factory)
         {
             this.db = db;
-            this.manager = manager;
+            this.trainingManager = trainingManager;
             this.dateTimeService = dateTimeService;
             this.factory = factory;
         }
@@ -33,7 +33,7 @@ namespace Speranza.Services
                     ITrainingModel trainingModel = factory.CreateTrainingModel(item);
                     trainingModel.IsUserSignedUp = db.IsUserAlreadySignedUpInTraining(email, item.ID);
                     DateTime currentDate = dateTimeService.GetCurrentDate();
-                    trainingModel.IsAllowedToSignOff = !(trainingModel.Time - currentDate < TimeSpan.FromHours(4));
+                    trainingModel.IsAllowedToSignOff = !(trainingModel.Time - currentDate < TimeSpan.FromHours(trainingManager.GetSignOffLimit()));
                     trainingModel.IsAllowedToSignUp = !(trainingModel.Time <= currentDate);
                 
                     model.Trainings.Add(trainingModel);

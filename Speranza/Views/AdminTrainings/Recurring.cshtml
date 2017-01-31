@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewBag.Title = "Nastavenie opakujúcich sa tréningov";
+    Layout = "~/Views/Layout.cshtml";
+    string[] days = { "Pondelok", "Utorok", "Streda", "Štvrtok", "Piatok", "Sobota", "Nedeľa" };
+}
+
+<div class="container">
+    <h2>Nastavenie opakujúcich sa tréningov</h2>
+
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th></th>
+                @for (int i = 8; i <= 20; i++)
+            {
+                    <th>@i.ToString("00"):00</th>
+                }
+            </tr>
+        </thead>
+
+        @for (int j = 0; j <= 6; j++)
+        {
+            <tr>
+                <td class="warning">@days[j]</td>
+                @for (int i = 8; i <= 20; i++)
+                {
+                    <td><a class="SetupTraining" href="#" data-day="@j" data-day-name="@days[j]" data-hour="@i">Nastav tréning</a></td>
+                }
+            </tr>
+        }
+
+
+
+    </table>
+</div>
+
+@*New training modal window*@
+<div class="modal fade" id="SetupTrainingModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Nastavenie tréningu <span id="modalHeader"/></h4>
+            </div>
+            <div class="modal-body form-horizontal">
+                @*Training trainer*@
+                <div class="form-group">
+                    @Html.Label("Tréner:", new { @class = "control-label col-sm-3", @for = "Trainer" })
+                    <div class="col-sm-6 input-group">
+                        @Html.TextBox("Trainer", "", new { @class = "form-control", id = "NewTrainingTrainer" })
+                    </div>
+                </div>
+
+                @*Training Description*@
+                <div class="form-group">
+                    @Html.Label("Popis:", new { @class = "control-label col-sm-3", @for = "Description" })
+                    <div class="col-sm-6 input-group">
+                        @Html.TextArea("Description", "", new { @class = "form-control", id = "NewTrainingDescription" })
+                    </div>
+                </div>
+
+                @*Training Capacity*@
+                <div class="form-group">
+                    @Html.Label("Kapacita:", new { @class = "control-label col-sm-3", @for = "Capacity" })
+                    <div class="col-sm-6 input-group">
+                        <input type="number" name="Capacity" min="1" value="10" class="form-control" id="NewTrainingCapacity">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                @*SaveButton*@
+                <button id="CreateTrainingButton" type="submit" class="btn btn-default">Uložiť</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Zrušiť</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+@section scripts
+    {
+    <script>
+        $(".SetupTraining").click(function () {
+            var self = $(this);
+            var dayName = self.data('day-name');
+            var time = self.data('hour');
+
+            $("#modalHeader").html(dayName +" " + time + ":00");
+            $("#SetupTrainingModal").modal("show");
+                
+
+        })
+
+    </script>
+    }

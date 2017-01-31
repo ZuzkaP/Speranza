@@ -240,6 +240,7 @@ namespace Speranza.Tests.Controllers
             controller.UserProfile();
 
             trainingModel.VerifySet(r => r.IsAllowedToSignOff = false);
+            trainingManager.Verify(r => r.GetSignOffLimit());
         }
         
         [TestMethod]
@@ -452,6 +453,7 @@ namespace Speranza.Tests.Controllers
 
 
             db.Setup(r => r.GetUserData(USER_EMAIL)).Returns(userData.Object);
+            trainingManager.Setup(r => r.GetSignOffLimit()).Returns(4);
 
         }
 

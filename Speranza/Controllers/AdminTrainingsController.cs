@@ -222,5 +222,10 @@ namespace Speranza.Controllers
             return Json(message);
         }
 
+        public ActionResult Recurring()
+        {
+            return View();
+        }
+
     }
 }
