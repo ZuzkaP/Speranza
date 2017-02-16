@@ -251,7 +251,7 @@ namespace Speranza.Controllers
                 result.Message = RecurringTrainingMessages.NoCapacity;
                 return View(result);
             }
-            trainingManager.CreateRecurringTraining(result);
+            trainingManager.CreateRecurringTraining(model);
             result.Message = RecurringTrainingMessages.Success;
             return View(result);
         }
