@@ -222,9 +222,15 @@ namespace Speranza.Controllers
             return Json(message);
         }
 
+        [HttpPost]
+        public ActionResult Recurring(RecurringModel model)
+        {
+            return View(new RecurringModel());
+        }
+
         public ActionResult Recurring()
         {
-            return View();
+            return View(new RecurringModel());
         }
 
     }

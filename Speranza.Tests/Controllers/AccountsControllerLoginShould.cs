@@ -21,12 +21,14 @@ namespace Speranza.Tests.Controllers
         private Mock<IUser> user;
         private Mock<IHasher> hasher;
         private Mock<IModelFactory> factory;
+        private Mock<IUserManager> userManager;
 
         private void InitializeController()
         {
             db = new Mock<IDatabaseGateway>();
             hasher = new Mock<IHasher>();
             factory = new Mock<IModelFactory>();
+            userManager = new Mock<IUserManager>();
             controller = new AccountsController(db.Object,hasher.Object,null,null,null,factory.Object);
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
 
@@ -46,8 +48,15 @@ namespace Speranza.Tests.Controllers
         [TestMethod]
         public void CorrectlyInitializeSessionAndRedirectToCalendar_When_NonAdminLoginWasSuccessfull()
         {
+           
 
+            //testujem nastavenie session , kategoria,isAdmin,login successfull redirect
 
+        }
+
+        private void PrepareDataForSuccessfullAdminLogin()
+        {
+            userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(true);
         }
 
         [TestMethod]
