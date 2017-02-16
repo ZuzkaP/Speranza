@@ -90,6 +90,7 @@
     <Compile Include="Controllers\AccountsControllerProfileShould.cs" />
     <Compile Include="Controllers\AccountsControllerRegisterShould.cs" />
     <Compile Include="Controllers\AdminTrainingsControllerCreatingNewTrainingShould.cs" />
+    <Compile Include="Controllers\AdminTrainingsControllerRecurringShould.cs" />
     <Compile Include="Controllers\AdminTrainingsControllerShould.cs" />
     <Compile Include="Controllers\AdminUsersControllerShould.cs" />
     <Compile Include="Controllers\CalendarControllerShould.cs" />

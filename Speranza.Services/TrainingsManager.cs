@@ -63,6 +63,11 @@ namespace Speranza.Services
             return trainingID;
         }
 
+        public void CreateRecurringTraining()
+        {
+            throw new NotImplementedException();
+        }
+
         public IList<ITrainingForAdminModel> GetAllFutureTrainings()
         {
             var trainingsFromDB = db.GetAllTrainings();

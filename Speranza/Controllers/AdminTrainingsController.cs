@@ -223,13 +223,43 @@ namespace Speranza.Controllers
         }
 
         [HttpPost]
-        public ActionResult Recurring(RecurringModel model)
+        public ActionResult CreateRecurring(RecurringModel model)
         {
-            return View(new RecurringModel());
+            if (!userManager.IsUserAdmin(Session))
+            {
+                return RedirectToAction("Calendar", "Calendar");
+            }
+            RecurringModel result = new RecurringModel();
+
+            if(model == null)
+            {
+                result.Message = RecurringTrainingMessages.NoModel;
+                return View(result);
+            }
+            if(string.IsNullOrEmpty(model.Trainer))
+            {
+                result.Message = RecurringTrainingMessages.NoTrainer;
+                return View(result);
+            }
+            if (string.IsNullOrEmpty(model.Description))
+            {
+                result.Message = RecurringTrainingMessages.NoDescription;
+                return View(result);
+            }
+            if (model.Capacity <= 0)
+            {
+                result.Message = RecurringTrainingMessages.NoCapacity;
+                return View(result);
+            }
+            return View(result);
         }
 
         public ActionResult Recurring()
         {
+            if (!userManager.IsUserAdmin(Session))
+            {
+                return RedirectToAction("Calendar", "Calendar");
+            }
             return View(new RecurringModel());
         }
 
