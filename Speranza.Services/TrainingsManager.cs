@@ -63,7 +63,7 @@ namespace Speranza.Services
             return trainingID;
         }
 
-        public void CreateRecurringTraining()
+        public void CreateRecurringTraining(IRecurringModel model)
         {
             throw new NotImplementedException();
         }

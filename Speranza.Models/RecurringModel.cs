@@ -1,8 +1,5 @@
-﻿using System;
+﻿using Speranza.Models.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Speranza.Models
 {
@@ -12,9 +9,10 @@ namespace Speranza.Models
         NoTrainer = 1,
         NoDescription = 2,
         NoCapacity = 3,
-        NoModel = 4
+        NoModel = 4,
+        Success = 5
     }
-   public class RecurringModel
+   public class RecurringModel : IRecurringModel
     {
         public string Trainer { get; set; }
         public int Capacity { get; set; }

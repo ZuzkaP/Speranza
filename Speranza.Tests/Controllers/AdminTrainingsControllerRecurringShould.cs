@@ -2,6 +2,7 @@
 using Moq;
 using Speranza.Controllers;
 using Speranza.Models;
+using Speranza.Models.Interfaces;
 using Speranza.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,7 @@ namespace Speranza.Tests.Controllers
         private const int CAPACITY = 7;
 
         private const string TRAINER = "trainer";
+        private const int WRONG_CAPACITY = -5;
 
         [TestMethod]
         public void ReturnToCalendar_When_UserIsNotAdmin_AndShowing()
@@ -51,7 +53,7 @@ namespace Speranza.Tests.Controllers
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
             Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
             Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
-            trainingManager.Verify(r => r.CreateRecurringTraining(), Times.Never);
+            trainingManager.Verify(r => r.CreateRecurringTraining(It.IsAny<IRecurringModel>()), Times.Never);
         }
 
         [TestMethod]
@@ -64,7 +66,7 @@ namespace Speranza.Tests.Controllers
 
             RecurringModel resultModel = (RecurringModel)(result).Model;
             Assert.AreEqual(RecurringTrainingMessages.NoTrainer, resultModel.Message);
-            trainingManager.Verify(r => r.CreateRecurringTraining(), Times.Never);
+            trainingManager.Verify(r => r.CreateRecurringTraining(It.IsAny<IRecurringModel>()), Times.Never);
         }
 
         [TestMethod]
@@ -77,7 +79,7 @@ namespace Speranza.Tests.Controllers
 
             RecurringModel resultModel = (RecurringModel)(result).Model;
             Assert.AreEqual(RecurringTrainingMessages.NoDescription, resultModel.Message);
-            trainingManager.Verify(r => r.CreateRecurringTraining(), Times.Never);
+            trainingManager.Verify(r => r.CreateRecurringTraining(It.IsAny<IRecurringModel>()), Times.Never);
         }
 
         [TestMethod]
@@ -90,9 +92,10 @@ namespace Speranza.Tests.Controllers
 
             RecurringModel resultModel = (RecurringModel)(result).Model;
             Assert.AreEqual(RecurringTrainingMessages.NoCapacity, resultModel.Message);
-            trainingManager.Verify(r => r.CreateRecurringTraining(), Times.Never);
+            trainingManager.Verify(r => r.CreateRecurringTraining(It.IsAny<IRecurringModel>()), Times.Never);
         }
 
+        [TestMethod]
         public void NotCreateRecurringTraining_When_ModelIsNull()
         {
             InitializeAdminTrainingsRecurringController();
@@ -101,14 +104,36 @@ namespace Speranza.Tests.Controllers
 
             RecurringModel resultModel = (RecurringModel)(result).Model;
             Assert.AreEqual(RecurringTrainingMessages.NoModel, resultModel.Message);
-            trainingManager.Verify(r => r.CreateRecurringTraining(), Times.Never);
+            trainingManager.Verify(r => r.CreateRecurringTraining(It.IsAny<IRecurringModel>()), Times.Never);
         }
 
+        [TestMethod]
+        public void CreateRecurringTraining_When_AllDataAreFilledIn()
+        {
+            InitializeAdminTrainingsRecurringController();
+            PrepareCorrectModel();
+
+            ViewResult result = (ViewResult)controller.CreateRecurring(model);
+
+            RecurringModel resultModel = (RecurringModel)(result).Model;
+            Assert.AreEqual(RecurringTrainingMessages.Success, resultModel.Message);
+            trainingManager.Verify(r => r.CreateRecurringTraining(model), Times.Once);
+        }
+
+        private void PrepareCorrectModel()
+        {
+            model = new RecurringModel();
+            model.Capacity = CAPACITY;
+            model.Description = DESCRIPTION;
+            model.Trainer = TRAINER;
+            PrepareArrayWithCheckedTraining();
+            model.IsTrainingInTime = checkedTrainings;
+        }
 
         private void PrepareModelWithNoCapacity()
         {
             model = new RecurringModel();
-            model.Capacity = -5;
+            model.Capacity = WRONG_CAPACITY;
             model.Description = DESCRIPTION;
             model.Trainer = TRAINER;
             PrepareArrayWithCheckedTraining();

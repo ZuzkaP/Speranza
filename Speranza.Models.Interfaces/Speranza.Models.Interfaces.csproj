@@ -44,6 +44,7 @@
     <Compile Include="IChangePassModel.cs" />
     <Compile Include="IDayModel.cs" />
     <Compile Include="IAdminTrainingsModel.cs" />
+    <Compile Include="IRecurringModel.cs" />
     <Compile Include="ITrainingModel.cs" />
     <Compile Include="ITrainingForAdminModel.cs" />
     <Compile Include="IUserForAdminModel.cs" />
