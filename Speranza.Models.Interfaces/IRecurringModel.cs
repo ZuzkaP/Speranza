@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Speranza.Models.Interfaces
 {
-   public interface IRecurringModel
+    public interface IRecurringModel
     {
+        int Capacity { get; set; }
+        string Description { get; set; }
+        IList<bool> IsTrainingInTime { get; set; }
+        string Trainer { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using Speranza.Database.Data.Interfaces;
+using Speranza.Database.Data;
 using Speranza.Models.Interfaces;
 using Speranza.Services.Interfaces;
 using Speranza.Models;
@@ -65,7 +66,28 @@ namespace Speranza.Services
 
         public void CreateRecurringTraining(IRecurringModel model)
         {
-            throw new NotImplementedException();
+            int day = 0;
+            int time = 7; 
+             foreach (var item in model.IsTrainingInTime)
+            {
+                if (item)
+                {
+                    RecurringTrainingTemplate template = new RecurringTrainingTemplate();
+                    template.Capacity = model.Capacity;
+                    template.Description = model.Description;
+                    template.Trainer = model.Trainer;
+                    template.Day = day;
+                    template.Time = time;
+
+                    db.CreateRecurringTrainingTemplate(template);
+                }
+                time++;
+                if(time > 19)
+                {
+                    day++;
+                    time = 7;
+                }
+            }
         }
 
         public IList<ITrainingForAdminModel> GetAllFutureTrainings()

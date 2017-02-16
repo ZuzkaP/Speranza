@@ -17,7 +17,7 @@ namespace Speranza.Models
         public string Trainer { get; set; }
         public int Capacity { get; set; }
         public string Description { get; set; }
-        public List<bool> IsTrainingInTime { get; set; }
+        public IList<bool> IsTrainingInTime { get; set; }
         public RecurringTrainingMessages Message { get; set; }
 
         public RecurringModel()

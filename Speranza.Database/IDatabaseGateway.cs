@@ -3,6 +3,7 @@ using Speranza.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Speranza.Database.Data;
 
 namespace Speranza.Database
 {
@@ -33,5 +34,6 @@ namespace Speranza.Database
         void SetSignOffLimit(int hoursLimit);
         int GetSignOffLimit();
         void ChangePassword(string email, string newpasswordhash);
+        void CreateRecurringTrainingTemplate(RecurringTrainingTemplate recurringTrainingTemplate);
     }
 }

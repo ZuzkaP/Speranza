@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using Speranza.Services.Interfaces;
 using Speranza.Services.Interfaces.Exceptions;
 using Speranza.Models;
+using Speranza.Database.Data;
 
 namespace Speranza.Tests.Services
 {
@@ -41,6 +42,12 @@ namespace Speranza.Tests.Services
         private const int HOURS_LIMIT = 12;
         private const string FALSE_EMAIL = "falseEmail";
         private Mock<IUserManager> userManager;
+        private RecurringModel model;
+        private List<bool> checkedTrainings;
+        private const int DAY_B = 5;
+        private const int DAY_A = 6;
+        private const int TIME_B = 13;
+        private const int TIME_A = 19;
 
         [TestMethod]
         public void ReturnEmptyList_When_NoTrainingExistsInDB()
@@ -261,7 +268,56 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(CalendarMessages.SignUpSuccessful, message);
 
         }
+        
+        [TestMethod]
+        public void NotAddRecurringTrainingIntoDB_When_NoCheckedTimeslot()
+        {
+            InitializeTrainingManager();
+            PrepareModelWithNoCheckedTimeslot();
 
+            manager.CreateRecurringTraining(model);
+
+            db.Verify(r => r.CreateRecurringTrainingTemplate(It.IsAny<RecurringTrainingTemplate>()), Times.Never);
+        }
+
+
+        [TestMethod]
+        public void AddTwoRecurringTrainingsIntoDB_When_TwoCheckedTimeslotsExist()
+        {
+            InitializeTrainingManager();
+            PrepareModelWithTwoCheckedTimeslots();
+
+            manager.CreateRecurringTraining(model);
+
+            db.Verify(p => p.CreateRecurringTrainingTemplate(It.Is<RecurringTrainingTemplate>(r=>r.Trainer == TRAINER && r.Capacity == CAPACITY && r.Description == DESCRIPTION && r.Day == DAY_A && r.Time == TIME_A)), Times.Once);
+            db.Verify(p => p.CreateRecurringTrainingTemplate(It.Is<RecurringTrainingTemplate>(r=>r.Trainer == TRAINER && r.Capacity == CAPACITY && r.Description == DESCRIPTION && r.Day == DAY_B && r.Time == TIME_B)), Times.Once);
+        }
+
+        private void PrepareModelWithTwoCheckedTimeslots()
+        {
+            PrepareModelWithNoCheckedTimeslot();
+            model.IsTrainingInTime[DAY_A*13 + TIME_A - 7] = true;
+            model.IsTrainingInTime[DAY_B*13 + TIME_B - 7] = true;
+        }
+
+        private void PrepareModelWithNoCheckedTimeslot()
+        {
+            model = new RecurringModel();
+            model.Capacity = CAPACITY;
+            model.Description = DESCRIPTION;
+            model.Trainer = TRAINER;
+            PrepareArrayWithNoCheckedTraining();
+            model.IsTrainingInTime = checkedTrainings;
+        }
+        
+        private void PrepareArrayWithNoCheckedTraining()
+        {
+            checkedTrainings = new List<bool>();
+            for (int i = 0; i < 7 * 13; i++)
+            {
+                checkedTrainings.Add(false);
+            }
+        }
 
         private void PrepareDBWithSignOffSettings()
         {
