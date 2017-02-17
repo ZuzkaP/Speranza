@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Speranza.Database.Data
+namespace Speranza.Database.Data.Interfaces
 {
-    public class RecurringTrainingTemplate
+    public class RecurringTrainingTemplate : IRecurringTrainingTemplate
     {
         public int Capacity { get; set; }
         public int Day { get; set; }

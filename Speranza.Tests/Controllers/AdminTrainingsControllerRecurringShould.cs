@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Speranza.Controllers;
+using Speranza.Database.Data;
 using Speranza.Models;
 using Speranza.Models.Interfaces;
 using Speranza.Services.Interfaces;
@@ -28,6 +29,8 @@ namespace Speranza.Tests.Controllers
 
         private const string TRAINER = "trainer";
         private const int WRONG_CAPACITY = -5;
+        private Mock<IRecurringTemplateModel> modelB;
+        private Mock<IRecurringTemplateModel> modelA;
 
         [TestMethod]
         public void ReturnToCalendar_When_UserIsNotAdmin_AndShowing()
@@ -128,6 +131,70 @@ namespace Speranza.Tests.Controllers
             Assert.AreEqual("AdminTrainings", ((RedirectToRouteResult)result).RouteValues["controller"]);
             Assert.AreEqual("Recurring", ((RedirectToRouteResult)result).RouteValues["action"]);
             trainingManager.Verify(r => r.CreateRecurringTraining(model), Times.Once);
+        }
+
+        [TestMethod]
+        public void SendMessageToUI_When_ItExists()
+        {
+            InitializeAdminTrainingsRecurringController();
+            PrepareManagerToReturnNoTemplates();
+            controller.Session["Message"] = RecurringTrainingMessages.NoCapacity;
+
+            ViewResult result =(ViewResult) controller.Recurring();
+
+            RecurringModel model =(RecurringModel) result.Model;
+            Assert.AreEqual(RecurringTrainingMessages.NoCapacity, model.Message);
+            Assert.IsNull(controller.Session["Message"]);
+        }
+
+        [TestMethod]
+        public void ShowClearedTable_When_NoTemplatesExist()
+        {
+            InitializeAdminTrainingsRecurringController();
+            PrepareManagerToReturnNoTemplates();
+
+            ViewResult result = (ViewResult)controller.Recurring();
+
+            RecurringModel model = (RecurringModel)result.Model;
+            Assert.AreEqual(7*13, model.IsTrainingInTime.Count);
+            Assert.IsFalse(model.IsTrainingInTime.Any(r=> r == true));
+        }
+
+        [TestMethod]
+        public void ShowTwoItemsInTemplateTable()
+        {
+            InitializeAdminTrainingsRecurringController();
+            PrepareManagerToReturnTwoTemplates();
+
+            ViewResult result = (ViewResult)controller.Recurring();
+
+            RecurringModel model = (RecurringModel)result.Model;
+            Assert.AreEqual(7 * 13, model.IsTrainingInTime.Count);
+            Assert.AreEqual(2,model.IsTrainingInTime.Count(r => r == true));
+            Assert.AreEqual(true,model.IsTrainingInTime[8]);
+            Assert.AreEqual(true,model.IsTrainingInTime[27]);
+
+            Assert.AreEqual(modelA.Object,model.Templates[0]);
+            Assert.AreEqual(modelB.Object, model.Templates[1]);
+            Assert.AreEqual(2, model.Templates.Count);
+        }
+
+        private void PrepareManagerToReturnTwoTemplates()
+        {
+            modelA = new Mock<IRecurringTemplateModel>();
+            modelB = new Mock<IRecurringTemplateModel>();
+            modelA.SetupGet(r => r.Day).Returns(0);
+            modelA.SetupGet(r => r.Time).Returns(15);
+            modelB.SetupGet(r => r.Day).Returns(2);
+            modelB.SetupGet(r => r.Time).Returns(8);
+            trainingManager.Setup(r => r.GetTemplates()).Returns(new List<IRecurringTemplateModel>() {
+                modelA.Object,modelB.Object
+           });
+        }
+
+        private void PrepareManagerToReturnNoTemplates()
+        {
+            trainingManager.Setup(r => r.GetTemplates()).Returns(new List<IRecurringTemplateModel>());
         }
 
         private void PrepareCorrectModel()

@@ -263,7 +263,21 @@ namespace Speranza.Controllers
             {
                 return RedirectToAction("Calendar", "Calendar");
             }
-            return View(new RecurringModel());
+
+            RecurringModel model = new RecurringModel();
+            IList<IRecurringTemplateModel> templates = trainingManager.GetTemplates();
+            foreach (var item in templates)
+            {
+                int index = item.Day *13 + item.Time - 7;
+                model.IsTrainingInTime[index] = true;
+                model.Templates.Add(item);
+            }
+            if (Session["Message"] != null)
+            {
+                model.Message =(RecurringTrainingMessages) Session["Message"];
+            }
+            Session["Message"] = null;
+            return View(model);
         }
 
     }

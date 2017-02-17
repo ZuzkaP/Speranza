@@ -19,6 +19,7 @@ namespace Speranza.Models
         public string Description { get; set; }
         public IList<bool> IsTrainingInTime { get; set; }
         public RecurringTrainingMessages Message { get; set; }
+        public IList<IRecurringTemplateModel> Templates { get; set; }
 
         public RecurringModel()
         {
@@ -28,6 +29,7 @@ namespace Speranza.Models
                 IsTrainingInTime.Add(false);
             }
             Capacity = 10;
+            Templates = new List<IRecurringTemplateModel>();
         }
 
        

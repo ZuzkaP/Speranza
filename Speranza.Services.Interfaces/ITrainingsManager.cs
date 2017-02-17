@@ -1,5 +1,4 @@
-﻿using Speranza.Database.Data.Interfaces;
-using Speranza.Models.Interfaces;
+﻿using Speranza.Models.Interfaces;
 using System.Collections.Generic;
 using System;
 
@@ -19,5 +18,6 @@ namespace Speranza.Services.Interfaces
         int GetSignOffLimit();
         CalendarMessages AddUserToTraining(string email, string trainingID, DateTime currentDate);
         void CreateRecurringTraining(IRecurringModel model);
+        IList<IRecurringTemplateModel> GetTemplates();
     }
 }

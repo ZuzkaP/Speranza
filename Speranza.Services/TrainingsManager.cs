@@ -122,6 +122,11 @@ namespace Speranza.Services
             return db.GetSignOffLimit();
         }
 
+        public IList<IRecurringTemplateModel> GetTemplates()
+        {
+            throw new NotImplementedException();
+        }
+
         public ITrainingModel RemoveUserFromTraining(string email, string id)
         {
             db.RemoveUserFromTraining(email, id);
