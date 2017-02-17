@@ -51,6 +51,7 @@
     <Compile Include="LoginModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecurringModel.cs" />
+    <Compile Include="RecurringTemplateModel.cs" />
     <Compile Include="RegisterModel.cs" />
     <Compile Include="ToggleAdminModel.cs" />
     <Compile Include="TrainingForAdminModel.cs" />

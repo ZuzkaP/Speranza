@@ -1,4 +1,4 @@
-﻿namespace Speranza.Database.Data
+﻿namespace Speranza.Database.Data.Interfaces
 {
     public interface IRecurringTrainingTemplate
     {

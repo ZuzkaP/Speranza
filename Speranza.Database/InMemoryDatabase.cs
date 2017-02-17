@@ -313,6 +313,11 @@ namespace Speranza.Database
             }
         }
 
+        public IList<IRecurringTrainingTemplate> GetTemplates()
+        {
+            throw new NotImplementedException();
+        }
+
         private class UserInTraining
         {
           public  string Email { get; set; }

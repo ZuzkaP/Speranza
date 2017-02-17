@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Speranza.Database.Data;
 
 namespace Speranza.Services.Interfaces
 {
@@ -14,5 +15,6 @@ namespace Speranza.Services.Interfaces
         ITrainingForAdminModel CreateTrainingForAdminModel(ITraining training);
         ITrainingModel CreateTrainingModel(ITraining training);
         IUserForTrainingDetailModel CreateUsersForTrainingDetailModel(IUser user);
+        IRecurringTemplateModel CreateRecurringTrainingModel(IRecurringTrainingTemplate template);
     }
 }

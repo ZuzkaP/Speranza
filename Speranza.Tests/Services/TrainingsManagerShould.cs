@@ -48,6 +48,8 @@ namespace Speranza.Tests.Services
         private const int DAY_A = 6;
         private const int TIME_B = 13;
         private const int TIME_A = 19;
+        private Mock<IRecurringTemplateModel> modelB;
+        private Mock<IRecurringTemplateModel> modelA;
 
         [TestMethod]
         public void ReturnEmptyList_When_NoTrainingExistsInDB()
@@ -291,6 +293,51 @@ namespace Speranza.Tests.Services
 
             db.Verify(p => p.CreateRecurringTrainingTemplate(It.Is<RecurringTrainingTemplate>(r=>r.Trainer == TRAINER && r.Capacity == CAPACITY && r.Description == DESCRIPTION && r.Day == DAY_A && r.Time == TIME_A)), Times.Once);
             db.Verify(p => p.CreateRecurringTrainingTemplate(It.Is<RecurringTrainingTemplate>(r=>r.Trainer == TRAINER && r.Capacity == CAPACITY && r.Description == DESCRIPTION && r.Day == DAY_B && r.Time == TIME_B)), Times.Once);
+        }
+
+
+        [TestMethod]
+        public void ReturnEmptyList_When_NoTemplateInDBExists()
+        {
+            InitializeTrainingManager();
+            PrepareDBWithNoTemplate();
+
+            var templates = manager.GetTemplates();
+
+            Assert.IsNotNull(templates);
+            Assert.AreEqual(0, templates.Count);
+        }
+
+        [TestMethod]
+        public void ReturnListWithTwoModels_When_TwoTemplatesInDBExist()
+        {
+            InitializeTrainingManager();
+            PrepareDBAndFactoryWithTwoTemplates();
+
+            var templates = manager.GetTemplates();
+
+            Assert.IsNotNull(templates);
+            Assert.AreEqual(0, templates.Count);
+        }
+
+        private void PrepareDBAndFactoryWithTwoTemplates()
+        {
+            var list = new List<IRecurringTrainingTemplate>();
+            var templateA = new Mock<IRecurringTrainingTemplate>();
+            var templateB = new Mock<IRecurringTrainingTemplate>();
+            list.Add(templateA.Object);
+            list.Add(templateB.Object);
+            db.Setup(r => r.GetTemplates()).Returns(new List<IRecurringTrainingTemplate>());
+
+            modelA = new Mock<IRecurringTemplateModel>();
+            modelB = new Mock<IRecurringTemplateModel>();
+            factory.Setup(r => r.CreateRecurringTrainingModel(templateA.Object)).Returns(modelA.Object);
+            factory.Setup(r => r.CreateRecurringTrainingModel(templateB.Object)).Returns(modelB.Object);
+        }
+
+        private void PrepareDBWithNoTemplate()
+        {
+            db.Setup(r => r.GetTemplates()).Returns(new List<IRecurringTrainingTemplate>());
         }
 
         private void PrepareModelWithTwoCheckedTimeslots()

@@ -124,7 +124,14 @@ namespace Speranza.Services
 
         public IList<IRecurringTemplateModel> GetTemplates()
         {
-            throw new NotImplementedException();
+            var templates = db.GetTemplates();
+            var list = new List<IRecurringTemplateModel>();
+            foreach (var item in templates)
+            {
+                IRecurringTemplateModel model = factory.CreateRecurringTrainingModel(item);
+                list.Add(model);
+            }
+            return list;
         }
 
         public ITrainingModel RemoveUserFromTraining(string email, string id)

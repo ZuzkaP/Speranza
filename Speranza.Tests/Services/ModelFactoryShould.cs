@@ -4,6 +4,7 @@ using Speranza.Services;
 using Speranza.Models.Interfaces;
 using Moq;
 using Speranza.Database.Data.Interfaces;
+using Speranza.Database.Data;
 
 namespace Speranza.Tests.Services
 {
@@ -30,6 +31,9 @@ namespace Speranza.Tests.Services
         private const int  NUMBEROFSIGNEDUPTRAININGS = 3;
 
         private const int REGISTERED = 8;
+        private const int DAY = 5;
+        private const int HOUR = 6;
+        private Mock<IRecurringTrainingTemplate> template;
 
         [TestMethod]
         public void CorrectlyCreateUserForAdminModel()
@@ -95,7 +99,32 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(NAME, model.Name);
             Assert.AreEqual(SURNAME, model.Surname);
             Assert.AreEqual(EMAIL, model.Email);
-            
+        }
+
+        [TestMethod]
+        public void ReturnRecurringTemplateModel()
+        {
+            InitializeModelFactory();
+            PrepareTemplatesFromDB();
+
+            IRecurringTemplateModel model = factory.CreateRecurringTrainingModel(template.Object);
+
+            Assert.AreEqual(DESCRIPTION, model.Description);
+            Assert.AreEqual(CAPACITY, model.Capacity);
+            Assert.AreEqual(TRAINER, model.Trainer);
+            Assert.AreEqual(DAY, model.Day);
+            Assert.AreEqual(HOUR, model.Time);
+        }
+
+        private void PrepareTemplatesFromDB()
+        {
+            template = new Mock<IRecurringTrainingTemplate>();
+
+            template.SetupGet(r => r.Capacity).Returns(CAPACITY);
+            template.SetupGet(r => r.Description).Returns(DESCRIPTION);
+            template.SetupGet(r => r.Trainer).Returns(TRAINER);
+            template.SetupGet(r => r.Day).Returns(DAY);
+            template.SetupGet(r => r.Time).Returns(HOUR);
         }
 
         private void PrepareTraining()

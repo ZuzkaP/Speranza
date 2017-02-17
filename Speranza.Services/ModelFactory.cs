@@ -7,11 +7,25 @@ using System.Threading.Tasks;
 using Speranza.Database.Data.Interfaces;
 using Speranza.Models.Interfaces;
 using Speranza.Models;
+using Speranza.Database.Data;
 
 namespace Speranza.Services
 {
     public class ModelFactory : IModelFactory
     {
+        public IRecurringTemplateModel CreateRecurringTrainingModel(IRecurringTrainingTemplate template)
+        {
+            IRecurringTemplateModel model = new RecurringTemplateModel();
+
+            model.Capacity = template.Capacity;
+            model.Description = template.Description;
+            model.Trainer = template.Trainer;
+            model.Day = template.Day;
+            model.Time = template.Time;
+
+            return model;
+        }
+
         public ITrainingForAdminModel CreateTrainingForAdminModel(ITraining training)
         {
             ITrainingForAdminModel model = new TrainingForAdminModel();
