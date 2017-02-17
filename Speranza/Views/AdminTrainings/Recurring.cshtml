@@ -55,6 +55,16 @@
                             @*<div class="btn-group" data-toggle="buttons">
                                 <label class="btn btn-primary">*@
                                     @Html.CheckBoxFor(r => r.IsTrainingInTime[j * 13 + i - 7])
+                            @if(Model.IsTrainingInTime[j*13 + i - 7])
+                            {
+                                <br />
+                                var template = Model.Templates.First(r => r.Day == j && r.Time == i);
+                                @template.Description
+                                <br />
+                                @template.Trainer
+                                <br />
+                                @template.Capacity
+                            }
                                     @*<span class="glyphicon glyphicon-ok"></span>*@
                                 @*</label>*@
                                 @*</div>*@

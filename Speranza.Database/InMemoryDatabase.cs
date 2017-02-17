@@ -15,7 +15,7 @@ namespace Speranza.Database
         Dictionary<string, RegisteredUser> users;
         Dictionary<string, object> settings;
         List<ITraining> trainings;
-        List<RecurringTrainingTemplate> templates;
+        List<IRecurringTrainingTemplate> templates;
         List<UserInTraining> usersInTrainings;
         static InMemoryDatabase database;
         public static InMemoryDatabase Instance
@@ -33,7 +33,7 @@ namespace Speranza.Database
             users = new Dictionary<string, RegisteredUser>();
             usersInTrainings = new List<UserInTraining>();
             settings = new Dictionary<string, object>();
-            templates = new List<RecurringTrainingTemplate>();
+            templates = new List<IRecurringTrainingTemplate>();
             users.Add("admin", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Admin", Surname = "Admin", PhoneNumber = "1234" , IsAdmin = true, Category = UserCategories.Silver});
             
             users.Add("miro", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Miro", Surname = "Pavlicko", PhoneNumber = "1234" , IsAdmin = false , NumberOfFreeSignUps = 10});
@@ -315,7 +315,7 @@ namespace Speranza.Database
 
         public IList<IRecurringTrainingTemplate> GetTemplates()
         {
-            throw new NotImplementedException();
+            return templates;
         }
 
         private class UserInTraining
