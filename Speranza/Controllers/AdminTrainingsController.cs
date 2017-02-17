@@ -233,27 +233,28 @@ namespace Speranza.Controllers
 
             if(model == null)
             {
-                result.Message = RecurringTrainingMessages.NoModel;
-                return View(result);
+                Session["Message"] = RecurringTrainingMessages.NoModel;
+                return RedirectToAction("Recurring", "AdminTrainings");
             }
             if(string.IsNullOrEmpty(model.Trainer))
             {
-                result.Message = RecurringTrainingMessages.NoTrainer;
-                return View(result);
+                Session["Message"] = RecurringTrainingMessages.NoTrainer;
+                return RedirectToAction("Recurring", "AdminTrainings");
             }
             if (string.IsNullOrEmpty(model.Description))
             {
-                result.Message = RecurringTrainingMessages.NoDescription;
-                return View(result);
+                Session["Message"] = RecurringTrainingMessages.NoDescription;
+                return RedirectToAction("Recurring", "AdminTrainings");
             }
             if (model.Capacity <= 0)
             {
-                result.Message = RecurringTrainingMessages.NoCapacity;
-                return View(result);
+                Session["Message"] = RecurringTrainingMessages.NoCapacity;
+                return RedirectToAction("Recurring", "AdminTrainings");
             }
             trainingManager.CreateRecurringTraining(model);
-            result.Message = RecurringTrainingMessages.Success;
-            return View(result);
+            Session["Message"] = RecurringTrainingMessages.Success;
+            return RedirectToAction("Recurring", "AdminTrainings");
+
         }
 
         public ActionResult Recurring()
