@@ -11,5 +11,6 @@ namespace Speranza.Models
     {
         public bool IsAdmin { get; set; }
         public UserCategories Category { get; set; }
+        public string Email { get; set; }
     }
 }

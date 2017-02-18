@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using Moq;
 using Speranza.Database;
 using Speranza.Common.Data;
+using Speranza.Models;
 
 namespace Speranza.Tests.Services
 {
@@ -37,6 +38,11 @@ namespace Speranza.Tests.Services
         private const string SURNAME_FIRST = "surnameA";
         private const string SURNAME_THIRD = "surnameC";
         private const string SURNAME_SECOND= "surnameB";
+        private const string PASSWORD_INCORRECT_HASH = "incorrectPassword";
+        private const string PASSWORD_CORRECT_HASH = "Password";
+        const UserCategories CATEGORY = UserCategories.Gold;
+        const bool IS_ADMIN = true;
+        private Mock<IHasher> hasher;
 
         [TestMethod]
         public void ReturnFalse_When_SessionIsEmpty()
@@ -255,6 +261,49 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(user1Model.Object, model);
 
         }
+        [TestMethod]
+        public void ReturnNull_When_EmailDoesNotExist()
+        {
+            InitializeUserManager();
+            db.Setup(r => r.LoadUser(EMAIL)).Returns((IUser)null);
+
+            LoginResult result = manager.Login(EMAIL, PASSWORD_CORRECT_HASH);
+
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void ReturnNull_When_PassIsIncorrect()
+        {
+            InitializeUserManager();
+            PrepareUserLoginDataInDB();
+
+            LoginResult result = manager.Login(EMAIL,PASSWORD_INCORRECT_HASH);
+
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void ReturnCorrectLoginResult_When_EmailAndPassAreCorrect()
+        {
+            InitializeUserManager();
+            PrepareUserLoginDataInDB();
+           
+            LoginResult result = manager.Login(EMAIL,PASSWORD_CORRECT_HASH);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(EMAIL, result.Email);
+            Assert.AreEqual(CATEGORY, result.Category);
+            Assert.AreEqual(IS_ADMIN, result.IsAdmin);
+        }
+        private void PrepareUserLoginDataInDB()
+        {
+            var user = new Mock<IUser>();
+            user.SetupGet(r => r.PasswordHash).Returns(PASSWORD_CORRECT_HASH);
+            user.SetupGet(r => r.Category).Returns(CATEGORY);
+            user.SetupGet(r => r.IsAdmin).Returns(IS_ADMIN);
+            db.Setup(r => r.LoadUser(EMAIL)).Returns(user.Object);
+        }
 
         private void PrepareDBAndFactoryWithThreeTrainings()
         {
@@ -312,10 +361,12 @@ namespace Speranza.Tests.Services
             factory = new Mock<IModelFactory>();
             db = new Mock<IDatabaseGateway>();
             datetimeService = new Mock<IDateTimeService>();
-            manager = new UserManager(db.Object, factory.Object,datetimeService.Object);
+            hasher = new Mock<IHasher>();
+            manager = new UserManager(db.Object, factory.Object,datetimeService.Object,hasher.Object);
             collection = new SessionStateItemCollection();
             context = new FakeControllerContext(null, collection);
             datetimeService.Setup(r => r.GetCurrentDate()).Returns(new DateTime(2017, 01, 06));
+           
         }
     }
 }

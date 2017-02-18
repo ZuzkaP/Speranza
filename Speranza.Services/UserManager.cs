@@ -10,6 +10,7 @@ using Speranza.Models.Interfaces;
 using Speranza.Database;
 using System.Linq;
 using Speranza.Common.Data;
+using Speranza.Models;
 
 namespace Speranza.Services
 {
@@ -18,12 +19,14 @@ namespace Speranza.Services
         private IDatabaseGateway db;
         private IModelFactory factory;
         private IDateTimeService dateTimeService;
+        private IHasher hasher;
 
-        public UserManager(IDatabaseGateway db, IModelFactory factory, IDateTimeService dateTimeService)
+        public UserManager(IDatabaseGateway db, IModelFactory factory, IDateTimeService dateTimeService, IHasher hasher)
         {
             this.db = db;
             this.factory = factory;
             this.dateTimeService = dateTimeService;
+            this.hasher = hasher;
         }
 
         public UserCategories GetUserCategory(ICollection session)
@@ -129,6 +132,21 @@ namespace Speranza.Services
             IUser user = db.GetUserData(email);
             IUserForTrainingDetailModel model = factory.CreateUsersForTrainingDetailModel(user);
             return model;
+        }
+
+        public LoginResult Login(string email, string passHash)
+        {
+            IUser user = db.LoadUser(email);
+            if(user != null && user.PasswordHash == passHash)
+            {
+                LoginResult result = new LoginResult();
+                result.Category = user.Category;
+                result.Email = email;
+                result.IsAdmin = user.IsAdmin;
+                
+                return result;
+            }
+            return null;
         }
     }
 }

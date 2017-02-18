@@ -29,7 +29,7 @@ namespace Speranza.App_Start
             Factory = new ModelFactory();
             uidService = new UidService();
             UserDataParser = new UserDataParser();
-            UserManager = new UserManager(Db, Factory,DateTimeService);
+            UserManager = new UserManager(Db, Factory,DateTimeService,Hasher);
             TrainingsManager = new TrainingsManager(Db, Factory, uidService, DateTimeService, UserManager);
             DaysManager = new DaysManager(Db, TrainingsManager, DateTimeService, Factory);
         }

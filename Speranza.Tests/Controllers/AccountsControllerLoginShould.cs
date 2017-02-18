@@ -85,64 +85,64 @@ namespace Speranza.Tests.Controllers
 
         }
         
-        [TestMethod]
-        public void NotLogin_When_EmailDoesNotExist()
-        {
-            InitializeController();
-            LoginModel model = new LoginModel();
-            model.Email = "test@test.com";
+        //[TestMethod]
+        //public void NotLogin_When_EmailDoesNotExist()
+        //{
+        //    InitializeController();
+        //    LoginModel model = new LoginModel();
+        //    model.Email = "test@test.com";
             
-            db.Setup(r => r.LoadUser(model.Email)).Returns((IUser)null);
-            ViewResult result = (ViewResult) controller.Login(model);
+        //    db.Setup(r => r.LoadUser(model.Email)).Returns((IUser)null);
+        //    ViewResult result = (ViewResult) controller.Login(model);
             
-            Assert.AreEqual("../Home/Index", result.ViewName);
+        //    Assert.AreEqual("../Home/Index", result.ViewName);
 
-            LoginModel modelFromServer = (LoginModel)result.Model;
-            Assert.IsFalse(modelFromServer.LoginSuccessful);
-            Assert.IsTrue(string.IsNullOrEmpty(this.controller.Session["Email"] as string));
-        }
+        //    LoginModel modelFromServer = (LoginModel)result.Model;
+        //    Assert.IsFalse(modelFromServer.LoginSuccessful);
+        //    Assert.IsTrue(string.IsNullOrEmpty(this.controller.Session["Email"] as string));
+        //}
 
-        [TestMethod]
-        public void NotLogin_When_PassIsIncorrect()
-        {
-            InitializeController();
-            LoginModel model = new LoginModel();
-            model.Email = "test@test.com";
-            model.Password = "incorrectPassword";
-            hasher.Setup(r => r.HashPassword(model.Password)).Returns("incorrectHash");
-            user = new Mock<IUser>();
-            user.SetupGet(r => r.PasswordHash).Returns("hash");
-            db.Setup(r => r.LoadUser(model.Email)).Returns(user.Object);
-            ViewResult result = (ViewResult) controller.Login(model);
+        //[TestMethod]
+        //public void NotLogin_When_PassIsIncorrect()
+        //{
+        //    InitializeController();
+        //    LoginModel model = new LoginModel();
+        //    model.Email = "test@test.com";
+        //    model.Password = "incorrectPassword";
+        //    hasher.Setup(r => r.HashPassword(model.Password)).Returns("incorrectHash");
+        //    user = new Mock<IUser>();
+        //    user.SetupGet(r => r.PasswordHash).Returns("hash");
+        //    db.Setup(r => r.LoadUser(model.Email)).Returns(user.Object);
+        //    ViewResult result = (ViewResult) controller.Login(model);
 
-            Assert.AreEqual("../Home/Index", result.ViewName);
+        //    Assert.AreEqual("../Home/Index", result.ViewName);
 
-            LoginModel modelFromServer = (LoginModel)result.Model;
-            Assert.IsFalse(modelFromServer.LoginSuccessful);
-            Assert.IsTrue(string.IsNullOrEmpty(this.controller.Session["Email"] as string));
-        }
+        //    LoginModel modelFromServer = (LoginModel)result.Model;
+        //    Assert.IsFalse(modelFromServer.LoginSuccessful);
+        //    Assert.IsTrue(string.IsNullOrEmpty(this.controller.Session["Email"] as string));
+        //}
 
-        [TestMethod]
-        public void Login_When_EmailAndPassAreCorrect()
-        {
-            InitializeController();
-            LoginModel model = new LoginModel();
-            model.Email = "test@test.com";
-            model.Password = "Password";
-            hasher.Setup(r => r.HashPassword(model.Password)).Returns("hash");
-            user = new Mock<IUser>();
-            user.SetupGet(r => r.PasswordHash).Returns("hash");
-            db.Setup(r => r.LoadUser(model.Email)).Returns(user.Object);
+        //[TestMethod]
+        //public void Login_When_EmailAndPassAreCorrect()
+        //{
+        //    InitializeController();
+        //    LoginModel model = new LoginModel();
+        //    model.Email = "test@test.com";
+        //    model.Password = "Password";
+        //    hasher.Setup(r => r.HashPassword(model.Password)).Returns("hash");
+        //    user = new Mock<IUser>();
+        //    user.SetupGet(r => r.PasswordHash).Returns("hash");
+        //    db.Setup(r => r.LoadUser(model.Email)).Returns(user.Object);
 
-            ActionResult result = controller.Login(model);
+        //    ActionResult result = controller.Login(model);
 
-            Assert.AreEqual(model.Email, this.controller.Session["Email"]);
-            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
-            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
-            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
-            Assert.IsNotNull(this.controller.Session["IsAdmin"]);
-            Assert.IsFalse((bool)this.controller.Session["IsAdmin"]);
-        }
+        //    Assert.AreEqual(model.Email, this.controller.Session["Email"]);
+        //    Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+        //    Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
+        //    Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
+        //    Assert.IsNotNull(this.controller.Session["IsAdmin"]);
+        //    Assert.IsFalse((bool)this.controller.Session["IsAdmin"]);
+        //}
         [TestMethod]
         public void SetAdminFlag_When_UserIsAdmin()
         {
