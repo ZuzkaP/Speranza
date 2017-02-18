@@ -19,5 +19,6 @@ namespace Speranza.Services.Interfaces
         CalendarMessages AddUserToTraining(string email, string trainingID, DateTime currentDate);
         void CreateRecurringTraining(IRecurringModel model);
         IList<IRecurringTemplateModel> GetTemplates();
+        void RemoveTrainingTemplate(int v1, int v2);
     }
 }

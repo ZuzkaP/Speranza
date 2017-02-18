@@ -29,6 +29,8 @@ namespace Speranza.Tests.Controllers
 
         private const string TRAINER = "trainer";
         private const int WRONG_CAPACITY = -5;
+        private const int DAY = 1;
+        private const int TIME = 8;
         private Mock<IRecurringTemplateModel> modelB;
         private Mock<IRecurringTemplateModel> modelA;
 
@@ -179,6 +181,31 @@ namespace Speranza.Tests.Controllers
             Assert.AreEqual(2, model.Templates.Count);
         }
 
+        [TestMethod]
+        public void NotRemoveRecurringTrainingTemplate_When_UserIsNotAdmin()
+        {
+            InitializeAdminTrainingsRecurringController();
+            userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(false);
+
+            ActionResult result = controller.RemoveTemplate(DAY, TIME);
+
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
+            trainingManager.Verify(r => r.RemoveTrainingTemplate(It.IsAny<int>(), It.IsAny<int>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void RemoveRecurringTrainingTemplate()
+        {
+            InitializeAdminTrainingsRecurringController();
+
+            ActionResult result = controller.RemoveTemplate(DAY, TIME);
+
+            trainingManager.Verify(r => r.RemoveTrainingTemplate(DAY, TIME), Times.Once);
+            Assert.IsInstanceOfType(result, typeof(JsonResult));
+        }
+
         private void PrepareManagerToReturnTwoTemplates()
         {
             modelA = new Mock<IRecurringTemplateModel>();
@@ -246,9 +273,10 @@ namespace Speranza.Tests.Controllers
             }
             checkedTrainings[3] = true;
         }
+        
 
        
-        public void InitializeAdminTrainingsRecurringController()
+        private void InitializeAdminTrainingsRecurringController()
         {
             userManager = new Mock<IUserManager>();
             trainingManager = new Mock<ITrainingsManager>();

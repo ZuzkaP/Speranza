@@ -134,6 +134,11 @@ namespace Speranza.Services
             return list;
         }
 
+        public void RemoveTrainingTemplate(int day, int time)
+        {
+            db.RemoveTrainingTemplate(day, time);
+        }
+
         public ITrainingModel RemoveUserFromTraining(string email, string id)
         {
             db.RemoveUserFromTraining(email, id);

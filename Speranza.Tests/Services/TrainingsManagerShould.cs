@@ -320,6 +320,18 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(0, templates.Count);
         }
 
+
+        [TestMethod]
+        public void RemoveTrainingTemplateFromDB()
+        {
+            InitializeTrainingManager();
+
+            manager.RemoveTrainingTemplate(DAY_A, TIME_A);
+
+            db.Verify(r => r.RemoveTrainingTemplate(DAY_A, TIME_A), Times.Once);
+
+        }
+
         private void PrepareDBAndFactoryWithTwoTemplates()
         {
             var list = new List<IRecurringTrainingTemplate>();

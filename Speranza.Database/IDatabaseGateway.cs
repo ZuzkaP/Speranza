@@ -37,5 +37,6 @@ namespace Speranza.Database
         void ChangePassword(string email, string newpasswordhash);
         void CreateRecurringTrainingTemplate(RecurringTrainingTemplate recurringTrainingTemplate);
         IList<IRecurringTrainingTemplate> GetTemplates();
+        void RemoveTrainingTemplate(int day, int time);
     }
 }

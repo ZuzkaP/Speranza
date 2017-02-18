@@ -280,8 +280,13 @@ namespace Speranza.Controllers
             return View(model);
         }
 
-        public JsonResult RemoveTemplate(int day, int time)
+        public ActionResult RemoveTemplate(int day, int time)
         {
+            if (!userManager.IsUserAdmin(Session))
+            {
+                return RedirectToAction("Calendar", "Calendar");
+            }
+            trainingManager.RemoveTrainingTemplate(day, time);
             return Json("");
         }
 

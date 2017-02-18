@@ -319,6 +319,12 @@ namespace Speranza.Database
             return templates;
         }
 
+        public void RemoveTrainingTemplate(int day, int time)
+        {
+            var template = templates.Find(r => r.Day == day && r.Time == time);
+            templates.Remove(template);
+        }
+
         private class UserInTraining
         {
           public  string Email { get; set; }
