@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.SessionState;
 using Speranza.Database.Data.Interfaces;
 using Speranza.Services.Interfaces;
+using Speranza.Common.Data;
 
 namespace Speranza.Tests.Controllers
 {

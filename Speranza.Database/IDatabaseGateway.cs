@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Speranza.Database.Data;
+using Speranza.Common.Data;
 
 namespace Speranza.Database
 {

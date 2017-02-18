@@ -46,6 +46,10 @@
     <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Speranza.Common.Data\Speranza.Common.Data.csproj">
+      <Project>{56009a7e-abe3-40cd-b024-8e49835ed0d6}</Project>
+      <Name>Speranza.Common.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Speranza.Database.Data.Interfaces\Speranza.Database.Data.Interfaces.csproj">
       <Project>{14012cb2-90fa-4298-994a-b682352b16aa}</Project>
       <Name>Speranza.Database.Data.Interfaces</Name>

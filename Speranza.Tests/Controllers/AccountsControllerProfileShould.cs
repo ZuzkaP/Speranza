@@ -11,6 +11,7 @@ using Moq.Language.Flow;
 using Speranza.Models;
 using System.Collections.Generic;
 using Speranza.Models.Interfaces;
+using Speranza.Common.Data;
 
 namespace Speranza.Tests.Controllers
 {

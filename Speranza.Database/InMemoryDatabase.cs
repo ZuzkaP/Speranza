@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Speranza.Models;
 using Speranza.Database.Data.Interfaces;
 using Speranza.Database.Data;
+using Speranza.Common.Data;
 
 namespace Speranza.Database
 {

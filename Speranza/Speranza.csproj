@@ -164,6 +164,10 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Speranza.Common.Data\Speranza.Common.Data.csproj">
+      <Project>{56009A7E-ABE3-40CD-B024-8E49835ED0D6}</Project>
+      <Name>Speranza.Common.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Speranza.Database.Data.Interfaces\Speranza.Database.Data.Interfaces.csproj">
       <Project>{14012cb2-90fa-4298-994a-b682352b16aa}</Project>
       <Name>Speranza.Database.Data.Interfaces</Name>

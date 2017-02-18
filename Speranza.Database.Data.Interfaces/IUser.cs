@@ -1,12 +1,7 @@
-﻿namespace Speranza.Database.Data.Interfaces
-{
-    public enum UserCategories
-    {
-        Standard,
-        Silver,
-        Gold
-    }
+﻿using Speranza.Common.Data;
 
+namespace Speranza.Database.Data.Interfaces
+{
     public interface IUser
     {
         string PasswordHash { get; }

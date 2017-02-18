@@ -10,6 +10,7 @@ using Speranza.Database.Data.Interfaces;
 using System.Collections.Generic;
 using Speranza.Database;
 using Speranza.Models.Interfaces;
+using Speranza.Common.Data;
 
 namespace Speranza.Tests.Controllers
 {

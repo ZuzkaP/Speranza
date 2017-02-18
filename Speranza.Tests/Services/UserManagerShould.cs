@@ -10,6 +10,7 @@ using Speranza.Models.Interfaces;
 using System.Collections.Generic;
 using Moq;
 using Speranza.Database;
+using Speranza.Common.Data;
 
 namespace Speranza.Tests.Services
 {
