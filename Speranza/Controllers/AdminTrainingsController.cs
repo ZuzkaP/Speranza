@@ -280,5 +280,10 @@ namespace Speranza.Controllers
             return View(model);
         }
 
+        public JsonResult RemoveTemplate(int day, int time)
+        {
+            return Json("");
+        }
+
     }
 }
