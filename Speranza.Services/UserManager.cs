@@ -134,7 +134,7 @@ namespace Speranza.Services
             return model;
         }
 
-        public LoginResult Login(string email, string passHash)
+        public ILoginResult Login(string email, string passHash)
         {
             IUser user = db.LoadUser(email);
             if(user != null && user.PasswordHash == passHash)

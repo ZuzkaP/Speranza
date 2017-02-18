@@ -21,5 +21,6 @@ namespace Speranza.Services.Interfaces
         IList<IUserForTrainingDetailModel> GetAllUsersForTrainingDetails();
         bool UserExists(string email);
         IUserForTrainingDetailModel GetAddedUserData(string email);
+        ILoginResult Login(string email, string passHash);
     }
 }

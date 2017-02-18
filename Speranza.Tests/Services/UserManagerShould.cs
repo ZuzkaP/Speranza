@@ -267,7 +267,7 @@ namespace Speranza.Tests.Services
             InitializeUserManager();
             db.Setup(r => r.LoadUser(EMAIL)).Returns((IUser)null);
 
-            LoginResult result = manager.Login(EMAIL, PASSWORD_CORRECT_HASH);
+            ILoginResult result = manager.Login(EMAIL, PASSWORD_CORRECT_HASH);
 
             Assert.IsNull(result);
         }
@@ -278,7 +278,7 @@ namespace Speranza.Tests.Services
             InitializeUserManager();
             PrepareUserLoginDataInDB();
 
-            LoginResult result = manager.Login(EMAIL,PASSWORD_INCORRECT_HASH);
+            ILoginResult result = manager.Login(EMAIL,PASSWORD_INCORRECT_HASH);
 
             Assert.IsNull(result);
         }
@@ -289,7 +289,7 @@ namespace Speranza.Tests.Services
             InitializeUserManager();
             PrepareUserLoginDataInDB();
            
-            LoginResult result = manager.Login(EMAIL,PASSWORD_CORRECT_HASH);
+            ILoginResult result = manager.Login(EMAIL,PASSWORD_CORRECT_HASH);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(EMAIL, result.Email);

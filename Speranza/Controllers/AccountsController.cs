@@ -23,12 +23,12 @@ namespace Speranza.Controllers
         const int PASSWORD_LENGTH = 6;
         private IModelFactory factory;
 
-        public AccountsController() : this(Initializer.Db, Initializer.Hasher, Initializer.UserManager, Initializer.TrainingsManager, Initializer.DateTimeService,Initializer.Factory )
+        public AccountsController() : this(Initializer.Db, Initializer.Hasher, Initializer.UserManager, Initializer.TrainingsManager, Initializer.DateTimeService, Initializer.Factory)
         {
 
         }
 
-        public AccountsController(IDatabaseGateway db, IHasher hasher,IUserManager userManager,ITrainingsManager trainingManager, IDateTimeService dateTimeService, IModelFactory factory)
+        public AccountsController(IDatabaseGateway db, IHasher hasher, IUserManager userManager, ITrainingsManager trainingManager, IDateTimeService dateTimeService, IModelFactory factory)
         {
             this.db = db;
             this.hasher = hasher;
@@ -47,26 +47,22 @@ namespace Speranza.Controllers
         [HttpPost]
         public ActionResult Login(LoginModel model)
         {
-            Session["Email"] = string.Empty;
+            Session["Email"] = null;
             model.LoginSuccessful = false;
+            string hashPass = hasher.HashPassword(model.Password);
 
-            if (!string.IsNullOrEmpty(model.Email))
+            ILoginResult result = userManager.Login(model.Email, hashPass);
+
+            if (result != null)
             {
-                IUser user = db.LoadUser(model.Email);
-                if (user != null)
-                {
-                    string hashPass = hasher.HashPassword(model.Password);
-                    if (hashPass == user.PasswordHash)
-                    {
-                        Session["Email"] = model.Email;
-                        Session["IsAdmin"] = user.IsAdmin;
-                        Session["Category"] = user.Category;
-                        model.LoginSuccessful = true;
-                        return RedirectToAction("Calendar", "Calendar");
-                    }
-                }
+                Session["Email"] = result.Email;
+                Session["IsAdmin"] = result.IsAdmin;
+                Session["Category"] = result.Category;
+                model.LoginSuccessful = true;
+                return RedirectToAction("Calendar", "Calendar");
             }
-            return View("../Home/Index",model);
+
+            return View("../Home/Index", model);
         }
 
         [HttpPost]
@@ -130,7 +126,7 @@ namespace Speranza.Controllers
         {
             if (userManager.IsUserLoggedIn(Session))
             {
-                model.Email = (string) Session["Email"];
+                model.Email = (string)Session["Email"];
                 Session["Message"] = UserProfileMessages.ProfileWasUpdated;
                 db.UpdateUserData(model);
                 return RedirectToAction("UserProfile");
@@ -153,7 +149,7 @@ namespace Speranza.Controllers
         {
             Session["Email"] = null;
             return RedirectToAction("Index", "Home");
-         }
+        }
 
         public ActionResult UserProfile()
         {
@@ -161,7 +157,7 @@ namespace Speranza.Controllers
             {
                 IUser user = db.GetUserData((string)Session["Email"]);
                 UserProfileModel model = new UserProfileModel();
-                model.Email = (string) Session["Email"];
+                model.Email = (string)Session["Email"];
                 model.Name = user.Name;
                 model.Surname = user.Surname;
                 model.PhoneNumber = user.PhoneNumber;
@@ -170,12 +166,12 @@ namespace Speranza.Controllers
                 model.NumberOfPastTrainings = user.NumberOfPastTrainings;
                 model.FutureTrainings = new List<ITrainingModel>();
                 model.PastTrainings = new List<ITrainingModel>();
-                model.SignedUpOrSignedOffTraining = (ITrainingModel) Session["Training"];
+                model.SignedUpOrSignedOffTraining = (ITrainingModel)Session["Training"];
                 OrderAndAssignTrainings(model);
-               
+
                 if (Session["Message"] != null)
                 {
-                    if(Session["Message"] is UserProfileMessages)
+                    if (Session["Message"] is UserProfileMessages)
                     {
                         model.UserProfileMessage = (UserProfileMessages)Session["Message"];
                     }
@@ -191,7 +187,7 @@ namespace Speranza.Controllers
             return RedirectToAction("Index", "Home");
         }
 
- 
+
         public ActionResult ChangeUserPassword(string oldPass, string newPass, string confirmPass)
         {
             if (userManager.IsUserLoggedIn(Session))
@@ -201,7 +197,7 @@ namespace Speranza.Controllers
                 string hashNewPass = hasher.HashPassword(newPass);
                 if (user.PasswordHash == hashOldPass)
                 {
-                    if(string.IsNullOrEmpty(newPass))
+                    if (string.IsNullOrEmpty(newPass))
                     {
                         return Json(UserProfileMessages.NewPassIsEmpty);
                     }
@@ -257,7 +253,7 @@ namespace Speranza.Controllers
                     ITrainingModel trainingModel = factory.CreateTrainingModel(item);
                     DateTime currentDate = dateTimeService.GetCurrentDate();
                     trainingModel.IsAllowedToSignOff = !(trainingModel.Time - currentDate < TimeSpan.FromHours(trainingManager.GetSignOffLimit()));
-                    
+
                     if (trainingModel.Time < dateTimeService.GetCurrentDate())
                     {
                         pastTrainings.Add(trainingModel);
