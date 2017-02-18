@@ -1,4 +1,5 @@
 ﻿@model Speranza.Models.RecurringModel
+@using Speranza.Views
 
 @{
     ViewBag.Title = "Nastavenie opakujúcich sa tréningov";
@@ -9,9 +10,15 @@
 <div class="container">
     <h2>Nastavenie opakujúcich sa tréningov</h2>
 
+    <div id="messageBoxSuccess" style="display:none;" class="alert alert-success" role="alert"></div>
+    @if (Model != null)
+    {
+        <p> @Html.Raw(ViewHelper.ShowMessageInView(Model.Message))</p>
+    }
+
     <form class="form-horizontal" method="post" action="@Url.Action("CreateRecurring")">
         <div class="form-group">
-            @Html.LabelFor(m=>m.Trainer,"Tréner", new { @class = "control-label col-sm-1"})
+            @Html.LabelFor(m => m.Trainer, "Tréner", new { @class = "control-label col-sm-1" })
             <div class="col-sm-2">
                 @Html.TextBoxFor(m => m.Trainer, new { @class = "form-control" })
             </div>
@@ -29,7 +36,7 @@
         <div class="form-group">
             @Html.LabelFor(m => m.Capacity, "Kapacita", new { @class = "control-label col-sm-1" })
             <div class="col-sm-2">
-                @Html.TextBoxFor(m => m.Capacity, new { @class = "form-control", type="number", min = "1", @Value = 10})
+                @Html.TextBoxFor(m => m.Capacity, new { @class = "form-control", type = "number", min = "1", @Value = 10 })
             </div>
             <input type="submit" class="btn btn-primary" />
         </div>
@@ -49,16 +56,16 @@
             {
                 <tr>
                     <td class="warning">@days[j]</td>
-                    @for (int i = 7; i< 20; i++)
-                {
+                    @for (int i = 7; i < 20; i++)
+                    {
                         <td class="text-center">
                             @*<div class="btn-group" data-toggle="buttons">
                                 <label class="btn btn-primary">*@
-                                   
+
                             @if (Model.IsTrainingInTime[j * 13 + i - 7])
                             {
                                 var template = Model.Templates.First(r => r.Day == j && r.Time == i);
-                                @Html.CheckBoxFor(r => r.IsTrainingInTime[j * 13 + i - 7], new { @class = "hidden"})
+                                @Html.CheckBoxFor(r => r.IsTrainingInTime[j * 13 + i - 7], new { @class = "hidden" })
                                 <div id="TemplateData-@(j * 13 + i - 7)">
                                     <a href="#" class="RemoveTemplate" data-time="@i" data-day="@j"><span class="glyphicon glyphicon-remove text-danger"></span></a>
                                     <br />
@@ -73,10 +80,10 @@
                             {
                                 @Html.CheckBoxFor(r => r.IsTrainingInTime[j * 13 + i - 7])
                             }
-                                    @*<span class="glyphicon glyphicon-ok"></span>*@
-                                @*</label>*@
-                                @*</div>*@
-</td>
+                            @*<span class="glyphicon glyphicon-ok"></span>*@
+                            @*</label>*@
+                            @*</div>*@
+                        </td>
                     }
                 </tr>
             }
@@ -96,17 +103,17 @@
             var dayName = self.data('day-name');
             var time = self.data('hour');
 
-            $("#modalHeader").html(dayName +" " + time + ":00");
+            $("#modalHeader").html(dayName + " " + time + ":00");
             $("#SetupTrainingModal").modal("show");
-                
+
 
         })
-      
+
         $(".RemoveTemplate").click(function () {
             var self = $(this);
             var day = self.data('day');
             var time = self.data('time');
-
+            var dayNames = ["pondelok", "utorok", "stredu", "štvrtok", "piatok", "sobotu", "nedeľu"];
             $.ajax({
                 url: "RemoveTemplate",
                 data: { day: day, time: time },
@@ -116,8 +123,11 @@
                     $("#TemplateData-" + (day * 13 + time - 7)).remove();
                     $("#IsTrainingInTime_" + (day * 13 + time - 7) + "_").removeClass("hidden");
                     $("#IsTrainingInTime_" + (day * 13 + time - 7) + "_").prop("checked", false);
+                    $('#MessageBoxCreating').hide();
+                    $('#messageBoxSuccess').html("Tréning opakujúci sa v  " + dayNames[day] + " o " + time + ":00 bol zrušený.");
+                    $('#messageBoxSuccess').show();
                 }
             });
         })
     </script>
-    }
+}

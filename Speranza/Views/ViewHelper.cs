@@ -71,6 +71,31 @@ namespace Speranza.Views
             return outputMessage;
         }
 
+
+        public static string ShowMessageInView(RecurringTrainingMessages message)
+        {
+            string outputMessage = string.Empty;
+            switch (message)
+            {
+                case RecurringTrainingMessages.NoCapacity:
+                    outputMessage = "<div class=\"alert alert-danger\" id=\"MessageBoxCreating\" role=\"alert\">Kapacita musí byť zadaná.</div>";
+                    break;
+                case RecurringTrainingMessages.NoDescription:
+                    outputMessage = "<div class=\"alert alert-danger\" id=\"MessageBoxCreating\" role=\"alert\">Popis musí byť zadaný.</div>";
+                    break;
+                case RecurringTrainingMessages.NoTrainer:
+                    outputMessage = "<div class=\"alert alert-danger\" id=\"MessageBoxCreating\" role=\"alert\">Tréner musí byť zadaný.</div>";
+                    break;
+                case RecurringTrainingMessages.NoModel:
+                    outputMessage = "<div class=\"alert alert-danger\" id=\"MessageBoxCreating\" role=\"alert\">Neočakávaná chyba, skúste znova.</div>";
+                    break;
+                case RecurringTrainingMessages.Success:
+                    outputMessage = "<div class=\"alert alert-success\" id=\"MessageBoxCreating\" role=\"alert\">Opakujúce sa tréningy boli úspešne nastavené.</div>";
+                    break;
+            }
+            return outputMessage;
+        }
+
         public static IList<SelectListItem> CreateSelectListItems(IList<string> items,string selectedItem)
         {
             return items.Select(r => new SelectListItem() { Text = r, Selected = r == selectedItem}).ToList();
