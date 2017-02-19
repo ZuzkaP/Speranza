@@ -191,8 +191,8 @@ namespace Speranza.Tests.Services
             RequestDay();
 
             Assert.AreEqual(2, day.Trainings.Count);
-            trainingsManager.Verify(r => r.GenerateTrainingFromTemplate(template1.Object));
-            trainingsManager.Verify(r => r.GenerateTrainingFromTemplate(template2.Object));
+            trainingsManager.Verify(r => r.GenerateTrainingFromTemplate(template1.Object,date));
+            trainingsManager.Verify(r => r.GenerateTrainingFromTemplate(template2.Object,date));
             Assert.AreEqual(generatedTrainingModel1.Object, day.Trainings[0]);
             Assert.AreEqual(generatedTrainingModel2.Object, day.Trainings[1]);
         }
@@ -207,8 +207,8 @@ namespace Speranza.Tests.Services
             generatedTrainingModel1 = new Mock<ITrainingModel>();
             generatedTrainingModel2 = new Mock<ITrainingModel>();
             db.Setup(r => r.GetTemplatesForTheDay((int)DAY)).Returns(templateList);
-            trainingsManager.Setup(r => r.GenerateTrainingFromTemplate(template1.Object)).Returns(generatedTrainingModel1.Object);
-            trainingsManager.Setup(r => r.GenerateTrainingFromTemplate(template2.Object)).Returns(generatedTrainingModel2.Object);
+            trainingsManager.Setup(r => r.GenerateTrainingFromTemplate(template1.Object,date)).Returns(generatedTrainingModel1.Object);
+            trainingsManager.Setup(r => r.GenerateTrainingFromTemplate(template2.Object,date)).Returns(generatedTrainingModel2.Object);
         }
 
         private void PrepareNoTemplateForTheDay()

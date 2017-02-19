@@ -50,6 +50,8 @@ namespace Speranza.Tests.Services
         private const int TIME_A = 19;
         private Mock<IRecurringTemplateModel> modelB;
         private Mock<IRecurringTemplateModel> modelA;
+        private Mock<IRecurringTrainingTemplate> template;
+        private Mock<ITrainingModel> trainingModel;
 
         [TestMethod]
         public void ReturnEmptyList_When_NoTrainingExistsInDB()
@@ -329,7 +331,38 @@ namespace Speranza.Tests.Services
             manager.RemoveTrainingTemplate(DAY_A, TIME_A);
 
             db.Verify(r => r.RemoveTrainingTemplate(DAY_A, TIME_A), Times.Once);
+        }
 
+        [TestMethod]
+        public void GenerateTrainingFromTemplate()
+        {
+            InitializeTrainingManager();
+            PrepareTemplate();
+            PrepareDBAndFactoryForGeneration();
+
+           var model = manager.GenerateTrainingFromTemplate(template.Object, DATE_TIME);
+
+            Assert.AreEqual(trainingModel.Object, model);
+            var expectedDate = new DateTime(DATE_TIME.Year, DATE_TIME.Month, DATE_TIME.Day, TIME_A, 00, 00);
+            db.Verify(r => r.CreateNewTraining(TRAINING_ID, expectedDate, TRAINER, DESCRIPTION, CAPACITY));
+        }
+
+        private void PrepareDBAndFactoryForGeneration()
+        {
+            training1 = new Mock<ITraining>();
+            trainingModel = new Mock<ITrainingModel>();
+            db.Setup(r => r.GetTrainingData(TRAINING_ID)).Returns(training1.Object);
+            factory.Setup(r => r.CreateTrainingModel(training1.Object)).Returns(trainingModel.Object);
+            uidService.Setup(r => r.CreateID()).Returns(TRAINING_ID);
+        }
+
+        private void PrepareTemplate()
+        {
+            template = new Mock<IRecurringTrainingTemplate>();
+            template.SetupGet(r => r.Capacity).Returns(CAPACITY);
+            template.SetupGet(r => r.Description).Returns(DESCRIPTION);
+            template.SetupGet(r => r.Trainer).Returns(TRAINER);
+            template.SetupGet(r => r.Time).Returns(TIME_A);
         }
 
         private void PrepareDBAndFactoryWithTwoTemplates()

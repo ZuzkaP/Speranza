@@ -21,6 +21,6 @@ namespace Speranza.Services.Interfaces
         void CreateRecurringTraining(IRecurringModel model);
         IList<IRecurringTemplateModel> GetTemplates();
         void RemoveTrainingTemplate(int day, int time);
-        ITrainingModel GenerateTrainingFromTemplate(IRecurringTrainingTemplate template);
+        ITrainingModel GenerateTrainingFromTemplate(IRecurringTrainingTemplate template, DateTime date);
     }
 }

@@ -45,7 +45,7 @@ namespace Speranza.Services
                 var templates = db.GetTemplatesForTheDay(day);
                 foreach (var item in templates)
                 {
-                    var trainingModel = trainingManager.GenerateTrainingFromTemplate(item);
+                    var trainingModel = trainingManager.GenerateTrainingFromTemplate(item,date);
                     model.Trainings.Add(trainingModel);
                 }
             }

@@ -90,9 +90,12 @@ namespace Speranza.Services
             }
         }
 
-        public ITrainingModel GenerateTrainingFromTemplate(IRecurringTrainingTemplate template)
+        public ITrainingModel GenerateTrainingFromTemplate(IRecurringTrainingTemplate template, DateTime date)
         {
-            throw new NotImplementedException();
+            DateTime trainingDate = new DateTime(date.Year, date.Month, date.Day, template.Time, 00, 00);
+            var trainingID = CreateNewTraining(trainingDate, template.Trainer, template.Description, template.Capacity);
+            ITraining training = db.GetTrainingData(trainingID);
+            return factory.CreateTrainingModel(training);
         }
 
         public IList<ITrainingForAdminModel> GetAllFutureTrainings()

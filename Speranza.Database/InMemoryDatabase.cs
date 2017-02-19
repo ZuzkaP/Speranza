@@ -327,7 +327,7 @@ namespace Speranza.Database
 
         public IList<IRecurringTrainingTemplate> GetTemplatesForTheDay(int day)
         {
-            throw new NotImplementedException();
+            return templates.Where(r => r.Day == day).ToList();
         }
 
         private class UserInTraining
