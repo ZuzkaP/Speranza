@@ -26,7 +26,7 @@ namespace Speranza.Services
             IDayModel model = new DayModel(date.ToString("d.M."), dateTimeService.GetDayName(date));
             var trainings = db.GetDayTrainings(date);
 
-            if (trainings != null)
+            if (trainings != null && trainings.Count>0)
             {
                 foreach (var item in trainings)
                 {
@@ -36,6 +36,16 @@ namespace Speranza.Services
                     trainingModel.IsAllowedToSignOff = !(trainingModel.Time - currentDate < TimeSpan.FromHours(trainingManager.GetSignOffLimit()));
                     trainingModel.IsAllowedToSignUp = !(trainingModel.Time <= currentDate);
                 
+                    model.Trainings.Add(trainingModel);
+                }
+            }
+            else
+            {
+                int day = (int) dateTimeService.GetDayName(date);
+                var templates = db.GetTemplatesForTheDay(day);
+                foreach (var item in templates)
+                {
+                    var trainingModel = trainingManager.GenerateTrainingFromTemplate(item);
                     model.Trainings.Add(trainingModel);
                 }
             }

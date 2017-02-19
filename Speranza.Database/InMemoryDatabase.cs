@@ -325,6 +325,11 @@ namespace Speranza.Database
             templates.Remove(template);
         }
 
+        public IList<IRecurringTrainingTemplate> GetTemplatesForTheDay(int day)
+        {
+            throw new NotImplementedException();
+        }
+
         private class UserInTraining
         {
           public  string Email { get; set; }

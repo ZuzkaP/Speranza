@@ -16,7 +16,7 @@ namespace Speranza.Tests.Services
     {
         private DaysManager manager;
         private readonly DateTime date = new DateTime(2016, 12, 2,10,00,00);
-        private const DayNames MONDAY = DayNames.Monday;
+        private const DayNames DAY = DayNames.Wednesday;
         private IDayModel day;
         private Mock<IDatabaseGateway> db;
         private Mock<ITrainingsManager> trainingsManager;
@@ -27,12 +27,17 @@ namespace Speranza.Tests.Services
         private const string ID2 = "testID2";
         private const string EMAIL= "testEmail";
         private Mock<IModelFactory> factory;
+        private Mock<IRecurringTrainingTemplate> template1;
+        private Mock<IRecurringTrainingTemplate> template2;
+        private Mock<ITrainingModel> generatedTrainingModel2;
+        private Mock<ITrainingModel> generatedTrainingModel1;
 
         [TestMethod]
         public void ShowEmptyTrainingList_When_NoTrainingExists()
         {
             InitializeDaysManager();
             PrepareDatabaseWithNoTrainings();
+            PrepareNoTemplateForTheDay();
 
             RequestDay();
 
@@ -47,6 +52,7 @@ namespace Speranza.Tests.Services
             PrepareDatabaseWithTwoTrainings();
 
             RequestDay();
+
             Assert.IsNotNull(day.Trainings);
             Assert.AreEqual(2, day.Trainings.Count);
             Assert.AreEqual(trainingModel1.Object, day.Trainings[0]);
@@ -58,9 +64,12 @@ namespace Speranza.Tests.Services
         public void SetDateTimeInformationIntoModel()
         {
             InitializeDaysManager();
+            PrepareNoTemplateForTheDay();
+
             RequestDay();
+
             Assert.AreEqual("2.12.", day.Date);
-            Assert.AreEqual(MONDAY,day.DayName);
+            Assert.AreEqual(DAY,day.DayName);
                 
         }
 
@@ -144,6 +153,70 @@ namespace Speranza.Tests.Services
             trainingsManager.Verify(r => r.GetSignOffLimit());
         }
 
+        [TestMethod]
+        public void GetDaysTraining_When_NoTemplate()
+        {
+            InitializeDaysManager();
+            PrepareDatabaseWithTwoTrainings();
+            PrepareNoTemplateForTheDay();
+
+            RequestDay();
+
+            Assert.AreEqual(2, day.Trainings.Count);
+            Assert.AreEqual(trainingModel1.Object, day.Trainings[0]);
+            Assert.AreEqual(trainingModel2.Object, day.Trainings[1]);
+        }
+
+        [TestMethod]
+        public void GetOnlyDayTrainings_When_TemplateExistsAndDayTrainingExistToo()
+        {
+            InitializeDaysManager();
+            PrepareDatabaseWithTwoTrainings();
+            PrepareTwoTemplatesForTheDay();
+
+            RequestDay();
+
+            Assert.AreEqual(2, day.Trainings.Count);
+            Assert.AreEqual(trainingModel1.Object, day.Trainings[0]);
+            Assert.AreEqual(trainingModel2.Object, day.Trainings[1]);
+        }
+
+        [TestMethod]
+        public void GenerateTrainings_When_NoDayTrainingExistsAndTemplatesDo()
+        {
+            InitializeDaysManager();
+            PrepareDatabaseWithNoTrainings();
+            PrepareTwoTemplatesForTheDay();
+
+            RequestDay();
+
+            Assert.AreEqual(2, day.Trainings.Count);
+            trainingsManager.Verify(r => r.GenerateTrainingFromTemplate(template1.Object));
+            trainingsManager.Verify(r => r.GenerateTrainingFromTemplate(template2.Object));
+            Assert.AreEqual(generatedTrainingModel1.Object, day.Trainings[0]);
+            Assert.AreEqual(generatedTrainingModel2.Object, day.Trainings[1]);
+        }
+
+        private void PrepareTwoTemplatesForTheDay()
+        {
+            var templateList = new List<IRecurringTrainingTemplate>();
+            template1 = new Mock<IRecurringTrainingTemplate>();
+            template2 = new Mock<IRecurringTrainingTemplate>();
+            templateList.Add(template1.Object);
+            templateList.Add(template2.Object);
+            generatedTrainingModel1 = new Mock<ITrainingModel>();
+            generatedTrainingModel2 = new Mock<ITrainingModel>();
+            db.Setup(r => r.GetTemplatesForTheDay((int)DAY)).Returns(templateList);
+            trainingsManager.Setup(r => r.GenerateTrainingFromTemplate(template1.Object)).Returns(generatedTrainingModel1.Object);
+            trainingsManager.Setup(r => r.GenerateTrainingFromTemplate(template2.Object)).Returns(generatedTrainingModel2.Object);
+        }
+
+        private void PrepareNoTemplateForTheDay()
+        {
+            db.Setup(r => r.GetTemplatesForTheDay((int)DAY)).Returns(new List<IRecurringTrainingTemplate>());
+        
+        }
+
         private void PrepareTrainingInDistantFuture()
         {
             PrepareDatabaseWithTwoTrainings();
@@ -182,8 +255,9 @@ namespace Speranza.Tests.Services
             dateTimeService = new Mock<IDateTimeService>();
             factory = new Mock<IModelFactory>();
             manager = new DaysManager(db.Object, trainingsManager.Object, dateTimeService.Object, factory.Object);
-            dateTimeService.Setup(r => r.GetDayName(date)).Returns(MONDAY);
+            dateTimeService.Setup(r => r.GetDayName(date)).Returns(DAY);
             trainingsManager.Setup(r => r.GetSignOffLimit()).Returns(4);
+
 
         }
     }

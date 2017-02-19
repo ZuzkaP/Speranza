@@ -90,6 +90,11 @@ namespace Speranza.Services
             }
         }
 
+        public ITrainingModel GenerateTrainingFromTemplate(IRecurringTrainingTemplate template)
+        {
+            throw new NotImplementedException();
+        }
+
         public IList<ITrainingForAdminModel> GetAllFutureTrainings()
         {
             var trainingsFromDB = db.GetAllTrainings();

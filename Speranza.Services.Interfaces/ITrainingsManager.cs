@@ -1,6 +1,7 @@
 ﻿using Speranza.Models.Interfaces;
 using System.Collections.Generic;
 using System;
+using Speranza.Database.Data.Interfaces;
 
 namespace Speranza.Services.Interfaces
 {
@@ -19,6 +20,7 @@ namespace Speranza.Services.Interfaces
         CalendarMessages AddUserToTraining(string email, string trainingID, DateTime currentDate);
         void CreateRecurringTraining(IRecurringModel model);
         IList<IRecurringTemplateModel> GetTemplates();
-        void RemoveTrainingTemplate(int v1, int v2);
+        void RemoveTrainingTemplate(int day, int time);
+        ITrainingModel GenerateTrainingFromTemplate(IRecurringTrainingTemplate template);
     }
 }

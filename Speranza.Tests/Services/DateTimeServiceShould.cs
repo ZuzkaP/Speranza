@@ -85,6 +85,7 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(EXPECTED_DATETIME, resultDateTime);
         }
 
+       
         private void InitializeService()
         {
             service = new DateTimeService();
