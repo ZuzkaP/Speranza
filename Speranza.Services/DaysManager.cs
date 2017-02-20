@@ -3,6 +3,7 @@ using Speranza.Models;
 using Speranza.Models.Interfaces;
 using Speranza.Services.Interfaces;
 using Speranza.Database;
+using System.Linq;
 
 namespace Speranza.Services
 {
@@ -25,34 +26,42 @@ namespace Speranza.Services
         {
             IDayModel model = new DayModel(date.ToString("d.M."), dateTimeService.GetDayName(date));
             var trainings = db.GetDayTrainings(date);
-
-            if (trainings != null && trainings.Count>0)
+            DateTime currentDate = dateTimeService.GetCurrentDate();
+            if (trainings != null)
             {
                 foreach (var item in trainings)
                 {
                     ITrainingModel trainingModel = factory.CreateTrainingModel(item);
                     trainingModel.IsUserSignedUp = db.IsUserAlreadySignedUpInTraining(email, item.ID);
-                    DateTime currentDate = dateTimeService.GetCurrentDate();
                     trainingModel.IsAllowedToSignOff = !(trainingModel.Time - currentDate < TimeSpan.FromHours(trainingManager.GetSignOffLimit()));
                     trainingModel.IsAllowedToSignUp = !(trainingModel.Time <= currentDate);
-                
+
                     model.Trainings.Add(trainingModel);
                 }
             }
-            else
+
+            int day = (int)dateTimeService.GetDayName(date);
+            DateTime lastTemplateGeneration = db.GetLastTemplateGenerationDate();
+            if (lastTemplateGeneration.Date < date.Date)
             {
-                int day = (int) dateTimeService.GetDayName(date);
                 var templates = db.GetTemplatesForTheDay(day);
-                var currentDate = dateTimeService.GetCurrentDate();
-                foreach (var item in templates)
+                if (templates != null && templates.Count > 0)
                 {
-                    if(currentDate.Date == date.Date && currentDate.Hour >= item.Time)
+                    foreach (var item in templates)
                     {
-                        continue;
+                        if (currentDate.Date == date.Date && currentDate.Hour >= item.Time)
+                        {
+                            continue;
+                        }
+                        if (trainings != null && trainings.Any(r => r.Time.Date == date.Date && r.Time.Hour == item.Time))
+                        {
+                            continue;
+                        }
+                        var trainingModel = trainingManager.GenerateTrainingFromTemplate(item, date);
+                        trainingModel.IsAllowedToSignUp = true;
+                        model.Trainings.Add(trainingModel);
                     }
-                    var trainingModel = trainingManager.GenerateTrainingFromTemplate(item,date);
-                    trainingModel.IsAllowedToSignUp = true;
-                    model.Trainings.Add(trainingModel);
+                    db.SetLastTemplateGenerationDate(date);
                 }
             }
             return model;

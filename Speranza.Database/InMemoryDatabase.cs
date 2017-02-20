@@ -19,6 +19,8 @@ namespace Speranza.Database
         List<IRecurringTrainingTemplate> templates;
         List<UserInTraining> usersInTrainings;
         static InMemoryDatabase database;
+        private const string LAST_TEMPLATE_GENERATION_DATE = "LastTemplateGenerationDate";
+
         public static InMemoryDatabase Instance
         {
             get
@@ -55,6 +57,7 @@ namespace Speranza.Database
             usersInTrainings.Add(new UserInTraining() { Email = "admin", TrainingID = trainings[5].ID });
 
             settings.Add(SETTINGS_SIGN_OFF_LIMIT, 4);
+            settings.Add(LAST_TEMPLATE_GENERATION_DATE,DateTime.MinValue);
         }
 
         private ITraining PrepareTraining(DateTime dateTime, string v1, string v2, int v3)
@@ -328,6 +331,16 @@ namespace Speranza.Database
         public IList<IRecurringTrainingTemplate> GetTemplatesForTheDay(int day)
         {
             return templates.Where(r => r.Day == day).ToList();
+        }
+
+        public void SetLastTemplateGenerationDate(DateTime dateTime)
+        {
+            settings[LAST_TEMPLATE_GENERATION_DATE] = dateTime;
+        }
+
+        public DateTime GetLastTemplateGenerationDate()
+        {
+            return (DateTime) settings[LAST_TEMPLATE_GENERATION_DATE];
         }
 
         private class UserInTraining

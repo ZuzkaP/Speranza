@@ -95,6 +95,8 @@ namespace Speranza.Tests.Services
             var training2 = new Mock<ITraining>();
             training1.SetupGet(r => r.ID).Returns(ID1);
             training2.SetupGet(r => r.ID).Returns(ID2);
+            training1.SetupGet(r => r.Time).Returns(new DateTime(2016, 12, 2, 14, 00, 00));
+            training2.SetupGet(r => r.Time).Returns(new DateTime(2016, 12, 2, 15, 00, 00));
             trainingsInDB.Add(training1.Object);
             trainingsInDB.Add(training2.Object);
             db.Setup(r => r.GetDayTrainings(date)).Returns(trainingsInDB);
@@ -165,10 +167,11 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(2, day.Trainings.Count);
             Assert.AreEqual(trainingModel1.Object, day.Trainings[0]);
             Assert.AreEqual(trainingModel2.Object, day.Trainings[1]);
+            db.Verify(r => r.SetLastTemplateGenerationDate(It.IsAny<DateTime>()), Times.Never);
         }
 
         [TestMethod]
-        public void GetOnlyDayTrainings_When_TemplateExistsAndDayTrainingExistToo()
+        public void GetDayTrainingsAndTemplates_When_TheyAreNotCovered()
         {
             InitializeDaysManager();
             PrepareDatabaseWithTwoTrainings();
@@ -176,9 +179,16 @@ namespace Speranza.Tests.Services
 
             RequestDay();
 
-            Assert.AreEqual(2, day.Trainings.Count);
+            Assert.AreEqual(3, day.Trainings.Count);
             Assert.AreEqual(trainingModel1.Object, day.Trainings[0]);
             Assert.AreEqual(trainingModel2.Object, day.Trainings[1]);
+            Assert.AreEqual(generatedTrainingModel2.Object, day.Trainings[2]);
+            trainingsManager.Verify(r => r.GenerateTrainingFromTemplate(template2.Object, date));
+            generatedTrainingModel2.VerifySet(r => r.IsAllowedToSignUp = true);
+            trainingsManager.Verify(r => r.GenerateTrainingFromTemplate(template1.Object, date), Times.Never);
+            db.Verify(r => r.SetLastTemplateGenerationDate(date), Times.Once);
+
+
         }
 
         [TestMethod]
@@ -197,6 +207,7 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(generatedTrainingModel2.Object, day.Trainings[1]);
             generatedTrainingModel1.VerifySet(r => r.IsAllowedToSignUp = true);
             generatedTrainingModel2.VerifySet(r => r.IsAllowedToSignUp = true);
+            db.Verify(r => r.SetLastTemplateGenerationDate(date), Times.Once);
         }
 
         [TestMethod]
@@ -210,6 +221,26 @@ namespace Speranza.Tests.Services
 
             Assert.AreEqual(0, day.Trainings.Count);
             trainingsManager.Verify(r => r.GenerateTrainingFromTemplate(It.IsAny<IRecurringTrainingTemplate>(), It.IsAny<DateTime>()),Times.Never);
+        }
+
+        [TestMethod]
+        public void NotGenerateTrainingFromTemplate_When_ItHasAlreadyBeenDone()
+        {
+            InitializeDaysManager();
+            PrepareDatabaseWithNoTrainings();
+            PrepareTwoTemplatesForTheDay();
+            PrepareTemplateWasAlreadyGeneratedFlag();
+            
+            RequestDay();
+
+            Assert.AreEqual(0, day.Trainings.Count);
+            trainingsManager.Verify(r => r.GenerateTrainingFromTemplate(It.IsAny<IRecurringTrainingTemplate>(), It.IsAny<DateTime>()), Times.Never);
+            db.Verify(r => r.SetLastTemplateGenerationDate(It.IsAny<DateTime>()), Times.Never);
+        }
+
+        private void PrepareTemplateWasAlreadyGeneratedFlag()
+        {
+            db.Setup(r => r.GetLastTemplateGenerationDate()).Returns(date.Date);
         }
 
         private void PrepareTemplateTodayInPast()

@@ -39,5 +39,7 @@ namespace Speranza.Database
         IList<IRecurringTrainingTemplate> GetTemplates();
         void RemoveTrainingTemplate(int day, int time);
         IList<IRecurringTrainingTemplate> GetTemplatesForTheDay(int day);
+        void SetLastTemplateGenerationDate(DateTime dateTime);
+        DateTime GetLastTemplateGenerationDate();
     }
 }
