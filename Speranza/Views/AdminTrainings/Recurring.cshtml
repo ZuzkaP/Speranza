@@ -17,28 +17,47 @@
     }
 
     <form class="form-horizontal" method="post" action="@Url.Action("CreateRecurring")">
-        <div class="form-group">
-            @Html.LabelFor(m => m.Trainer, "Tréner", new { @class = "control-label col-sm-1" })
-            <div class="col-sm-2">
-                @Html.TextBoxFor(m => m.Trainer, new { @class = "form-control" })
-            </div>
-        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Trainer, "Tréner", new { @class = "control-label col-sm-2" })
+                        <div class="col-sm-4">
+                            @Html.TextBoxFor(m => m.Trainer, new { @class = "form-control" })
+                        </div>
+                    </div>
 
-        @*Training Description*@
-        <div class="form-group">
-            @Html.LabelFor(m => m.Description, "Popis", new { @class = "control-label col-sm-1" })
-            <div class="col-sm-2">
-                @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
-            </div>
-        </div>
+                    @*Training Description*@
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Description, "Popis", new { @class = "control-label col-sm-2" })
+                        <div class="col-sm-4">
+                            @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
+                        </div>
 
-        @*Training Capacity*@
-        <div class="form-group">
-            @Html.LabelFor(m => m.Capacity, "Kapacita", new { @class = "control-label col-sm-1" })
-            <div class="col-sm-2">
-                @Html.TextBoxFor(m => m.Capacity, new { @class = "form-control", type = "number", min = "1", @Value = 10 })
+                    </div>
+
+                    @*Training Capacity*@
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Capacity, "Kapacita", new { @class = "control-label col-sm-2" })
+                        <div class="col-sm-4">
+                            @Html.TextBoxFor(m => m.Capacity, new { @class = "form-control", type = "number", min = "1", @Value = 10 })
+                        </div>
+                        <input type="submit" value="Pridaj" class="btn btn-primary" />
+                    </div>
+                </div>
+
+                <div class="col-sm-6 ">
+                    <div class="form-group text-right">
+                        <label class="control-label">Pregenerovať tréningy od:</label> 
+                        <div class="input-group date col-sm-4 pull-right">
+                            <input id="GenerationDate" type="text" class="form-control"><span id="trainingDateButton" class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                        </div>
+                    </div>
+                    <div class="form-group  pull-right">
+                        <input type="button" value="Pregenerovať" class="btn btn-warning" />
+                    </div>
+                    </div>
             </div>
-            <input type="submit" value="Pridaj" class="btn btn-primary" />
         </div>
 
         <table class="table table-bordered">
@@ -127,5 +146,23 @@
                 }
             });
         })
+
+        $(function () {
+            $("#GenerationDate").datepicker({
+                beforeShow: function () {
+                    setTimeout(function () {
+                        $('.ui-datepicker').css('z-index', 99999999999999);
+                    }, 0);
+                },
+                dateFormat: "dd.mm.yy",
+                minDate: 0,
+                constrainInput: true,
+                monthNames: ["Január", "Február", "Marec", "Apríl", "Máj", "Jún", "Júl", "August", "September", "Október", "November", "December"],
+                monthNamesShort: ["Jan", "Feb", "Mar", "Apr", "Máj", "Jún", "Júl", "Aug", "Sep", "Okt", "Nov", "Dec"],
+                dayNames: ["Nedeľa", "Pondelok", "Utorok", "Streda", "Štvrtok", "Piatok", "Sobota"],
+                dayNamesMin: ["Ne", "Po", "Ut", "St", "Št", "Pi", "So"],
+                firstDay: 1
+            });
+        });
     </script>
 }
