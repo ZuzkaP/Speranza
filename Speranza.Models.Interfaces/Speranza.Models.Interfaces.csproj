@@ -47,10 +47,12 @@
     <Compile Include="ILoginResult.cs" />
     <Compile Include="IRecurringModel.cs" />
     <Compile Include="IRecurringTemplateModel.cs" />
+    <Compile Include="IRegisterModel.cs" />
     <Compile Include="ITrainingModel.cs" />
     <Compile Include="ITrainingForAdminModel.cs" />
     <Compile Include="IUserForAdminModel.cs" />
     <Compile Include="IUserForTrainingDetailModel.cs" />
+    <Compile Include="IUserProfileModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

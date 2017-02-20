@@ -43,6 +43,8 @@ namespace Speranza.Tests.Services
         const UserCategories CATEGORY = UserCategories.Gold;
         const bool IS_ADMIN = true;
         private Mock<IHasher> hasher;
+        private Mock<RegisterModel> model;
+        private Mock<UserProfileModel> newUserProfileModel;
 
         [TestMethod]
         public void ReturnFalse_When_SessionIsEmpty()
@@ -154,7 +156,40 @@ namespace Speranza.Tests.Services
             db.Verify(r => r.UpdateCountOfFreeSignUps(EMAIL,INCRESENUMBEROFSIGNUPS), Times.Once);
             Assert.AreEqual(25, updatedCount);
         }
-        
+
+        [TestMethod]
+        public void RegisterNewUser()
+        {
+            InitializeUserManager();
+            PrepareDataFromRegisterModelToDB();
+
+            manager.RegisterNewUser(model.Object);
+
+            db.Verify(r => r.RegisterNewUser(model.Object), Times.Once);
+        }
+
+        [TestMethod]
+        public void UpdateUserData()
+        {
+            InitializeUserManager();
+            PrepareDataFromRUserProfileModelToDB();
+
+            manager.UpdateUserData(newUserProfileModel.Object);
+
+            db.Verify(r => r.UpdateUserData(newUserProfileModel.Object), Times.Once);
+
+        }
+
+        private void PrepareDataFromRUserProfileModelToDB()
+        {
+            newUserProfileModel = new Mock<UserProfileModel>();
+        }
+
+        private void PrepareDataFromRegisterModelToDB()
+        {
+            model = new Mock<RegisterModel>();
+        }
+
         private void PrepareDBWithTwoUsers()
         {
             var user1 = new Mock<IUser>();

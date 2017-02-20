@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Speranza.Models.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace Speranza.Models
         PasswordHasNoLetter = 128
     }
 
-    public class RegisterModel
+    public class RegisterModel : IRegisterModel
     {
        
         [Required]

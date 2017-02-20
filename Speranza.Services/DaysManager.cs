@@ -43,9 +43,15 @@ namespace Speranza.Services
             {
                 int day = (int) dateTimeService.GetDayName(date);
                 var templates = db.GetTemplatesForTheDay(day);
+                var currentDate = dateTimeService.GetCurrentDate();
                 foreach (var item in templates)
                 {
+                    if(currentDate.Date == date.Date && currentDate.Hour >= item.Time)
+                    {
+                        continue;
+                    }
                     var trainingModel = trainingManager.GenerateTrainingFromTemplate(item,date);
+                    trainingModel.IsAllowedToSignUp = true;
                     model.Trainings.Add(trainingModel);
                 }
             }

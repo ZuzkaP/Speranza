@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Speranza.Models
 {
  
-    public class UserProfileModel
+    public class UserProfileModel : IUserProfileModel
     {
         public string Name { get; set; }
         public string Surname { get; set; }

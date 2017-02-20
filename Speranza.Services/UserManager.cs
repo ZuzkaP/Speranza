@@ -148,5 +148,15 @@ namespace Speranza.Services
             }
             return null;
         }
+
+        public void RegisterNewUser(IRegisterModel model)
+        {
+            db.RegisterNewUser((RegisterModel) model);
+        }
+
+        public void UpdateUserData(IUserProfileModel model)
+        {
+            db.UpdateUserData((UserProfileModel)model);
+        }
     }
 }

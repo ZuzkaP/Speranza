@@ -22,5 +22,7 @@ namespace Speranza.Services.Interfaces
         bool UserExists(string email);
         IUserForTrainingDetailModel GetAddedUserData(string email);
         ILoginResult Login(string email, string passHash);
+        void RegisterNewUser(IRegisterModel model);
+        void UpdateUserData(IUserProfileModel model);
     }
 }

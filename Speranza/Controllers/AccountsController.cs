@@ -115,20 +115,27 @@ namespace Speranza.Controllers
             {
                 model.Password = hasher.HashPassword(model.Password);
                 model.ConfirmPassword = null;
-                db.RegisterNewUser(model);
+                //db.RegisterNewUser(model);
+                userManager.RegisterNewUser(model);
                 return View("../Home/Index");
             }
 
             return View("Register", model);
         }
 
-        public ActionResult SaveUserProfile(UserProfileModel model)
+        //public ViewResult Register(RegisterModel model)
+        //{
+        //    return View();
+        //}
+
+        public ActionResult SaveUserProfile(IUserProfileModel model)
         {
             if (userManager.IsUserLoggedIn(Session))
             {
                 model.Email = (string)Session["Email"];
                 Session["Message"] = UserProfileMessages.ProfileWasUpdated;
-                db.UpdateUserData(model);
+                //db.UpdateUserData(model);
+                userManager.UpdateUserData(model);
                 return RedirectToAction("UserProfile");
             }
             return RedirectToAction("Index", "Home");

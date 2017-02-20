@@ -195,6 +195,30 @@ namespace Speranza.Tests.Services
             trainingsManager.Verify(r => r.GenerateTrainingFromTemplate(template2.Object,date));
             Assert.AreEqual(generatedTrainingModel1.Object, day.Trainings[0]);
             Assert.AreEqual(generatedTrainingModel2.Object, day.Trainings[1]);
+            generatedTrainingModel1.VerifySet(r => r.IsAllowedToSignUp = true);
+            generatedTrainingModel2.VerifySet(r => r.IsAllowedToSignUp = true);
+        }
+
+        [TestMethod]
+        public void NotGenerateTrainingFromTemplate_When_ItIsTodayInPast()
+        {
+            InitializeDaysManager();
+            PrepareDatabaseWithNoTrainings();
+            PrepareTemplateTodayInPast();
+
+            RequestDay();
+
+            Assert.AreEqual(0, day.Trainings.Count);
+            trainingsManager.Verify(r => r.GenerateTrainingFromTemplate(It.IsAny<IRecurringTrainingTemplate>(), It.IsAny<DateTime>()),Times.Never);
+        }
+
+        private void PrepareTemplateTodayInPast()
+        {
+            var templateList = new List<IRecurringTrainingTemplate>();
+            template1 = new Mock<IRecurringTrainingTemplate>();
+            template1.SetupGet(r => r.Time).Returns(8);
+            templateList.Add(template1.Object);
+            db.Setup(r => r.GetTemplatesForTheDay((int)DAY)).Returns(templateList);
         }
 
         private void PrepareTwoTemplatesForTheDay()
@@ -202,6 +226,8 @@ namespace Speranza.Tests.Services
             var templateList = new List<IRecurringTrainingTemplate>();
             template1 = new Mock<IRecurringTrainingTemplate>();
             template2 = new Mock<IRecurringTrainingTemplate>();
+            template1.SetupGet(r => r.Time).Returns(14);
+            template2.SetupGet(r => r.Time).Returns(12);
             templateList.Add(template1.Object);
             templateList.Add(template2.Object);
             generatedTrainingModel1 = new Mock<ITrainingModel>();
@@ -214,7 +240,6 @@ namespace Speranza.Tests.Services
         private void PrepareNoTemplateForTheDay()
         {
             db.Setup(r => r.GetTemplatesForTheDay((int)DAY)).Returns(new List<IRecurringTrainingTemplate>());
-        
         }
 
         private void PrepareTrainingInDistantFuture()
@@ -256,6 +281,7 @@ namespace Speranza.Tests.Services
             factory = new Mock<IModelFactory>();
             manager = new DaysManager(db.Object, trainingsManager.Object, dateTimeService.Object, factory.Object);
             dateTimeService.Setup(r => r.GetDayName(date)).Returns(DAY);
+            dateTimeService.Setup(r => r.GetCurrentDate()).Returns(date);
             trainingsManager.Setup(r => r.GetSignOffLimit()).Returns(4);
 
 
