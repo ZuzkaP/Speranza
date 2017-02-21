@@ -83,6 +83,7 @@ namespace Speranza.Services
                     template.ValidFrom = tempValidFrom;
 
                     db.CreateRecurringTrainingTemplate(template);
+                    db.SetLastTemplateGenerationDate(dateTimeService.GetCurrentDate().AddDays(-1));
                 }
                 time++;
                 if(time > 19)
@@ -148,6 +149,7 @@ namespace Speranza.Services
         public void RemoveTrainingTemplate(int day, int time)
         {
             db.RemoveTrainingTemplate(day, time);
+            db.SetLastTemplateGenerationDate(dateTimeService.GetCurrentDate().AddDays(-1));
         }
 
         public ITrainingModel RemoveUserFromTraining(string email, string id)

@@ -298,6 +298,27 @@ namespace Speranza.Tests.Services
         }
 
         [TestMethod]
+        public void ClearLastTemplateGenerationFlag_When_TemplateWasAdded()
+        {
+            InitializeTrainingManager();
+            PrepareModelWithTwoCheckedTimeslotsWithoutValidFrom();
+
+            manager.CreateRecurringTraining(model);
+
+            db.Verify(r => r.SetLastTemplateGenerationDate(CURRENT_DATE.AddDays(-1)));
+        }
+
+        [TestMethod]
+        public void ClearLastTemplateGenerationFlag_When_TemplateWasRemoved()
+        {
+            InitializeTrainingManager();
+
+            manager.RemoveTrainingTemplate(DAY_A, TIME_A);
+
+            db.Verify(r => r.SetLastTemplateGenerationDate(CURRENT_DATE.AddDays(-1)), Times.Once);
+        }
+
+        [TestMethod]
         public void AddTwoRecurringTrainingsWithCorrectDateIntoDB_When_TwoCheckedTimeslotsExist()
         {
             InitializeTrainingManager();
