@@ -20,6 +20,7 @@ namespace Speranza.Models
         public IList<bool> IsTrainingInTime { get; set; }
         public RecurringTrainingMessages Message { get; set; }
         public IList<IRecurringTemplateModel> Templates { get; set; }
+        public string ValidFrom { get; set; }
 
         public RecurringModel()
         {

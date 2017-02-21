@@ -286,17 +286,28 @@ namespace Speranza.Tests.Services
 
 
         [TestMethod]
-        public void AddTwoRecurringTrainingsIntoDB_When_TwoCheckedTimeslotsExist()
+        public void AddTwoRecurringTrainingsWithMinDateIntoDB_When_TwoCheckedTimeslotsExist()
         {
             InitializeTrainingManager();
-            PrepareModelWithTwoCheckedTimeslots();
+            PrepareModelWithTwoCheckedTimeslotsWithoutValidFrom();
 
             manager.CreateRecurringTraining(model);
 
-            db.Verify(p => p.CreateRecurringTrainingTemplate(It.Is<RecurringTrainingTemplate>(r=>r.Trainer == TRAINER && r.Capacity == CAPACITY && r.Description == DESCRIPTION && r.Day == DAY_A && r.Time == TIME_A)), Times.Once);
-            db.Verify(p => p.CreateRecurringTrainingTemplate(It.Is<RecurringTrainingTemplate>(r=>r.Trainer == TRAINER && r.Capacity == CAPACITY && r.Description == DESCRIPTION && r.Day == DAY_B && r.Time == TIME_B)), Times.Once);
+            db.Verify(p => p.CreateRecurringTrainingTemplate(It.Is<RecurringTrainingTemplate>(r=>r.Trainer == TRAINER && r.Capacity == CAPACITY && r.Description == DESCRIPTION && r.Day == DAY_A && r.Time == TIME_A && r.ValidFrom == DateTime.MinValue)), Times.Once);
+            db.Verify(p => p.CreateRecurringTrainingTemplate(It.Is<RecurringTrainingTemplate>(r=>r.Trainer == TRAINER && r.Capacity == CAPACITY && r.Description == DESCRIPTION && r.Day == DAY_B && r.Time == TIME_B && r.ValidFrom == DateTime.MinValue)), Times.Once);
         }
 
+        [TestMethod]
+        public void AddTwoRecurringTrainingsWithCorrectDateIntoDB_When_TwoCheckedTimeslotsExist()
+        {
+            InitializeTrainingManager();
+            PrepareModelWithTwoCheckedTimeslotsWithValidFrom();
+
+            manager.CreateRecurringTraining(model);
+
+            db.Verify(p => p.CreateRecurringTrainingTemplate(It.Is<RecurringTrainingTemplate>(r => r.Trainer == TRAINER && r.Capacity == CAPACITY && r.Description == DESCRIPTION && r.Day == DAY_A && r.Time == TIME_A && r.ValidFrom == new DateTime(2017,03,15))), Times.Once);
+            db.Verify(p => p.CreateRecurringTrainingTemplate(It.Is<RecurringTrainingTemplate>(r => r.Trainer == TRAINER && r.Capacity == CAPACITY && r.Description == DESCRIPTION && r.Day == DAY_B && r.Time == TIME_B && r.ValidFrom == new DateTime(2017, 03, 15))), Times.Once);
+        }
 
         [TestMethod]
         public void ReturnEmptyList_When_NoTemplateInDBExists()
@@ -385,12 +396,21 @@ namespace Speranza.Tests.Services
             db.Setup(r => r.GetTemplates()).Returns(new List<IRecurringTrainingTemplate>());
         }
 
-        private void PrepareModelWithTwoCheckedTimeslots()
+        private void PrepareModelWithTwoCheckedTimeslotsWithoutValidFrom()
         {
             PrepareModelWithNoCheckedTimeslot();
             model.IsTrainingInTime[DAY_A*13 + TIME_A - 7] = true;
             model.IsTrainingInTime[DAY_B*13 + TIME_B - 7] = true;
         }
+
+        private void PrepareModelWithTwoCheckedTimeslotsWithValidFrom()
+        {
+            PrepareModelWithNoCheckedTimeslot();
+            model.ValidFrom = "15.03.2017";
+            model.IsTrainingInTime[DAY_A * 13 + TIME_A - 7] = true;
+            model.IsTrainingInTime[DAY_B * 13 + TIME_B - 7] = true;
+        }
+
 
         private void PrepareModelWithNoCheckedTimeslot()
         {
@@ -398,6 +418,7 @@ namespace Speranza.Tests.Services
             model.Capacity = CAPACITY;
             model.Description = DESCRIPTION;
             model.Trainer = TRAINER;
+            model.ValidFrom = string.Empty;
             PrepareArrayWithNoCheckedTraining();
             model.IsTrainingInTime = checkedTrainings;
         }

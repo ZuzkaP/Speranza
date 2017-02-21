@@ -13,5 +13,6 @@ namespace Speranza.Database.Data.Interfaces
         public string Description { get; set; }
         public int Time { get; set; }
         public string Trainer { get; set; }
+        public DateTime ValidFrom { get; set; }
     }
 }

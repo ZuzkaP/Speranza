@@ -54,6 +54,7 @@
     <Compile Include="IUserForTrainingDetailModel.cs" />
     <Compile Include="IUserProfileModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserProfileMessages.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Speranza.Common.Data\Speranza.Common.Data.csproj">

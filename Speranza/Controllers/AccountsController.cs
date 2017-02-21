@@ -115,18 +115,12 @@ namespace Speranza.Controllers
             {
                 model.Password = hasher.HashPassword(model.Password);
                 model.ConfirmPassword = null;
-                //db.RegisterNewUser(model);
                 userManager.RegisterNewUser(model);
                 return View("../Home/Index");
             }
 
             return View("Register", model);
         }
-
-        //public ViewResult Register(RegisterModel model)
-        //{
-        //    return View();
-        //}
 
         public ActionResult SaveUserProfile(UserProfileModel model)
         {
@@ -144,7 +138,6 @@ namespace Speranza.Controllers
                 }
                 model.Email = (string)Session["Email"];
                 Session["Message"] = UserProfileMessages.ProfileWasUpdated;
-                //db.UpdateUserData(model);
                 userManager.UpdateUserData(model);
                 return RedirectToAction("UserProfile");
             }
@@ -168,23 +161,48 @@ namespace Speranza.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        //public ActionResult UserProfile()
+        //{
+        //    if (userManager.IsUserLoggedIn(Session))
+        //    {
+        //        IUser user = db.GetUserData((string)Session["Email"]);
+        //        UserProfileModel model = new UserProfileModel();
+        //        model.Email = (string)Session["Email"];
+        //        model.Name = user.Name;
+        //        model.Surname = user.Surname;
+        //        model.PhoneNumber = user.PhoneNumber;
+        //        model.Category = user.Category.ToString();
+        //        model.NumberOfFreeSignUps = user.NumberOfFreeSignUpsOnSeasonTicket;
+        //        model.NumberOfPastTrainings = user.NumberOfPastTrainings;
+        //        model.FutureTrainings = new List<ITrainingModel>();
+        //        model.PastTrainings = new List<ITrainingModel>();
+        //        model.SignedUpOrSignedOffTraining = (ITrainingModel)Session["Training"];
+        //        OrderAndAssignTrainings(model);
+
+        //        if (Session["Message"] != null)
+        //        {
+        //            if (Session["Message"] is UserProfileMessages)
+        //            {
+        //                model.UserProfileMessage = (UserProfileMessages)Session["Message"];
+        //            }
+        //            else
+        //            {
+        //                model.CalendarMessage = (CalendarMessages)Session["Message"];
+        //            }
+        //        }
+        //        Session["Message"] = null;
+        //        Session["Training"] = null;
+        //        return View(model);
+        //    }
+        //    return RedirectToAction("Index", "Home");
+        //}
+
+
         public ActionResult UserProfile()
         {
             if (userManager.IsUserLoggedIn(Session))
             {
-                IUser user = db.GetUserData((string)Session["Email"]);
-                UserProfileModel model = new UserProfileModel();
-                model.Email = (string)Session["Email"];
-                model.Name = user.Name;
-                model.Surname = user.Surname;
-                model.PhoneNumber = user.PhoneNumber;
-                model.Category = user.Category.ToString();
-                model.NumberOfFreeSignUps = user.NumberOfFreeSignUpsOnSeasonTicket;
-                model.NumberOfPastTrainings = user.NumberOfPastTrainings;
-                model.FutureTrainings = new List<ITrainingModel>();
-                model.PastTrainings = new List<ITrainingModel>();
-                model.SignedUpOrSignedOffTraining = (ITrainingModel)Session["Training"];
-                OrderAndAssignTrainings(model);
+                IUserProfileModel model = userManager.GetUserProfileModelWithDataFromDB((string)Session["Email"]);
 
                 if (Session["Message"] != null)
                 {
@@ -201,9 +219,8 @@ namespace Speranza.Controllers
                 Session["Training"] = null;
                 return View(model);
             }
-            return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
         }
-
 
         public ActionResult ChangeUserPassword(string oldPass, string newPass, string confirmPass)
         {

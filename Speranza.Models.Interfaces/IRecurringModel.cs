@@ -8,5 +8,6 @@ namespace Speranza.Models.Interfaces
         string Description { get; set; }
         IList<bool> IsTrainingInTime { get; set; }
         string Trainer { get; set; }
+        string ValidFrom { get; set; }
     }
 }

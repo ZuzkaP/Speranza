@@ -341,6 +341,25 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(CATEGORY, result.Category);
             Assert.AreEqual(IS_ADMIN, result.IsAdmin);
         }
+
+        //[TestMethod]
+        //public void GetUserProfileDataAndReturnModel()
+        //{
+        //    InitializeUserManager();
+        //    PrepareUserProfileDataInDB();
+
+        //    IUserProfileModel model = manager.GetUserProfileModelWithDataFromDB(EMAIL);
+
+        //    db.Verify(r => r.GetUserData(EMAIL), Times.Once);
+        //    factory.
+        //    Assert.AreEqual()
+        //}
+
+        private void PrepareUserProfileDataInDB()
+        {
+            throw new NotImplementedException();
+        }
+
         private void PrepareUserLoginDataInDB()
         {
             var user = new Mock<IUser>();

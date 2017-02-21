@@ -78,6 +78,9 @@ namespace Speranza.Services
                     template.Trainer = model.Trainer;
                     template.Day = day;
                     template.Time = time;
+                    DateTime tempValidFrom;
+                    DateTime.TryParse(model.ValidFrom,out tempValidFrom);
+                    template.ValidFrom = tempValidFrom;
 
                     db.CreateRecurringTrainingTemplate(template);
                 }

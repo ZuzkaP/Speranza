@@ -158,5 +158,10 @@ namespace Speranza.Services
         {
             db.UpdateUserData(model.Email,model.Name,model.Surname, model.PhoneNumber);
         }
+
+        public IUserProfileModel GetUserProfileModelWithDataFromDB(string email)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

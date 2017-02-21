@@ -58,24 +58,25 @@ namespace Speranza.Tests.Controllers
 
             Assert.AreEqual("Home", ((RedirectToRouteResult)result).RouteValues["controller"]);
             Assert.AreEqual("Index", ((RedirectToRouteResult)result).RouteValues["action"]);
+            userManager.Verify(r => r.GetUserProfileModelWithDataFromDB(It.IsAny<string>()), Times.Once);
         }
 
         [TestMethod]
         public void LoadUSerDatafromDBAndSendToUI_When_UserIsLoggedIn()
         {
             InitializeAccountController();
+            PrepareNewEmptyUserProfileModel();
 
             ViewResult result = (ViewResult)controller.UserProfile();
 
-            UserProfileModel model = (UserProfileModel) result.Model;
-            Assert.AreEqual(NAME, model.Name);
-            Assert.AreEqual(SURNAME, model.Surname);
-            Assert.AreEqual(PHONENUMBER, model.PhoneNumber);
-            Assert.AreEqual(USER_EMAIL, model.Email);
-
+            userManager.Verify(r => r.GetUserProfileModelWithDataFromDB(USER_EMAIL), Times.Once);
         }
 
-        
+        private void PrepareNewEmptyUserProfileModel()
+        {
+            userManager.Setup(r => r.GetUserProfileModelWithDataFromDB(USER_EMAIL)).Returns(new UserProfileModel());
+        }
+
         [TestMethod]
         public void LoadCategory_And_NumberOfFreeSignUps_And_NumberOfPastTrainings()
         {
@@ -169,6 +170,7 @@ namespace Speranza.Tests.Controllers
         public void SendMessageToUI_When_SignOffFromTraining()
         {
             InitializeAccountController();
+            PrepareNewEmptyUserProfileModel();
             controller.Session["Message"] = CalendarMessages.UserWasSignedOff;
 
             ActionResult result = controller.UserProfile();
@@ -223,6 +225,7 @@ namespace Speranza.Tests.Controllers
         public void SendMessageToUI_When_UserChangesProfileInfo()
         {
             InitializeAccountController();
+            PrepareNewEmptyUserProfileModel();
             controller.Session["Message"] = UserProfileMessages.ProfileWasUpdated;
 
             ActionResult result = controller.UserProfile();

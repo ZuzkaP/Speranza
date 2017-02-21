@@ -22,5 +22,6 @@ namespace Speranza.Models
         public int NumberOfPastTrainings { get; set; }
         public IList<ITrainingModel> FutureTrainings { get; set; }
         public IList<ITrainingModel> PastTrainings { get; set; }
+        
     }
 }
