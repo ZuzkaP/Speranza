@@ -15,7 +15,7 @@ namespace Speranza.Database
         IUser LoadUser(string email);
         IList<ITraining> GetDayTrainings(DateTime date);
         IUser GetUserData(string email);
-        void UpdateUserData(UserProfileModel userProfileModel);
+        void UpdateUserData(string email, string name, string surname, string phoneNumber);
         ITraining GetTrainingData(string trainingID);
         void AddUserToTraining(string email, string trainingID,DateTime timeOfSignUp);
         bool IsUserAlreadySignedUpInTraining(string email, string trainingID);

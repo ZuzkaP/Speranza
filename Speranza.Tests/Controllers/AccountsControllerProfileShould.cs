@@ -45,6 +45,7 @@ namespace Speranza.Tests.Controllers
         private Mock<IModelFactory> factory;
         private Mock<IHasher> hasher;
         private Mock<IUser> user;
+        private UserProfileModel updatedUserProfileModel;
 
         [TestMethod]
         public void ReturnToLogin_When_UserIsNotLoggedIn()
@@ -108,7 +109,7 @@ namespace Speranza.Tests.Controllers
 
             Assert.AreEqual("Home", ((RedirectToRouteResult)result).RouteValues["controller"]);
             Assert.AreEqual("Index", ((RedirectToRouteResult)result).RouteValues["action"]);
-            db.Verify(r => r.UpdateUserData(It.IsAny<UserProfileModel>()), Times.Never);
+            db.Verify(r => r.UpdateUserData(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
 
         }
 
@@ -116,15 +117,22 @@ namespace Speranza.Tests.Controllers
         public void SaveChanges_When_UserDataWereChanged()
         {
             InitializeAccountController();
-            UserProfileModel model = new UserProfileModel();
+            PrepareModelToSuccessfullyUpdatedProfile();
 
-            ActionResult result =  controller.SaveUserProfile(model);
+            ActionResult result =  controller.SaveUserProfile(updatedUserProfileModel);
 
             Assert.AreEqual("UserProfile", ((RedirectToRouteResult)result).RouteValues["action"]);
-            userManager.Verify(r => r.UpdateUserData(It.Is<UserProfileModel>(k=>k==model && !string.IsNullOrEmpty(model.Email) && model.Email == USER_EMAIL)));
+            userManager.Verify(r => r.UpdateUserData(It.Is<UserProfileModel>(k=>k== updatedUserProfileModel && !string.IsNullOrEmpty(updatedUserProfileModel.Email) && updatedUserProfileModel.Email == USER_EMAIL)));
             Assert.AreEqual(UserProfileMessages.ProfileWasUpdated, controller.Session["Message"]);
         }
 
+        private void PrepareModelToSuccessfullyUpdatedProfile()
+        {
+            updatedUserProfileModel = new UserProfileModel();
+            updatedUserProfileModel.Name = NAME;
+            updatedUserProfileModel.Surname = SURNAME;
+            updatedUserProfileModel.PhoneNumber = PHONENUMBER;
+        }
 
         [TestMethod]
         public void ShowOnlyAccountInf_When_UserIsNotSignedUpForTraining()
@@ -167,6 +175,48 @@ namespace Speranza.Tests.Controllers
             UserProfileModel model = (UserProfileModel)((ViewResult)result).Model;
 
             Assert.AreEqual(CalendarMessages.UserWasSignedOff, model.CalendarMessage);
+        }
+
+        [TestMethod]
+        public void NotUpdateProfileInfoAndSendMessage_When_SurnameIsEmpty()
+        {
+            InitializeAccountController();
+            PrepareModelWithEmptySurname();
+
+            ActionResult result = controller.SaveUserProfile(updatedUserProfileModel);
+
+            Assert.AreEqual("UserProfile", ((RedirectToRouteResult)result).RouteValues["action"]);
+           Assert.AreEqual(UserProfileMessages.SurnameIsEmpty, controller.Session["Message"]);
+            userManager.Verify(r => r.UpdateUserData(updatedUserProfileModel), Times.Never);
+        }
+
+        [TestMethod]
+        public void NotUpdateProfileInfoAndSendMessage_When_NameIsEmpty()
+        {
+            InitializeAccountController();
+            PrepareModelWithEmptyName();
+
+            ActionResult result = controller.SaveUserProfile(updatedUserProfileModel);
+
+            Assert.AreEqual("UserProfile", ((RedirectToRouteResult)result).RouteValues["action"]);
+            Assert.AreEqual(UserProfileMessages.NameIsEmpty, controller.Session["Message"]);
+            userManager.Verify(r => r.UpdateUserData(updatedUserProfileModel), Times.Never);
+        }
+
+        private void PrepareModelWithEmptyName()
+        {
+            updatedUserProfileModel = new UserProfileModel();
+            updatedUserProfileModel.Name = string.Empty;
+            updatedUserProfileModel.Surname = SURNAME;
+            updatedUserProfileModel.PhoneNumber = PHONENUMBER;
+        }
+
+        private void PrepareModelWithEmptySurname()
+        {
+            updatedUserProfileModel = new UserProfileModel();
+            updatedUserProfileModel.Name = NAME;
+            updatedUserProfileModel.Surname=string.Empty;
+            updatedUserProfileModel.PhoneNumber = PHONENUMBER;
         }
 
         [TestMethod]

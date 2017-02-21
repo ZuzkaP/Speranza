@@ -44,7 +44,9 @@ namespace Speranza.Tests.Services
         const bool IS_ADMIN = true;
         private Mock<IHasher> hasher;
         private Mock<RegisterModel> model;
-        private Mock<UserProfileModel> newUserProfileModel;
+        private Mock<IUserProfileModel> newUserProfileModel;
+        private string NAME;
+        private string PHONE_NUMBER;
 
         [TestMethod]
         public void ReturnFalse_When_SessionIsEmpty()
@@ -176,13 +178,16 @@ namespace Speranza.Tests.Services
 
             manager.UpdateUserData(newUserProfileModel.Object);
 
-            db.Verify(r => r.UpdateUserData(newUserProfileModel.Object), Times.Once);
-
+            db.Verify(r => r.UpdateUserData(EMAIL, NAME, SURNAME_FIRST, PHONE_NUMBER), Times.Once);
         }
 
         private void PrepareDataFromRUserProfileModelToDB()
         {
-            newUserProfileModel = new Mock<UserProfileModel>();
+            newUserProfileModel = new Mock<IUserProfileModel>();
+            newUserProfileModel.SetupGet(r => r.Name).Returns(NAME);
+            newUserProfileModel.SetupGet(r => r.Surname).Returns(SURNAME_FIRST);
+            newUserProfileModel.SetupGet(r => r.Name).Returns(PHONE_NUMBER);
+            newUserProfileModel.SetupGet(r => r.Email).Returns(EMAIL);
         }
 
         private void PrepareDataFromRegisterModelToDB()

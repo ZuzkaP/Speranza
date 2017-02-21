@@ -128,10 +128,20 @@ namespace Speranza.Controllers
         //    return View();
         //}
 
-        public ActionResult SaveUserProfile(IUserProfileModel model)
+        public ActionResult SaveUserProfile(UserProfileModel model)
         {
             if (userManager.IsUserLoggedIn(Session))
             {
+                if(string.IsNullOrEmpty(model.Surname))
+                {
+                    Session["Message"] = UserProfileMessages.SurnameIsEmpty;
+                    return RedirectToAction("UserProfile");
+                }
+                if (string.IsNullOrEmpty(model.Name))
+                {
+                    Session["Message"] = UserProfileMessages.NameIsEmpty;
+                    return RedirectToAction("UserProfile");
+                }
                 model.Email = (string)Session["Email"];
                 Session["Message"] = UserProfileMessages.ProfileWasUpdated;
                 //db.UpdateUserData(model);

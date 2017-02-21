@@ -67,6 +67,12 @@ namespace Speranza.Views
                 case UserProfileMessages.ProfileWasUpdated:
                     outputMessage = "<div class=\"alert alert-success\" role=\"alert\">Profil bol aktualizovaný.</div>";
                     break;
+                case UserProfileMessages.SurnameIsEmpty:
+                    outputMessage = "<div class=\"alert alert-warning\" role=\"alert\">Priezvisko nemôže byť prázdne.</div>";
+                    break;
+                case UserProfileMessages.NameIsEmpty:
+                    outputMessage = "<div class=\"alert alert-warning\" role=\"alert\">Meno nemôže byť prázdne.</div>";
+                    break;
             }
             return outputMessage;
         }

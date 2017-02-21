@@ -156,7 +156,7 @@ namespace Speranza.Services
 
         public void UpdateUserData(IUserProfileModel model)
         {
-            db.UpdateUserData((UserProfileModel)model);
+            db.UpdateUserData(model.Email,model.Name,model.Surname, model.PhoneNumber);
         }
     }
 }

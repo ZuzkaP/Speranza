@@ -130,13 +130,13 @@ namespace Speranza.Database
             return null;
         }
 
-        public void UpdateUserData(UserProfileModel userProfileModel)
+        public void UpdateUserData(string email,string name, string surname, string phoneNumber)
         {
-            if (users.ContainsKey(userProfileModel.Email))
+            if (users.ContainsKey(email))
             {
-                users[userProfileModel.Email].Name = userProfileModel.Name;
-                users[userProfileModel.Email].Surname = userProfileModel.Surname;
-                users[userProfileModel.Email].PhoneNumber = userProfileModel.PhoneNumber;
+                users[email].Name = name;
+                users[email].Surname = surname;
+                users[email].PhoneNumber = phoneNumber;
             }
         }
 
