@@ -85,10 +85,16 @@
                                     @template.Trainer
                                     <br />
                                     @template.Capacity
+                                    @if (template.ValidFrom != DateTime.MinValue)
+                                    {
+                                        <br />
+                                        @: Od
+                                        @template.ValidFrom.ToString("dd.MM.yyyy");
+                                    }
                                 </div>
                             }
-                            else
-                            {
+                                    else
+                                    {
                                 @Html.CheckBoxFor(r => r.IsTrainingInTime[j * 13 + i - 7])
                             }
                             @*<span class="glyphicon glyphicon-ok"></span>*@

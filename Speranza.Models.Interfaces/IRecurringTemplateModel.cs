@@ -13,5 +13,6 @@ namespace Speranza.Models.Interfaces
         string Description { get; set; }
         int Time { get; set; }
         string Trainer { get; set; }
+        DateTime ValidFrom { get; set; }
     }
 }

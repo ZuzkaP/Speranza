@@ -22,6 +22,7 @@ namespace Speranza.Services
             model.Trainer = template.Trainer;
             model.Day = template.Day;
             model.Time = template.Time;
+            model.ValidFrom = template.ValidFrom;
 
             return model;
         }

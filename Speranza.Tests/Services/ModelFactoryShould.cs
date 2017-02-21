@@ -35,6 +35,7 @@ namespace Speranza.Tests.Services
         private const int DAY = 5;
         private const int HOUR = 6;
         private Mock<IRecurringTrainingTemplate> template;
+        private readonly DateTime DATE = new DateTime(2017,05,16);
 
         [TestMethod]
         public void CorrectlyCreateUserForAdminModel()
@@ -115,6 +116,7 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(TRAINER, model.Trainer);
             Assert.AreEqual(DAY, model.Day);
             Assert.AreEqual(HOUR, model.Time);
+            Assert.AreEqual(DATE, model.ValidFrom);
         }
 
         private void PrepareTemplatesFromDB()
@@ -126,6 +128,7 @@ namespace Speranza.Tests.Services
             template.SetupGet(r => r.Trainer).Returns(TRAINER);
             template.SetupGet(r => r.Day).Returns(DAY);
             template.SetupGet(r => r.Time).Returns(HOUR);
+            template.SetupGet(r => r.ValidFrom).Returns(DATE);
         }
 
         private void PrepareTraining()
