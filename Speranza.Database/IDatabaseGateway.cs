@@ -10,7 +10,7 @@ namespace Speranza.Database
 {
     public interface IDatabaseGateway
     {
-        void RegisterNewUser(RegisterModel model);
+        void RegisterNewUser(string email, string name,string password, string phoneNumber, string surname);
         bool UserExists(string email);
         IUser LoadUser(string email);
         IList<ITraining> GetDayTrainings(DateTime date);

@@ -43,7 +43,7 @@ namespace Speranza.Tests.Services
         const UserCategories CATEGORY = UserCategories.Gold;
         const bool IS_ADMIN = true;
         private Mock<IHasher> hasher;
-        private Mock<RegisterModel> model;
+        private RegisterModel model;
         private Mock<IUserProfileModel> newUserProfileModel;
         private string NAME;
         private string PHONE_NUMBER;
@@ -165,9 +165,9 @@ namespace Speranza.Tests.Services
             InitializeUserManager();
             PrepareDataFromRegisterModelToDB();
 
-            manager.RegisterNewUser(model.Object);
+            manager.RegisterNewUser(model);
 
-            db.Verify(r => r.RegisterNewUser(model.Object), Times.Once);
+            db.Verify(r => r.RegisterNewUser(EMAIL,NAME,PASSWORD_CORRECT_HASH,PHONE_NUMBER,SURNAME_FIRST), Times.Once);
         }
 
         [TestMethod]
@@ -192,8 +192,13 @@ namespace Speranza.Tests.Services
 
         private void PrepareDataFromRegisterModelToDB()
         {
-            model = new Mock<RegisterModel>();
-        }
+            model = new RegisterModel();
+            model.Name = NAME;
+            model.Surname = SURNAME_FIRST;
+            model.PhoneNumber = PHONE_NUMBER;
+            model.Email = EMAIL;
+            model.Password = PASSWORD_CORRECT_HASH;
+        }   
 
         private void PrepareDBWithTwoUsers()
         {

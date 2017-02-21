@@ -38,7 +38,7 @@ namespace Speranza.Tests.Controllers
 
             ViewResult result = controller.Register(model);
 
-            db.Verify(r => r.RegisterNewUser(It.IsAny<RegisterModel>()), Times.Never);
+            db.Verify(r => r.RegisterNewUser(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
             Assert.AreEqual("Register", result.ViewName);
 
             RegisterModel modelFromServer = (RegisterModel) result.Model;
@@ -55,7 +55,7 @@ namespace Speranza.Tests.Controllers
 
             ViewResult result = controller.Register(model);
 
-            db.Verify(r => r.RegisterNewUser(It.IsAny<RegisterModel>()), Times.Never);
+            db.Verify(r => r.RegisterNewUser(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
             Assert.AreEqual("Register", result.ViewName);
 
             RegisterModel modelFromServer = (RegisterModel)result.Model;
@@ -74,7 +74,7 @@ namespace Speranza.Tests.Controllers
 
             ViewResult result = controller.Register(model);
 
-            db.Verify(r => r.RegisterNewUser(It.IsAny<RegisterModel>()), Times.Never);
+            db.Verify(r => r.RegisterNewUser(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
             Assert.AreEqual("Register", result.ViewName);
 
             RegisterModel modelFromServer = (RegisterModel)result.Model;
@@ -116,7 +116,7 @@ namespace Speranza.Tests.Controllers
 
             ViewResult result = controller.Register(model);
             
-            db.Verify(r => r.RegisterNewUser(It.IsAny<RegisterModel>()), Times.Never);
+            db.Verify(r => r.RegisterNewUser(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
             Assert.AreEqual("Register", result.ViewName);
 
             RegisterModel modelFromServer = (RegisterModel)result.Model;
@@ -134,7 +134,7 @@ namespace Speranza.Tests.Controllers
             
             ViewResult result = controller.Register(model);
 
-            db.Verify(r => r.RegisterNewUser(It.IsAny<RegisterModel>()), Times.Never);
+            db.Verify(r => r.RegisterNewUser(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
             Assert.AreEqual("Register", result.ViewName);
 
             RegisterModel modelFromServer = (RegisterModel)result.Model;
@@ -153,7 +153,7 @@ namespace Speranza.Tests.Controllers
 
             ViewResult result = controller.Register(model);
 
-            db.Verify(r => r.RegisterNewUser(It.IsAny<RegisterModel>()), Times.Never);
+            db.Verify(r => r.RegisterNewUser(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
             Assert.AreEqual("Register", result.ViewName);
 
             RegisterModel modelFromServer = (RegisterModel)result.Model;
@@ -172,7 +172,7 @@ namespace Speranza.Tests.Controllers
 
             ViewResult result = controller.Register(model);
 
-            db.Verify(r => r.RegisterNewUser(It.IsAny<RegisterModel>()), Times.Never);
+            db.Verify(r => r.RegisterNewUser(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
             Assert.AreEqual("Register", result.ViewName);
 
             RegisterModel modelFromServer = (RegisterModel)result.Model;
@@ -191,7 +191,7 @@ namespace Speranza.Tests.Controllers
 
             ViewResult result = controller.Register(model);
 
-            db.Verify(r => r.RegisterNewUser(It.IsAny<RegisterModel>()), Times.Never);
+            db.Verify(r => r.RegisterNewUser(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
             Assert.AreEqual("Register", result.ViewName);
 
             RegisterModel modelFromServer = (RegisterModel)result.Model;

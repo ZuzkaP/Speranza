@@ -66,17 +66,17 @@ namespace Speranza.Database
             return new Training(Guid.NewGuid().ToString(),dateTime, v1, v2, v3);
         }
 
-        public void RegisterNewUser(RegisterModel model)
+        public void RegisterNewUser(string email, string name,string password, string phoneNumber, string surname)
         {
             RegisteredUser user = new RegisteredUser();
-            user.Name =model.Name;
-            user.Email =model.Email;
+            user.Name =name;
+            user.Email =email;
             user.IsAdmin =false;
-            user.Password =model.Password;
-            user.PhoneNumber =model.PhoneNumber;
-            user.Surname =model.Surname;
+            user.Password =password;
+            user.PhoneNumber =phoneNumber;
+            user.Surname =surname;
 
-            users.Add(model.Email, user);
+            users.Add(email, user);
         }
 
         public bool UserExists(string email)

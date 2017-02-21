@@ -151,7 +151,7 @@ namespace Speranza.Services
 
         public void RegisterNewUser(IRegisterModel model)
         {
-            db.RegisterNewUser((RegisterModel) model);
+            db.RegisterNewUser(model.Email,model.Name,model.Password,model.PhoneNumber,model.Surname);
         }
 
         public void UpdateUserData(IUserProfileModel model)

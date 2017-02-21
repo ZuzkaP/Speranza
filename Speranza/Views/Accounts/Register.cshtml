@@ -8,40 +8,41 @@
 <div class="container">
     <h2>Registrácia</h2>
 
+   
     @if (Model != null)
     {
         if ((Model.Messages & RegisterModelMessages.EmailIsEmpty) != RegisterModelMessages.NoMessage)
         {
-            <p>Email musí byť vyplnený!</p>
+            <p><div class="alert alert-warning" role="alert">Email musí byť vyplnený!</div></p>
         }
-        if ((Model.Messages & RegisterModelMessages.EmailFormatIsIncorrect) != RegisterModelMessages.NoMessage)
+        else if ((Model.Messages & RegisterModelMessages.EmailFormatIsIncorrect) != RegisterModelMessages.NoMessage)
         {
-            <p>E-mail je v nesprávnom tvare!</p>
+            <p><div class="alert alert-warning" role="alert">Email je v nesprávnom tvare!</div></p>
         }
-        if ((Model.Messages & RegisterModelMessages.PasswordIsEmpty) != RegisterModelMessages.NoMessage)
+        else if ((Model.Messages & RegisterModelMessages.PasswordIsEmpty) != RegisterModelMessages.NoMessage)
         {
-            <p>Heslo musí byť vyplnené!</p>
+            <p><div class="alert alert-warning" role="alert">Heslo musí byť vyplnené!</div></p>
         }
-        if ((Model.Messages & RegisterModelMessages.PasswordHasNoLetter) != RegisterModelMessages.NoMessage)
+        else if ((Model.Messages & RegisterModelMessages.PasswordHasNoLetter) != RegisterModelMessages.NoMessage)
         {
-            <p>Heslo musí obsahovať aspoň jedno písmeno</p>
+            <p><div class="alert alert-warning" role="alert">Heslo musí obsahovať aspoň jedno písmeno!</div></p>
         }
-        if ((Model.Messages & RegisterModelMessages.PasswordHasNoNumber) != RegisterModelMessages.NoMessage)
+        else if ((Model.Messages & RegisterModelMessages.PasswordHasNoNumber) != RegisterModelMessages.NoMessage)
         {
-            <p>Heslo musí obsahovať aspoň jedno číslo!</p>
+            <p><div class="alert alert-warning" role="alert">Heslo musí obsahovať aspoň jedno číslo!</div></p>
         }
-        if ((Model.Messages & RegisterModelMessages.PasswordIsTooShort) != RegisterModelMessages.NoMessage)
+        else if ((Model.Messages & RegisterModelMessages.PasswordIsTooShort) != RegisterModelMessages.NoMessage)
         {
-            <p>Heslo musí obsahovať aspoň 6 znakov!</p>
+            <p><div class="alert alert-warning" role="alert">Heslo musí obsahovať aspoň 6 znakov!</div></p>
         }
 
-        if ((Model.Messages & RegisterModelMessages.ConfirmPassIncorrect) != RegisterModelMessages.NoMessage)
+        else if ((Model.Messages & RegisterModelMessages.ConfirmPassIncorrect) != RegisterModelMessages.NoMessage)
         {
-            <p>Heslo a jeho overenie sa nezhodujú!</p>
+            <p><div class="alert alert-warning" role="alert">Heslo a jeho overenie sa nezhodujú!</div></p>
         }
-        if ((Model.Messages & RegisterModelMessages.UserAlreadyExists) != RegisterModelMessages.NoMessage)
+        else if ((Model.Messages & RegisterModelMessages.UserAlreadyExists) != RegisterModelMessages.NoMessage)
         {
-            <p>Užívateľ s týmto emailom už existuje. Zabudol si heslo? </p>
+            <p><div class="alert alert-warning" role="alert">Používateľ s týmto emailom už existuje! Zabudol si heslo?</div></p>
         }
     }
 
