@@ -16,5 +16,6 @@ namespace Speranza.Services.Interfaces
         ITrainingModel CreateTrainingModel(ITraining training);
         IUserForTrainingDetailModel CreateUsersForTrainingDetailModel(IUser user);
         IRecurringTemplateModel CreateRecurringTrainingModel(IRecurringTrainingTemplate template);
+        IUserProfileModel CreateUserForUserProfileModel(IUser user);
     }
 }

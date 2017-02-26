@@ -238,6 +238,23 @@ namespace Speranza.Tests.Services
             db.Verify(r => r.SetLastTemplateGenerationDate(It.IsAny<DateTime>()), Times.Never);
         }
 
+
+        [TestMethod]
+        public void GenerateTemplate_After_ValidDate()
+        {
+            InitializeDaysManager();
+            PrepareDatabaseWithNoTrainings();
+            PrepareTwoTemplatesForTheDay();
+            template2.SetupGet(r => r.ValidFrom).Returns(new DateTime(2016, 12, 5));
+
+            RequestDay();
+
+            Assert.AreEqual(1, day.Trainings.Count);
+            trainingsManager.Verify(r => r.GenerateTrainingFromTemplate(template1.Object, date));
+            Assert.AreEqual(generatedTrainingModel1.Object, day.Trainings[0]);
+            generatedTrainingModel1.VerifySet(r => r.IsAllowedToSignUp = true);
+            db.Verify(r => r.SetLastTemplateGenerationDate(date), Times.Once);
+        }
         private void PrepareTemplateWasAlreadyGeneratedFlag()
         {
             db.Setup(r => r.GetLastTemplateGenerationDate()).Returns(date.Date);
@@ -259,6 +276,8 @@ namespace Speranza.Tests.Services
             template2 = new Mock<IRecurringTrainingTemplate>();
             template1.SetupGet(r => r.Time).Returns(14);
             template2.SetupGet(r => r.Time).Returns(12);
+            template1.SetupGet(r => r.ValidFrom).Returns(new DateTime(2016, 11, 20));
+            template2.SetupGet(r => r.ValidFrom).Returns(new DateTime(2016, 12, 1));
             templateList.Add(template1.Object);
             templateList.Add(template2.Object);
             generatedTrainingModel1 = new Mock<ITrainingModel>();

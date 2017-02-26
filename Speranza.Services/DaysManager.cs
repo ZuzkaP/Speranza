@@ -57,6 +57,10 @@ namespace Speranza.Services
                         {
                             continue;
                         }
+                        if(item.ValidFrom.Date > date.Date)
+                        {
+                            continue;
+                        }
                         var trainingModel = trainingManager.GenerateTrainingFromTemplate(item, date);
                         trainingModel.IsAllowedToSignUp = true;
                         model.Trainings.Add(trainingModel);

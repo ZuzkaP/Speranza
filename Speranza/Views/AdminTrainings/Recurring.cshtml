@@ -45,7 +45,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.ValidFrom, "Platný od", new { @class = "control-label col-sm-2" })
                 <div class="col-sm-3">
-                    <input type="text" class="form-control" id="GenerationDate" name="ValidFrom" />
+                    <input type="text" class="form-control" id="GenerationDate" name="ValidFrom" data-role="date" data-inline="true"/>
                 </div>
                 <input type="submit" value="Pridaj" class="btn btn-primary" />
             </div>
@@ -146,21 +146,17 @@
         })
 
         $(function () {
-            $("#GenerationDate").datepicker({
-                beforeShow: function () {
-                    setTimeout(function () {
-                        $('.ui-datepicker').css('z-index', 99999999999999);
-                    }, 0);
-                },
-                dateFormat: "dd.mm.yy",
-                minDate: 0,
-                constrainInput: true,
+            $('#GenerationDate').datepicker({
+                dateFormat: 'dd.mm.yy',
                 monthNames: ["Január", "Február", "Marec", "Apríl", "Máj", "Jún", "Júl", "August", "September", "Október", "November", "December"],
                 monthNamesShort: ["Jan", "Feb", "Mar", "Apr", "Máj", "Jún", "Júl", "Aug", "Sep", "Okt", "Nov", "Dec"],
                 dayNames: ["Nedeľa", "Pondelok", "Utorok", "Streda", "Štvrtok", "Piatok", "Sobota"],
                 dayNamesMin: ["Ne", "Po", "Ut", "St", "Št", "Pi", "So"],
-                firstDay: 1
-            });
+                firstDay: 1,
+                minDate: 0,
+                constrainInput: true
+            }).datepicker("setDate", new Date());
         });
+
     </script>
 }

@@ -52,10 +52,10 @@ namespace Speranza.Tests.Controllers
         {
             InitializeAccountController();
             userManager.Setup(r => r.IsUserLoggedIn(controller.Session)).Returns(false);
+
             ActionResult result = controller.UserProfile();
 
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
-
             Assert.AreEqual("Home", ((RedirectToRouteResult)result).RouteValues["controller"]);
             Assert.AreEqual("Index", ((RedirectToRouteResult)result).RouteValues["action"]);
             userManager.Verify(r => r.GetUserProfileModelWithDataFromDB(It.IsAny<string>()), Times.Once);
@@ -82,6 +82,7 @@ namespace Speranza.Tests.Controllers
         {
             InitializeAccountController();
             PrepareUserFromDB();
+            PrepareNewEmptyUserProfileModel();
 
             ViewResult result = (ViewResult)controller.UserProfile();
 
@@ -302,6 +303,7 @@ namespace Speranza.Tests.Controllers
         {
             InitializeAccountController();
             PrepareTrainingInDistantFuture();
+            PrepareNewEmptyUserProfileModel();
 
             controller.UserProfile();
 

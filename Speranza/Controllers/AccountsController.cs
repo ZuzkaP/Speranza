@@ -203,6 +203,10 @@ namespace Speranza.Controllers
             if (userManager.IsUserLoggedIn(Session))
             {
                 IUserProfileModel model = userManager.GetUserProfileModelWithDataFromDB((string)Session["Email"]);
+                model.FutureTrainings = new List<ITrainingModel>();
+                model.PastTrainings = new List<ITrainingModel>();
+                model.SignedUpOrSignedOffTraining = (ITrainingModel)Session["Training"];
+                OrderAndAssignTrainings(model);
 
                 if (Session["Message"] != null)
                 {
@@ -275,7 +279,7 @@ namespace Speranza.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        private void OrderAndAssignTrainings(UserProfileModel model)
+        private void OrderAndAssignTrainings(IUserProfileModel model)
         {
             IList<ITraining> trainings = db.GetTrainingsForUser((string)Session["Email"]);
             if (trainings != null)

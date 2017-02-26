@@ -70,6 +70,11 @@ namespace Speranza.Services
             return model;
         }
 
+        public IUserProfileModel CreateUserForUserProfileModel(IUser user)
+        {
+            throw new NotImplementedException();
+        }
+
         public IUserForTrainingDetailModel CreateUsersForTrainingDetailModel(IUser user)
         {
             IUserForTrainingDetailModel model = new UserForTrainingDetailModel();

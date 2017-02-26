@@ -45,8 +45,11 @@ namespace Speranza.Tests.Services
         private Mock<IHasher> hasher;
         private RegisterModel model;
         private Mock<IUserProfileModel> newUserProfileModel;
-        private string NAME;
-        private string PHONE_NUMBER;
+        private const string NAME = "name";
+        private const string PHONE_NUMBER = "phoneNumber";
+        private const int FREE_SIGN_UPS = 5;
+        private const int NUMBER_OF_PAST_TRAININGS = 8;
+        private Mock<IUserProfileModel> userProfileModel;
 
         [TestMethod]
         public void ReturnFalse_When_SessionIsEmpty()
@@ -186,7 +189,7 @@ namespace Speranza.Tests.Services
             newUserProfileModel = new Mock<IUserProfileModel>();
             newUserProfileModel.SetupGet(r => r.Name).Returns(NAME);
             newUserProfileModel.SetupGet(r => r.Surname).Returns(SURNAME_FIRST);
-            newUserProfileModel.SetupGet(r => r.Name).Returns(PHONE_NUMBER);
+            newUserProfileModel.SetupGet(r => r.PhoneNumber).Returns(PHONE_NUMBER);
             newUserProfileModel.SetupGet(r => r.Email).Returns(EMAIL);
         }
 
@@ -342,22 +345,33 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(IS_ADMIN, result.IsAdmin);
         }
 
-        //[TestMethod]
-        //public void GetUserProfileDataAndReturnModel()
-        //{
-        //    InitializeUserManager();
-        //    PrepareUserProfileDataInDB();
+        [TestMethod]
+        public void GetUserProfileDataAndReturnModel()
+        {
+            InitializeUserManager();
+            PrepareUserProfileDataInDB();
 
-        //    IUserProfileModel model = manager.GetUserProfileModelWithDataFromDB(EMAIL);
-
-        //    db.Verify(r => r.GetUserData(EMAIL), Times.Once);
-        //    factory.
-        //    Assert.AreEqual()
-        //}
+            IUserProfileModel model = manager.GetUserProfileModelWithDataFromDB(EMAIL);
+            
+            Assert.AreEqual(userProfileModel.Object, model);
+        }
 
         private void PrepareUserProfileDataInDB()
         {
-            throw new NotImplementedException();
+           var user1 = new Mock<IUser>();
+            user1.SetupGet(r => r.Name).Returns(NAME);
+            user1.SetupGet(r => r.Surname).Returns(SURNAME_FIRST);
+            user1.SetupGet(r => r.PhoneNumber).Returns(PHONE_NUMBER);
+            user1.SetupGet(r => r.NumberOfFreeSignUpsOnSeasonTicket).Returns(FREE_SIGN_UPS);
+            user1.SetupGet(r => r.NumberOfPastTrainings).Returns(NUMBER_OF_PAST_TRAININGS);
+            user1.SetupGet(r => r.Email).Returns(EMAIL);
+            user1.SetupGet(r => r.Category).Returns(CATEGORY);
+            user1.SetupGet(r => r.IsAdmin).Returns(false);
+            db.Setup(r => r.GetUserData(EMAIL)).Returns(user1.Object);
+
+            userProfileModel = new Mock<IUserProfileModel>();
+
+            factory.Setup(r => r.CreateUserForUserProfileModel(user1.Object)).Returns(userProfileModel.Object);
         }
 
         private void PrepareUserLoginDataInDB()

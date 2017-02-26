@@ -161,7 +161,10 @@ namespace Speranza.Services
 
         public IUserProfileModel GetUserProfileModelWithDataFromDB(string email)
         {
-            throw new NotImplementedException();
+            IUser user = db.GetUserData(email);
+            IUserProfileModel model = factory.CreateUserForUserProfileModel(user);
+
+            return model;    
         }
     }
 }
