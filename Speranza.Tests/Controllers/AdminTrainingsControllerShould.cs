@@ -32,6 +32,7 @@ namespace Speranza.Tests.Controllers
 
         private const int HOURS_LIMIT = 12;
         private const string USER_DATA = "user data";
+        private const int NUMBER_OF_TRAININGS_ON_PAGE = 20;
         private readonly DateTime CURRENT_DATE = new DateTime(100000);
 
         [TestMethod]
@@ -76,7 +77,7 @@ namespace Speranza.Tests.Controllers
         {
             InitializeAdminTrainingsController();
             IList<ITrainingForAdminModel> trainings = new List<ITrainingForAdminModel>();
-            trainingManager.Setup(r => r.GetAllFutureTrainings()).Returns(trainings);
+            trainingManager.Setup(r => r.GetFutureTrainings(0, NUMBER_OF_TRAININGS_ON_PAGE)).Returns(trainings);
 
             ViewResult result = (ViewResult)controller.AdminTrainings();
             AdminTrainingsModel model = (AdminTrainingsModel)result.Model;
@@ -95,6 +96,19 @@ namespace Speranza.Tests.Controllers
             AdminTrainingsModel model = (AdminTrainingsModel)result.Model;
 
             Assert.AreEqual(users, model.Users);
+        }
+
+
+        [TestMethod]
+        public void ReturnCorrectNumberOfPages()
+        {
+            InitializeAdminTrainingsController();
+            trainingManager.Setup(r => r.GetFutureTrainingsCount()).Returns(25);
+
+            ViewResult result = (ViewResult)controller.AdminTrainings();
+            AdminTrainingsModel model = (AdminTrainingsModel)result.Model;
+
+            Assert.AreEqual(2, model.PagesCount);
 
         }
 

@@ -343,6 +343,11 @@ namespace Speranza.Database
             return (DateTime) settings[LAST_TEMPLATE_GENERATION_DATE];
         }
 
+        public int GetTrainingsCountAfterDate(DateTime date)
+        {
+           return trainings.Count(r => r.Time > date);
+        }
+
         private class UserInTraining
         {
           public  string Email { get; set; }

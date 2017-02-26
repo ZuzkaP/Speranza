@@ -48,6 +48,7 @@ namespace Speranza.Tests.Services
         private const int DAY_A = 6;
         private const int TIME_B = 13;
         private const int TIME_A = 19;
+        private const int TRAININGS_COUNT = 42;
         private Mock<IRecurringTemplateModel> modelB;
         private Mock<IRecurringTemplateModel> modelA;
         private Mock<IRecurringTrainingTemplate> template;
@@ -59,7 +60,7 @@ namespace Speranza.Tests.Services
             InitializeTrainingManager();
             PrepareDBWithNoTrainings();
 
-           var trainings = manager.GetAllFutureTrainings();
+           var trainings = manager.GetFutureTrainings(0,2);
 
             Assert.AreNotEqual(null, trainings);
             Assert.AreEqual(0, trainings.Count);
@@ -73,7 +74,7 @@ namespace Speranza.Tests.Services
             PrepareDBWithTwoTrainings();
             PrepareFactory();
 
-            var trainings = manager.GetAllFutureTrainings();
+            var trainings = manager.GetFutureTrainings(0,2);
 
             Assert.IsNotNull(trainings);
             Assert.AreEqual(2, trainings.Count);
@@ -89,7 +90,7 @@ namespace Speranza.Tests.Services
             PrepareDBWithOnePastAndOneFutureTraining();
             PrepareFactory();
 
-            var trainings = manager.GetAllFutureTrainings();
+            var trainings = manager.GetFutureTrainings(0,2);
 
             Assert.AreEqual(1, trainings.Count);
             Assert.AreEqual(training2Model.Object, trainings[0]);
@@ -119,6 +120,22 @@ namespace Speranza.Tests.Services
             ITrainingModel model = manager.RemoveUserFromTraining(EMAIL, TRAINING_ID);
 
             Assert.AreEqual(factoryModel.Object, model);
+        }
+
+        [TestMethod]
+        public void ReturnFutureTrainingsCount()
+        {
+            InitializeTrainingManager();
+            PrepareDBWithFutureTrainingsCount();
+
+            var trainings = manager.GetFutureTrainingsCount();
+
+            Assert.AreEqual(TRAININGS_COUNT, trainings);
+        }
+
+        private void PrepareDBWithFutureTrainingsCount()
+        {
+            db.Setup(r => r.GetTrainingsCountAfterDate(CURRENT_DATE)).Returns(TRAININGS_COUNT);
         }
 
         [TestMethod]

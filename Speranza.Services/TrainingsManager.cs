@@ -102,7 +102,7 @@ namespace Speranza.Services
             return factory.CreateTrainingModel(training);
         }
 
-        public IList<ITrainingForAdminModel> GetAllFutureTrainings()
+        public IList<ITrainingForAdminModel> GetFutureTrainings(int from, int to)
         {
             var trainingsFromDB = db.GetAllTrainings();
             var trainingsForAdmin = new List<ITrainingForAdminModel>();
@@ -179,6 +179,11 @@ namespace Speranza.Services
         public void SetTrainingDescription(string trainingID, string trainingDescription)
         {
             db.SetTrainingDescription(trainingID, trainingDescription);
+        }
+
+        public int GetFutureTrainingsCount()
+        {
+            return db.GetTrainingsCountAfterDate(dateTimeService.GetCurrentDate());
         }
     }
 }

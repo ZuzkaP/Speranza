@@ -31,5 +31,6 @@ namespace Speranza.Models
         public IList<ITrainingForAdminModel> Trainings { get; set; }
         public int SignOffLimit { get; set; }
         public IList<IUserForTrainingDetailModel> Users { get; set; }
+        public int PagesCount { get; set; }
     }
 }

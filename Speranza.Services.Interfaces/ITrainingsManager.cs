@@ -7,7 +7,7 @@ namespace Speranza.Services.Interfaces
 {
     public interface ITrainingsManager
     {
-        IList<ITrainingForAdminModel> GetAllFutureTrainings();
+        IList<ITrainingForAdminModel> GetFutureTrainings(int from, int to);
         ITrainingModel RemoveUserFromTraining(string email, string id);
         void SetTrainer(string traininingID, string trainer);
         IList<IUserForTrainingDetailModel> GetAllUsersInTraining(string trainingID);
@@ -22,5 +22,6 @@ namespace Speranza.Services.Interfaces
         IList<IRecurringTemplateModel> GetTemplates();
         void RemoveTrainingTemplate(int day, int time);
         ITrainingModel GenerateTrainingFromTemplate(IRecurringTrainingTemplate template, DateTime date);
+        int GetFutureTrainingsCount();
     }
 }

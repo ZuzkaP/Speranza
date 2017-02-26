@@ -15,6 +15,7 @@ namespace Speranza.Controllers
 {
     public class AdminTrainingsController : Controller
     {
+        private const int DEFAULT_PAGE_SIZE = 20;
         private ITrainingsManager trainingManager;
         private IUserManager userManager;
         private IDateTimeService dateTimeService;
@@ -42,13 +43,15 @@ namespace Speranza.Controllers
                 {
                     return RedirectToAction("Calendar", "Calendar");
                 }
-                IList<ITrainingForAdminModel> trainings = trainingManager.GetAllFutureTrainings();
+                int numberOfPages = (int) Math.Ceiling(trainingManager.GetFutureTrainingsCount() / (double) DEFAULT_PAGE_SIZE);
+                IList<ITrainingForAdminModel> trainings = trainingManager.GetFutureTrainings(0, DEFAULT_PAGE_SIZE);
                 IList<IUserForTrainingDetailModel> users = userManager.GetAllUsersForTrainingDetails();
                 int signOffLimit = trainingManager.GetSignOffLimit();
                 AdminTrainingsModel model = new AdminTrainingsModel();
                 model.Trainings = trainings;
                 model.Users = users;
                 model.SignOffLimit = signOffLimit;
+                model.PagesCount = numberOfPages;
                 return View("AdminTrainings", model);
             }
             return RedirectToAction("Index", "Home");
