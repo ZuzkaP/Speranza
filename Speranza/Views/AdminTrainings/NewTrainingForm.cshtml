@@ -20,11 +20,12 @@
                 <div class="form-group">
                     @Html.Label("Čas:", new { @class = "control-label col-sm-3" })
                     <div class="input-group col-sm-4">
-                        <input id="TrainingTime" data-format="hh:mm" type="text" class="form-control" />
-                        <span class="input-group-addon" id="trainingTimeButton">
-                            <i class="glyphicon glyphicon-time">
-                            </i>
-                        </span>
+                        <select id="TrainingTime" class="form-control">
+                            @for (int i = 6; i < 20; i++)
+                            {
+                                <option>@string.Format("{0:00}:00",i)</option>
+                            }
+                            </select>
                     </div>
                 </div>
 
