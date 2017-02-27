@@ -1,0 +1,32 @@
+﻿@model Speranza.Models.TrainingsPageModel
+
+<table class="table table-striped table-hover" id="TrainingsTable">
+    <thead>
+        <tr>
+            <th class="col-xs-1">Dátum</th>
+            <th class="col-xs-1">Čas</th>
+            <th class="col-xs-3">Popis</th>
+            <th class="col-xs-2">Tréner</th>
+            <th class="col-xs-1">Prihlásení</th>
+            <th class="col-xs-1">Kapacita</th>
+            <th>Akcia</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Trainings.OrderBy(s => s.Time))
+            {
+            <tr id="@item.ID-Row">
+                <td id="@item.ID-date">@item.Time.ToString("dd.MM.yyyy")</td>
+                <td id="@item.ID-time">@item.Time.ToString("HH:mm")</td>
+                <td><textarea class="trainingDescription form-control input-sm" rows="1" data-training="@item.ID">@item.Description</textarea></td>
+                <td><input type="text" value="@item.Trainer" class="trainingTrainer form-control input-sm" data-training="@item.ID" /></td>
+                <td>
+                    <span id="@item.ID-RegisteredNumber">@item.RegisteredNumber</span>
+                    <span class="label label-info TrainingDetails" style="cursor:pointer" data-training="@item.ID">Detail</span>
+                </td>
+                <td><input id="TrainingCapacity" type="number" value="@item.Capacity" min="1" class="trainingCapacity form-control input-sm " data-training="@item.ID" /></td>
+                <td><a class="CancelTraining" data-training="@item.ID" href="#">Zrušiť tréning</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

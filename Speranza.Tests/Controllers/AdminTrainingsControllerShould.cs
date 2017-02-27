@@ -33,6 +33,7 @@ namespace Speranza.Tests.Controllers
         private const int HOURS_LIMIT = 12;
         private const string USER_DATA = "user data";
         private const int NUMBER_OF_TRAININGS_ON_PAGE = 20;
+        private const int PAGE = 5;
         private readonly DateTime CURRENT_DATE = new DateTime(100000);
 
         [TestMethod]
@@ -450,6 +451,39 @@ namespace Speranza.Tests.Controllers
             Assert.AreEqual(1, model.PageNumber);
         }
 
+        [TestMethod]
+        public void NotChangeTrainingsPage_When_UserIsNotAdmin()
+        {
+            InitializeAdminTrainingsController();
+            userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(false);
+
+            ActionResult result = controller.ShowTrainingsPage(PAGE);
+
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
+        }
+
+        [TestMethod]
+        public void ShowCorrectPage()
+        {
+            InitializeAdminTrainingsController();
+            PrepareTrainingsForPage();
+
+            PartialViewResult result = (PartialViewResult)controller.ShowTrainingsPage(PAGE);
+
+            trainingManager.Verify(r => r.GetFutureTrainings(80, 100), Times.Once);
+
+            TrainingsPageModel model = (TrainingsPageModel)result.Model;
+            Assert.AreEqual("TrainingsPage", result.ViewName);
+            Assert.AreEqual(trainings, model.Trainings);
+        }
+
+        private void PrepareTrainingsForPage()
+        {
+            trainings = new List<ITrainingForAdminModel>();
+            trainingManager.Setup(r => r.GetFutureTrainings(80, 100)).Returns(trainings);
+        }
 
         private void InitializeAdminTrainingsController()
         {

@@ -294,5 +294,16 @@ namespace Speranza.Controllers
             return Json("");
         }
 
+        public ActionResult ShowTrainingsPage(int page)
+        {
+            if (!userManager.IsUserAdmin(Session))
+            {
+                return RedirectToAction("Calendar", "Calendar");
+            }
+            TrainingsPageModel model = new TrainingsPageModel();
+            model.Trainings = trainingManager.GetFutureTrainings(DEFAULT_PAGE_SIZE * (page - 1), DEFAULT_PAGE_SIZE * page);
+            return PartialView("TrainingsPage",model);
+        }
+
     }
 }

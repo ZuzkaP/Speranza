@@ -58,6 +58,7 @@
     <Compile Include="TrainingForAdminModel.cs" />
     <Compile Include="TrainingModel.cs" />
     <Compile Include="TrainingsDetailsModel.cs" />
+    <Compile Include="TrainingsPageModel.cs" />
     <Compile Include="UpdateCategoryModel.cs" />
     <Compile Include="UpdateCountOfSignUpsModel.cs" />
     <Compile Include="UserForAdminModel.cs" />
