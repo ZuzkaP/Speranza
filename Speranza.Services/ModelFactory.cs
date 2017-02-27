@@ -72,7 +72,16 @@ namespace Speranza.Services
 
         public IUserProfileModel CreateUserForUserProfileModel(IUser user)
         {
-            throw new NotImplementedException();
+            IUserProfileModel model = new UserProfileModel();
+
+            model.Name = user.Name;
+            model.Surname = user.Surname;
+            model.PhoneNumber = user.PhoneNumber;
+            model.NumberOfFreeSignUps = user.NumberOfFreeSignUpsOnSeasonTicket;
+            model.NumberOfPastTrainings = user.NumberOfPastTrainings;
+            model.Category = user.Category.ToString();
+
+            return model;
         }
 
         public IUserForTrainingDetailModel CreateUsersForTrainingDetailModel(IUser user)

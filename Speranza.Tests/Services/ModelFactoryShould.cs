@@ -30,10 +30,12 @@ namespace Speranza.Tests.Services
         private const  UserCategories USERCATEGORY = UserCategories.Gold;
         private const int  NUMBEROFFREESIGNUPS = 5;
         private const int  NUMBEROFSIGNEDUPTRAININGS = 3;
+        public const string CATEGORY = "Silver";
 
         private const int REGISTERED = 8;
         private const int DAY = 5;
         private const int HOUR = 6;
+        private const int NUMBEROFPASTRAININGS = 5;
         private Mock<IRecurringTrainingTemplate> template;
         private readonly DateTime DATE = new DateTime(2017,05,16);
 
@@ -104,6 +106,21 @@ namespace Speranza.Tests.Services
         }
 
         [TestMethod]
+        public void ReturnUserInUserProfileModel()
+        {
+            InitializeModelFactory();
+            PrepareUserFromDatabase();
+
+            IUserProfileModel result = factory.CreateUserForUserProfileModel(user.Object);
+            
+            Assert.AreEqual(USERCATEGORY.ToString(), result.Category);
+            Assert.AreEqual(NUMBEROFFREESIGNUPS, result.NumberOfFreeSignUps);
+            Assert.AreEqual(NUMBEROFPASTRAININGS, result.NumberOfPastTrainings);
+            Assert.AreEqual(NAME, result.Name);
+            Assert.AreEqual(SURNAME, result.Surname);
+            Assert.AreEqual(PHONENUMBER, result.PhoneNumber);
+        }
+        [TestMethod]
         public void ReturnRecurringTemplateModel()
         {
             InitializeModelFactory();
@@ -167,6 +184,7 @@ namespace Speranza.Tests.Services
             user.SetupGet(r => r.Category).Returns(USERCATEGORY);
             user.SetupGet(r => r.NumberOfFreeSignUpsOnSeasonTicket).Returns(NUMBEROFFREESIGNUPS);
             user.SetupGet(r => r.NumberOfSignedUpTrainings).Returns(NUMBEROFSIGNEDUPTRAININGS);
+            user.SetupGet(r => r.NumberOfPastTrainings).Returns(NUMBEROFPASTRAININGS);
         }
 
         private void InitializeModelFactory()
