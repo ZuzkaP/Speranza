@@ -249,7 +249,6 @@ namespace Speranza.Tests.Controllers
 
             UserProfileModel model = (UserProfileModel)((ViewResult)result).Model;
             Assert.AreEqual(trainingModel.Object, model.SignedUpOrSignedOffTraining);
-
         }
 
         [TestMethod]

@@ -438,6 +438,19 @@ namespace Speranza.Tests.Controllers
             trainingManager.Verify(r => r.AddUserToTraining(USER_EMAIL, TRAINING_ID, CURRENT_DATE), Times.Once);
         }
 
+
+        [TestMethod]
+        public void ShowFirstPageOfTrainingsByDefault()
+        {
+            InitializeAdminTrainingsController();
+
+            ViewResult result = (ViewResult)controller.AdminTrainings();
+
+            AdminTrainingsModel model = (AdminTrainingsModel)result.Model;
+            Assert.AreEqual(1, model.PageNumber);
+        }
+
+
         private void InitializeAdminTrainingsController()
         {
             userManager = new Mock<IUserManager>();

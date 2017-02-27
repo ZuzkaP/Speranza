@@ -52,6 +52,7 @@ namespace Speranza.Controllers
                 model.Users = users;
                 model.SignOffLimit = signOffLimit;
                 model.PagesCount = numberOfPages;
+                model.PageNumber = 1;
                 return View("AdminTrainings", model);
             }
             return RedirectToAction("Index", "Home");
