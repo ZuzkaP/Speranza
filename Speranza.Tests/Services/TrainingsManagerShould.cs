@@ -53,6 +53,8 @@ namespace Speranza.Tests.Services
         private Mock<IRecurringTemplateModel> modelA;
         private Mock<IRecurringTrainingTemplate> template;
         private Mock<ITrainingModel> trainingModel;
+        private Mock<ITrainingForAdminModel> training3Model;
+        private Mock<ITraining> training3;
 
         [TestMethod]
         public void ReturnEmptyList_When_NoTrainingExistsInDB()
@@ -81,7 +83,35 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(training1Model.Object, trainings[0]);
             Assert.AreEqual(training2Model.Object, trainings[1]);
         }
-        
+
+
+        [TestMethod]
+        public void ReturnListWithTrainingsFromRange_When_TrainingExistsInDB()
+        {
+            InitializeTrainingManager();
+            PrepareDBWithThreeTrainings();
+            PrepareFactory();
+
+            var trainings = manager.GetFutureTrainings(0, 2);
+
+            Assert.IsNotNull(trainings);
+            Assert.AreEqual(2, trainings.Count);
+            Assert.AreEqual(training1Model.Object, trainings[0]);
+            Assert.AreEqual(training2Model.Object, trainings[1]);
+        }
+
+        private void PrepareDBWithThreeTrainings()
+        {
+            training1 = new Mock<ITraining>();
+            training2 = new Mock<ITraining>();
+            training3 = new Mock<ITraining>();
+            training1.Setup(r => r.Time).Returns(DATE_IN_FUTURE);
+            training2.Setup(r => r.Time).Returns(DATE_IN_FUTURE);
+            training3.Setup(r => r.Time).Returns(DATE_IN_FUTURE);
+            var trainingsFromDB = new List<ITraining>() { training1.Object, training2.Object , training3.Object};
+
+            db.Setup(r => r.GetAllTrainings()).Returns(trainingsFromDB);
+        }
 
         [TestMethod]
         public void GetOnlyFutureTrainingsFromDB()
@@ -94,7 +124,6 @@ namespace Speranza.Tests.Services
 
             Assert.AreEqual(1, trainings.Count);
             Assert.AreEqual(training2Model.Object, trainings[0]);
-            
         }
 
         [TestMethod]
@@ -493,8 +522,16 @@ namespace Speranza.Tests.Services
         {
             training1Model = new Mock<ITrainingForAdminModel>();
             training2Model = new Mock<ITrainingForAdminModel>();
+            training3Model = new Mock<ITrainingForAdminModel>();
+            training1Model.SetupGet(r => r.Time).Returns(DATE_IN_FUTURE);
+            training2Model.SetupGet(r => r.Time).Returns(DATE_IN_FUTURE);
+            training3Model.SetupGet(r => r.Time).Returns(DATE_IN_FUTURE);
             factory.Setup(r => r.CreateTrainingForAdminModel(training1.Object)).Returns(training1Model.Object);
             factory.Setup(r => r.CreateTrainingForAdminModel(training2.Object)).Returns(training2Model.Object);
+            if(training3 != null)
+            {
+            factory.Setup(r => r.CreateTrainingForAdminModel(training3.Object)).Returns(training3Model.Object);
+            }
         }
 
         private void PrepareDBWithTwoTrainings()

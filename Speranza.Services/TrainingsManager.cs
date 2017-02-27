@@ -7,6 +7,7 @@ using Speranza.Models;
 using System.Collections.Generic;
 using Speranza.Database;
 using Speranza.Services.Interfaces.Exceptions;
+using System.Linq;
 
 namespace Speranza.Services
 {
@@ -114,7 +115,7 @@ namespace Speranza.Services
                     trainingsForAdmin.Add(model);
                 }
             }
-            return trainingsForAdmin;
+            return trainingsForAdmin.OrderBy(r=>r.Time).Skip(from).Take(to - from).ToList();
         }
 
         public IList<IUserForTrainingDetailModel> GetAllUsersInTraining(string trainingID)
