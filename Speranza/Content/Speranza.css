@@ -6,6 +6,11 @@
     padding-bottom:25px;
 }
 
+.paginationSettings{
+    margin-top:20px;
+    margin-bottom:20px;
+}
+
 .ui-autocomplete {
     z-index: 500000 !important;
 }
