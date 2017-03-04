@@ -34,16 +34,16 @@
         <ul class="pagination">
             @if (Model.PageNumber == 1)
             {
-                <li class="disabled">
-                    <a href="#" aria-label="Previous">
+                <li id="liPrev" class="disabled">
+                    <a class="liPage" data-page="@(Model.PageNumber-1)" href="#" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
             }
             else
             {
-                <li>
-                    <a href="#" aria-label="Previous">
+                <li id="liPrev">
+                    <a  class="liPage" data-page="@(Model.PageNumber-1)" href="#" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
@@ -168,7 +168,14 @@
                         }
                         else {
                             $("#liNext").removeClass("disabled");
-                        }
+            }
+            $("#liPrev a").data("page", page - 1);
+            if (page == 1) {
+                $("#liPrev").addClass("disabled");
+            }
+            else {
+                $("#liPrev").removeClass("disabled");
+            }
                         $("#loader").hide();
                     }
                 })
