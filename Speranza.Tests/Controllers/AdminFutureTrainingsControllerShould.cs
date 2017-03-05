@@ -13,7 +13,7 @@ using Speranza.Services.Interfaces.Exceptions;
 namespace Speranza.Tests.Controllers
 {
     [TestClass]
-    public class AdminTrainingsControllerShould
+    public class AdminFutureTrainingsControllerShould
     {
         private AdminFutureTrainingsController controller;
         private Mock<IUserManager> userManager;

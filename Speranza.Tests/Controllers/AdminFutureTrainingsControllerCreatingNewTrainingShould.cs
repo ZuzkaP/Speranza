@@ -15,7 +15,7 @@ using System.Web.SessionState;
 namespace Speranza.Tests.Controllers
 {
     [TestClass]
-    public class AdminTrainingsControllerCreatingNewTrainingShould 
+    public class AdminFutureTrainingsControllerCreatingNewTrainingShould 
     {
         private AdminFutureTrainingsController controller;
         private const string DESCRIPTION="test";

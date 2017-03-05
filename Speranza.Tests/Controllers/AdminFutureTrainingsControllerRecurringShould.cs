@@ -16,7 +16,7 @@ using System.Web.SessionState;
 namespace Speranza.Tests.Controllers
 {
     [TestClass]
-   public class AdminTrainingsControllerRecurringShould
+   public class AdminFutureTrainingsControllerRecurringShould
     {
         private Mock<IUserManager> userManager;
         private Mock<ITrainingsManager> trainingManager;
@@ -71,7 +71,7 @@ namespace Speranza.Tests.Controllers
             
             Assert.AreEqual(RecurringTrainingMessages.NoTrainer, controller.Session["Message"]);
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
-            Assert.AreEqual("AdminTrainings", ((RedirectToRouteResult)result).RouteValues["controller"]);
+            Assert.AreEqual("AdminFutureTrainings", ((RedirectToRouteResult)result).RouteValues["controller"]);
             Assert.AreEqual("Recurring", ((RedirectToRouteResult)result).RouteValues["action"]);
             trainingManager.Verify(r => r.CreateRecurringTraining(It.IsAny<IRecurringModel>()), Times.Never);
         }
@@ -86,7 +86,7 @@ namespace Speranza.Tests.Controllers
 
             Assert.AreEqual(RecurringTrainingMessages.NoDescription, controller.Session["Message"]);
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
-            Assert.AreEqual("AdminTrainings", ((RedirectToRouteResult)result).RouteValues["controller"]);
+            Assert.AreEqual("AdminFutureTrainings", ((RedirectToRouteResult)result).RouteValues["controller"]);
             Assert.AreEqual("Recurring", ((RedirectToRouteResult)result).RouteValues["action"]);
             trainingManager.Verify(r => r.CreateRecurringTraining(It.IsAny<IRecurringModel>()), Times.Never);
         }
@@ -101,7 +101,7 @@ namespace Speranza.Tests.Controllers
 
             Assert.AreEqual(RecurringTrainingMessages.NoCapacity, controller.Session["Message"]);
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
-            Assert.AreEqual("AdminTrainings", ((RedirectToRouteResult)result).RouteValues["controller"]);
+            Assert.AreEqual("AdminFutureTrainings", ((RedirectToRouteResult)result).RouteValues["controller"]);
             Assert.AreEqual("Recurring", ((RedirectToRouteResult)result).RouteValues["action"]);
             trainingManager.Verify(r => r.CreateRecurringTraining(It.IsAny<IRecurringModel>()), Times.Never);
         }
@@ -115,7 +115,7 @@ namespace Speranza.Tests.Controllers
 
             Assert.AreEqual(RecurringTrainingMessages.NoModel, controller.Session["Message"]);
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
-            Assert.AreEqual("AdminTrainings", ((RedirectToRouteResult)result).RouteValues["controller"]);
+            Assert.AreEqual("AdminFutureTrainings", ((RedirectToRouteResult)result).RouteValues["controller"]);
             Assert.AreEqual("Recurring", ((RedirectToRouteResult)result).RouteValues["action"]);
             trainingManager.Verify(r => r.CreateRecurringTraining(It.IsAny<IRecurringModel>()), Times.Never);
         }
@@ -130,7 +130,7 @@ namespace Speranza.Tests.Controllers
 
             Assert.AreEqual(RecurringTrainingMessages.Success, controller.Session["Message"]);
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
-            Assert.AreEqual("AdminTrainings", ((RedirectToRouteResult)result).RouteValues["controller"]);
+            Assert.AreEqual("AdminFutureTrainings", ((RedirectToRouteResult)result).RouteValues["controller"]);
             Assert.AreEqual("Recurring", ((RedirectToRouteResult)result).RouteValues["action"]);
             trainingManager.Verify(r => r.CreateRecurringTraining(model), Times.Once);
         }
