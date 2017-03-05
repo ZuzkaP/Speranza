@@ -13,7 +13,7 @@ using System.Web.Mvc;
 
 namespace Speranza.Controllers
 {
-    public class AdminTrainingsController : Controller
+    public class AdminFutureTrainingsController : Controller
     {
         private const int DEFAULT_PAGE_SIZE = 20;
         private ITrainingsManager trainingManager;
@@ -21,12 +21,12 @@ namespace Speranza.Controllers
         private IDateTimeService dateTimeService;
         private IUserDataParser parser;
 
-        public AdminTrainingsController() : this(Initializer.UserManager, Initializer.TrainingsManager, Initializer.DateTimeService, Initializer.UserDataParser)
+        public AdminFutureTrainingsController() : this(Initializer.UserManager, Initializer.TrainingsManager, Initializer.DateTimeService, Initializer.UserDataParser)
         {
 
         }
 
-        public AdminTrainingsController(IUserManager userManager, ITrainingsManager trainingManager, IDateTimeService dateTimeService, IUserDataParser parser)
+        public AdminFutureTrainingsController(IUserManager userManager, ITrainingsManager trainingManager, IDateTimeService dateTimeService, IUserDataParser parser)
         {
             this.userManager = userManager;
             this.trainingManager = trainingManager;
@@ -241,26 +241,26 @@ namespace Speranza.Controllers
             if(model == null)
             {
                 Session["Message"] = RecurringTrainingMessages.NoModel;
-                return RedirectToAction("Recurring", "AdminTrainings");
+                return RedirectToAction("Recurring", "AdminFutureTrainings");
             }
             if(string.IsNullOrEmpty(model.Trainer))
             {
                 Session["Message"] = RecurringTrainingMessages.NoTrainer;
-                return RedirectToAction("Recurring", "AdminTrainings");
+                return RedirectToAction("Recurring", "AdminFutureTrainings");
             }
             if (string.IsNullOrEmpty(model.Description))
             {
                 Session["Message"] = RecurringTrainingMessages.NoDescription;
-                return RedirectToAction("Recurring", "AdminTrainings");
+                return RedirectToAction("Recurring", "AdminFutureTrainings");
             }
             if (model.Capacity <= 0)
             {
                 Session["Message"] = RecurringTrainingMessages.NoCapacity;
-                return RedirectToAction("Recurring", "AdminTrainings");
+                return RedirectToAction("Recurring", "AdminFutureTrainings");
             }
             trainingManager.CreateRecurringTraining(model);
             Session["Message"] = RecurringTrainingMessages.Success;
-            return RedirectToAction("Recurring", "AdminTrainings");
+            return RedirectToAction("Recurring", "AdminFutureTrainings");
 
         }
 

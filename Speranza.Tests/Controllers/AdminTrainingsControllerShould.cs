@@ -15,7 +15,7 @@ namespace Speranza.Tests.Controllers
     [TestClass]
     public class AdminTrainingsControllerShould
     {
-        private AdminTrainingsController controller;
+        private AdminFutureTrainingsController controller;
         private Mock<IUserManager> userManager;
         private const string USER_EMAIL = "test";
         private Mock<ITrainingsManager> trainingManager;
@@ -519,7 +519,7 @@ namespace Speranza.Tests.Controllers
             trainingManager = new Mock<ITrainingsManager>();
             dateTimeService = new Mock<IDateTimeService>();
             userDataParser = new Mock<IUserDataParser>();
-            controller = new AdminTrainingsController(userManager.Object, trainingManager.Object, dateTimeService.Object, userDataParser.Object);
+            controller = new AdminFutureTrainingsController(userManager.Object, trainingManager.Object, dateTimeService.Object, userDataParser.Object);
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             controller.ControllerContext = new FakeControllerContext(controller, sessionItems);
             controller.Session["Email"] = USER_EMAIL;

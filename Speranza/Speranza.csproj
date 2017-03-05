@@ -143,17 +143,17 @@
     <Content Include="Views\LayoutNotLoggedIn.cshtml" />
     <Content Include="Views\Calendar\Calendar.cshtml" />
     <Content Include="Views\Accounts\UserProfile.cshtml" />
-    <Content Include="Views\AdminTrainings\AdminTrainings.cshtml" />
+    <Content Include="Views\AdminFutureTrainings\AdminTrainings.cshtml" />
     <Content Include="Views\AdminUsers\AdminUsers.cshtml" />
     <Content Include="Views\AdminUsers\UserTrainingsDetails.cshtml" />
-    <Content Include="Views\AdminTrainings\UsersInTraining.cshtml" />
+    <Content Include="Views\AdminFutureTrainings\UsersInTraining.cshtml" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
-    <Content Include="Views\AdminTrainings\NewTrainingForm.cshtml" />
-    <Content Include="Views\AdminTrainings\TrainingDetails.cshtml" />
+    <Content Include="Views\AdminFutureTrainings\NewTrainingForm.cshtml" />
+    <Content Include="Views\AdminFutureTrainings\TrainingDetails.cshtml" />
     <Content Include="Views\AdminUsers\UserTrainingsList.cshtml" />
     <Content Include="Views\Accounts\ChangePasswordModal.cshtml" />
-    <Content Include="Views\AdminTrainings\Recurring.cshtml" />
-    <Content Include="Views\AdminTrainings\TrainingsPage.cshtml" />
+    <Content Include="Views\AdminFutureTrainings\Recurring.cshtml" />
+    <Content Include="Views\AdminFutureTrainings\TrainingsPage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -21,7 +21,7 @@ namespace Speranza.Tests.Controllers
         private Mock<IUserManager> userManager;
         private Mock<ITrainingsManager> trainingManager;
         private Mock<IDateTimeService> dateTimeService;
-        private AdminTrainingsController controller;
+        private AdminFutureTrainingsController controller;
         private RecurringModel model;
         private List<bool> checkedTrainings;
         private const string DESCRIPTION = "testDesc";
@@ -281,7 +281,7 @@ namespace Speranza.Tests.Controllers
             userManager = new Mock<IUserManager>();
             trainingManager = new Mock<ITrainingsManager>();
             dateTimeService = new Mock<IDateTimeService>();
-            controller = new AdminTrainingsController(userManager.Object, trainingManager.Object, dateTimeService.Object, null);
+            controller = new AdminFutureTrainingsController(userManager.Object, trainingManager.Object, dateTimeService.Object, null);
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             controller.ControllerContext = new FakeControllerContext(controller, sessionItems);
             userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(true);

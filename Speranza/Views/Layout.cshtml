@@ -25,7 +25,8 @@
                 @if (Session["IsAdmin"] != null && (bool)Session["IsAdmin"])
                 {
                     <li>@Html.ActionLink("Správa používateľov", "AdminUsers", "AdminUsers")</li>
-                    <li>@Html.ActionLink("Správa tréningov", "AdminTrainings", "AdminTrainings")</li>
+                    <li>@Html.ActionLink("Správa budúcich tréningov", "AdminTrainings", "AdminFutureTrainings")</li>
+                    <li>@Html.ActionLink("Správa minulých tréningov", "AdminTrainings", "AdminPastTrainings")</li>
                 }
             </ul>
             <ul class="nav navbar-nav navbar-right">

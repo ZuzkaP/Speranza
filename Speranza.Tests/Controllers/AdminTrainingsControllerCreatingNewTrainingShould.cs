@@ -17,7 +17,7 @@ namespace Speranza.Tests.Controllers
     [TestClass]
     public class AdminTrainingsControllerCreatingNewTrainingShould 
     {
-        private AdminTrainingsController controller;
+        private AdminFutureTrainingsController controller;
         private const string DESCRIPTION="test";
         private const string DATE = "01.01.2017";
         private const string TIME  ="05:00";
@@ -140,7 +140,7 @@ namespace Speranza.Tests.Controllers
             userManager = new Mock<IUserManager>();
             trainingManager = new Mock<ITrainingsManager>();
             dateTimeService = new Mock<IDateTimeService>(); 
-            controller = new AdminTrainingsController(userManager.Object, trainingManager.Object, dateTimeService.Object,null);
+            controller = new AdminFutureTrainingsController(userManager.Object, trainingManager.Object, dateTimeService.Object,null);
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             controller.ControllerContext = new FakeControllerContext(controller, sessionItems);
             userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(true);

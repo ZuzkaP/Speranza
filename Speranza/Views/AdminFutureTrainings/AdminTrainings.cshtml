@@ -27,7 +27,7 @@
     <h2>
         Správa tréningov
         <button id="AddNewTraining" title="Vytvorenie nového tréningu" class="btn btn-warning"><span class="glyphicon glyphicon-plus"></span></button>
-        <a class="btn btn-success" href="~/AdminTrainings/Recurring" title="Nastavenie opakujúcich sa tréningov"><span class="glyphicon glyphicon-star"></span></a>
+        <a class="btn btn-success" href="~/AdminFutureTrainings/Recurring" title="Nastavenie opakujúcich sa tréningov"><span class="glyphicon glyphicon-star"></span></a>
     </h2>
 
     <div class="form-group form-horizontal col-sm-4 pull-right paginationSettings">
@@ -202,7 +202,7 @@
         $("#pageSize").change(function(){
             var self = $(this);
             var value = self.val();
-            var url ='@Url.Action("AdminTrainings", "AdminTrainings", new { pageSize = -1 })';
+            var url ='@Url.Action("AdminTrainings", "AdminFutureTrainings", new { pageSize = -1 })';
             window.location.href = url.replace("-1",value);
         });
     </script>
