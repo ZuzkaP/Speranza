@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using Speranza.Services.Interfaces;
 using Speranza.App_Start;
+using Speranza.Models.Interfaces;
+using Speranza.Models;
 
 namespace Speranza.Controllers
 {
@@ -13,6 +15,7 @@ namespace Speranza.Controllers
         private IUserManager userManager;
         private ITrainingsManager trainingManager;
         private IDateTimeService dateTimeService;
+        private const int DEFAULT_PAGE_SIZE = 20;
 
         public AdminPastTrainingsController(IUserManager userManager, ITrainingsManager trainingManager, IDateTimeService dateTimeService)
         {
@@ -27,7 +30,7 @@ namespace Speranza.Controllers
         }
 
         // GET: AdminPastTrainings
-        public ActionResult AdminTrainings()
+        public ActionResult AdminTrainings(int? pageSize = null)
         {
             if (userManager.IsUserLoggedIn(Session))
             {
@@ -35,9 +38,28 @@ namespace Speranza.Controllers
                 {
                     return RedirectToAction("Calendar", "Calendar");
                 }
-                return View("AdminTrainings");
+                var setPageSize = pageSize.HasValue ? pageSize.Value : DEFAULT_PAGE_SIZE;
+                int numberOfPages = (int)Math.Ceiling(trainingManager.GetPastTrainingsCount() / (double)setPageSize);
+                IList<ITrainingForAdminModel> trainings = trainingManager.GetPastTrainings(0, setPageSize);
+                AdminTrainingsModel model = new AdminTrainingsModel();
+                model.PageSize = setPageSize;
+                model.PageNumber = 1;
+                model.Trainings = trainings;
+                model.PagesCount = numberOfPages;
+                return View("AdminTrainings",model);
             }
             return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult ShowTrainingsPage(int page, int size)
+        {
+            if (!userManager.IsUserAdmin(Session))
+            {
+                return RedirectToAction("Calendar", "Calendar");
+            }
+            TrainingsPageModel model = new TrainingsPageModel();
+            model.Trainings = trainingManager.GetPastTrainings(size * (page - 1), size * page);
+            return PartialView("TrainingsPage", model);
         }
     }
 }

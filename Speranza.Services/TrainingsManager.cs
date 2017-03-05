@@ -186,5 +186,15 @@ namespace Speranza.Services
         {
             return db.GetTrainingsCountAfterDate(dateTimeService.GetCurrentDate());
         }
+
+        public IList<ITrainingForAdminModel> GetPastTrainings(int from, int to)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetPastTrainingsCount()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

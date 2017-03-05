@@ -23,5 +23,7 @@ namespace Speranza.Services.Interfaces
         void RemoveTrainingTemplate(int day, int time);
         ITrainingModel GenerateTrainingFromTemplate(IRecurringTrainingTemplate template, DateTime date);
         int GetFutureTrainingsCount();
+        IList<ITrainingForAdminModel> GetPastTrainings(int from, int to);
+        int GetPastTrainingsCount();
     }
 }

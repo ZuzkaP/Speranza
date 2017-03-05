@@ -32,7 +32,7 @@ namespace Speranza.Tests.Controllers
 
         private const int HOURS_LIMIT = 12;
         private const string USER_DATA = "user data";
-        private const int NUMBER_OF_TRAININGS_ON_PAGE = 20;
+        private const int DEFAULT_PAGE_SIZE = 20;
         private const int PAGE = 5;
         private const int CHANGED_PAGE_SIZE = 40;
         private readonly DateTime CURRENT_DATE = new DateTime(100000);
@@ -79,13 +79,13 @@ namespace Speranza.Tests.Controllers
         {
             InitializeAdminTrainingsController();
             IList<ITrainingForAdminModel> trainings = new List<ITrainingForAdminModel>();
-            trainingManager.Setup(r => r.GetFutureTrainings(0, NUMBER_OF_TRAININGS_ON_PAGE)).Returns(trainings);
+            trainingManager.Setup(r => r.GetFutureTrainings(0, DEFAULT_PAGE_SIZE)).Returns(trainings);
 
             ViewResult result = (ViewResult)controller.AdminTrainings();
             AdminTrainingsModel model = (AdminTrainingsModel)result.Model;
 
             Assert.AreEqual(trainings, model.Trainings);
-            Assert.AreEqual(NUMBER_OF_TRAININGS_ON_PAGE, model.PageSize);
+            Assert.AreEqual(DEFAULT_PAGE_SIZE, model.PageSize);
         }
 
         [TestMethod]
@@ -100,8 +100,7 @@ namespace Speranza.Tests.Controllers
 
             Assert.AreEqual(users, model.Users);
         }
-
-
+        
         [TestMethod]
         public void ReturnCorrectNumberOfPages()
         {
@@ -485,7 +484,7 @@ namespace Speranza.Tests.Controllers
             InitializeAdminTrainingsController();
             userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(false);
 
-            ActionResult result = controller.ShowTrainingsPage(PAGE,NUMBER_OF_TRAININGS_ON_PAGE);
+            ActionResult result = controller.ShowTrainingsPage(PAGE,DEFAULT_PAGE_SIZE);
 
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
             Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
@@ -498,7 +497,7 @@ namespace Speranza.Tests.Controllers
             InitializeAdminTrainingsController();
             PrepareTrainingsForPage();
 
-            PartialViewResult result = (PartialViewResult)controller.ShowTrainingsPage(PAGE, NUMBER_OF_TRAININGS_ON_PAGE);
+            PartialViewResult result = (PartialViewResult)controller.ShowTrainingsPage(PAGE, DEFAULT_PAGE_SIZE);
 
             trainingManager.Verify(r => r.GetFutureTrainings(80, 100), Times.Once);
 
