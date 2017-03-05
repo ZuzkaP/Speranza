@@ -14,5 +14,6 @@ namespace Speranza.Database.Data.Interfaces
         int NumberOfFreeSignUpsOnSeasonTicket { get; set; }
         int NumberOfPastTrainings { get; set; }
         int NumberOfSignedUpTrainings { get; set; }
+        bool ParticipationSet { get; set; }
     }
 }

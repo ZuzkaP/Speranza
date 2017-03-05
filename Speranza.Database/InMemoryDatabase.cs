@@ -254,8 +254,17 @@ namespace Speranza.Database
         public IList<IUser> GetUsersInTraining(string trainingID)
         {
             var usersInTraining = usersInTrainings.Where(r => r.TrainingID == trainingID);
+            
+            var users = usersInTraining.Select(r => GetUserData(r.Email)).ToList();
 
-            return usersInTraining.Select(r => GetUserData(r.Email)).ToList();
+            foreach (var item in users)
+            {
+                if(usersInTraining.First(r=>r.Email == item.Email).ParticipationConfirmed)
+                {
+                    item.ParticipationSet = true;
+                }
+            }
+            return users;
         }
 
         public void SetTrainingDescription(string trainingID, string trainingDescription)
@@ -353,11 +362,17 @@ namespace Speranza.Database
             return trainings.Count(r => r.Time < date);
         }
 
+        public void ConfirmParticipation(string trainingID, string email)
+        {
+            usersInTrainings.First(r => r.Email == email && r.TrainingID == trainingID).ParticipationConfirmed = true;
+        }
+
         private class UserInTraining
         {
           public  string Email { get; set; }
             public DateTime Time { get;  set; }
             public string TrainingID { get; set; }
+            public bool ParticipationConfirmed { get; set; }
         }
 
         private class RegisteredUser : RegisterModel

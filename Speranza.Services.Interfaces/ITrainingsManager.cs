@@ -25,5 +25,6 @@ namespace Speranza.Services.Interfaces
         int GetFutureTrainingsCount();
         IList<ITrainingForAdminModel> GetPastTrainings(int from, int to);
         int GetPastTrainingsCount();
+        void ConfirmParticipation(string trainingID, string email);
     }
 }

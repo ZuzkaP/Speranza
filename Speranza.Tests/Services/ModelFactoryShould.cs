@@ -104,6 +104,7 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(SURNAME, model.Surname);
             Assert.AreEqual(EMAIL, model.Email);
             Assert.AreEqual(false, model.HasNoAvailableTrainings);
+            Assert.AreEqual(true, model.ParticipationSet);
         }
 
         [TestMethod]
@@ -186,6 +187,7 @@ namespace Speranza.Tests.Services
             user.SetupGet(r => r.NumberOfFreeSignUpsOnSeasonTicket).Returns(NUMBEROFFREESIGNUPS);
             user.SetupGet(r => r.NumberOfSignedUpTrainings).Returns(NUMBEROFSIGNEDUPTRAININGS);
             user.SetupGet(r => r.NumberOfPastTrainings).Returns(NUMBEROFPASTRAININGS);
+            user.SetupGet(r => r.ParticipationSet).Returns(true);
         }
 
         private void InitializeModelFactory()

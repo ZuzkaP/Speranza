@@ -30,5 +30,9 @@ namespace Speranza.Database.Data
 
         public int NumberOfSignedUpTrainings { get; set; }
 
+        public bool ParticipationSet
+        {
+            get; set;
+        }
     }
 }

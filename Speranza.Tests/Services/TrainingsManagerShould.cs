@@ -509,6 +509,15 @@ namespace Speranza.Tests.Services
             db.Verify(r => r.CreateNewTraining(TRAINING_ID, expectedDate, TRAINER, DESCRIPTION, CAPACITY));
         }
 
+        [TestMethod]
+        public void ConfirmParticipation()
+        {
+            InitializeTrainingManager();
+
+            manager.ConfirmParticipation(TRAINING_ID, EMAIL);
+
+            db.Verify(r => r.ConfirmParticipation(TRAINING_ID, EMAIL), Times.Once);
+        }
         private void PrepareDBAndFactoryForGeneration()
         {
             training1 = new Mock<ITraining>();

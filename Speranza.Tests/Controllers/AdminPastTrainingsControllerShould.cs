@@ -195,6 +195,51 @@ namespace Speranza.Tests.Controllers
             Assert.AreEqual(TRAINING_ID, model.TrainingID);
         }
 
+        [TestMethod]
+        public void ReturnToCalendar_When_ClickOnConfirmParticipation_And_UserIsNotAdmin()
+        {
+            InitializeAdminTrainingsController();
+            userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(false);
+
+            ActionResult result = controller.ConfirmParticipation(TRAINING_ID,USER_EMAIL);
+
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
+        }
+
+        [TestMethod]
+        public void NotConfirmParticipation_When_EmailIsEmpty()
+        {
+            InitializeAdminTrainingsController();
+
+            JsonResult result = (JsonResult)controller.ConfirmParticipation(TRAINING_ID, string.Empty);
+
+            Assert.AreEqual(string.Empty, result.Data);
+            trainingManager.Verify(r => r.ConfirmParticipation(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void NotConfirmParticipation_When_TrainingIDIsEmpty()
+        {
+            InitializeAdminTrainingsController();
+
+            JsonResult result = (JsonResult)controller.ConfirmParticipation(string.Empty, USER_EMAIL);
+
+            Assert.AreEqual(string.Empty, result.Data);
+            trainingManager.Verify(r => r.ConfirmParticipation(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void ConfirmParticipation()
+        {
+            InitializeAdminTrainingsController();
+
+            JsonResult result = (JsonResult)controller.ConfirmParticipation(TRAINING_ID, USER_EMAIL);
+
+            Assert.AreEqual(AdminTrainingsMessages.ParticipationConfirmed, result.Data);
+            trainingManager.Verify(r => r.ConfirmParticipation(TRAINING_ID, USER_EMAIL), Times.Once);
+        }
 
         private void PrepareTrainingsForPage()
         {

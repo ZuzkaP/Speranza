@@ -13,5 +13,10 @@ namespace Speranza.Models
         public string Surname { get; set; }
         public string Email { get; set; }
         public bool HasNoAvailableTrainings { get; set; }
+
+        public bool ParticipationSet
+        {
+            get; set;
+        }
     }
 }

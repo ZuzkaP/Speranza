@@ -12,5 +12,6 @@ namespace Speranza.Models.Interfaces
         string Surname { get; set; }
         string Email { get; set; }
         bool HasNoAvailableTrainings { get; set; }
+        bool ParticipationSet { get; set; }
     }
 }

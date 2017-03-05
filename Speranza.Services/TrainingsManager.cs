@@ -206,5 +206,10 @@ namespace Speranza.Services
         {
             return db.GetTrainingsCountBeforeDate(dateTimeService.GetCurrentDate());
         }
+
+        public void ConfirmParticipation(string trainingID, string email)
+        {
+            db.ConfirmParticipation(trainingID, email);
+        }
     }
 }

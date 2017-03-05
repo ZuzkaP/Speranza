@@ -23,11 +23,11 @@ else
             <td>@user.Surname </td>
             <td>@user.Email</td>
             <td>
-                @if(user.HasNoAvailableTrainings)
+                @if(user.HasNoAvailableTrainings && !user.ParticipationSet)
                 {
-                <a><span class="glyphicon glyphicon-ok" style="color:green;"></span> Potvrď účasť</a>
+                <a href="#" class="ConfirmParticipation" data-training="@Model.TrainingID" data-email="@user.Email"><span class="glyphicon glyphicon-ok" style="color:green;"></span> Potvrď účasť</a>
                 @:&nbsp;&nbsp;
-                <a><span class="glyphicon glyphicon-remove" style="color:red;"></span> Potvrď neúčasť</a>
+                <a href="#" class="DisproveParticipation"><span class="glyphicon glyphicon-remove" style="color:red;"></span> Potvrď neúčasť</a>
                 }
             </td>
         </tr>
@@ -36,3 +36,29 @@ else
         </table>
 
 }
+
+<script>
+    $(".ConfirmParticipation").click(function () {
+        var self = $(this);
+        var trainingID = self.data("training");
+        var email = self.data("email");
+        $.ajax({
+            //controller method
+            url: "ConfirmParticipation",
+            //controller method parameter : trainingID
+            data: { trainingID: trainingID, email: email },
+            type: 'POST',
+            dataType: "json",
+            success: function (response) {
+                if(response == 15)
+                {
+                    $(".ConfirmParticipation").hide();
+                    $(".DisproveParticipation").hide();
+                    $("#messageBoxParticipation").html("Účasť bola potvrdená!");
+                    $("#messageBoxParticipation").show();
+                }
+            }
+        });
+    });
+
+</script>
