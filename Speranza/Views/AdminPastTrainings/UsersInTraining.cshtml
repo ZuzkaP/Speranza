@@ -22,7 +22,14 @@ else
             <td>@user.Name </td>
             <td>@user.Surname </td>
             <td>@user.Email</td>
-            <td></td>
+            <td>
+                @if(user.HasNoAvailableTrainings)
+                {
+                <a><span class="glyphicon glyphicon-ok" style="color:green;"></span> Potvrď účasť</a>
+                @:&nbsp;&nbsp;
+                <a><span class="glyphicon glyphicon-remove" style="color:red;"></span> Potvrď neúčasť</a>
+                }
+            </td>
         </tr>
         }
 

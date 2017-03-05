@@ -90,6 +90,7 @@ namespace Speranza.Services
             model.Name = user.Name;
             model.Surname = user.Surname;
             model.Email = user.Email;
+            model.HasNoAvailableTrainings = user.NumberOfFreeSignUpsOnSeasonTicket == 0;
 
             return model;
         }

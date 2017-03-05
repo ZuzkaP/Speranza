@@ -103,6 +103,7 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(NAME, model.Name);
             Assert.AreEqual(SURNAME, model.Surname);
             Assert.AreEqual(EMAIL, model.Email);
+            Assert.AreEqual(false, model.HasNoAvailableTrainings);
         }
 
         [TestMethod]
