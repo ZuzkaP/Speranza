@@ -125,6 +125,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Controllers\AdminFutureTrainingsController.cs" />
+    <Compile Include="Controllers\AdminPastTrainingsController.cs" />
     <Compile Include="Controllers\AdminUsersController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -154,6 +155,7 @@
     <Content Include="Views\Accounts\ChangePasswordModal.cshtml" />
     <Content Include="Views\AdminFutureTrainings\Recurring.cshtml" />
     <Content Include="Views\AdminFutureTrainings\TrainingsPage.cshtml" />
+    <Content Include="Views\AdminPastTrainings\AdminTrainings.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
