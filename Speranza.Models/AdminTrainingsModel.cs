@@ -33,5 +33,6 @@ namespace Speranza.Models
         public IList<IUserForTrainingDetailModel> Users { get; set; }
         public int PagesCount { get; set; }
         public int PageNumber { get; set; }
+        public int PageSize { get; set; }
     }
 }

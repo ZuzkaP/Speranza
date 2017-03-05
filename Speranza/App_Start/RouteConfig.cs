@@ -18,6 +18,12 @@ namespace Speranza
                 url: "{controller}/{action}",
                 defaults: new { controller = "Home", action = "Index" }
             );
+
+            routes.MapRoute(
+                name: "PageSizeChanged",
+                url: "AdminTrainings/AdminTrainings/{pageSize}",
+                defaults: new { controller = "AdminTrainings", action = "AdminTrainings", pageSize = 20 }
+            );
         }
     }
 }

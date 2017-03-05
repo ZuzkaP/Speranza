@@ -33,11 +33,11 @@
     <div class="form-group form-horizontal col-sm-4 pull-right paginationSettings">
         @Html.Label("Počet tréningov na stránku:", new { @class = "control-label col-sm-9"})
         <div class="input-group col-sm-3">
-            <select class="form-control">
-                <option>20</option>
-                <option>40</option>
-                <option>50</option>
-                <option>100</option>
+            <select  id="pageSize" class="form-control">
+                @foreach(var size in new[] { 20,40,50,100})
+                {
+                    <option @(Model.PageSize == size ? "selected=\"selected\"":"")>@size</option>
+                }
             </select>
         </div>
     </div>
@@ -164,14 +164,14 @@
                 if (self.parent().hasClass("disabled")) {
                     return;
                 }
-
+                var size = $("#pageSize").val();
                 var page = self.data("page");
                 $("#loader").show();
                 $.ajax({
                     //controller method
                     url: "ShowTrainingsPage",
                     //controller method parameter : trainingID
-                    data: { page: page },
+                    data: { page: page, size : size },
                     type: 'POST',
                     dataType: "html",
                     success: function (response) {
@@ -198,6 +198,13 @@
 
             })
         })
+
+        $("#pageSize").change(function(){
+            var self = $(this);
+            var value = self.val();
+            var url ='@Url.Action("AdminTrainings", "AdminTrainings", new { pageSize = -1 })';
+            window.location.href = url.replace("-1",value);
+        });
     </script>
 
 

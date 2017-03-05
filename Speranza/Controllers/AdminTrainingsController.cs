@@ -35,7 +35,7 @@ namespace Speranza.Controllers
         }
 
         // GET: AdminTrainings
-        public ActionResult AdminTrainings()
+        public ActionResult AdminTrainings(int? pageSize =  null)
         {
             if (userManager.IsUserLoggedIn(Session))
             {
@@ -43,8 +43,10 @@ namespace Speranza.Controllers
                 {
                     return RedirectToAction("Calendar", "Calendar");
                 }
-                int numberOfPages = (int) Math.Ceiling(trainingManager.GetFutureTrainingsCount() / (double) DEFAULT_PAGE_SIZE);
-                IList<ITrainingForAdminModel> trainings = trainingManager.GetFutureTrainings(0, DEFAULT_PAGE_SIZE);
+
+                var setPageSize = pageSize.HasValue ? pageSize.Value : DEFAULT_PAGE_SIZE;
+                int numberOfPages = (int)Math.Ceiling(trainingManager.GetFutureTrainingsCount() / (double)setPageSize);
+                IList<ITrainingForAdminModel> trainings = trainingManager.GetFutureTrainings(0, setPageSize);
                 IList<IUserForTrainingDetailModel> users = userManager.GetAllUsersForTrainingDetails();
                 int signOffLimit = trainingManager.GetSignOffLimit();
                 AdminTrainingsModel model = new AdminTrainingsModel();
@@ -53,6 +55,7 @@ namespace Speranza.Controllers
                 model.SignOffLimit = signOffLimit;
                 model.PagesCount = numberOfPages;
                 model.PageNumber = 1;
+                model.PageSize = setPageSize;
                 return View("AdminTrainings", model);
             }
             return RedirectToAction("Index", "Home");
@@ -294,14 +297,14 @@ namespace Speranza.Controllers
             return Json("");
         }
 
-        public ActionResult ShowTrainingsPage(int page)
+        public ActionResult ShowTrainingsPage(int page, int size)
         {
             if (!userManager.IsUserAdmin(Session))
             {
                 return RedirectToAction("Calendar", "Calendar");
             }
             TrainingsPageModel model = new TrainingsPageModel();
-            model.Trainings = trainingManager.GetFutureTrainings(DEFAULT_PAGE_SIZE * (page - 1), DEFAULT_PAGE_SIZE * page);
+            model.Trainings = trainingManager.GetFutureTrainings(size * (page - 1), size * page);
             return PartialView("TrainingsPage",model);
         }
 
