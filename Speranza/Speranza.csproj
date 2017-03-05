@@ -156,6 +156,8 @@
     <Content Include="Views\AdminFutureTrainings\Recurring.cshtml" />
     <Content Include="Views\AdminFutureTrainings\TrainingsPage.cshtml" />
     <Content Include="Views\AdminPastTrainings\AdminTrainings.cshtml" />
+    <Content Include="Views\AdminPastTrainings\TrainingDetails.cshtml" />
+    <Content Include="Views\AdminPastTrainings\UsersInTraining.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

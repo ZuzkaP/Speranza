@@ -1,0 +1,31 @@
+﻿@model Speranza.Models.UsersInTrainingModel
+
+
+@if (Model.Users == null || Model.Users.Count == 0)
+{
+    <p>Na tomto tréningu nie je nikto prihlásený!</p>
+}
+else
+{
+    <table class="table table-striped table-hover" id="UsersInTrainingTable">
+        <thead>
+            <tr>
+                <th>Meno</th>
+                <th>Priezvisko</th>
+                <th>Email</th>
+                <th>Akcia</th>
+            </tr>
+            </thead>
+        @foreach (var user in Model.Users)
+        {
+         <tr id="@user.Email">
+            <td>@user.Name </td>
+            <td>@user.Surname </td>
+            <td>@user.Email</td>
+            <td></td>
+        </tr>
+        }
+
+        </table>
+
+}

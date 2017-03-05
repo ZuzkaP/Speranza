@@ -61,5 +61,23 @@ namespace Speranza.Controllers
             model.Trainings = trainingManager.GetPastTrainings(size * (page - 1), size * page);
             return PartialView("TrainingsPage", model);
         }
+
+        public ActionResult TrainingDetails(string trainingID)
+        {
+            if (!userManager.IsUserAdmin(Session))
+            {
+                return RedirectToAction("Calendar", "Calendar");
+            }
+            if (string.IsNullOrEmpty(trainingID))
+            {
+                return Json("");
+            }
+            IList<IUserForTrainingDetailModel> users = trainingManager.GetAllUsersInTraining(trainingID);
+            UsersInTrainingModel model = new UsersInTrainingModel();
+            model.TrainingID = trainingID;
+            model.Users = users;
+
+            return PartialView("UsersInTraining", model);
+        }
     }
 }

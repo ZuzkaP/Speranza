@@ -23,6 +23,7 @@ namespace Speranza.Tests.Controllers
         private const int DEFAULT_PAGE_SIZE = 20;
         private const int PAGE = 5;
         private const int CHANGED_PAGE_SIZE = 40;
+        private const string TRAINING_ID = "testID";
         private List<ITrainingForAdminModel> trainings;
 
         [TestMethod]
@@ -153,6 +154,47 @@ namespace Speranza.Tests.Controllers
             Assert.AreEqual("TrainingsPage", result.ViewName);
             Assert.AreEqual(trainings, model.Trainings);
         }
+
+        [TestMethod]
+        public void NotShowTrainingsDetails_When_TrainingIsEmpty()
+        {
+            InitializeAdminTrainingsController();
+
+            JsonResult result = (JsonResult)controller.TrainingDetails(string.Empty);
+
+            Assert.AreEqual(string.Empty, result.Data);
+            trainingManager.Verify(r => r.GetAllUsersInTraining(It.IsAny<string>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void NotShowTrainingsDetails_When_LoggedUserIsNotAdmin()
+        {
+            InitializeAdminTrainingsController();
+            userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(false);
+
+            ActionResult result = controller.TrainingDetails(TRAINING_ID);
+
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
+            trainingManager.Verify(r => r.GetAllUsersInTraining(It.IsAny<string>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void ShowTrainingsDetails()
+        {
+            InitializeAdminTrainingsController();
+            IList<IUserForTrainingDetailModel> users = new List<IUserForTrainingDetailModel>();
+            trainingManager.Setup(r => r.GetAllUsersInTraining(TRAINING_ID)).Returns(users);
+
+            PartialViewResult result = (PartialViewResult)controller.TrainingDetails(TRAINING_ID);
+
+            UsersInTrainingModel model = (UsersInTrainingModel)result.Model;
+            Assert.AreEqual("UsersInTraining", result.ViewName);
+            Assert.AreEqual(users, model.Users);
+            Assert.AreEqual(TRAINING_ID, model.TrainingID);
+        }
+
 
         private void PrepareTrainingsForPage()
         {
