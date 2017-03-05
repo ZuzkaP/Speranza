@@ -348,6 +348,11 @@ namespace Speranza.Database
            return trainings.Count(r => r.Time > date);
         }
 
+        public int GetTrainingsCountBeforeDate(DateTime date)
+        {
+            return trainings.Count(r => r.Time < date);
+        }
+
         private class UserInTraining
         {
           public  string Email { get; set; }

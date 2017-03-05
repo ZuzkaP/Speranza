@@ -97,14 +97,14 @@
                 <tr id="@item.ID-Row">
                     <td id="@item.ID-date">@item.Time.ToString("dd.MM.yyyy")</td>
                     <td id="@item.ID-time">@item.Time.ToString("HH:mm")</td>
-                    <td><textarea class="trainingDescription form-control input-sm" rows="1" data-training="@item.ID">@item.Description</textarea></td>
-                    <td><input type="text" value="@item.Trainer" class="trainingTrainer form-control input-sm" data-training="@item.ID" /></td>
+                    <td>@item.Description</td>
+                    <td>@item.Trainer</td>
                     <td>
                         <span id="@item.ID-RegisteredNumber">@item.RegisteredNumber</span>
                         <span class="label label-info TrainingDetails" style="cursor:pointer" data-training="@item.ID">Detail</span>
                     </td>
-                    <td><input id="TrainingCapacity" type="number" value="@item.Capacity" min="1" class="trainingCapacity form-control input-sm " data-training="@item.ID" /></td>
-                    <td><a class="CancelTraining" data-training="@item.ID" href="#">Zrušiť tréning</a></td>
+                    <td>@item.Capacity</td>
+                    <td></td>
                 </tr>
             }
         </tbody>
@@ -113,28 +113,12 @@
 </div>
 
 
-@Html.Partial("TrainingDetails")
+@*@Html.Partial("TrainingDetails")*@
 
 @section scripts {
     <script>
         $(function () {
             $("#loader").hide();
-            var people = [
-                @if(Model.Users.Count > 0)
-                {
-                    var value = "\"" + Model.Users[0].Name + " " + Model.Users[0].Surname +" ("+Model.Users[0].Email+")\"";
-                    @Html.Raw(value);
-                    for (int i = 1; i< Model.Users.Count; i++)
-                    {
-                        value = ",\"" + Model.Users[i].Name + " " + Model.Users[i].Surname +" (" + Model.Users[i].Email + ")\"";
-                         @Html.Raw(value);
-                    }
-                }
-
-            ];
-            $("#AddUser").autocomplete({
-                source: people
-            });
         })
 
         $(function () {

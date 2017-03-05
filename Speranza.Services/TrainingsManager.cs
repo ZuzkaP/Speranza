@@ -189,12 +189,22 @@ namespace Speranza.Services
 
         public IList<ITrainingForAdminModel> GetPastTrainings(int from, int to)
         {
-            throw new NotImplementedException();
+            var trainingsFromDB = db.GetAllTrainings();
+            var trainingsForAdmin = new List<ITrainingForAdminModel>();
+            foreach (var item in trainingsFromDB)
+            {
+                if (item.Time <= dateTimeService.GetCurrentDate())
+                {
+                    ITrainingForAdminModel model = factory.CreateTrainingForAdminModel(item);
+                    trainingsForAdmin.Add(model);
+                }
+            }
+            return trainingsForAdmin.OrderByDescending(r => r.Time).Skip(from).Take(to - from).ToList();
         }
 
         public int GetPastTrainingsCount()
         {
-            throw new NotImplementedException();
+            return db.GetTrainingsCountBeforeDate(dateTimeService.GetCurrentDate());
         }
     }
 }

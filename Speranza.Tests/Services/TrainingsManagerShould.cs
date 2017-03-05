@@ -57,7 +57,7 @@ namespace Speranza.Tests.Services
         private Mock<ITraining> training3;
 
         [TestMethod]
-        public void ReturnEmptyList_When_NoTrainingExistsInDB()
+        public void ReturnEmptyList_When_NoFutureTrainingExistsInDB()
         {
             InitializeTrainingManager();
             PrepareDBWithNoTrainings();
@@ -66,14 +66,25 @@ namespace Speranza.Tests.Services
 
             Assert.AreNotEqual(null, trainings);
             Assert.AreEqual(0, trainings.Count);
-
         }
 
         [TestMethod]
-        public void ReturnListWithTraining_When_TrainingExistsInDB()
+        public void ReturnEmptyList_When_NoPastTrainingExistsInDB()
         {
             InitializeTrainingManager();
-            PrepareDBWithTwoTrainings();
+            PrepareDBWithNoTrainings();
+
+            var trainings = manager.GetPastTrainings(0, 2);
+
+            Assert.AreNotEqual(null, trainings);
+            Assert.AreEqual(0, trainings.Count);
+        }
+
+        [TestMethod]
+        public void ReturnListWithFutureTraining_When_TrainingExistsInDB()
+        {
+            InitializeTrainingManager();
+            PrepareDBWithTwoFutureTrainings();
             PrepareFactory();
 
             var trainings = manager.GetFutureTrainings(0,2);
@@ -84,12 +95,28 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(training2Model.Object, trainings[1]);
         }
 
-
         [TestMethod]
-        public void ReturnListWithTrainingsFromRange_When_TrainingExistsInDB()
+        public void ReturnListWithPastTraining_When_TrainingExistsInDB()
         {
             InitializeTrainingManager();
-            PrepareDBWithThreeTrainings();
+            PrepareDBWithTwoPastTrainings();
+            PrepareFactory();
+
+            var trainings = manager.GetPastTrainings(0, 2);
+
+            Assert.IsNotNull(trainings);
+            Assert.AreEqual(2, trainings.Count);
+            Assert.AreEqual(training1Model.Object, trainings[0]);
+            Assert.AreEqual(training2Model.Object, trainings[1]);
+        }
+
+        
+
+        [TestMethod]
+        public void ReturnListWithFutureTrainingsFromRange_When_TrainingExistsInDB()
+        {
+            InitializeTrainingManager();
+            PrepareDBWithThreeFutureTrainings();
             PrepareFactory();
 
             var trainings = manager.GetFutureTrainings(0, 2);
@@ -100,7 +127,35 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(training2Model.Object, trainings[1]);
         }
 
-        private void PrepareDBWithThreeTrainings()
+        [TestMethod]
+        public void ReturnListWithPastTrainingsFromRange_When_TrainingExistsInDB()
+        {
+            InitializeTrainingManager();
+            PrepareDBWithThreePastTrainings();
+            PrepareFactory();
+
+            var trainings = manager.GetPastTrainings(0, 2);
+
+            Assert.IsNotNull(trainings);
+            Assert.AreEqual(2, trainings.Count);
+            Assert.AreEqual(training1Model.Object, trainings[0]);
+            Assert.AreEqual(training2Model.Object, trainings[1]);
+        }
+
+        private void PrepareDBWithThreePastTrainings()
+        {
+            training1 = new Mock<ITraining>();
+            training2 = new Mock<ITraining>();
+            training3 = new Mock<ITraining>();
+            training1.Setup(r => r.Time).Returns(DATE_IN_PAST);
+            training2.Setup(r => r.Time).Returns(DATE_IN_PAST);
+            training3.Setup(r => r.Time).Returns(DATE_IN_PAST);
+            var trainingsFromDB = new List<ITraining>() { training1.Object, training2.Object, training3.Object };
+
+            db.Setup(r => r.GetAllTrainings()).Returns(trainingsFromDB);
+        }
+
+        private void PrepareDBWithThreeFutureTrainings()
         {
             training1 = new Mock<ITraining>();
             training2 = new Mock<ITraining>();
@@ -124,6 +179,19 @@ namespace Speranza.Tests.Services
 
             Assert.AreEqual(1, trainings.Count);
             Assert.AreEqual(training2Model.Object, trainings[0]);
+        }
+
+        [TestMethod]
+        public void GetOnlyPastTrainingsFromDB()
+        {
+            InitializeTrainingManager();
+            PrepareDBWithOnePastAndOneFutureTraining();
+            PrepareFactory();
+
+            var trainings = manager.GetPastTrainings(0, 2);
+
+            Assert.AreEqual(1, trainings.Count);
+            Assert.AreEqual(training1Model.Object, trainings[0]);
         }
 
         [TestMethod]
@@ -160,6 +228,22 @@ namespace Speranza.Tests.Services
             var trainings = manager.GetFutureTrainingsCount();
 
             Assert.AreEqual(TRAININGS_COUNT, trainings);
+        }
+
+        [TestMethod]
+        public void ReturnPastTrainingsCount()
+        {
+            InitializeTrainingManager();
+            PrepareDBWithPastTrainingsCount();
+
+            var trainings = manager.GetPastTrainingsCount();
+
+            Assert.AreEqual(TRAININGS_COUNT, trainings);
+        }
+
+        private void PrepareDBWithPastTrainingsCount()
+        {
+            db.Setup(r => r.GetTrainingsCountBeforeDate(CURRENT_DATE)).Returns(TRAININGS_COUNT);
         }
 
         private void PrepareDBWithFutureTrainingsCount()
@@ -534,13 +618,23 @@ namespace Speranza.Tests.Services
             }
         }
 
-        private void PrepareDBWithTwoTrainings()
+        private void PrepareDBWithTwoFutureTrainings()
         {
             training1 = new Mock<ITraining>();
             training2 = new Mock<ITraining>();
             training1.Setup(r => r.Time).Returns(DATE_IN_FUTURE);
             training2.Setup(r => r.Time).Returns(DATE_IN_FUTURE);
             var trainingsFromDB = new List<ITraining>() { training1.Object,training2.Object};
+
+            db.Setup(r => r.GetAllTrainings()).Returns(trainingsFromDB);
+        }
+        private void PrepareDBWithTwoPastTrainings()
+        {
+            training1 = new Mock<ITraining>();
+            training2 = new Mock<ITraining>();
+            training1.Setup(r => r.Time).Returns(DATE_IN_PAST);
+            training2.Setup(r => r.Time).Returns(DATE_IN_PAST);
+            var trainingsFromDB = new List<ITraining>() { training1.Object, training2.Object };
 
             db.Setup(r => r.GetAllTrainings()).Returns(trainingsFromDB);
         }

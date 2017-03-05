@@ -42,5 +42,6 @@ namespace Speranza.Database
         void SetLastTemplateGenerationDate(DateTime dateTime);
         DateTime GetLastTemplateGenerationDate();
         int GetTrainingsCountAfterDate(DateTime date);
+        int GetTrainingsCountBeforeDate(DateTime date);
     }
 }
