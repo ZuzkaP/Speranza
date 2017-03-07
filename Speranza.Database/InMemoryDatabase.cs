@@ -259,7 +259,7 @@ namespace Speranza.Database
 
             foreach (var item in users)
             {
-                if(usersInTraining.First(r=>r.Email == item.Email).ParticipationConfirmed)
+                if(usersInTraining.First(r=>r.Email == item.Email).ParticipationConfirmed || usersInTraining.First(r => r.Email == item.Email).ParticipationDisproved)
                 {
                     item.ParticipationSet = true;
                 }
