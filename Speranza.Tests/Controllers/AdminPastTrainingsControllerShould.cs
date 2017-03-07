@@ -241,6 +241,53 @@ namespace Speranza.Tests.Controllers
             trainingManager.Verify(r => r.ConfirmParticipation(TRAINING_ID, USER_EMAIL), Times.Once);
         }
 
+
+        [TestMethod]
+        public void ReturnToCalendar_When_ClickOnDisproveParticipation_And_UserIsNotAdmin()
+        {
+            InitializeAdminTrainingsController();
+            userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(false);
+
+            ActionResult result = controller.DisproveParticipation(TRAINING_ID, USER_EMAIL);
+
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
+        }
+
+        [TestMethod]
+        public void NotDisproveParticipation_When_EmailIsEmpty()
+        {
+            InitializeAdminTrainingsController();
+
+            JsonResult result = (JsonResult)controller.DisproveParticipation(TRAINING_ID, string.Empty);
+
+            Assert.AreEqual(string.Empty, result.Data);
+            trainingManager.Verify(r => r.DisproveParticipation(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void NotDisproveParticipation_When_TrainingIDIsEmpty()
+        {
+            InitializeAdminTrainingsController();
+
+            JsonResult result = (JsonResult)controller.DisproveParticipation(string.Empty, USER_EMAIL);
+
+            Assert.AreEqual(string.Empty, result.Data);
+            trainingManager.Verify(r => r.DisproveParticipation(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void DisproveParticipation()
+        {
+            InitializeAdminTrainingsController();
+
+            JsonResult result = (JsonResult)controller.DisproveParticipation(TRAINING_ID, USER_EMAIL);
+
+            Assert.AreEqual(AdminTrainingsMessages.ParticipationDisproved, result.Data);
+            trainingManager.Verify(r => r.DisproveParticipation(TRAINING_ID, USER_EMAIL), Times.Once);
+        }
+
         private void PrepareTrainingsForPage()
         {
             trainings = new List<ITrainingForAdminModel>();

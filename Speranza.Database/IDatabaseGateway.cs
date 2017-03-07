@@ -44,5 +44,7 @@ namespace Speranza.Database
         int GetTrainingsCountAfterDate(DateTime date);
         int GetTrainingsCountBeforeDate(DateTime date);
         void ConfirmParticipation(string trainingID, string email);
+        void DisproveParticipation(string trainingID, string email);
+        void SignOutUserFromAllTrainingsAfterDate(string email, DateTime date);
     }
 }

@@ -94,5 +94,20 @@ namespace Speranza.Controllers
 
             return Json(AdminTrainingsMessages.ParticipationConfirmed);
         }
+
+        public ActionResult DisproveParticipation(string trainingID, string email)
+        {
+            if (!userManager.IsUserAdmin(Session))
+            {
+                return RedirectToAction("Calendar", "Calendar");
+            }
+            if (string.IsNullOrEmpty(trainingID) || string.IsNullOrEmpty(email))
+            {
+                return Json("");
+            }
+            trainingManager.DisproveParticipation(trainingID, email);
+
+            return Json(AdminTrainingsMessages.ParticipationDisproved);
+        }
     }
 }

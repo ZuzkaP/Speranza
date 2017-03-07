@@ -211,5 +211,11 @@ namespace Speranza.Services
         {
             db.ConfirmParticipation(trainingID, email);
         }
+
+        public void DisproveParticipation(string trainingID, string email)
+        {
+            db.DisproveParticipation(trainingID, email);
+            db.SignOutUserFromAllTrainingsAfterDate(email,dateTimeService.GetCurrentDate());
+        }
     }
 }

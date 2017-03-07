@@ -367,12 +367,27 @@ namespace Speranza.Database
             usersInTrainings.First(r => r.Email == email && r.TrainingID == trainingID).ParticipationConfirmed = true;
         }
 
+        public void DisproveParticipation(string trainingID, string email)
+        {
+            usersInTrainings.First(r => r.Email == email && r.TrainingID == trainingID).ParticipationDisproved = true;
+        }
+
+        public void SignOutUserFromAllTrainingsAfterDate(string email, DateTime date)
+        {
+            var userTrainings = usersInTrainings.Where(r => r.Email == email && trainings.First(s => s.ID == r.TrainingID).Time > date).ToList();
+            foreach (var item in userTrainings)
+            {
+                usersInTrainings.Remove(item);
+            }
+        }
+
         private class UserInTraining
         {
           public  string Email { get; set; }
             public DateTime Time { get;  set; }
             public string TrainingID { get; set; }
             public bool ParticipationConfirmed { get; set; }
+            public bool ParticipationDisproved { get; internal set; }
         }
 
         private class RegisteredUser : RegisterModel
