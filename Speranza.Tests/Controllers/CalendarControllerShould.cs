@@ -21,6 +21,7 @@ namespace Speranza.Tests.Controllers
         private const int DAYS_COUNT_STANDARD_USER = 14;
         private const int DAYS_COUNT_SILVER_USER = 30;
         private const int DAYS_COUNT_GOLDEN_USER = 60;
+        private const string EMAIL = "testEmail";
         private Mock<IDaysManager> daysManager;
         private Mock<IDateTimeService> dateTimeService;
 
@@ -120,6 +121,18 @@ namespace Speranza.Tests.Controllers
             Assert.AreEqual(trainingModel.Object, model.SignedUpOrSignedOffTraining);
         }
 
+        [TestMethod]
+        public void SendAllowSigningUpOnTrainingFlag()
+        {
+            InitializeController();
+            StandardUserIsLoggedIn();
+
+            ActionResult result = calendar.Calendar();
+
+            CalendarModel model = (CalendarModel)((ViewResult)result).Model;
+            Assert.AreEqual(true, model.AllowToSignUp);
+        }
+
         private void GoldenUserIsLoggedIn()
         {
             userManager.Setup(r => r.IsUserLoggedIn(calendar.Session)).Returns(true);
@@ -148,12 +161,14 @@ namespace Speranza.Tests.Controllers
            
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             calendar.ControllerContext = new FakeControllerContext(calendar, sessionItems);
-            calendar.Session["Email"] = "testEmail";
+            calendar.Session["Email"] = EMAIL;
 
             for (int i = 0; i < 60; i++)
             {
                 daysManager.Setup(r => r.GetDay(CURRENTDATE + TimeSpan.FromDays(i), (string)calendar.Session["Email"])).Returns(new Mock<IDayModel>().Object);
             }
+
+            userManager.Setup(r => r.GetAllowedToSignUpFlag(EMAIL)).Returns(true);
 
         }
     }

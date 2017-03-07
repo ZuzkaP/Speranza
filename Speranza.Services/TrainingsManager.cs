@@ -210,12 +210,14 @@ namespace Speranza.Services
         public void ConfirmParticipation(string trainingID, string email)
         {
             db.ConfirmParticipation(trainingID, email);
+            db.AllowSigningUpToTrainings(email);
         }
 
         public void DisproveParticipation(string trainingID, string email)
         {
             db.DisproveParticipation(trainingID, email);
             db.SignOutUserFromAllTrainingsAfterDate(email,dateTimeService.GetCurrentDate());
+            db.ForbidSigningUpToTrainings(email);
         }
     }
 }

@@ -166,5 +166,10 @@ namespace Speranza.Services
 
             return model;    
         }
+
+        public bool GetAllowedToSignUpFlag(string email)
+        {
+            return db.GetAllowedToSignUpFlag(email);
+        }
     }
 }

@@ -184,6 +184,17 @@ namespace Speranza.Tests.Services
             db.Verify(r => r.UpdateUserData(EMAIL, NAME, SURNAME_FIRST, PHONE_NUMBER), Times.Once);
         }
 
+        [TestMethod]
+        public void GetAllowedToSignUpFlag()
+        {
+            InitializeUserManager();
+            db.Setup(r => r.GetAllowedToSignUpFlag(EMAIL)).Returns(true);
+
+            bool result = manager.GetAllowedToSignUpFlag(EMAIL);
+
+            Assert.IsTrue(result);
+            db.Verify(r => r.GetAllowedToSignUpFlag(EMAIL), Times.Once);
+        }
         private void PrepareDataFromRUserProfileModelToDB()
         {
             newUserProfileModel = new Mock<IUserProfileModel>();

@@ -91,10 +91,12 @@ namespace Speranza.Controllers
                 STANDARD_USERS_DAYS
                 ;
 
+            var userEmail = (string)Session["Email"];
             for (int i = 0; i < daysCount; i++)
             {
-                model.Days.Add(dayManager.GetDay(today + TimeSpan.FromDays(i), (string)Session["Email"]));
+                model.Days.Add(dayManager.GetDay(today + TimeSpan.FromDays(i), userEmail));
             }
+            model.AllowToSignUp = userManager.GetAllowedToSignUpFlag(userEmail);
             model.Message = CalendarMessages.NoMessage;
             model.SignedUpOrSignedOffTraining = (ITrainingModel) Session["Training"];
             if (Session["Message"] != null)

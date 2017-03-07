@@ -381,6 +381,21 @@ namespace Speranza.Database
             }
         }
 
+        public void ForbidSigningUpToTrainings(string email)
+        {
+            users[email].SignUpAllowed = false;
+        }
+
+        public void AllowSigningUpToTrainings(string email)
+        {
+            users[email].SignUpAllowed = true;
+        }
+
+        public bool GetAllowedToSignUpFlag(string email)
+        {
+            return users[email].SignUpAllowed;
+        }
+
         private class UserInTraining
         {
           public  string Email { get; set; }
@@ -395,6 +410,12 @@ namespace Speranza.Database
             public UserCategories Category { get; internal set; }
             public bool IsAdmin { get; set; }
             public int NumberOfFreeSignUps { get; internal set; }
+            public bool SignUpAllowed { get; internal set; }
+
+            public RegisteredUser()
+            {
+                SignUpAllowed = true;
+            }
         }
     }
 

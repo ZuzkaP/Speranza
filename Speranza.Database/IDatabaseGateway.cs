@@ -46,5 +46,8 @@ namespace Speranza.Database
         void ConfirmParticipation(string trainingID, string email);
         void DisproveParticipation(string trainingID, string email);
         void SignOutUserFromAllTrainingsAfterDate(string email, DateTime date);
+        void ForbidSigningUpToTrainings(string email);
+        void AllowSigningUpToTrainings(string email);
+        bool GetAllowedToSignUpFlag(string email);
     }
 }

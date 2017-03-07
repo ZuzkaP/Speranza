@@ -25,5 +25,6 @@ namespace Speranza.Services.Interfaces
         void RegisterNewUser(IRegisterModel model);
         void UpdateUserData(IUserProfileModel model);
         IUserProfileModel GetUserProfileModelWithDataFromDB(string email);
+        bool GetAllowedToSignUpFlag(string email);
     }
 }

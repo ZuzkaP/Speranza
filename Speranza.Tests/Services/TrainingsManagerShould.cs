@@ -539,6 +539,26 @@ namespace Speranza.Tests.Services
             db.Verify(r => r.SignOutUserFromAllTrainingsAfterDate(EMAIL,CURRENT_DATE), Times.Once);
         }
 
+        [TestMethod]
+        public void ForbidSigningUpToTrainings_When_DisproveParticipationIsExecuted()
+        {
+            InitializeTrainingManager();
+
+            manager.DisproveParticipation(TRAINING_ID, EMAIL);
+
+            db.Verify(r => r.ForbidSigningUpToTrainings(EMAIL), Times.Once);
+        }
+
+        [TestMethod]
+        public void AllowSigningUpToTrainings_When_ConfirmParticipationIsExecuted()
+        {
+            InitializeTrainingManager();
+
+            manager.ConfirmParticipation(TRAINING_ID, EMAIL);
+
+            db.Verify(r => r.AllowSigningUpToTrainings(EMAIL), Times.Once);
+        }
+
         private void PrepareDBAndFactoryForGeneration()
         {
             training1 = new Mock<ITraining>();
