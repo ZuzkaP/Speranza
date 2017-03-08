@@ -25,9 +25,7 @@ namespace Speranza.Tests.Controllers
         private const int TRAINING_CAPACITY = 3;
         private const int TRAINING_CAPACITY_UNCORRECT = -1;
         private Mock<IDateTimeService> dateTimeService;
-        private Mock<ITrainingForAdminModel> trainingModel;
         private List<ITrainingForAdminModel> trainings;
-        private Mock<IAdminTrainingsModel> model;
         private Mock<IUserDataParser> userDataParser;
 
         private const int HOURS_LIMIT = 12;

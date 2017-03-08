@@ -133,6 +133,29 @@ namespace Speranza.Tests.Controllers
             Assert.AreEqual(true, model.AllowToSignUp);
         }
 
+        [TestMethod]
+        public void RequestCategoryUpdateFromUserManager()
+        {
+            InitializeController();
+            StandardUserIsLoggedIn();
+
+            calendar.Calendar();
+
+            userManager.Verify(r => r.UpdateUserCategory(EMAIL,UserCategories.Standard));
+        }
+
+        [TestMethod]
+        public void UpdateSession_When_CategoryWasChanged()
+        {
+            InitializeController();
+            StandardUserIsLoggedIn();
+            userManager.Setup(r => r.UpdateUserCategory(EMAIL, UserCategories.Standard)).Returns(UserCategories.Silver);
+
+            calendar.Calendar();
+
+            Assert.AreEqual(UserCategories.Silver, calendar.Session["Category"]);
+        }
+
         private void GoldenUserIsLoggedIn()
         {
             userManager.Setup(r => r.IsUserLoggedIn(calendar.Session)).Returns(true);
@@ -162,6 +185,7 @@ namespace Speranza.Tests.Controllers
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             calendar.ControllerContext = new FakeControllerContext(calendar, sessionItems);
             calendar.Session["Email"] = EMAIL;
+            calendar.Session["Category"] = UserCategories.Standard;
 
             for (int i = 0; i < 60; i++)
             {

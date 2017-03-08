@@ -49,5 +49,6 @@ namespace Speranza.Database
         void ForbidSigningUpToTrainings(string email);
         void AllowSigningUpToTrainings(string email);
         bool GetAllowedToSignUpFlag(string email);
+        int GetNumberOfVisits(string email);
     }
 }

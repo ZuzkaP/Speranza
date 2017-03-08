@@ -137,13 +137,13 @@ namespace Speranza.Services
         public ILoginResult Login(string email, string passHash)
         {
             IUser user = db.LoadUser(email);
-            if(user != null && user.PasswordHash == passHash)
+            if (user != null && user.PasswordHash == passHash)
             {
                 LoginResult result = new LoginResult();
                 result.Category = user.Category;
                 result.Email = email;
                 result.IsAdmin = user.IsAdmin;
-                
+
                 return result;
             }
             return null;
@@ -151,12 +151,12 @@ namespace Speranza.Services
 
         public void RegisterNewUser(IRegisterModel model)
         {
-            db.RegisterNewUser(model.Email,model.Name,model.Password,model.PhoneNumber,model.Surname);
+            db.RegisterNewUser(model.Email, model.Name, model.Password, model.PhoneNumber, model.Surname);
         }
 
         public void UpdateUserData(IUserProfileModel model)
         {
-            db.UpdateUserData(model.Email,model.Name,model.Surname, model.PhoneNumber);
+            db.UpdateUserData(model.Email, model.Name, model.Surname, model.PhoneNumber);
         }
 
         public IUserProfileModel GetUserProfileModelWithDataFromDB(string email)
@@ -164,12 +164,35 @@ namespace Speranza.Services
             IUser user = db.GetUserData(email);
             IUserProfileModel model = factory.CreateUserForUserProfileModel(user);
 
-            return model;    
+            return model;
         }
 
         public bool GetAllowedToSignUpFlag(string email)
         {
             return db.GetAllowedToSignUpFlag(email);
+        }
+
+        public UserCategories UpdateUserCategory(string email, UserCategories category)
+        {
+            int count = db.GetNumberOfVisits(email);
+
+            if (count <= 40)
+            {
+                return UserCategories.Standard;
+            }
+            if (count <= 80)
+            {
+                if (category != UserCategories.Silver)
+                {
+                    db.SetUserCategory(email, UserCategories.Silver);
+                }
+                return UserCategories.Silver;
+            }
+            if (category != UserCategories.Gold)
+            {
+                db.SetUserCategory(email, UserCategories.Gold);
+            }
+            return UserCategories.Gold;
         }
     }
 }

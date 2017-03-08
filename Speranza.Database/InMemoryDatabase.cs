@@ -396,6 +396,11 @@ namespace Speranza.Database
             return users[email].SignUpAllowed;
         }
 
+        public int GetNumberOfVisits(string email)
+        {
+            throw new NotImplementedException();
+        }
+
         private class UserInTraining
         {
           public  string Email { get; set; }

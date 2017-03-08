@@ -20,7 +20,6 @@ namespace Speranza.Tests.Controllers
     {
         private AccountsController controller;
         private Mock<IDatabaseGateway> db;
-        private Mock<IUser> user;
         private Mock<IHasher> hasher;
         private Mock<IModelFactory> factory;
         private Mock<IUserManager> userManager;

@@ -27,7 +27,6 @@ namespace Speranza.Tests.Services
         private Mock<IUserForAdminModel> userModel2;
         private const string EMAIL = "test";
         private readonly int INCRESENUMBEROFSIGNUPS = 10;
-        private readonly int DECREASENUMBEROFSIGNUPS = -10;
         private Mock<IDateTimeService> datetimeService;
         private Mock<ITrainingModel> training2Model;
         private Mock<ITrainingModel> training3Model;
@@ -365,6 +364,83 @@ namespace Speranza.Tests.Services
             IUserProfileModel model = manager.GetUserProfileModelWithDataFromDB(EMAIL);
             
             Assert.AreEqual(userProfileModel.Object, model);
+        }
+
+        [TestMethod]
+        public void NotUpdateCategory_When_UserLessThan40Visits()
+        {
+            InitializeUserManager();
+            PreparUserWith40Visits();
+
+            var result =  manager.UpdateUserCategory(EMAIL,UserCategories.Standard);
+
+            db.Verify(r => r.SetUserCategory(It.IsAny<string>(), It.IsAny<UserCategories>()), Times.Never);
+            Assert.AreEqual(UserCategories.Standard, result);
+        }
+
+        [TestMethod]
+        public void NotUpdateCategory_When_IsSilverAndSettingToSilver()
+        {
+            InitializeUserManager();
+            PreparUserWith41Visits();
+
+            var result = manager.UpdateUserCategory(EMAIL,UserCategories.Silver);
+
+            db.Verify(r => r.SetUserCategory(It.IsAny<string>(), It.IsAny<UserCategories>()), Times.Never);
+            Assert.AreEqual(UserCategories.Silver, result);
+        }
+
+        [TestMethod]
+        public void NotUpdateCategory_When_IsGoldAndSettingToGold()
+        {
+            InitializeUserManager();
+            PreparUserWith81Visits();
+
+            var result = manager.UpdateUserCategory(EMAIL, UserCategories.Gold);
+
+            db.Verify(r => r.SetUserCategory(It.IsAny<string>(), It.IsAny<UserCategories>()), Times.Never);
+            Assert.AreEqual(UserCategories.Gold, result);
+        }
+
+        [TestMethod]
+        public void UpdateCategoryFromStandardToSilver_When_NumberOfVisitsIsHigerThan40()
+        {
+            InitializeUserManager();
+            PreparUserWith41Visits();
+
+            var result = manager.UpdateUserCategory(EMAIL,UserCategories.Standard);
+
+            db.Verify(r => r.SetUserCategory(EMAIL, UserCategories.Silver), Times.Once);
+            db.Verify(r => r.SetUserCategory(EMAIL, UserCategories.Gold), Times.Never);
+            Assert.AreEqual(UserCategories.Silver, result);
+        }
+
+        [TestMethod]
+        public void UpdateCategoryFromSilverToGold_When_NumberOfVisitsIsHigerThan80()
+        {
+            InitializeUserManager();
+            PreparUserWith81Visits();
+
+            var result = manager.UpdateUserCategory(EMAIL,UserCategories.Silver);
+
+            db.Verify(r => r.SetUserCategory(EMAIL, UserCategories.Gold), Times.Once);
+            db.Verify(r => r.SetUserCategory(EMAIL, UserCategories.Silver), Times.Never);
+            Assert.AreEqual(UserCategories.Gold, result);
+        }
+
+        private void PreparUserWith81Visits()
+        {
+            db.Setup(r => r.GetNumberOfVisits(EMAIL)).Returns(81);
+        }
+
+        private void PreparUserWith41Visits()
+        {
+            db.Setup(r => r.GetNumberOfVisits(EMAIL)).Returns(41);
+        }
+
+        private void PreparUserWith40Visits()
+        {
+            db.Setup(r => r.GetNumberOfVisits(EMAIL)).Returns(40);
         }
 
         private void PrepareUserProfileDataInDB()

@@ -81,6 +81,8 @@ namespace Speranza.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+            var userEmail = (string)Session["Email"];
+            Session["Category"] = userManager.UpdateUserCategory(userEmail,(UserCategories)Session["Category"]);
             CalendarModel model = new CalendarModel();
             DateTime today = dateTimeService.GetCurrentDate();
             int daysCount =
@@ -91,7 +93,7 @@ namespace Speranza.Controllers
                 STANDARD_USERS_DAYS
                 ;
 
-            var userEmail = (string)Session["Email"];
+            
             for (int i = 0; i < daysCount; i++)
             {
                 model.Days.Add(dayManager.GetDay(today + TimeSpan.FromDays(i), userEmail));
