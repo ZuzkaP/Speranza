@@ -13,5 +13,26 @@
     <div>Footer</div>
     <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/jquery-1.9.1.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+    <script>
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#000"
+    },
+    "button": {
+      "background": "#f1d600"
+    }
+  },
+  "position": "bottom-left",
+  "content": {
+    "message": "Tento web používa súbory cookies. Prehliadaním webu vyjadrujete súhlas s ich používaním. ",
+    "dismiss": "Okej",
+    "link": "Viac informácií"
+  }
+})});
+    </script>
 </body>
 </html>
