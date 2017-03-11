@@ -75,6 +75,7 @@ namespace Speranza.Services
             IUserProfileModel model = new UserProfileModel();
 
             model.Name = user.Name;
+            model.Email = user.Email;
             model.Surname = user.Surname;
             model.PhoneNumber = user.PhoneNumber;
             model.NumberOfFreeSignUps = user.NumberOfFreeSignUpsOnSeasonTicket;

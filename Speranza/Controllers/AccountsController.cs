@@ -160,43 +160,7 @@ namespace Speranza.Controllers
             Session["Email"] = null;
             return RedirectToAction("Index", "Home");
         }
-
-        //public ActionResult UserProfile()
-        //{
-        //    if (userManager.IsUserLoggedIn(Session))
-        //    {
-        //        IUser user = db.GetUserData((string)Session["Email"]);
-        //        UserProfileModel model = new UserProfileModel();
-        //        model.Email = (string)Session["Email"];
-        //        model.Name = user.Name;
-        //        model.Surname = user.Surname;
-        //        model.PhoneNumber = user.PhoneNumber;
-        //        model.Category = user.Category.ToString();
-        //        model.NumberOfFreeSignUps = user.NumberOfFreeSignUpsOnSeasonTicket;
-        //        model.NumberOfPastTrainings = user.NumberOfPastTrainings;
-        //        model.FutureTrainings = new List<ITrainingModel>();
-        //        model.PastTrainings = new List<ITrainingModel>();
-        //        model.SignedUpOrSignedOffTraining = (ITrainingModel)Session["Training"];
-        //        OrderAndAssignTrainings(model);
-
-        //        if (Session["Message"] != null)
-        //        {
-        //            if (Session["Message"] is UserProfileMessages)
-        //            {
-        //                model.UserProfileMessage = (UserProfileMessages)Session["Message"];
-        //            }
-        //            else
-        //            {
-        //                model.CalendarMessage = (CalendarMessages)Session["Message"];
-        //            }
-        //        }
-        //        Session["Message"] = null;
-        //        Session["Training"] = null;
-        //        return View(model);
-        //    }
-        //    return RedirectToAction("Index", "Home");
-        //}
-
+        
 
         public ActionResult UserProfile()
         {
