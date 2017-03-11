@@ -14,5 +14,10 @@ namespace Speranza.Controllers
             return View("Index");
         }
 
+        // GET: Home
+        public ViewResult Speranza()
+        {
+            return View();
+        }
     }
 }

@@ -17,7 +17,7 @@
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">Speranza</a>
+                @Html.ActionLink("Speranza", "Speranza", "Home", new { @class="navbar-brand"})
             </div>
             <ul class="nav navbar-nav">
                 <li>@Html.ActionLink("Kalendár", "Calendar", "Calendar")</li>

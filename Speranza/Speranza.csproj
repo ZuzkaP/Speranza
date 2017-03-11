@@ -118,6 +118,8 @@
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\UserProfile.js" />
+    <Content Include="Views\Images\13575924_1162637887091209_273085601720545682_o.jpg" />
+    <Content Include="Views\Images\13576634_1162641327090865_1280681672637538209_o.jpg" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -158,6 +160,7 @@
     <Content Include="Views\AdminPastTrainings\AdminTrainings.cshtml" />
     <Content Include="Views\AdminPastTrainings\TrainingDetails.cshtml" />
     <Content Include="Views\AdminPastTrainings\UsersInTraining.cshtml" />
+    <Content Include="Views\Home\Speranza.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
