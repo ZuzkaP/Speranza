@@ -174,7 +174,7 @@ namespace Speranza.Services
 
         public UserCategories UpdateUserCategory(string email, UserCategories category)
         {
-            int count = db.GetNumberOfVisits(email);
+            int count = db.GetNumberOfVisits(email,dateTimeService.GetCurrentDate());
 
             if (count <= 40)
             {

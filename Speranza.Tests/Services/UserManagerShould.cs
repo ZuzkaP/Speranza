@@ -48,6 +48,7 @@ namespace Speranza.Tests.Services
         private const string PHONE_NUMBER = "phoneNumber";
         private const int FREE_SIGN_UPS = 5;
         private const int NUMBER_OF_PAST_TRAININGS = 8;
+        private readonly DateTime DATE_TIME = new DateTime(2017, 1, 6, 10, 00, 00);
         private Mock<IUserProfileModel> userProfileModel;
 
         [TestMethod]
@@ -430,17 +431,17 @@ namespace Speranza.Tests.Services
 
         private void PreparUserWith81Visits()
         {
-            db.Setup(r => r.GetNumberOfVisits(EMAIL)).Returns(81);
+            db.Setup(r => r.GetNumberOfVisits(EMAIL,DATE_TIME)).Returns(81);
         }
 
         private void PreparUserWith41Visits()
         {
-            db.Setup(r => r.GetNumberOfVisits(EMAIL)).Returns(41);
+            db.Setup(r => r.GetNumberOfVisits(EMAIL, DATE_TIME)).Returns(41);
         }
 
         private void PreparUserWith40Visits()
         {
-            db.Setup(r => r.GetNumberOfVisits(EMAIL)).Returns(40);
+            db.Setup(r => r.GetNumberOfVisits(EMAIL, DATE_TIME)).Returns(40);
         }
 
         private void PrepareUserProfileDataInDB()
@@ -530,7 +531,7 @@ namespace Speranza.Tests.Services
             manager = new UserManager(db.Object, factory.Object,datetimeService.Object,hasher.Object);
             collection = new SessionStateItemCollection();
             context = new FakeControllerContext(null, collection);
-            datetimeService.Setup(r => r.GetCurrentDate()).Returns(new DateTime(2017, 01, 06));
+            datetimeService.Setup(r => r.GetCurrentDate()).Returns(DATE_TIME);
            
         }
     }

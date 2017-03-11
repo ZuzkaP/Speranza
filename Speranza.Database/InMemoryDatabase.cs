@@ -396,9 +396,9 @@ namespace Speranza.Database
             return users[email].SignUpAllowed;
         }
 
-        public int GetNumberOfVisits(string email)
+        public int GetNumberOfVisits(string email, DateTime currentDate)
         {
-            throw new NotImplementedException();
+            return usersInTrainings.Count(r => r.Email == email && r.Time < currentDate && !r.ParticipationDisproved);
         }
 
         private class UserInTraining
