@@ -17,7 +17,7 @@ namespace Speranza.Database
         Dictionary<string, object> settings;
         List<ITraining> trainings;
         List<IRecurringTrainingTemplate> templates;
-        List<UserInTraining> usersInTrainings;
+        List<IUserInTraining> usersInTrainings;
         static InMemoryDatabase database;
         private const string LAST_TEMPLATE_GENERATION_DATE = "LastTemplateGenerationDate";
 
@@ -34,47 +34,47 @@ namespace Speranza.Database
         private InMemoryDatabase()
         {
             users = new Dictionary<string, RegisteredUser>();
-            usersInTrainings = new List<UserInTraining>();
+            usersInTrainings = new List<IUserInTraining>();
             settings = new Dictionary<string, object>();
             templates = new List<IRecurringTrainingTemplate>();
-            users.Add("admin", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Admin", Surname = "Admin", PhoneNumber = "1234" , IsAdmin = true, Category = UserCategories.Silver});
-            
-            users.Add("miro", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Miro", Surname = "Pavlicko", PhoneNumber = "1234" , IsAdmin = false , NumberOfFreeSignUps = 10});
-            users.Add("Zuzka", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Zuzana", Surname = "papalova", PhoneNumber = "1234", IsAdmin = false, Category = UserCategories.Gold, NumberOfFreeSignUps = 7});
+            users.Add("admin", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Admin", Surname = "Admin", PhoneNumber = "1234", IsAdmin = true, Category = UserCategories.Silver });
+
+            users.Add("miro", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Miro", Surname = "Pavlicko", PhoneNumber = "1234", IsAdmin = false, NumberOfFreeSignUps = 10 });
+            users.Add("Zuzka", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Zuzana", Surname = "papalova", PhoneNumber = "1234", IsAdmin = false, Category = UserCategories.Gold, NumberOfFreeSignUps = 7 });
             users.Add("Jozko", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "jozko", Surname = "Mrkvicka", PhoneNumber = "1234", IsAdmin = false, Category = UserCategories.Gold, NumberOfFreeSignUps = 8 });
 
             trainings = new List<ITraining>();
             int year = DateTime.Now.Year;
             int month = DateTime.Now.Month;
             int day = DateTime.Now.Day;
-            trainings.Add(PrepareTraining(new DateTime(year, month, day, 12, 00, 00).AddDays(2), "training c.1", "Zuzka", 10 ));
+            trainings.Add(PrepareTraining(new DateTime(year, month, day, 12, 00, 00).AddDays(2), "training c.1", "Zuzka", 10));
             trainings.Add(PrepareTraining(new DateTime(year, month, day, 14, 00, 00).AddDays(2), "training c.2", "Dano", 10));
-            trainings.Add(PrepareTraining(new DateTime(year, month, day, 08, 00, 00).AddDays(12), "training c.4", "Filip", 10 ));
-            trainings.Add(PrepareTraining(new DateTime(year, month, day, 14, 00, 00).AddDays(8), "training c.5", "Filip", 10 ));
-            trainings.Add(PrepareTraining(new DateTime(year, month, day, 09, 00, 00).AddDays(4), "training c.3", "Filip", 10 ));
-            trainings.Add(PrepareTraining(new DateTime(year, month, day, 09, 00, 00).AddDays(-10), "training c.3", "Filip", 10 ));
+            trainings.Add(PrepareTraining(new DateTime(year, month, day, 08, 00, 00).AddDays(12), "training c.4", "Filip", 10));
+            trainings.Add(PrepareTraining(new DateTime(year, month, day, 14, 00, 00).AddDays(8), "training c.5", "Filip", 10));
+            trainings.Add(PrepareTraining(new DateTime(year, month, day, 09, 00, 00).AddDays(4), "training c.3", "Filip", 10));
+            trainings.Add(PrepareTraining(new DateTime(year, month, day, 09, 00, 00).AddDays(-10), "training c.3", "Filip", 10));
             usersInTrainings.Add(new UserInTraining() { Email = "admin", TrainingID = trainings[0].ID });
             usersInTrainings.Add(new UserInTraining() { Email = "admin", TrainingID = trainings[5].ID });
 
             settings.Add(SETTINGS_SIGN_OFF_LIMIT, 4);
-            settings.Add(LAST_TEMPLATE_GENERATION_DATE,DateTime.MinValue);
+            settings.Add(LAST_TEMPLATE_GENERATION_DATE, DateTime.MinValue);
         }
 
         private ITraining PrepareTraining(DateTime dateTime, string v1, string v2, int v3)
         {
 
-            return new Training(Guid.NewGuid().ToString(),dateTime, v1, v2, v3);
+            return new Training(Guid.NewGuid().ToString(), dateTime, v1, v2, v3);
         }
 
-        public void RegisterNewUser(string email, string name,string password, string phoneNumber, string surname)
+        public void RegisterNewUser(string email, string name, string password, string phoneNumber, string surname)
         {
             RegisteredUser user = new RegisteredUser();
-            user.Name =name;
-            user.Email =email;
-            user.IsAdmin =false;
-            user.Password =password;
-            user.PhoneNumber =phoneNumber;
-            user.Surname =surname;
+            user.Name = name;
+            user.Email = email;
+            user.IsAdmin = false;
+            user.Password = password;
+            user.PhoneNumber = phoneNumber;
+            user.Surname = surname;
 
             users.Add(email, user);
         }
@@ -102,10 +102,10 @@ namespace Speranza.Database
 
         public IList<ITraining> GetDayTrainings(DateTime date)
         {
-            var t =  trainings.Where(r => r.Time.Date == date.Date).ToList();
+            var t = trainings.Where(r => r.Time.Date == date.Date).ToList();
             foreach (var item in t)
             {
-                item.RegisteredNumber = usersInTrainings.Count(r=>r.TrainingID == item.ID);
+                item.RegisteredNumber = usersInTrainings.Count(r => r.TrainingID == item.ID);
             }
             return t;
 
@@ -123,14 +123,14 @@ namespace Speranza.Database
                 user.Surname = users[email].Surname;
                 user.PhoneNumber = users[email].PhoneNumber;
                 user.NumberOfFreeSignUpsOnSeasonTicket = users[email].NumberOfFreeSignUps;
-                user.NumberOfPastTrainings = usersInTrainings.Count(r=> r.Email == email && trainings.First(p=>p.ID == r.TrainingID).Time < DateTime.Now);
+                user.NumberOfPastTrainings = usersInTrainings.Count(r => r.Email == email && trainings.First(p => p.ID == r.TrainingID).Time < DateTime.Now);
                 return user;
             }
 
             return null;
         }
 
-        public void UpdateUserData(string email,string name, string surname, string phoneNumber)
+        public void UpdateUserData(string email, string name, string surname, string phoneNumber)
         {
             if (users.ContainsKey(email))
             {
@@ -143,16 +143,16 @@ namespace Speranza.Database
         public ITraining GetTrainingData(string trainingID)
         {
             var t = trainings.FirstOrDefault(r => r.ID == trainingID);
-            if(t != null)
+            if (t != null)
             {
                 t.RegisteredNumber = usersInTrainings.Count(r => r.TrainingID == t.ID);
             }
-            return t ;
+            return t;
         }
 
         public void AddUserToTraining(string email, string trainingID, DateTime time)
         {
-            usersInTrainings.Add(new UserInTraining() { Email = email, TrainingID = trainingID, Time = time});
+            usersInTrainings.Add(new UserInTraining() { Email = email, TrainingID = trainingID, Time = time });
         }
 
         public bool IsUserAlreadySignedUpInTraining(string email, string trainingID)
@@ -162,8 +162,8 @@ namespace Speranza.Database
 
         public void RemoveUserFromTraining(string email, string id)
         {
-            UserInTraining toBeRemoved = usersInTrainings.FirstOrDefault(r => r.Email == email && r.TrainingID == id);
-            if(toBeRemoved != null)
+            IUserInTraining toBeRemoved = usersInTrainings.FirstOrDefault(r => r.Email == email && r.TrainingID == id);
+            if (toBeRemoved != null)
             {
                 usersInTrainings.Remove(toBeRemoved);
             }
@@ -171,7 +171,7 @@ namespace Speranza.Database
 
         public IList<ITraining> GetTrainingsForUser(string email)
         {
-            List<UserInTraining> trainingsForUser = usersInTrainings.Where(r => r.Email == email).ToList();
+            List<IUserInTraining> trainingsForUser = usersInTrainings.Where(r => r.Email == email).ToList();
             List<ITraining> selectedTrainings = new List<ITraining>();
             foreach (var item in trainingsForUser)
             {
@@ -196,7 +196,7 @@ namespace Speranza.Database
                 user.PhoneNumber = users[email].PhoneNumber;
                 user.NumberOfFreeSignUpsOnSeasonTicket = users[email].NumberOfFreeSignUps;
                 user.NumberOfSignedUpTrainings = usersInTrainings.Count(r => r.Email == email && trainings.First(p => p.ID == r.TrainingID).Time > DateTime.Now);
-                
+
                 allusers.Add(user);
             }
             return allusers;
@@ -214,7 +214,7 @@ namespace Speranza.Database
 
         public void SetAdminRole(string email, bool isAdmin)
         {
-            if( users.ContainsKey(email))
+            if (users.ContainsKey(email))
             {
                 users[email].IsAdmin = isAdmin;
             }
@@ -245,7 +245,7 @@ namespace Speranza.Database
         public void SetTrainer(string trainingID, string trainer)
         {
             var training = trainings.FirstOrDefault(r => r.ID == trainingID);
-            if(training != null)
+            if (training != null)
             {
                 training.Trainer = trainer;
             }
@@ -254,12 +254,12 @@ namespace Speranza.Database
         public IList<IUser> GetUsersInTraining(string trainingID)
         {
             var usersInTraining = usersInTrainings.Where(r => r.TrainingID == trainingID);
-            
+
             var users = usersInTraining.Select(r => GetUserData(r.Email)).ToList();
 
             foreach (var item in users)
             {
-                if(usersInTraining.First(r=>r.Email == item.Email).ParticipationConfirmed || usersInTraining.First(r => r.Email == item.Email).ParticipationDisproved)
+                if (usersInTraining.First(r => r.Email == item.Email).ParticipationConfirmed || usersInTraining.First(r => r.Email == item.Email).ParticipationDisproved)
                 {
                     item.ParticipationSet = true;
                 }
@@ -297,7 +297,7 @@ namespace Speranza.Database
             {
                 trainings.Remove(training);
             }
-           
+
         }
 
         public void SetSignOffLimit(int hoursLimit)
@@ -307,7 +307,7 @@ namespace Speranza.Database
 
         public int GetSignOffLimit()
         {
-            return (int) settings[SETTINGS_SIGN_OFF_LIMIT];
+            return (int)settings[SETTINGS_SIGN_OFF_LIMIT];
         }
 
         public void ChangePassword(string email, string newpasswordhash)
@@ -320,7 +320,7 @@ namespace Speranza.Database
 
         public void CreateRecurringTrainingTemplate(RecurringTrainingTemplate recurringTrainingTemplate)
         {
-            if(templates.Find(r=>r.Day == recurringTrainingTemplate.Day && r.Time == recurringTrainingTemplate.Time) == null)
+            if (templates.Find(r => r.Day == recurringTrainingTemplate.Day && r.Time == recurringTrainingTemplate.Time) == null)
             {
                 templates.Add(recurringTrainingTemplate);
             }
@@ -349,12 +349,12 @@ namespace Speranza.Database
 
         public DateTime GetLastTemplateGenerationDate()
         {
-            return (DateTime) settings[LAST_TEMPLATE_GENERATION_DATE];
+            return (DateTime)settings[LAST_TEMPLATE_GENERATION_DATE];
         }
 
         public int GetTrainingsCountAfterDate(DateTime date)
         {
-           return trainings.Count(r => r.Time > date);
+            return trainings.Count(r => r.Time > date);
         }
 
         public int GetTrainingsCountBeforeDate(DateTime date)
@@ -401,13 +401,24 @@ namespace Speranza.Database
             return usersInTrainings.Count(r => r.Email == email && r.Time < currentDate && !r.ParticipationDisproved);
         }
 
-        private class UserInTraining
+        public IList<IUserInTraining> GetNonProcessedUsersInTrainingBeforeDate(DateTime date)
         {
-          public  string Email { get; set; }
-            public DateTime Time { get;  set; }
+            return usersInTrainings.Where(r => r.AlreadyProcessed == false && GetTrainingData(r.TrainingID).Time <= date).ToList();
+        }
+
+        public void SetAlreadyProcessedFlag(IUserInTraining userInTraining)
+        {
+            userInTraining.AlreadyProcessed = true;
+        }
+
+        private class UserInTraining : IUserInTraining
+        {
+            public string Email { get; set; }
+            public DateTime Time { get; set; }
             public string TrainingID { get; set; }
             public bool ParticipationConfirmed { get; set; }
-            public bool ParticipationDisproved { get; internal set; }
+            public bool ParticipationDisproved { get; set; }
+            public bool AlreadyProcessed { get; set; }
         }
 
         private class RegisteredUser : RegisterModel

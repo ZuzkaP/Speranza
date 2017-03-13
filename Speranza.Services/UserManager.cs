@@ -194,5 +194,19 @@ namespace Speranza.Services
             }
             return UserCategories.Gold;
         }
+
+        public void UpdateSeasonTickets()
+        {
+           var usersInTraining = db.GetNonProcessedUsersInTrainingBeforeDate(dateTimeService.GetCurrentDate());
+            foreach (var item in usersInTraining)
+            {
+                IUser user = db.GetUserData(item.Email);
+                db.SetAlreadyProcessedFlag(item);
+                if(user.NumberOfFreeSignUpsOnSeasonTicket > 0)
+                {
+                    db.UpdateCountOfFreeSignUps(item.Email, -1);
+                }
+            }
+        }
     }
 }

@@ -50,5 +50,7 @@ namespace Speranza.Database
         void AllowSigningUpToTrainings(string email);
         bool GetAllowedToSignUpFlag(string email);
         int GetNumberOfVisits(string email, DateTime currentDate);
+        IList<IUserInTraining> GetNonProcessedUsersInTrainingBeforeDate(DateTime date);
+        void SetAlreadyProcessedFlag(IUserInTraining userInTraining);
     }
 }

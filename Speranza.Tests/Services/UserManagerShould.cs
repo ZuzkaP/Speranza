@@ -50,6 +50,7 @@ namespace Speranza.Tests.Services
         private const int NUMBER_OF_PAST_TRAININGS = 8;
         private readonly DateTime DATE_TIME = new DateTime(2017, 1, 6, 10, 00, 00);
         private Mock<IUserProfileModel> userProfileModel;
+        private Mock<IUserInTraining> userInTraining;
 
         [TestMethod]
         public void ReturnFalse_When_SessionIsEmpty()
@@ -513,6 +514,67 @@ namespace Speranza.Tests.Services
             factory.Setup(r => r.CreateUsersForTrainingDetailModel(user3.Object)).Returns(user3Model.Object);
         }
 
+        [TestMethod]
+        public void DoNothing_When_NoNonprocessedUserInTraining()
+        {
+            InitializeUserManager();
+            PrepareNoNonProcessedUserInTraining();
+
+            manager.UpdateSeasonTickets();
+
+            db.Verify(r => r.UpdateCountOfFreeSignUps(It.IsAny<string>(), It.IsAny<int>()), Times.Never);
+            db.Verify(r => r.SetAlreadyProcessedFlag(It.IsAny<IUserInTraining>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void NotUpdateSeasonTicketButSetFlag_When_UserInTrainingHasNoEntrancesOnTicket()
+        {
+            InitializeUserManager();
+            PrepareUserInTRainingWithoutEntranceOnTicket();
+
+            manager.UpdateSeasonTickets();
+
+            db.Verify(r => r.UpdateCountOfFreeSignUps(It.IsAny<string>(), It.IsAny<int>()), Times.Never);
+            db.Verify(r => r.SetAlreadyProcessedFlag(userInTraining.Object), Times.Once);
+
+        }
+
+        [TestMethod]
+        public void UpdateSeasonTicketandSetFlag_When_UserInTrainingHasEntrancesOnTicket()
+        {
+            InitializeUserManager();
+            PrepareUserInTRainingWithEntranceOnTicket();
+
+            manager.UpdateSeasonTickets();
+
+            db.Verify(r => r.UpdateCountOfFreeSignUps(EMAIL, -1), Times.Once);
+            db.Verify(r => r.SetAlreadyProcessedFlag(userInTraining.Object), Times.Once);
+        }
+
+        private void PrepareUserInTRainingWithEntranceOnTicket()
+        {
+            userInTraining = new Mock<IUserInTraining>();
+            userInTraining.SetupGet(r => r.Email).Returns(EMAIL);
+            db.Setup(r => r.GetNonProcessedUsersInTrainingBeforeDate(DATE_TIME)).Returns(new List<IUserInTraining>() { userInTraining.Object });
+            var user = new Mock<IUser>();
+            user.SetupGet(r => r.NumberOfFreeSignUpsOnSeasonTicket).Returns(5);
+            db.Setup(r => r.GetUserData(EMAIL)).Returns(user.Object);
+        }
+
+        private void PrepareUserInTRainingWithoutEntranceOnTicket()
+        {
+            userInTraining = new Mock<IUserInTraining>();
+            userInTraining.SetupGet(r => r.Email).Returns(EMAIL);
+            db.Setup(r => r.GetNonProcessedUsersInTrainingBeforeDate(DATE_TIME)).Returns(new List<IUserInTraining>() { userInTraining.Object });
+            var user = new Mock<IUser>();
+            user.SetupGet(r => r.NumberOfFreeSignUpsOnSeasonTicket).Returns(0);
+            db.Setup(r => r.GetUserData(EMAIL)).Returns(user.Object);
+        }
+
+        private void PrepareNoNonProcessedUserInTraining()
+        {
+            db.Setup(r => r.GetNonProcessedUsersInTrainingBeforeDate(DATE_TIME)).Returns(new List<IUserInTraining>());
+        }
 
         private void PrepareDBAndFactoryWithOneUserForTRainingDetailModel()
         {

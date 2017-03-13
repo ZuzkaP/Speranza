@@ -43,6 +43,7 @@
     <Compile Include="IRecurringTrainingTemplate.cs" />
     <Compile Include="ITraining.cs" />
     <Compile Include="IUser.cs" />
+    <Compile Include="IUserInTraining.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
