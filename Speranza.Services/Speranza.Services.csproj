@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EmailFactory.cs" />
     <Compile Include="EmailManager.cs" />
     <Compile Include="UidService.cs" />
     <Compile Include="DateTimeService.cs" />
@@ -80,6 +81,10 @@
     <ProjectReference Include="..\Speranza.Services.Interfaces\Speranza.Services.Interfaces.csproj">
       <Project>{35896d13-6a4a-4d16-b927-764cbaf825e9}</Project>
       <Name>Speranza.Services.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Speranza.Smtp.Interfaces\Speranza.Smtp.Interfaces.csproj">
+      <Project>{171EE06B-2E71-4E27-BC5C-073D5B40F60B}</Project>
+      <Name>Speranza.Smtp.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

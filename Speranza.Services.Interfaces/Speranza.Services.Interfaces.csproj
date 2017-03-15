@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EmailMessages.cs" />
     <Compile Include="Exceptions\InvalidTrainingIDException.cs" />
     <Compile Include="Exceptions\InvalidDateException.cs" />
     <Compile Include="Exceptions\InvalidTimeException.cs" />
@@ -47,6 +48,7 @@
     <Compile Include="Exceptions\TooManyPeopleInTrainingException.cs" />
     <Compile Include="IDateTimeService.cs" />
     <Compile Include="IDaysManager.cs" />
+    <Compile Include="IEmailFactory.cs" />
     <Compile Include="IEmailManager.cs" />
     <Compile Include="IHasher.cs" />
     <Compile Include="IModelFactory.cs" />
@@ -68,6 +70,10 @@
     <ProjectReference Include="..\Speranza.Models.Interfaces\Speranza.Models.Interfaces.csproj">
       <Project>{cc06c75b-bbe6-4da0-87da-1bc9de8d2135}</Project>
       <Name>Speranza.Models.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Speranza.Smtp.Interfaces\Speranza.Smtp.Interfaces.csproj">
+      <Project>{171EE06B-2E71-4E27-BC5C-073D5B40F60B}</Project>
+      <Name>Speranza.Smtp.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

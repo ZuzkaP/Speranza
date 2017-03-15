@@ -20,13 +20,15 @@ namespace Speranza.Services
         private IModelFactory factory;
         private IDateTimeService dateTimeService;
         private IHasher hasher;
+        private IEmailManager emailManager;
 
-        public UserManager(IDatabaseGateway db, IModelFactory factory, IDateTimeService dateTimeService, IHasher hasher)
+        public UserManager(IDatabaseGateway db, IModelFactory factory, IDateTimeService dateTimeService, IHasher hasher, IEmailManager emailManager)
         {
             this.db = db;
             this.factory = factory;
             this.dateTimeService = dateTimeService;
             this.hasher = hasher;
+            this.emailManager = emailManager;
         }
 
         public UserCategories GetUserCategory(ICollection session)
@@ -152,6 +154,7 @@ namespace Speranza.Services
         public void RegisterNewUser(IRegisterModel model)
         {
             db.RegisterNewUser(model.Email, model.Name, model.Password, model.PhoneNumber, model.Surname);
+            emailManager.SendWelcome(model.Email);
         }
 
         public void UpdateUserData(IUserProfileModel model)

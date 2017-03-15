@@ -1,6 +1,8 @@
 ﻿using Speranza.Database;
 using Speranza.Services;
 using Speranza.Services.Interfaces;
+using Speranza.Smtp;
+using Speranza.Smtp.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +22,9 @@ namespace Speranza.App_Start
         public static IDaysManager DaysManager { get; private set; }
         public static ModelFactory Factory { get; private set; }
         public static IUserDataParser UserDataParser { get; private set; }
+        public static IEmailManager EmailManager { get; private set; }
+        public static IEmailFactory EmailFactory { get; private set; }
+        public static ISmtp Smtp { get; private set; }
 
         static  Initializer()
         {
@@ -27,9 +32,12 @@ namespace Speranza.App_Start
             Hasher = new Hasher();
             DateTimeService = new DateTimeService();
             Factory = new ModelFactory();
+            EmailFactory = new EmailFactory();
+            Smtp = new Smtp.Smtp();
             uidService = new UidService();
             UserDataParser = new UserDataParser();
-            UserManager = new UserManager(Db, Factory,DateTimeService,Hasher);
+            EmailManager = new EmailManager(EmailFactory, Smtp);
+            UserManager = new UserManager(Db, Factory,DateTimeService,Hasher,EmailManager);
             TrainingsManager = new TrainingsManager(Db, Factory, uidService, DateTimeService, UserManager);
             DaysManager = new DaysManager(Db, TrainingsManager, DateTimeService, Factory);
         }

@@ -102,6 +102,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DateTimeServiceShould.cs" />
     <Compile Include="Services\DaysManagerShould.cs" />
+    <Compile Include="Services\EmailManagerShould.cs" />
     <Compile Include="Services\HasherShould.cs" />
     <Compile Include="Services\ModelFactoryShould.cs" />
     <Compile Include="Services\TrainingsManagerShould.cs" />
@@ -141,6 +142,14 @@
     <ProjectReference Include="..\Speranza.Services\Speranza.Services.csproj">
       <Project>{cb0d5a47-cdb0-4569-b925-0fec2e671c3b}</Project>
       <Name>Speranza.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Speranza.Smtp.Interfaces\Speranza.Smtp.Interfaces.csproj">
+      <Project>{171ee06b-2e71-4e27-bc5c-073d5b40f60b}</Project>
+      <Name>Speranza.Smtp.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Speranza.Smtp\Speranza.Smtp.csproj">
+      <Project>{1579586f-998f-47a2-a61b-3852885114af}</Project>
+      <Name>Speranza.Smtp</Name>
     </ProjectReference>
     <ProjectReference Include="..\Speranza\Speranza.csproj">
       <Project>{F8693B3E-DB8C-43AE-AAF7-1802E5407EFE}</Project>

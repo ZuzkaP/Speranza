@@ -51,6 +51,7 @@ namespace Speranza.Tests.Services
         private readonly DateTime DATE_TIME = new DateTime(2017, 1, 6, 10, 00, 00);
         private Mock<IUserProfileModel> userProfileModel;
         private Mock<IUserInTraining> userInTraining;
+        private Mock<IEmailManager> emailManager;
 
         [TestMethod]
         public void ReturnFalse_When_SessionIsEmpty()
@@ -172,6 +173,7 @@ namespace Speranza.Tests.Services
             manager.RegisterNewUser(model);
 
             db.Verify(r => r.RegisterNewUser(EMAIL,NAME,PASSWORD_CORRECT_HASH,PHONE_NUMBER,SURNAME_FIRST), Times.Once);
+            emailManager.Verify(r => r.SendWelcome(EMAIL), Times.Once);
         }
 
         [TestMethod]
@@ -590,7 +592,8 @@ namespace Speranza.Tests.Services
             db = new Mock<IDatabaseGateway>();
             datetimeService = new Mock<IDateTimeService>();
             hasher = new Mock<IHasher>();
-            manager = new UserManager(db.Object, factory.Object,datetimeService.Object,hasher.Object);
+            emailManager = new Mock<IEmailManager>();
+            manager = new UserManager(db.Object, factory.Object,datetimeService.Object,hasher.Object, emailManager.Object);
             collection = new SessionStateItemCollection();
             context = new FakeControllerContext(null, collection);
             datetimeService.Setup(r => r.GetCurrentDate()).Returns(DATE_TIME);

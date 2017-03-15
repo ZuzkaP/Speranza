@@ -206,6 +206,14 @@
       <Project>{cb0d5a47-cdb0-4569-b925-0fec2e671c3b}</Project>
       <Name>Speranza.Services</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Speranza.Smtp.Interfaces\Speranza.Smtp.Interfaces.csproj">
+      <Project>{171EE06B-2E71-4E27-BC5C-073D5B40F60B}</Project>
+      <Name>Speranza.Smtp.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Speranza.Smtp\Speranza.Smtp.csproj">
+      <Project>{1579586F-998F-47A2-A61B-3852885114AF}</Project>
+      <Name>Speranza.Smtp</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
