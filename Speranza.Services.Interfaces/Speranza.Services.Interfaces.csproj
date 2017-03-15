@@ -47,6 +47,7 @@
     <Compile Include="Exceptions\TooManyPeopleInTrainingException.cs" />
     <Compile Include="IDateTimeService.cs" />
     <Compile Include="IDaysManager.cs" />
+    <Compile Include="IEmailManager.cs" />
     <Compile Include="IHasher.cs" />
     <Compile Include="IModelFactory.cs" />
     <Compile Include="ITrainingsManager.cs" />

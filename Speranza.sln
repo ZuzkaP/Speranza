@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Speranza", "Speranza\Speranza.csproj", "{F8693B3E-DB8C-43AE-AAF7-1802E5407EFE}"
 EndProject
@@ -22,6 +22,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Speranza.Services.Interfaces", "Speranza.Services.Interfaces\Speranza.Services.Interfaces.csproj", "{35896D13-6A4A-4D16-B927-764CBAF825E9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Speranza.Common.Data", "Speranza.Common.Data\Speranza.Common.Data.csproj", "{56009A7E-ABE3-40CD-B024-8E49835ED0D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Speranza.Smtp", "Speranza.Smtp\Speranza.Smtp.csproj", "{1579586F-998F-47A2-A61B-3852885114AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Speranza.Smtp.Interfaces", "Speranza.Smtp.Interfaces\Speranza.Smtp.Interfaces.csproj", "{171EE06B-2E71-4E27-BC5C-073D5B40F60B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +73,14 @@ Global
 		{56009A7E-ABE3-40CD-B024-8E49835ED0D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56009A7E-ABE3-40CD-B024-8E49835ED0D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56009A7E-ABE3-40CD-B024-8E49835ED0D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1579586F-998F-47A2-A61B-3852885114AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1579586F-998F-47A2-A61B-3852885114AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1579586F-998F-47A2-A61B-3852885114AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1579586F-998F-47A2-A61B-3852885114AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{171EE06B-2E71-4E27-BC5C-073D5B40F60B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{171EE06B-2E71-4E27-BC5C-073D5B40F60B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{171EE06B-2E71-4E27-BC5C-073D5B40F60B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{171EE06B-2E71-4E27-BC5C-073D5B40F60B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
