@@ -18,14 +18,16 @@ namespace Speranza.Services
         private IModelFactory factory;
         private IUidService uidService;
         private IUserManager userManager;
+        private IEmailManager emailManager;
 
-        public TrainingsManager(IDatabaseGateway db,IModelFactory factory, IUidService uidService, IDateTimeService dateTimeService, IUserManager userManager)
+        public TrainingsManager(IDatabaseGateway db,IModelFactory factory, IUidService uidService, IDateTimeService dateTimeService, IUserManager userManager, IEmailManager emailManager)
         {
             this.db = db;
             this.factory = factory;
             this.uidService = uidService;
             this.dateTimeService = dateTimeService;
             this.userManager = userManager;
+            this.emailManager = emailManager;
         }
 
         public CalendarMessages AddUserToTraining(string email, string trainingID, DateTime currentDate)
@@ -54,7 +56,17 @@ namespace Speranza.Services
 
         public void CancelTraining(string trainingID)
         {
+            var emails = db.GetEmailsOfAllUsersInTraining(trainingID);
+            var training = db.GetTrainingData(trainingID);
             db.CancelTraining(trainingID);
+
+            if(emails != null)
+            {
+                foreach (var item in emails)
+                {
+                    emailManager.SendTrainingCanceled(item, training.Time);
+                }
+            }
         }
 
         public string CreateNewTraining(DateTime dateTime, string trainer, string description, int capacity)

@@ -52,5 +52,6 @@ namespace Speranza.Database
         int GetNumberOfVisits(string email, DateTime currentDate);
         IList<IUserInTraining> GetNonProcessedUsersInTrainingBeforeDate(DateTime date);
         void SetAlreadyProcessedFlag(IUserInTraining userInTraining);
+        IList<string> GetEmailsOfAllUsersInTraining(string trainingID);
     }
 }

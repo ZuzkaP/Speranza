@@ -49,12 +49,14 @@ namespace Speranza.Tests.Services
         private const int TIME_B = 13;
         private const int TIME_A = 19;
         private const int TRAININGS_COUNT = 42;
+        private const string EMAIL2 = "EMAIL2";
         private Mock<IRecurringTemplateModel> modelB;
         private Mock<IRecurringTemplateModel> modelA;
         private Mock<IRecurringTrainingTemplate> template;
         private Mock<ITrainingModel> trainingModel;
         private Mock<ITrainingForAdminModel> training3Model;
         private Mock<ITraining> training3;
+        private Mock<IEmailManager> emailManager;
 
         [TestMethod]
         public void ReturnEmptyList_When_NoFutureTrainingExistsInDB()
@@ -311,10 +313,33 @@ namespace Speranza.Tests.Services
         public void CancelTraining()
         {
             InitializeTrainingManager();
-
+            
              manager.CancelTraining(TRAINING_ID);
 
             db.Verify(r => r.CancelTraining(TRAINING_ID), Times.Once);
+        }
+
+
+        [TestMethod]
+        public void SendEmailToUsersInTraining_When_Cancelled()
+        {
+            InitializeTrainingManager();
+            PrepareTrainingWithTwoUsers();
+
+            manager.CancelTraining(TRAINING_ID);
+
+            emailManager.Verify(r => r.SendTrainingCanceled(EMAIL,DATE_TIME), Times.Once);
+            emailManager.Verify(r => r.SendTrainingCanceled(EMAIL2,DATE_TIME), Times.Once);
+        }
+
+        private void PrepareTrainingWithTwoUsers()
+        {
+            var usersInTrainingEmails = new List<string>() { EMAIL, EMAIL2 };
+            db.Setup(r => r.GetEmailsOfAllUsersInTraining(TRAINING_ID)).Returns(usersInTrainingEmails);
+
+            var training = new Mock<ITraining>();
+            training.SetupGet(r => r.Time).Returns(DATE_TIME);
+            db.Setup(r => r.GetTrainingData(TRAINING_ID)).Returns(training.Object);
         }
 
         [TestMethod]
@@ -711,10 +736,11 @@ namespace Speranza.Tests.Services
             db = new Mock<IDatabaseGateway>();
             factory = new Mock<IModelFactory>();
             uidService = new Mock<IUidService>();
+            emailManager = new Mock<IEmailManager>();
             dateTimeService = new Mock<IDateTimeService>();
             dateTimeService.Setup(r => r.GetCurrentDate()).Returns(CURRENT_DATE);
             userManager = new Mock<IUserManager>();
-            manager = new TrainingsManager(db.Object,factory.Object,uidService.Object,dateTimeService.Object,userManager.Object);
+            manager = new TrainingsManager(db.Object,factory.Object,uidService.Object,dateTimeService.Object,userManager.Object,emailManager.Object);
 
             userManager.Setup(r => r.UserExists(EMAIL)).Returns(true);
             userManager.Setup(r => r.UserExists(FALSE_EMAIL)).Returns(false);
@@ -722,6 +748,7 @@ namespace Speranza.Tests.Services
             training1.SetupGet(r => r.Capacity).Returns(10);
             db.Setup(r => r.GetTrainingData(TRAINING_ID)).Returns(training1.Object);
             db.Setup(r => r.GetTrainingData(FALSE_TRAINING_ID)).Returns((ITraining)null);
+           
         }
     }
 }

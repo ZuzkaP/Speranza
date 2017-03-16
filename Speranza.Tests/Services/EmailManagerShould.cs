@@ -15,6 +15,7 @@ namespace Speranza.Tests.Services
         private Mock<ISmtp> smtp;
         private Email email;
         private Mock<IEmailFactory> factory;
+        private readonly DateTime DATE_TIME = new DateTime(2017, 08, 08, 10, 00, 00);
 
         [TestMethod]
         public void SendWelcome()
@@ -25,6 +26,23 @@ namespace Speranza.Tests.Services
             emailManager.SendWelcome(EMAIL);
 
             smtp.Verify(r => r.SendEmail(email), Times.Once);
+        }
+
+        [TestMethod]
+        public void SendTrainingCanceled()
+        {
+            InitializeEmailManager();
+            PrepareCancelEmailMessage();
+
+            emailManager.SendTrainingCanceled(EMAIL, DATE_TIME);
+
+            smtp.Verify(r => r.SendEmail(email), Times.Once);
+        }
+
+        private void PrepareCancelEmailMessage()
+        {
+            email = new Email();
+            factory.Setup(r => r.CreateTrainingCanceledEmail(EMAIL, EmailMessages.TrainingCanceledSubject, EmailMessages.TrainingCanceledBody, DATE_TIME)).Returns(email);
         }
 
         private void PrepareWelcomeEmailMessage()

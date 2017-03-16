@@ -411,6 +411,11 @@ namespace Speranza.Database
             userInTraining.AlreadyProcessed = true;
         }
 
+        public IList<string> GetEmailsOfAllUsersInTraining(string trainingID)
+        {
+           return usersInTrainings.Where(r => r.TrainingID == trainingID).Select(r => r.Email).ToList();
+        }
+
         private class UserInTraining : IUserInTraining
         {
             public string Email { get; set; }
