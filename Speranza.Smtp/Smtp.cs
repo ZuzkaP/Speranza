@@ -18,7 +18,7 @@ namespace Speranza.Smtp
         public void SendEmail(Email email)
         {
             SmtpClient client = new SmtpClient(HOST, PORT);
-            client.SendAsync(SENDER, email.Receiver, email.Subject, email.Content, null);
+            client.SendAsync(SENDER, email.Receiver, email.Subject, email.Body, null);
             client.Dispose();
         }
     }

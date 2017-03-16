@@ -12,7 +12,13 @@ namespace Speranza.Services
     {
         public Email CreateWelcomeEmail(string email, string welcomeSubject, string welcomeBody)
         {
-            throw new NotImplementedException();
+            Email result = new Email()
+            {
+                Body = welcomeBody,
+                Receiver = email,
+                Subject = welcomeSubject
+            };
+            return result;
         }
     }
 }
