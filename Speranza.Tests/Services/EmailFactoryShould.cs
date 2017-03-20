@@ -59,6 +59,19 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(string.Format(BODY_2_PARAMS, DATE_TIME.ToString("dd.MM.yyyy"), DATE_TIME.ToString("HH:mm")), result.Body);
         }
 
+        [TestMethod]
+        public void CreateRemovingUserFromTrainingEmail()
+        {
+            InitializeEmailFactory();
+
+            Email result = factory.CreateRemovingUserFromTrainingEmail(EMAIL, SUBJECT_2_PARAMS, BODY_2_PARAMS, DATE_TIME);
+
+            Assert.AreEqual(EMAIL, result.Receiver);
+
+            Assert.AreEqual(string.Format(SUBJECT_2_PARAMS, DATE_TIME.ToString("dd.MM.yyyy"), DATE_TIME.ToString("HH:mm")), result.Subject);
+            Assert.AreEqual(string.Format(BODY_2_PARAMS, DATE_TIME.ToString("dd.MM.yyyy"), DATE_TIME.ToString("HH:mm")), result.Body);
+        }
+
 
         private void InitializeEmailFactory()
         {

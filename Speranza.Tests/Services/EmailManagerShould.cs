@@ -40,7 +40,6 @@ namespace Speranza.Tests.Services
         }
 
 
-
         [TestMethod]
         public void SendAddingUserToTraining()
         {
@@ -50,6 +49,23 @@ namespace Speranza.Tests.Services
             emailManager.SendAddingUserToTraining(EMAIL, DATE_TIME);
 
             smtp.Verify(r => r.SendEmail(email), Times.Once);
+        }
+
+        [TestMethod]
+        public void SendRemovingUserFromTraining()
+        {
+            InitializeEmailManager();
+            PrepareRemovingUserFromTrainingEmailMessage();
+
+            emailManager.SendRemovingUserFromTraining(EMAIL, DATE_TIME);
+
+            smtp.Verify(r => r.SendEmail(email), Times.Once);
+        }
+
+        private void PrepareRemovingUserFromTrainingEmailMessage()
+        {
+            email = new Email();
+            factory.Setup(r => r.CreateRemovingUserFromTrainingEmail(EMAIL, EmailMessages.RemovingUserFromTrainingSubject, EmailMessages.RemovingUserFromTrainingBody, DATE_TIME)).Returns(email);
         }
 
         private void PrepareAddingUserToTrainingEmailMessage()

@@ -20,6 +20,16 @@ namespace Speranza.Services
             return result;
         }
 
+        public Email CreateRemovingUserFromTrainingEmail(string email, string removingUserFromTrainingSubject, string removingUserFromTrainingBody, DateTime dateTime)
+        {
+            Email result = new Email();
+            result.Receiver = email;
+            result.Subject = string.Format(removingUserFromTrainingSubject, dateTime.ToString("dd.MM.yyyy"), dateTime.ToString("HH:mm"));
+            result.Body = string.Format(removingUserFromTrainingBody, dateTime.ToString("dd.MM.yyyy"), dateTime.ToString("HH:mm"));
+
+            return result;
+        }
+
         public Email CreateTrainingCanceledEmail(string email, string trainingCanceledSubject, string trainingCanceledBody, DateTime dateTime)
         {
             Email result = new Email();

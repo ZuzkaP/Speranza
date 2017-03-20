@@ -208,17 +208,35 @@ namespace Speranza.Tests.Services
         }
 
         [TestMethod]
-        public void RemoveUserFromTraining_And_ReturnModel()
+        public void RemoveUserFromTraining_And_ReturnModel_AndSendEmail_When_UserIsAdmin()
         {
             InitializeTrainingManager();
             var factoryModel = new Mock<ITrainingModel>();
             var training = new Mock<ITraining>();
+            training.SetupGet(r => r.Time).Returns(DATE_TIME);
             db.Setup(r => r.GetTrainingData(TRAINING_ID)).Returns(training.Object);
             factory.Setup(r => r.CreateTrainingModel(training.Object)).Returns(factoryModel.Object);
            
+            ITrainingModel model = manager.RemoveUserFromTraining(EMAIL, TRAINING_ID, true);
+
+            Assert.AreEqual(factoryModel.Object, model);
+            emailManager.Verify(r => r.SendRemovingUserFromTraining(EMAIL, DATE_TIME), Times.Once);
+        }
+
+        [TestMethod]
+        public void RemoveUserFromTraining_And_ReturnModel_AndNotSendEmail_When_UserIsNotAdmin()
+        {
+            InitializeTrainingManager();
+            var factoryModel = new Mock<ITrainingModel>();
+            var training = new Mock<ITraining>();
+            training.SetupGet(r => r.Time).Returns(DATE_TIME);
+            db.Setup(r => r.GetTrainingData(TRAINING_ID)).Returns(training.Object);
+            factory.Setup(r => r.CreateTrainingModel(training.Object)).Returns(factoryModel.Object);
+
             ITrainingModel model = manager.RemoveUserFromTraining(EMAIL, TRAINING_ID);
 
             Assert.AreEqual(factoryModel.Object, model);
+            emailManager.Verify(r => r.SendRemovingUserFromTraining(It.IsAny<string>(), It.IsAny<DateTime>()), Times.Never);
         }
 
         [TestMethod]

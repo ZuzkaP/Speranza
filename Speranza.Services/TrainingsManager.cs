@@ -175,13 +175,22 @@ namespace Speranza.Services
             db.SetLastTemplateGenerationDate(dateTimeService.GetCurrentDate().AddDays(-1));
         }
 
-        public ITrainingModel RemoveUserFromTraining(string email, string id)
+        public ITrainingModel RemoveUserFromTraining(string email, string id,bool isAdmin)
         {
             db.RemoveUserFromTraining(email, id);
             ITraining training = db.GetTrainingData(id);
+            if(isAdmin)
+            {
+            emailManager.SendRemovingUserFromTraining(email, training.Time);
+            }
             ITrainingModel model = factory.CreateTrainingModel(training);
 
             return model;
+        }
+
+        public ITrainingModel RemoveUserFromTraining(string email, string id)
+        {
+           return RemoveUserFromTraining(email, id, false);
         }
 
         public void SetSignOffLimit(int hoursLimit)

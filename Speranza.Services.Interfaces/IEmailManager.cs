@@ -7,5 +7,6 @@ namespace Speranza.Services.Interfaces
         void SendWelcome(string email);
         void SendTrainingCanceled(string email, DateTime dateTime);
         void SendAddingUserToTraining(string email, DateTime dateTime);
+        void SendRemovingUserFromTraining(string email, DateTime dateTime);
     }
 }
