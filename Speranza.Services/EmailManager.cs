@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Speranza.Database.Data.Interfaces;
 
 namespace Speranza.Services
 {
@@ -23,6 +24,11 @@ namespace Speranza.Services
         {
             Email email = factory.CreateAddingUserToTrainingEmail(receiver, EmailMessages.AddingUserToTrainingSubject, EmailMessages.AddingUserToTrainingBody, dateTime);
             smtp.SendEmail(email);
+        }
+
+        public void SendConfirmUserAttendance(IList<IUser> admins, IList<IUser> users, DateTime dateTime)
+        {
+            throw new NotImplementedException();
         }
 
         public void SendRemovingUserFromTraining(string receiver, DateTime dateTime)

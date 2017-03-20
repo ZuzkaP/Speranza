@@ -211,5 +211,10 @@ namespace Speranza.Services
                 }
             }
         }
+
+        public void PromptToConfirmUserAttendance()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

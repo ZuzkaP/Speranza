@@ -48,10 +48,13 @@ namespace Speranza.Tests.Services
         private const string PHONE_NUMBER = "phoneNumber";
         private const int FREE_SIGN_UPS = 5;
         private const int NUMBER_OF_PAST_TRAININGS = 8;
+        private const string TRAINING_ID = "TRAINING_ID";
         private readonly DateTime DATE_TIME = new DateTime(2017, 1, 6, 10, 00, 00);
         private Mock<IUserProfileModel> userProfileModel;
         private Mock<IUserInTraining> userInTraining;
         private Mock<IEmailManager> emailManager;
+        private IList<IUser> users;
+        private IList<IUser> admins;
 
         [TestMethod]
         public void ReturnFalse_When_SessionIsEmpty()
@@ -551,6 +554,28 @@ namespace Speranza.Tests.Services
 
             db.Verify(r => r.UpdateCountOfFreeSignUps(EMAIL, -1), Times.Once);
             db.Verify(r => r.SetAlreadyProcessedFlag(userInTraining.Object), Times.Once);
+        }
+
+        [TestMethod]
+        public void SendEmail_When_UserWithoutEntrance_WasSignedUp_And_TrainingWasYetNotProcessed()
+        {
+            InitializeUserManager();
+            PrepareUserWithoutEntranceOnNonProcessedTraining();
+
+            manager.PromptToConfirmUserAttendance();
+
+            emailManager.Verify(r => r.SendConfirmUserAttendance(admins, users, DATE_TIME), Times.Once);
+            Assert.Fail("To do");
+        }
+
+        private void PrepareUserWithoutEntranceOnNonProcessedTraining()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void PrepareUserWithoutEntranceOnTraining()
+        {
+            throw new NotImplementedException();
         }
 
         private void PrepareUserInTRainingWithEntranceOnTicket()

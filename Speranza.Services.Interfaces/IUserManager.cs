@@ -24,6 +24,7 @@ namespace Speranza.Services.Interfaces
         IUserForTrainingDetailModel GetAddedUserData(string email);
         ILoginResult Login(string email, string passHash);
         void RegisterNewUser(IRegisterModel model);
+        void PromptToConfirmUserAttendance();
         void UpdateUserData(IUserProfileModel model);
         IUserProfileModel GetUserProfileModelWithDataFromDB(string email);
         bool GetAllowedToSignUpFlag(string email);
