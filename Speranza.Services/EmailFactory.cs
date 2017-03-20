@@ -10,6 +10,16 @@ namespace Speranza.Services
 {
     public class EmailFactory : IEmailFactory
     {
+        public Email CreateAddingUserToTrainingEmail(string email, string addingUserToTrainingSubject, string addingUserToTrainingBody, DateTime dateTime)
+        {
+            Email result = new Email();
+            result.Receiver = email;
+            result.Subject = string.Format(addingUserToTrainingSubject, dateTime.ToString("dd.MM.yyyy"), dateTime.ToString("HH:mm"));
+            result.Body = string.Format(addingUserToTrainingBody, dateTime.ToString("dd.MM.yyyy"), dateTime.ToString("HH:mm"));
+
+            return result;
+        }
+
         public Email CreateTrainingCanceledEmail(string email, string trainingCanceledSubject, string trainingCanceledBody, DateTime dateTime)
         {
             Email result = new Email();

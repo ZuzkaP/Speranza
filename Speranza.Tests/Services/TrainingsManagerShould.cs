@@ -417,17 +417,32 @@ namespace Speranza.Tests.Services
         }
 
         [TestMethod]
-        public void AddUserToTraining()
+        public void AddUserToTraining__But_EmailIsNotSent_When_UserIsNotAdmin()
         {
             InitializeTrainingManager();
 
             var message = manager.AddUserToTraining(EMAIL,TRAINING_ID,CURRENT_DATE);
 
             db.Verify(r => r.AddUserToTraining(EMAIL,TRAINING_ID,CURRENT_DATE), Times.Once);
+            emailManager.Verify(r => r.SendAddingUserToTraining(It.IsAny<string>(), It.IsAny<DateTime>()), Times.Never);
             Assert.AreEqual(CalendarMessages.SignUpSuccessful, message);
-
         }
-        
+
+        [TestMethod]
+        public void AddUserToTraining__And_EmailIsSent_When_UserIsAdmin()
+        {
+            InitializeTrainingManager();
+            training1.SetupGet(r => r.Time).Returns(DATE_TIME);
+            db.Setup(r => r.GetTrainingData(TRAINING_ID)).Returns(training1.Object);
+
+            var message = manager.AddUserToTraining(EMAIL, TRAINING_ID, CURRENT_DATE,true);
+
+            db.Verify(r => r.AddUserToTraining(EMAIL, TRAINING_ID, CURRENT_DATE), Times.Once);
+            emailManager.Verify(r => r.SendAddingUserToTraining(EMAIL,DATE_TIME), Times.Once);
+            Assert.AreEqual(CalendarMessages.SignUpSuccessful, message);
+        }
+
+
         [TestMethod]
         public void NotAddRecurringTrainingIntoDB_When_NoCheckedTimeslot()
         {

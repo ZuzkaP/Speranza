@@ -422,6 +422,7 @@ namespace Speranza.Tests.Controllers
             Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
             Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
             trainingManager.Verify(r => r.AddUserToTraining(It.IsAny<string>(), It.IsAny<string>(),It.IsAny<DateTime>()), Times.Never);
+            trainingManager.Verify(r => r.AddUserToTraining(It.IsAny<string>(), It.IsAny<string>(),It.IsAny<DateTime>(), It.IsAny<bool>()), Times.Never);
         }
         [TestMethod]
         public void NotAddUserToTraining_When_UserDataAreNull()
@@ -433,6 +434,8 @@ namespace Speranza.Tests.Controllers
             Assert.AreEqual(CalendarMessages.UserDoesNotExist, result.Data);
             userDataParser.Verify(r => r.ParseData(It.IsAny<string>()), Times.Never);
             trainingManager.Verify(r => r.AddUserToTraining(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>()), Times.Never);
+            trainingManager.Verify(r => r.AddUserToTraining(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<bool>()), Times.Never);
+
         }
 
         [TestMethod]
@@ -445,6 +448,7 @@ namespace Speranza.Tests.Controllers
             
             Assert.AreEqual(CalendarMessages.UserDoesNotExist, result.Data);
             trainingManager.Verify(r => r.AddUserToTraining(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>()), Times.Never);
+            trainingManager.Verify(r => r.AddUserToTraining(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>(), It.IsAny<bool>()), Times.Never);
         }
 
         [TestMethod]
@@ -453,7 +457,7 @@ namespace Speranza.Tests.Controllers
             InitializeAdminTrainingsController();
             userDataParser.Setup(r => r.ParseData(USER_DATA)).Returns(USER_EMAIL);
             dateTimeService.Setup(r => r.GetCurrentDate()).Returns(CURRENT_DATE);
-            trainingManager.Setup(r => r.AddUserToTraining(USER_EMAIL, TRAINING_ID, CURRENT_DATE)).Returns(CalendarMessages.SignUpSuccessful);
+            trainingManager.Setup(r => r.AddUserToTraining(USER_EMAIL, TRAINING_ID, CURRENT_DATE,true)).Returns(CalendarMessages.SignUpSuccessful);
             var user = new Mock<IUserForTrainingDetailModel>();
             userManager.Setup(r => r.GetAddedUserData(USER_EMAIL)).Returns(user.Object);
 
@@ -461,7 +465,9 @@ namespace Speranza.Tests.Controllers
 
             IUserForTrainingDetailModel model = (IUserForTrainingDetailModel)result.Data;
             Assert.AreEqual(user.Object, model);
-            trainingManager.Verify(r => r.AddUserToTraining(USER_EMAIL, TRAINING_ID, CURRENT_DATE), Times.Once);
+            trainingManager.Verify(r => r.AddUserToTraining(USER_EMAIL, TRAINING_ID, CURRENT_DATE, true), Times.Once);
+            trainingManager.Verify(r => r.AddUserToTraining(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>()), Times.Never);
+
         }
 
 

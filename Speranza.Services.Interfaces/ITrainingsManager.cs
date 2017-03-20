@@ -17,6 +17,7 @@ namespace Speranza.Services.Interfaces
         void CancelTraining(string trainingID);
         void SetSignOffLimit(int hoursLimit);
         int GetSignOffLimit();
+        CalendarMessages AddUserToTraining(string email, string trainingID, DateTime currentDate, bool isAdmin);
         CalendarMessages AddUserToTraining(string email, string trainingID, DateTime currentDate);
         void CreateRecurringTraining(IRecurringModel model);
         IList<IRecurringTemplateModel> GetTemplates();

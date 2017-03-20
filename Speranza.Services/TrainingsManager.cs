@@ -30,7 +30,7 @@ namespace Speranza.Services
             this.emailManager = emailManager;
         }
 
-        public CalendarMessages AddUserToTraining(string email, string trainingID, DateTime currentDate)
+        public CalendarMessages AddUserToTraining(string email, string trainingID, DateTime currentDate, bool isAdmin)
         {
             if(!userManager.UserExists(email))
              {
@@ -51,7 +51,17 @@ namespace Speranza.Services
             }
             db.AddUserToTraining(email, trainingID, currentDate);
 
+            if(isAdmin)
+            {
+                emailManager.SendAddingUserToTraining(email, training.Time);
+            }
             return CalendarMessages.SignUpSuccessful;
+        }
+
+
+        public CalendarMessages AddUserToTraining(string email, string trainingID, DateTime currentDate)
+        {
+            return AddUserToTraining(email, trainingID, currentDate, false);
         }
 
         public void CancelTraining(string trainingID)

@@ -7,5 +7,6 @@ namespace Speranza.Services.Interfaces
     {
         Email CreateWelcomeEmail(string email, string welcomeSubject, string welcomeBody);
         Email CreateTrainingCanceledEmail(string email, string trainingCanceledSubject, string trainingCanceledBody, DateTime dateTime);
+        Email CreateAddingUserToTrainingEmail(string email, string addingUserToTrainingSubject, string addingUserToTrainingBody, DateTime dateTime);
     }
 }

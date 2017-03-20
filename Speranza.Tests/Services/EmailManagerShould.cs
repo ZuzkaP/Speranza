@@ -39,6 +39,25 @@ namespace Speranza.Tests.Services
             smtp.Verify(r => r.SendEmail(email), Times.Once);
         }
 
+
+
+        [TestMethod]
+        public void SendAddingUserToTraining()
+        {
+            InitializeEmailManager();
+            PrepareAddingUserToTrainingEmailMessage();
+
+            emailManager.SendAddingUserToTraining(EMAIL, DATE_TIME);
+
+            smtp.Verify(r => r.SendEmail(email), Times.Once);
+        }
+
+        private void PrepareAddingUserToTrainingEmailMessage()
+        {
+            email = new Email();
+            factory.Setup(r => r.CreateAddingUserToTrainingEmail(EMAIL, EmailMessages.AddingUserToTrainingSubject, EmailMessages.AddingUserToTrainingBody, DATE_TIME)).Returns(email);
+        }
+
         private void PrepareCancelEmailMessage()
         {
             email = new Email();

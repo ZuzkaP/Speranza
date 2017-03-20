@@ -19,6 +19,12 @@ namespace Speranza.Services
             this.smtp = smtp;
         }
 
+        public void SendAddingUserToTraining(string receiver, DateTime dateTime)
+        {
+            Email email = factory.CreateAddingUserToTrainingEmail(receiver, EmailMessages.AddingUserToTrainingSubject, EmailMessages.AddingUserToTrainingBody, dateTime);
+            smtp.SendEmail(email);
+        }
+
         public void SendTrainingCanceled(string receiver, DateTime dateTime)
         {
             Email email = factory.CreateTrainingCanceledEmail(receiver, EmailMessages.TrainingCanceledSubject, EmailMessages.TrainingCanceledBody,dateTime);
