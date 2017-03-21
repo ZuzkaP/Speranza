@@ -26,7 +26,7 @@ namespace Speranza.Services
             smtp.SendEmail(email);
         }
 
-        public void SendConfirmUserAttendance(IList<IUser> admins, IList<IUser> users, DateTime dateTime)
+        public void SendConfirmUserAttendance(IList<IUser> admins, IList<IUser> users, string trainingID,DateTime dateTime)
         {
             throw new NotImplementedException();
         }

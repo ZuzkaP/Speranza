@@ -10,5 +10,6 @@ namespace Speranza.Database.Data.Interfaces
         DateTime Time { get; set; }
         string TrainingID { get; set; }
         bool AlreadyProcessed { get; set; }
+        bool ZeroEntranceFlag { get; set; }
     }
 }

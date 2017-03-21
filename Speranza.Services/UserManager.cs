@@ -177,7 +177,7 @@ namespace Speranza.Services
 
         public UserCategories UpdateUserCategory(string email, UserCategories category)
         {
-            int count = db.GetNumberOfVisits(email,dateTimeService.GetCurrentDate());
+            int count = db.GetNumberOfVisits(email, dateTimeService.GetCurrentDate());
 
             if (count <= 40)
             {
@@ -200,12 +200,22 @@ namespace Speranza.Services
 
         public void UpdateSeasonTickets()
         {
-           var usersInTraining = db.GetNonProcessedUsersInTrainingBeforeDate(dateTimeService.GetCurrentDate());
+            var usersInTraining = db.GetNonProcessedUsersInTrainingBeforeDate(dateTimeService.GetCurrentDate());
             foreach (var item in usersInTraining)
             {
                 IUser user = db.GetUserData(item.Email);
                 db.SetAlreadyProcessedFlag(item);
-                if(user.NumberOfFreeSignUpsOnSeasonTicket > 0)
+                if (user.NumberOfFreeSignUpsOnSeasonTicket == 0)
+                {
+                    db.SetZeroEntranceFlag(item, true);
+
+                }
+                else
+                {
+                    db.SetZeroEntranceFlag(item, false);
+                }
+
+                if (user.NumberOfFreeSignUpsOnSeasonTicket > 0)
                 {
                     db.UpdateCountOfFreeSignUps(item.Email, -1);
                 }
@@ -214,7 +224,27 @@ namespace Speranza.Services
 
         public void PromptToConfirmUserAttendance()
         {
-            throw new NotImplementedException();
+            var usersInTraining = db.GetAllUsersInTrainingWithZeroEntranceFlag();
+            if (usersInTraining.Count == 0)
+            {
+                return;
+            }
+            var trainingsIDs = usersInTraining.Select(r => r.TrainingID).Distinct().ToList();
+
+            var admins = db.GetAdmins();
+
+            foreach (var item in trainingsIDs)
+            {
+                var users = usersInTraining.Where(r => r.TrainingID == item).Select(r => db.GetUserData(r.Email)).ToList();
+                var trainingData = db.GetTrainingData(item);
+                emailManager.SendConfirmUserAttendance(admins, users, item, trainingData.Time);
+            }
+            usersInTraining.Select(r =>
+            {
+                db.SetZeroEntranceFlag(r, false);
+                return 0;
+            }).ToList();
+
         }
     }
 }

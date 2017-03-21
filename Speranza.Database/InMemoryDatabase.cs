@@ -416,6 +416,21 @@ namespace Speranza.Database
            return usersInTrainings.Where(r => r.TrainingID == trainingID).Select(r => r.Email).ToList();
         }
 
+        public void SetZeroEntranceFlag(IUserInTraining userInTraining, bool flag)
+        {
+            userInTraining.ZeroEntranceFlag = flag;
+        }
+
+        public IList<IUserInTraining> GetAllUsersInTrainingWithZeroEntranceFlag()
+        {
+            return usersInTrainings.Where(r => r.ZeroEntranceFlag == true).ToList();
+        }
+
+        public IList<IUser> GetAdmins()
+        {
+            return users.Where(r => r.Value.IsAdmin).Select(r => GetUserData(r.Value.Email)).ToList();
+        }
+
         private class UserInTraining : IUserInTraining
         {
             public string Email { get; set; }
@@ -424,6 +439,7 @@ namespace Speranza.Database
             public bool ParticipationConfirmed { get; set; }
             public bool ParticipationDisproved { get; set; }
             public bool AlreadyProcessed { get; set; }
+            public bool ZeroEntranceFlag { get; set; }
         }
 
         private class RegisteredUser : RegisterModel

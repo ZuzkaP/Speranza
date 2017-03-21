@@ -53,5 +53,8 @@ namespace Speranza.Database
         IList<IUserInTraining> GetNonProcessedUsersInTrainingBeforeDate(DateTime date);
         void SetAlreadyProcessedFlag(IUserInTraining userInTraining);
         IList<string> GetEmailsOfAllUsersInTraining(string trainingID);
+        void SetZeroEntranceFlag(IUserInTraining userInTraining, bool flag);
+        IList<IUserInTraining> GetAllUsersInTrainingWithZeroEntranceFlag();
+        IList<IUser> GetAdmins();
     }
 }

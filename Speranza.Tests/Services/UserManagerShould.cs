@@ -49,12 +49,18 @@ namespace Speranza.Tests.Services
         private const int FREE_SIGN_UPS = 5;
         private const int NUMBER_OF_PAST_TRAININGS = 8;
         private const string TRAINING_ID = "TRAINING_ID";
+        private const string EMAIL2 = "EMAIL2";
+        private const string TRAINING2_ID = "TRAINING2_ID";
         private readonly DateTime DATE_TIME = new DateTime(2017, 1, 6, 10, 00, 00);
         private Mock<IUserProfileModel> userProfileModel;
         private Mock<IUserInTraining> userInTraining;
         private Mock<IEmailManager> emailManager;
         private IList<IUser> users;
         private IList<IUser> admins;
+        private Mock<IUserInTraining> user2InTraining;
+        private Mock<IUserInTraining> user1InTraining;
+        private Mock<IUser> user1;
+        private Mock<IUser> user2;
 
         [TestMethod]
         public void ReturnFalse_When_SessionIsEmpty()
@@ -532,7 +538,7 @@ namespace Speranza.Tests.Services
         }
 
         [TestMethod]
-        public void NotUpdateSeasonTicketButSetFlag_When_UserInTrainingHasNoEntrancesOnTicket()
+        public void NotUpdateSeasonTicketButSetProcessedFlagAndZeroEntranceFlag_When_UserInTrainingHasNoEntrancesOnTicket()
         {
             InitializeUserManager();
             PrepareUserInTRainingWithoutEntranceOnTicket();
@@ -541,11 +547,12 @@ namespace Speranza.Tests.Services
 
             db.Verify(r => r.UpdateCountOfFreeSignUps(It.IsAny<string>(), It.IsAny<int>()), Times.Never);
             db.Verify(r => r.SetAlreadyProcessedFlag(userInTraining.Object), Times.Once);
+            db.Verify(r => r.SetZeroEntranceFlag(userInTraining.Object, true), Times.Once);
 
         }
 
         [TestMethod]
-        public void UpdateSeasonTicketandSetFlag_When_UserInTrainingHasEntrancesOnTicket()
+        public void UpdateSeasonTicketandSetProcessedFlagAndDoNotSetZeroEntranceFlag_When_UserInTrainingHasEntrancesOnTicket()
         {
             InitializeUserManager();
             PrepareUserInTRainingWithEntranceOnTicket();
@@ -554,28 +561,105 @@ namespace Speranza.Tests.Services
 
             db.Verify(r => r.UpdateCountOfFreeSignUps(EMAIL, -1), Times.Once);
             db.Verify(r => r.SetAlreadyProcessedFlag(userInTraining.Object), Times.Once);
+            db.Verify(r => r.SetZeroEntranceFlag(userInTraining.Object, false), Times.Once);
         }
 
         [TestMethod]
-        public void SendEmail_When_UserWithoutEntrance_WasSignedUp_And_TrainingWasYetNotProcessed()
+        public void NotSendEmailToAdmins_When_NoUserWithZeroEntranceFlagWasInTraining()
         {
             InitializeUserManager();
-            PrepareUserWithoutEntranceOnNonProcessedTraining();
+            PrepareTrainingWithNoUserWithZeroEntranceFlag();
 
             manager.PromptToConfirmUserAttendance();
 
-            emailManager.Verify(r => r.SendConfirmUserAttendance(admins, users, DATE_TIME), Times.Once);
-            Assert.Fail("To do");
+            emailManager.Verify(r => r.SendConfirmUserAttendance(It.IsAny<IList<IUser>>(), It.IsAny<IList<IUser>>(), It.IsAny<string>(), It.IsAny<DateTime>()), Times.Never);
+            db.Verify(r => r.SetZeroEntranceFlag(It.IsAny<IUserInTraining>(),It.IsAny<bool>()), Times.Never);
         }
 
-        private void PrepareUserWithoutEntranceOnNonProcessedTraining()
+        private void PrepareTrainingWithNoUserWithZeroEntranceFlag()
         {
-            throw new NotImplementedException();
+            db.Setup(r => r.GetAllUsersInTrainingWithZeroEntranceFlag()).Returns(new List<IUserInTraining>());
         }
 
-        private void PrepareUserWithoutEntranceOnTraining()
+        [TestMethod]
+        public void SendEmailToAdmins_When_TwoUsersWithZeroEntranceFlagExistInOneTraining()
         {
-            throw new NotImplementedException();
+            InitializeUserManager();
+            PrepareTrainingWithTwoUsersWithZeroEntranceFlag();
+            PrepareAdmins();
+
+            manager.PromptToConfirmUserAttendance();
+
+            emailManager.Verify(r => r.SendConfirmUserAttendance(admins,It.Is<IList<IUser>>(k=>k.Count == 2 && k.Contains(user1.Object) && k.Contains(user2.Object)), TRAINING_ID, DATE_TIME), Times.Once);
+            db.Verify(r => r.SetZeroEntranceFlag(user1InTraining.Object, false), Times.Once);
+            db.Verify(r => r.SetZeroEntranceFlag(user2InTraining.Object, false), Times.Once);
+        }
+
+        [TestMethod]
+        public void SendEmailToAdmins_When_TwoUsersWithZeroEntranceFlagExistInTwoDifferentTrainings()
+        {
+            InitializeUserManager();
+            PrepareTwoTrainingWithTwoUsersWithZeroEntranceFlag();
+            PrepareAdmins();
+
+            manager.PromptToConfirmUserAttendance();
+
+            emailManager.Verify(r => r.SendConfirmUserAttendance(admins, It.Is<IList<IUser>>(k => k.Count == 1 && k.Contains(user1.Object) ), TRAINING_ID, DATE_TIME), Times.Once);
+            emailManager.Verify(r => r.SendConfirmUserAttendance(admins, It.Is<IList<IUser>>(k => k.Count == 1 && k.Contains(user2.Object)), TRAINING2_ID, DATE_TIME), Times.Once);
+            db.Verify(r => r.SetZeroEntranceFlag(user1InTraining.Object, false), Times.Once);
+            db.Verify(r => r.SetZeroEntranceFlag(user2InTraining.Object, false), Times.Once);
+        }
+
+        private void PrepareTwoTrainingWithTwoUsersWithZeroEntranceFlag()
+        {
+            var training = new Mock<ITraining>();
+            training.SetupGet(r => r.Time).Returns(DATE_TIME);
+            db.Setup(r => r.GetTrainingData(TRAINING_ID)).Returns(training.Object);
+
+            var training2 = new Mock<ITraining>();
+            training2.SetupGet(r => r.Time).Returns(DATE_TIME);
+            db.Setup(r => r.GetTrainingData(TRAINING2_ID)).Returns(training2.Object);
+
+            user1InTraining = new Mock<IUserInTraining>();
+            user1InTraining.SetupGet(r => r.Email).Returns(EMAIL);
+            user1InTraining.SetupGet(r => r.TrainingID).Returns(TRAINING_ID);
+            user1 = new Mock<IUser>();
+            db.Setup(r => r.GetUserData(EMAIL)).Returns(user1.Object);
+
+            user2InTraining = new Mock<IUserInTraining>();
+            user2InTraining.SetupGet(r => r.Email).Returns(EMAIL2);
+            user2InTraining.SetupGet(r => r.TrainingID).Returns(TRAINING2_ID);
+            user2 = new Mock<IUser>();
+            db.Setup(r => r.GetUserData(EMAIL2)).Returns(user2.Object);
+
+            var listOfUsersInTraining = new List<IUserInTraining>() { user1InTraining.Object, user2InTraining.Object };
+            db.Setup(r => r.GetAllUsersInTrainingWithZeroEntranceFlag()).Returns(listOfUsersInTraining);
+
+        }
+
+        private void PrepareAdmins()
+        {
+            admins = new List<IUser>();
+            db.Setup(r => r.GetAdmins()).Returns(admins);
+        }
+
+        private void PrepareTrainingWithTwoUsersWithZeroEntranceFlag()
+        {
+            var training = new Mock<ITraining>();
+            training.SetupGet(r => r.Time).Returns(DATE_TIME);
+            db.Setup(r => r.GetTrainingData(TRAINING_ID)).Returns(training.Object);
+            user1InTraining = new Mock<IUserInTraining>();
+            user1InTraining.SetupGet(r => r.Email).Returns(EMAIL);
+            user1InTraining.SetupGet(r => r.TrainingID).Returns(TRAINING_ID);
+            user1 = new Mock<IUser>();
+            db.Setup(r => r.GetUserData(EMAIL)).Returns(user1.Object);
+            user2InTraining = new Mock<IUserInTraining>();
+            user2InTraining.SetupGet(r => r.Email).Returns(EMAIL2);
+            user2InTraining.SetupGet(r => r.TrainingID).Returns(TRAINING_ID);
+            user2 = new Mock<IUser>();
+            db.Setup(r => r.GetUserData(EMAIL2)).Returns(user2.Object);
+            var listOfUsersInTraining = new List<IUserInTraining>() { user1InTraining.Object, user2InTraining.Object};
+            db.Setup(r => r.GetAllUsersInTrainingWithZeroEntranceFlag()).Returns(listOfUsersInTraining);
         }
 
         private void PrepareUserInTRainingWithEntranceOnTicket()
