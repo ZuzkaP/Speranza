@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Speranza.Smtp.Interfaces;
+using Speranza.Database.Data.Interfaces;
 
 namespace Speranza.Services
 {
@@ -16,6 +17,20 @@ namespace Speranza.Services
             result.Receiver = email;
             result.Subject = string.Format(addingUserToTrainingSubject, dateTime.ToString("dd.MM.yyyy"), dateTime.ToString("HH:mm"));
             result.Body = string.Format(addingUserToTrainingBody, dateTime.ToString("dd.MM.yyyy"), dateTime.ToString("HH:mm"));
+
+            return result;
+        }
+
+        public Email CreateConfirmAttendanceEmail(IList<IUser> admins, IList<IUser> users, string trainingId, DateTime dateTime, string confirmAttendanceSubject, string confirmAttendanceBody)
+        {
+            Email result = new Email();
+            foreach (var item in admins)
+            {
+            result.Receiver += item.Email + ",";
+            }
+            result.Receiver = result.Receiver.TrimEnd(',');
+            result.Subject = string.Format(confirmAttendanceSubject, dateTime.ToString("dd.MM.yyyy"), dateTime.ToString("HH:mm"));
+
 
             return result;
         }

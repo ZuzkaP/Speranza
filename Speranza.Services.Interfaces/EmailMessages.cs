@@ -16,5 +16,7 @@ namespace Speranza.Services.Interfaces
         public const string AddingUserToTrainingBody = "Ahoj, admin ťa pridal na tréning dňa {0} o {1} \n Speranza";
         public const string RemovingUserFromTrainingBody = "Ahoj, admin ťa odhlásil z tréningu dňa {0} o {1} \n Tešíme sa na tvoju ďalšiu návštevu. \n Speranza";
         public const string RemovingUserFromTrainingSubject = "Odhlásenie z tréningu dňa {0} o {1}";
+        public const string ConfirmAttendanceSubject = "Potvrdenie účasti na tréningu dňa {0} o {1}";
+        public const string ConfirmAttendanceBody ="";
     }
 }
