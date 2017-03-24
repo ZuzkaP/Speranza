@@ -55,6 +55,10 @@ namespace Speranza.Services
             {
                 emailManager.SendAddingUserToTraining(email, training.Time);
             }
+            else if(training.RegisteredNumber == 5)
+            {
+                emailManager.SendSixthUserInTraining(db.GetAdmins(), training.Time);
+            }
             return CalendarMessages.SignUpSuccessful;
         }
 

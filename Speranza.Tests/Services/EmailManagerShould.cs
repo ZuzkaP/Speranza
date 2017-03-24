@@ -6,6 +6,8 @@ using Speranza.Smtp.Interfaces;
 using Speranza.Services.Interfaces;
 using Speranza.Database.Data.Interfaces;
 using System.Collections.Generic;
+using System.Web;
+using System.IO;
 
 namespace Speranza.Tests.Services
 {
@@ -74,20 +76,19 @@ namespace Speranza.Tests.Services
         {
             InitializeEmailManager();
             PrepareConfirmAttendanceEmailMessage();
-            
+
             emailManager.SendConfirmUserAttendance(admins.Object, users.Object, TRAINING_ID, DATE_TIME);
 
             smtp.Verify(r => r.SendEmail(email), Times.Once);
         }
 
-    
-
         private void PrepareConfirmAttendanceEmailMessage()
         {
+            EmailMessages.ConfirmAttendanceSubBody = string.Empty;
             users = new Mock<IList<IUser>>();
             admins = new Mock<IList<IUser>>();
             email = new Email();
-            factory.Setup(r => r.CreateConfirmAttendanceEmail(admins.Object,users.Object,TRAINING_ID,DATE_TIME, EmailMessages.ConfirmAttendanceSubject, EmailMessages.ConfirmAttendanceBody, EmailMessages.ConfirmAttendanceSubBody)).Returns(email);
+            factory.Setup(r => r.CreateConfirmAttendanceEmail(admins.Object, users.Object, TRAINING_ID, DATE_TIME, EmailMessages.ConfirmAttendanceSubject, EmailMessages.ConfirmAttendanceBody, EmailMessages.ConfirmAttendanceSubBody)).Returns(email);
         }
 
         private void PrepareRemovingUserFromTrainingEmailMessage()
@@ -118,7 +119,7 @@ namespace Speranza.Tests.Services
         {
             factory = new Mock<IEmailFactory>();
             smtp = new Mock<ISmtp>();
-            emailManager = new EmailManager(factory.Object,smtp.Object);
+            emailManager = new EmailManager(factory.Object, smtp.Object);
         }
     }
 }

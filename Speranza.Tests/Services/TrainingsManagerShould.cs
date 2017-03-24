@@ -57,6 +57,7 @@ namespace Speranza.Tests.Services
         private Mock<ITrainingForAdminModel> training3Model;
         private Mock<ITraining> training3;
         private Mock<IEmailManager> emailManager;
+        private List<IUser> admins;
 
         [TestMethod]
         public void ReturnEmptyList_When_NoFutureTrainingExistsInDB()
@@ -348,6 +349,44 @@ namespace Speranza.Tests.Services
 
             emailManager.Verify(r => r.SendTrainingCanceled(EMAIL,DATE_TIME), Times.Once);
             emailManager.Verify(r => r.SendTrainingCanceled(EMAIL2,DATE_TIME), Times.Once);
+        }
+
+        [TestMethod]
+        public void SendEmailToAdmins_When_SixthUserWasSignedUp()
+        {
+            InitializeTrainingManager();
+            PrepareTrainingWith5Users();
+            PrepareAdmins();
+
+            manager.AddUserToTraining(EMAIL,TRAINING_ID,CURRENT_DATE,false);
+
+            emailManager.Verify(r => r.SendSixthUserInTraining(admins, DATE_TIME), Times.Once);
+        }
+
+        [TestMethod]
+        public void NotSendEmailToAdmins_When_SixthUserWasSignedUp_And_UserIsAdmin()
+        {
+            InitializeTrainingManager();
+            PrepareTrainingWith5Users();
+            PrepareAdmins();
+
+            manager.AddUserToTraining(EMAIL, TRAINING_ID, CURRENT_DATE, true);
+
+            emailManager.Verify(r => r.SendSixthUserInTraining(admins, DATE_TIME), Times.Never);
+        }
+        private void PrepareAdmins()
+        {
+            admins = new List<IUser>();
+            db.Setup(r => r.GetAdmins()).Returns(admins);
+        }
+
+        private void PrepareTrainingWith5Users()
+        {
+            var training = new Mock<ITraining>();
+            training.SetupGet(r => r.Time).Returns(DATE_TIME);
+            training.SetupGet(r => r.RegisteredNumber).Returns(5);
+            training.SetupGet(r => r.Capacity).Returns(10);
+            db.Setup(r => r.GetTrainingData(TRAINING_ID)).Returns(training.Object);
         }
 
         private void PrepareTrainingWithTwoUsers()

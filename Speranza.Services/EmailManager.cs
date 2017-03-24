@@ -38,6 +38,11 @@ namespace Speranza.Services
             smtp.SendEmail(email);
         }
 
+        public void SendSixthUserInTraining(IList<IUser> admins, DateTime dateTime)
+        {
+            throw new NotImplementedException();
+        }
+
         public void SendTrainingCanceled(string receiver, DateTime dateTime)
         {
             Email email = factory.CreateTrainingCanceledEmail(receiver, EmailMessages.TrainingCanceledSubject, EmailMessages.TrainingCanceledBody,dateTime);

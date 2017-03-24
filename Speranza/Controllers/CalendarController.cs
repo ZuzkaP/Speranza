@@ -47,21 +47,6 @@ namespace Speranza.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            //if (training == null)
-            //{
-            //    Session["Message"] = CalendarMessages.TrainingDoesNotExist;
-            //    return RedirectToAction("Calendar");
-            //}
-            //if (training.RegisteredNumber >= training.Capacity)
-            //{
-            //    Session["Message"] = CalendarMessages.TrainingIsFull;
-            //    return RedirectToAction("Calendar");
-            //}
-            //if (db.IsUserAlreadySignedUpInTraining((string)Session["Email"], id))
-            //{
-            //    Session["Message"] = CalendarMessages.UserAlreadySignedUp;
-            //    return RedirectToAction("Calendar");
-            //}
            CalendarMessages message = trainingManager.AddUserToTraining((string)Session["Email"], id,dateTimeService.GetCurrentDate());
             if(message ==  CalendarMessages.SignUpSuccessful)
             {
