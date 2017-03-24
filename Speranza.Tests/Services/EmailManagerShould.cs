@@ -87,7 +87,7 @@ namespace Speranza.Tests.Services
             users = new Mock<IList<IUser>>();
             admins = new Mock<IList<IUser>>();
             email = new Email();
-            factory.Setup(r => r.CreateConfirmAttendanceEmail(admins.Object,users.Object,TRAINING_ID,DATE_TIME, EmailMessages.ConfirmAttendanceSubject, EmailMessages.ConfirmAttendanceBody)).Returns(email);
+            factory.Setup(r => r.CreateConfirmAttendanceEmail(admins.Object,users.Object,TRAINING_ID,DATE_TIME, EmailMessages.ConfirmAttendanceSubject, EmailMessages.ConfirmAttendanceBody, EmailMessages.ConfirmAttendanceSubBody)).Returns(email);
         }
 
         private void PrepareRemovingUserFromTrainingEmailMessage()

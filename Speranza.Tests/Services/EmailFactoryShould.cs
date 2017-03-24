@@ -21,10 +21,17 @@ namespace Speranza.Tests.Services
         private const string BODY_2_PARAMS = "content{0}{1}";
         private const string TRAINING_ID = "trainingId";
         private const string EMAIL2 = "EMAIL2";
+        private const string NAME = "meno";
+        private const string NAME2 = "meno2";
+        private const string SURNAME = "priezvisko";
+        private const string SURNAME2 = "priezvisko2";
         private readonly DateTime DATE_TIME = new DateTime(2017, 08, 08, 10, 00, 00);
         private EmailFactory factory;
         private IList<IUser> admins;
         private List<IUser> users;
+        private Mock<IUser> user;
+        private const string BODY_FOR_ATTENDANCE = "uvod {0} zaver";
+        private const string SUBBODY_FOR_ATTENDANCE = "{0} {1} {2} {3}";
 
         [TestMethod]
         public void CreateWelcomeEmail()
@@ -84,8 +91,9 @@ namespace Speranza.Tests.Services
         {
             InitializeEmailFactory();
             PrepareDataForConfirmAttendanceWithOneAdmin();
+            PrepareOneUserToConfirmHisAttendance();
 
-            Email result = factory.CreateConfirmAttendanceEmail(admins, users, TRAINING_ID, DATE_TIME, SUBJECT, BODY);
+            Email result = factory.CreateConfirmAttendanceEmail(admins, users, TRAINING_ID, DATE_TIME, SUBJECT, BODY,SUBBODY_FOR_ATTENDANCE);
 
             Assert.AreEqual(EMAIL, result.Receiver);
         }
@@ -95,8 +103,9 @@ namespace Speranza.Tests.Services
         {
             InitializeEmailFactory();
             PrepareDataForConfirmAttendanceWithTwoAdmins();
+            PrepareOneUserToConfirmHisAttendance();
 
-            Email result = factory.CreateConfirmAttendanceEmail(admins, users, TRAINING_ID, DATE_TIME, SUBJECT, BODY);
+            Email result = factory.CreateConfirmAttendanceEmail(admins, users, TRAINING_ID, DATE_TIME, SUBJECT, BODY,SUBBODY_FOR_ATTENDANCE);
 
             Assert.AreEqual(EMAIL+"," + EMAIL2, result.Receiver);
         }
@@ -106,20 +115,57 @@ namespace Speranza.Tests.Services
         {
             InitializeEmailFactory();
             PrepareDataForConfirmAttendanceWithOneAdmin();
+            PrepareOneUserToConfirmHisAttendance();
 
-            Email result = factory.CreateConfirmAttendanceEmail(admins, users, TRAINING_ID, DATE_TIME, SUBJECT_2_PARAMS, BODY);
+            Email result = factory.CreateConfirmAttendanceEmail(admins, users, TRAINING_ID, DATE_TIME, SUBJECT_2_PARAMS, BODY,SUBBODY_FOR_ATTENDANCE);
 
             Assert.AreEqual(string.Format(SUBJECT_2_PARAMS, DATE_TIME.ToString("dd.MM.yyyy"), DATE_TIME.ToString("HH:mm")), result.Subject);
         }
 
-        /*
-         Ahoj admin,
+        [TestMethod]
+        public void CreateConfirmAttendanceEmailBodyForOneUser()
+        {
+            InitializeEmailFactory();
+            PrepareDataForConfirmAttendanceWithOneAdmin();
+            PrepareOneUserToConfirmHisAttendance();
 
-            potrvď účasť/neúčasť týchto cvičiacich na tréningu.
-            Meno Priezvisko potrvď účasť/ potvrď neúčasť
+            Email result = factory.CreateConfirmAttendanceEmail(admins, users, TRAINING_ID, DATE_TIME, SUBJECT_2_PARAMS, BODY_FOR_ATTENDANCE,SUBBODY_FOR_ATTENDANCE);
 
-            Tvoja Speranza
-             */
+            Assert.AreEqual("uvod " + NAME + " " + SURNAME + " " + EMAIL + " " + TRAINING_ID + " zaver",result.Body);
+        }
+        [TestMethod]
+        public void CreateConfirmAttendanceEmailBodyForTwoUsers()
+        {
+            InitializeEmailFactory();
+            PrepareDataForConfirmAttendanceWithOneAdmin();
+            PrepareTwoUsersToConfirmHisAttendance();
+
+            Email result = factory.CreateConfirmAttendanceEmail(admins, users, TRAINING_ID, DATE_TIME, SUBJECT_2_PARAMS, BODY_FOR_ATTENDANCE, SUBBODY_FOR_ATTENDANCE);
+
+            Assert.AreEqual("uvod " + NAME + " " + SURNAME + " " + EMAIL + " " + TRAINING_ID + NAME2 + " " + SURNAME2 + " " + EMAIL2 + " " + TRAINING_ID + " zaver", result.Body);
+        }
+
+        private void PrepareTwoUsersToConfirmHisAttendance()
+        {
+            PrepareOneUserToConfirmHisAttendance();
+            var user = new Mock<IUser>();
+            user.SetupGet(r => r.Email).Returns(EMAIL2);
+            user.SetupGet(r => r.Name).Returns(NAME2);
+            user.SetupGet(r => r.Surname).Returns(SURNAME2);
+            users.Add(user.Object);
+        }
+
+        private void PrepareOneUserToConfirmHisAttendance()
+        {
+            user = new Mock<IUser>();
+            user.SetupGet(r => r.Email).Returns(EMAIL);
+            user.SetupGet(r => r.Name).Returns(NAME);
+            user.SetupGet(r => r.Surname).Returns(SURNAME);
+            users = new List<IUser>();
+            users.Add(user.Object);
+        }
+
+       
 
         private void PrepareDataForConfirmAttendanceWithTwoAdmins()
         {
@@ -129,7 +175,6 @@ namespace Speranza.Tests.Services
             admin2.SetupGet(r => r.Email).Returns(EMAIL2);
             admins = new List<IUser>() { admin.Object,admin2.Object };
 
-            users = new List<IUser>();
         }
 
         private void PrepareDataForConfirmAttendanceWithOneAdmin()
@@ -138,7 +183,6 @@ namespace Speranza.Tests.Services
             admin.SetupGet(r => r.Email).Returns(EMAIL);
             admins = new List<IUser>() { admin.Object};
 
-            users = new List<IUser>();
         }
 
         private void InitializeEmailFactory()

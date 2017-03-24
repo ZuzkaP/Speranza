@@ -28,7 +28,7 @@ namespace Speranza.Services
 
         public void SendConfirmUserAttendance(IList<IUser> admins, IList<IUser> users, string trainingID,DateTime dateTime)
         {
-            Email email = factory.CreateConfirmAttendanceEmail(admins,users,trainingID,dateTime,EmailMessages.ConfirmAttendanceSubject, EmailMessages.ConfirmAttendanceBody);
+            Email email = factory.CreateConfirmAttendanceEmail(admins,users,trainingID,dateTime,EmailMessages.ConfirmAttendanceSubject, EmailMessages.ConfirmAttendanceBody,string.Empty);
             smtp.SendEmail(email);
         }
 

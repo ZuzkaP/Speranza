@@ -3,11 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 
 namespace Speranza.Services.Interfaces
 {
    public static class EmailMessages
     {
+        static EmailMessages()
+        {
+            var requestContext = HttpContext.Current.Request.RequestContext;
+            urlHelper = new UrlHelper(requestContext);
+        }
         public const string WelcomeSubject = "Registrácia";
         public const string WelcomeBody = "Vitajte v štúdiu Speranza. Vaša registrácia bola úspešná.";
         public const string TrainingCanceledBody = "Ahoj, \n ospravedlňujeme sa, ale tréning dňa {0} o {1} je zrušený. Tešíme sa na teba pri ďalšej návšteve. \n Speranza tím";
@@ -17,6 +24,8 @@ namespace Speranza.Services.Interfaces
         public const string RemovingUserFromTrainingBody = "Ahoj, admin ťa odhlásil z tréningu dňa {0} o {1} \n Tešíme sa na tvoju ďalšiu návštevu. \n Speranza";
         public const string RemovingUserFromTrainingSubject = "Odhlásenie z tréningu dňa {0} o {1}";
         public const string ConfirmAttendanceSubject = "Potvrdenie účasti na tréningu dňa {0} o {1}";
-        public const string ConfirmAttendanceBody ="";
+        public const string ConfirmAttendanceBody = " Ahoj admin, \n  potrvď účasť/neúčasť týchto cvičiacich na tréningu. \n{0}\n\n Tvoja Speranza";
+        public static readonly string ConfirmAttendanceSubBody = "{0} {1} <a href=\""+ urlHelper.Action("ConfirmParticipation", "AdminPastTrainings") + "?traningId={3}&amp;email={2}\">potvrď účasť</a> / <a href=\""+urlHelper.Action("ConfirmParticipation", "AdminPastTrainings")+"\">potvrď neúčasť</a>";
+        private static UrlHelper urlHelper;
     }
 }
