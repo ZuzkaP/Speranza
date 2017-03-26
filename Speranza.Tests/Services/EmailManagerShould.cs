@@ -24,6 +24,8 @@ namespace Speranza.Tests.Services
         private readonly DateTime DATE_TIME = new DateTime(2017, 08, 08, 10, 00, 00);
         private Mock<IList<IUser>> users;
         private Mock<IList<IUser>> admins;
+        private object thUserSignedUpInTrainingSubject;
+        private object thUserSignedUpInTrainingBody;
 
         [TestMethod]
         public void SendWelcome()
@@ -82,11 +84,45 @@ namespace Speranza.Tests.Services
             smtp.Verify(r => r.SendEmail(email), Times.Once);
         }
 
+        [TestMethod]
+        public void Send6thUserWasSignedUpEmail()
+        {
+            InitializeEmailManager();
+            Prepare6thUserWasSignedUpEmail();
+
+            emailManager.SendSixthUserInTraining(admins.Object, DATE_TIME);
+
+            smtp.Verify(r => r.SendEmail(email), Times.Once);
+        }
+
+        private void Prepare6thUserWasSignedUpEmail()
+        {
+            email = new Email();
+            factory.Setup(r => r.Create6thUserSignepUpEmail(admins.Object, EmailMessages.SixthUserSignedUpInTrainingSubject, EmailMessages.SixthUserSignedUpInTrainingBody, DATE_TIME)).Returns(email);
+
+        }
+
+        [TestMethod]
+        public void Send6thUserWasSignedOffEmail()
+        {
+            InitializeEmailManager();
+            Prepare6thUserWasSignedOffEmail();
+
+            emailManager.SendSixthUserSignOffFromTraining(admins.Object, DATE_TIME);
+
+            smtp.Verify(r => r.SendEmail(email), Times.Once);
+        }
+
+        private void Prepare6thUserWasSignedOffEmail()
+        {
+            email = new Email();
+            factory.Setup(r => r.Create6thUserSignOffEmail(admins.Object, EmailMessages.SixthUserSignedOffFromTrainingSubject, EmailMessages.SixthUserSignedOffFromTrainingBody, DATE_TIME)).Returns(email);
+        }
+
         private void PrepareConfirmAttendanceEmailMessage()
         {
             EmailMessages.ConfirmAttendanceSubBody = string.Empty;
             users = new Mock<IList<IUser>>();
-            admins = new Mock<IList<IUser>>();
             email = new Email();
             factory.Setup(r => r.CreateConfirmAttendanceEmail(admins.Object, users.Object, TRAINING_ID, DATE_TIME, EmailMessages.ConfirmAttendanceSubject, EmailMessages.ConfirmAttendanceBody, EmailMessages.ConfirmAttendanceSubBody)).Returns(email);
         }
@@ -120,6 +156,7 @@ namespace Speranza.Tests.Services
             factory = new Mock<IEmailFactory>();
             smtp = new Mock<ISmtp>();
             emailManager = new EmailManager(factory.Object, smtp.Object);
+            admins = new Mock<IList<IUser>>();
         }
     }
 }

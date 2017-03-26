@@ -12,8 +12,8 @@ namespace Speranza.Services.Interfaces
     {
         static EmailMessages()
         {
-            var requestContext = HttpContext.Current.Request.RequestContext;
-            urlHelper = new UrlHelper(requestContext);
+            //var requestContext = HttpContext.Current.Request.RequestContext;
+            //urlHelper = new UrlHelper(requestContext);
         }
 
         public const string WelcomeSubject = "Registrácia";
@@ -25,8 +25,12 @@ namespace Speranza.Services.Interfaces
         public const string RemovingUserFromTrainingBody = "Ahoj, admin ťa odhlásil z tréningu dňa {0} o {1} \n Tešíme sa na tvoju ďalšiu návštevu. \n Speranza";
         public const string RemovingUserFromTrainingSubject = "Odhlásenie z tréningu dňa {0} o {1}";
         public const string ConfirmAttendanceSubject = "Potvrdenie účasti na tréningu dňa {0} o {1}";
-        public const string ConfirmAttendanceBody = " Ahoj admin, \n  potrvď účasť/neúčasť týchto cvičiacich na tréningu. \n{0}\n\n Tvoja Speranza";
-        public static string ConfirmAttendanceSubBody = "{0} {1} <a href=\""+ urlHelper.Action("ConfirmParticipation", "AdminPastTrainings") + "?traningId={3}&amp;email={2}\">potvrď účasť</a> / <a href=\""+urlHelper.Action("ConfirmParticipation", "AdminPastTrainings")+"\">potvrď neúčasť</a>";
+        public const string ConfirmAttendanceBody = " Ahoj admin, \npotrvď účasť/neúčasť týchto cvičiacich na tréningu. \n{0}\n\n Tvoja Speranza";
+        public static string ConfirmAttendanceSubBody = "{0} {1} <a href=\""+ /*urlHelper.Action("ConfirmParticipation", "AdminPastTrainings") +*/ "?traningId={3}&amp;email={2}\">potvrď účasť</a> / <a href=\""+urlHelper.Action("ConfirmParticipation", "AdminPastTrainings")+"\">potvrď neúčasť</a>";
         private static UrlHelper urlHelper;
+        public const string SixthUserSignedUpInTrainingSubject = "Prihlásil sa 6. cvičiaci";
+        public const string SixthUserSignedUpInTrainingBody = " Ahoj admin, \nna tréning dňa {0} o {1} sa prihlásil 6. cvičiaci. Skontroluj, či máš trénera.\nTvoja Speranza";
+        public const string SixthUserSignedOffFromTrainingSubject = "Odhlásil sa 6. cvičiaci";
+        public const string SixthUserSignedOffFromTrainingBody = " Ahoj admin, \nna tréning dňa {0} o {1} sa odhlásil 6. cvičiaci. Nezabudni zrušiť trénera. \nTvoja Speranza";
     }
 }

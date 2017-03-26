@@ -372,8 +372,41 @@ namespace Speranza.Tests.Services
 
             manager.AddUserToTraining(EMAIL, TRAINING_ID, CURRENT_DATE, true);
 
-            emailManager.Verify(r => r.SendSixthUserInTraining(admins, DATE_TIME), Times.Never);
+            emailManager.Verify(r => r.SendSixthUserInTraining(It.IsAny<IList<IUser>>(), It.IsAny<DateTime>()), Times.Never);
         }
+        [TestMethod]
+        public void SendEmailToAdmins_When_SixthUserWasSignedOff()
+        {
+            InitializeTrainingManager();
+            PrepareTrainingWith6Users();
+            PrepareAdmins();
+
+            manager.RemoveUserFromTraining(EMAIL, TRAINING_ID, false);
+
+            emailManager.Verify(r => r.SendSixthUserSignOffFromTraining(admins, DATE_TIME), Times.Once);
+        }
+
+        private void PrepareTrainingWith6Users()
+        {
+            var training = new Mock<ITraining>();
+            training.SetupGet(r => r.Time).Returns(DATE_TIME);
+            training.SetupGet(r => r.RegisteredNumber).Returns(6);
+            training.SetupGet(r => r.Capacity).Returns(10);
+            db.Setup(r => r.GetTrainingData(TRAINING_ID)).Returns(training.Object);
+        }
+
+        [TestMethod]
+        public void NotSendEmailToAdmins_When_SixthUserWasSignedOff_And_UserIsAdmin()
+        {
+            InitializeTrainingManager();
+            PrepareTrainingWith6Users();
+            PrepareAdmins();
+
+            manager.RemoveUserFromTraining(EMAIL, TRAINING_ID, true);
+
+            emailManager.Verify(r => r.SendSixthUserSignOffFromTraining(It.IsAny<IList<IUser>>(), It.IsAny<DateTime>()), Times.Never);
+        }
+
         private void PrepareAdmins()
         {
             admins = new List<IUser>();

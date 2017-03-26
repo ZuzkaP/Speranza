@@ -85,12 +85,65 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(string.Format(BODY_2_PARAMS, DATE_TIME.ToString("dd.MM.yyyy"), DATE_TIME.ToString("HH:mm")), result.Body);
         }
 
+        [TestMethod]
+        public void CreateSixthUserSignedUpInTrainingEmailWithOneAdmin()
+        {
+            InitializeEmailFactory();
+            PrepareOneAdmin();
+
+            Email result = factory.Create6thUserSignepUpEmail(admins, SUBJECT_2_PARAMS, BODY_2_PARAMS, DATE_TIME);
+
+            Assert.AreEqual(EMAIL, result.Receiver);
+
+            Assert.AreEqual(string.Format(SUBJECT_2_PARAMS, DATE_TIME.ToString("dd.MM.yyyy"), DATE_TIME.ToString("HH:mm")), result.Subject);
+            Assert.AreEqual(string.Format(BODY_2_PARAMS, DATE_TIME.ToString("dd.MM.yyyy"), DATE_TIME.ToString("HH:mm")), result.Body);
+        }
+        [TestMethod]
+        public void CreateSixthUserSignedUpInTrainingEmailWithTwoAdmins()
+        {
+            InitializeEmailFactory();
+            PrepareTwoAdmins();
+
+            Email result = factory.Create6thUserSignepUpEmail(admins, SUBJECT_2_PARAMS, BODY_2_PARAMS, DATE_TIME);
+
+            Assert.AreEqual(EMAIL + "," + EMAIL2, result.Receiver);
+
+            Assert.AreEqual(string.Format(SUBJECT_2_PARAMS, DATE_TIME.ToString("dd.MM.yyyy"), DATE_TIME.ToString("HH:mm")), result.Subject);
+            Assert.AreEqual(string.Format(BODY_2_PARAMS, DATE_TIME.ToString("dd.MM.yyyy"), DATE_TIME.ToString("HH:mm")), result.Body);
+        }
+
+        [TestMethod]
+        public void CreateSixthUserSignedOffFromTrainingEmailWithOneAdmin()
+        {
+            InitializeEmailFactory();
+            PrepareOneAdmin();
+
+            Email result = factory.Create6thUserSignOffEmail(admins, SUBJECT_2_PARAMS, BODY_2_PARAMS, DATE_TIME);
+
+            Assert.AreEqual(EMAIL, result.Receiver);
+
+            Assert.AreEqual(string.Format(SUBJECT_2_PARAMS, DATE_TIME.ToString("dd.MM.yyyy"), DATE_TIME.ToString("HH:mm")), result.Subject);
+            Assert.AreEqual(string.Format(BODY_2_PARAMS, DATE_TIME.ToString("dd.MM.yyyy"), DATE_TIME.ToString("HH:mm")), result.Body);
+        }
+        [TestMethod]
+        public void CreateSixthUserSignedOffFromTrainingEmailWithTwoAdmins()
+        {
+            InitializeEmailFactory();
+            PrepareTwoAdmins();
+
+            Email result = factory.Create6thUserSignOffEmail(admins, SUBJECT_2_PARAMS, BODY_2_PARAMS, DATE_TIME);
+
+            Assert.AreEqual(EMAIL + "," + EMAIL2, result.Receiver);
+
+            Assert.AreEqual(string.Format(SUBJECT_2_PARAMS, DATE_TIME.ToString("dd.MM.yyyy"), DATE_TIME.ToString("HH:mm")), result.Subject);
+            Assert.AreEqual(string.Format(BODY_2_PARAMS, DATE_TIME.ToString("dd.MM.yyyy"), DATE_TIME.ToString("HH:mm")), result.Body);
+        }
 
         [TestMethod]
         public void CreateRightReceiver_When_OnlyOneExists_AndCreateConfirmAttendanceEmailIsCalled()
         {
             InitializeEmailFactory();
-            PrepareDataForConfirmAttendanceWithOneAdmin();
+            PrepareOneAdmin();
             PrepareOneUserToConfirmHisAttendance();
 
             Email result = factory.CreateConfirmAttendanceEmail(admins, users, TRAINING_ID, DATE_TIME, SUBJECT, BODY,SUBBODY_FOR_ATTENDANCE);
@@ -102,7 +155,7 @@ namespace Speranza.Tests.Services
         public void CreateRightReceiver_When_TwoAdminExist_AndCreateConfirmAttendanceEmailIsCalled()
         {
             InitializeEmailFactory();
-            PrepareDataForConfirmAttendanceWithTwoAdmins();
+            PrepareTwoAdmins();
             PrepareOneUserToConfirmHisAttendance();
 
             Email result = factory.CreateConfirmAttendanceEmail(admins, users, TRAINING_ID, DATE_TIME, SUBJECT, BODY,SUBBODY_FOR_ATTENDANCE);
@@ -114,7 +167,7 @@ namespace Speranza.Tests.Services
         public void CreateConfirmAttendanceEmailSubject()
         {
             InitializeEmailFactory();
-            PrepareDataForConfirmAttendanceWithOneAdmin();
+            PrepareOneAdmin();
             PrepareOneUserToConfirmHisAttendance();
 
             Email result = factory.CreateConfirmAttendanceEmail(admins, users, TRAINING_ID, DATE_TIME, SUBJECT_2_PARAMS, BODY,SUBBODY_FOR_ATTENDANCE);
@@ -126,7 +179,7 @@ namespace Speranza.Tests.Services
         public void CreateConfirmAttendanceEmailBodyForOneUser()
         {
             InitializeEmailFactory();
-            PrepareDataForConfirmAttendanceWithOneAdmin();
+            PrepareOneAdmin();
             PrepareOneUserToConfirmHisAttendance();
 
             Email result = factory.CreateConfirmAttendanceEmail(admins, users, TRAINING_ID, DATE_TIME, SUBJECT_2_PARAMS, BODY_FOR_ATTENDANCE,SUBBODY_FOR_ATTENDANCE);
@@ -137,7 +190,7 @@ namespace Speranza.Tests.Services
         public void CreateConfirmAttendanceEmailBodyForTwoUsers()
         {
             InitializeEmailFactory();
-            PrepareDataForConfirmAttendanceWithOneAdmin();
+            PrepareOneAdmin();
             PrepareTwoUsersToConfirmHisAttendance();
 
             Email result = factory.CreateConfirmAttendanceEmail(admins, users, TRAINING_ID, DATE_TIME, SUBJECT_2_PARAMS, BODY_FOR_ATTENDANCE, SUBBODY_FOR_ATTENDANCE);
@@ -164,10 +217,8 @@ namespace Speranza.Tests.Services
             users = new List<IUser>();
             users.Add(user.Object);
         }
-
-       
-
-        private void PrepareDataForConfirmAttendanceWithTwoAdmins()
+        
+        private void PrepareTwoAdmins()
         {
             var admin = new Mock<IUser>();
             var admin2 = new Mock<IUser>();
@@ -177,7 +228,7 @@ namespace Speranza.Tests.Services
 
         }
 
-        private void PrepareDataForConfirmAttendanceWithOneAdmin()
+        private void PrepareOneAdmin()
         {
             var admin = new Mock<IUser>();
             admin.SetupGet(r => r.Email).Returns(EMAIL);

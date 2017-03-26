@@ -40,7 +40,14 @@ namespace Speranza.Services
 
         public void SendSixthUserInTraining(IList<IUser> admins, DateTime dateTime)
         {
-            throw new NotImplementedException();
+            Email email = factory.Create6thUserSignepUpEmail(admins, EmailMessages.SixthUserSignedUpInTrainingSubject, EmailMessages.SixthUserSignedUpInTrainingBody, dateTime);
+            smtp.SendEmail(email);
+        }
+
+        public void SendSixthUserSignOffFromTraining(IList<IUser> admins, DateTime dateTime)
+        {
+            Email email = factory.Create6thUserSignOffEmail(admins, EmailMessages.SixthUserSignedOffFromTrainingSubject, EmailMessages.SixthUserSignedOffFromTrainingBody, dateTime);
+            smtp.SendEmail(email);
         }
 
         public void SendTrainingCanceled(string receiver, DateTime dateTime)
