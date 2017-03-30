@@ -339,22 +339,40 @@ $("#AddUserButton").click(function () {
                                     '<th>Meno</th>' +
                                     '<th>Priezvisko</th>' +
                                    ' <th>Email</th>' +
+                                    ' <th>Čas prihlásenia</th>' +
                                     '<th>Akcia</th>' +
                                ' </tr>' +
                                 '</thead>' +
                      ' </table>';
                     $("#TrainingDetailsBody").html(newTable);
                 }
+                var d = new Date();
+                var day =( d.getDate() < 10 ? "0" : "") + d.getDate();
+                var hours = (d.getHours() < 10 ? "0" : "") + d.getHours();
+                var minutes = (d.getMinutes() < 10 ? "0" : "") + d.getMinutes();
+                var month = (d.getMonth() < 9 ? "0" : "") + (d.getMonth() + 1);
+                var seconds = (d.getSeconds() < 10 ? "0" : "") + (d.getSeconds());
+                var strDate = day+ "." + month + "." + d.getFullYear() + " " + hours + ":" + minutes + ":" + seconds;
 
-                    var newRow = '<tr id="' + response.Email + '">' +
+                var newRow = '<tr id="' + response.Email + '">' +
                          '<td>' + response.Name + '</td>' +
                          '<td>' + response.Surname + '</td>' +
                          '<td>' + response.Email + '</td>' +
+                        '<td>' + strDate + '</td>' +
                          '<td><a class="UserSignOutFromTraining" data-email="' + response.Email + '" data-training="' + trainingID + '" href="#">Odhlás používateľa</a></td>' +
                          '</tr>';
 
-                    $('#UsersInTrainingTable').prepend(newRow);
-                    $('#' + trainingID + '-RegisteredNumber').html(1+parseInt($('#' + trainingID + '-RegisteredNumber').html(),10));
+                    $('#UsersInTrainingTable').append(newRow);
+                    $('#' + trainingID + '-RegisteredNumber').html(1 + parseInt($('#' + trainingID + '-RegisteredNumber').html(), 10));
+                    if ($('#UsersInTrainingTable tr').length == 7)
+                    {
+                        showMessageBoxWarningForAddingUser(response.Name + " " + response.Surname + " bol prihlásený na tento tréning." + "<br> Pozor je to 6. cvičiaci, potrebuješ ďalšieho trénera!");
+
+                    }
+                    else
+                    {
+                    showMessageBoxSuccessForAddingUser(response.Name + " " + response.Surname + " bol prihlásený na tento tréning.");
+                    }
             }
             
         }
