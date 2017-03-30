@@ -1,4 +1,5 @@
 ﻿using Speranza.Common.Data;
+using System;
 
 namespace Speranza.Database.Data.Interfaces
 {
@@ -15,5 +16,6 @@ namespace Speranza.Database.Data.Interfaces
         int NumberOfPastTrainings { get; set; }
         int NumberOfSignedUpTrainings { get; set; }
         bool ParticipationSet { get; set; }
+        DateTime SignUpTime { get; set; }
     }
 }

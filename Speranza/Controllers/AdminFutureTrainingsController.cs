@@ -129,7 +129,7 @@ namespace Speranza.Controllers
             IList<IUserForTrainingDetailModel> users = trainingManager.GetAllUsersInTraining(trainingID);
             UsersInTrainingModel model = new UsersInTrainingModel();
             model.TrainingID = trainingID;
-            model.Users = users;
+            model.Users = users.OrderBy(r=>r.SignUpTime).ToList();
 
             return PartialView("UsersInTraining", model);
         }

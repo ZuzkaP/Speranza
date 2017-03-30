@@ -13,6 +13,7 @@ else
                 <th>Meno</th>
                 <th>Priezvisko</th>
                 <th>Email</th>
+                <th>Čas prihlásenia</th>
                 <th>Akcia</th>
             </tr>
             </thead>
@@ -21,7 +22,8 @@ else
          <tr id="@user.Email">
             <td>@user.Name </td>
             <td>@user.Surname </td>
-            <td>@user.Email</td>
+             <td>@user.Email</td>
+            <td>@user.SignUpTime.ToString("dd.MM.yyyy HH:mm:ss")</td>
              <td><a class="UserSignOutFromTraining" data-email="@user.Email" data-training="@Model.TrainingID" href="#">Odhlás používateľa</a></td>
         </tr>
         }

@@ -255,7 +255,11 @@ namespace Speranza.Database
         {
             var usersInTraining = usersInTrainings.Where(r => r.TrainingID == trainingID);
 
-            var users = usersInTraining.Select(r => GetUserData(r.Email)).ToList();
+            var users = usersInTraining.Select(r => {
+                var user = GetUserData(r.Email);
+                user.SignUpTime = r.Time;
+                return user;
+            }).ToList();
 
             foreach (var item in users)
             {

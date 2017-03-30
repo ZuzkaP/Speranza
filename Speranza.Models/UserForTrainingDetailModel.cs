@@ -18,5 +18,6 @@ namespace Speranza.Models
         {
             get; set;
         }
+        public DateTime SignUpTime { get ; set ; }
     }
 }

@@ -34,5 +34,6 @@ namespace Speranza.Database.Data
         {
             get; set;
         }
-    }
+        public DateTime SignUpTime { get; set ; }
+          }
 }
