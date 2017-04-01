@@ -162,6 +162,7 @@
     <Content Include="Views\AdminPastTrainings\TrainingDetails.cshtml" />
     <Content Include="Views\AdminPastTrainings\UsersInTraining.cshtml" />
     <Content Include="Views\Home\Speranza.cshtml" />
+    <Content Include="Views\Accounts\ForgottenPass.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

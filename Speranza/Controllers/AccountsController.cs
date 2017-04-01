@@ -269,5 +269,15 @@ namespace Speranza.Controllers
                 model.PastTrainings = pastTrainings.OrderByDescending(r => r.Time).ToList();
             }
         }
+
+        public ActionResult ForgottenPass()
+        {
+            return View();
+        }
+
+        public ActionResult SendNewPass()
+        {
+            return View();
+        }
     }
 }

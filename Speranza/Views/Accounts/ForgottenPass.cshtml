@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "ForgottenPass";
+    Layout = "~/Views/LayoutNotLoggedIn.cshtml";
+}
+<div class="container">
+    <h2>Zmena hesla</h2>
+
+    @using (Html.BeginForm("SendNewPass", "Accounts", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+    <div class="form-group">
+        @Html.Label("Email: ", new { @class = "control-label col-sm-2" })
+        <div class="col-sm-6">
+            @Html.TextBox("email",string.Empty, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <input type="submit" value="Odoslať" id="btnSubmit" class="btn btn-info" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            @Html.ActionLink("Späť na login", "Index", "Home")
+        </div>
+    </div>
+    }
+
+
+    </div>
