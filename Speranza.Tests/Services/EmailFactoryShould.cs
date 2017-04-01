@@ -32,6 +32,8 @@ namespace Speranza.Tests.Services
         private Mock<IUser> user;
         private const string BODY_FOR_ATTENDANCE = "uvod {0} zaver";
         private const string SUBBODY_FOR_ATTENDANCE = "{0} {1} {2} {3}";
+        private const string BODY_1_PARAM = "1PARAM_BODY {0}";
+        private const string NEW_PASS = "NEWPASS";
 
         [TestMethod]
         public void CreateWelcomeEmail()
@@ -196,6 +198,19 @@ namespace Speranza.Tests.Services
             Email result = factory.CreateConfirmAttendanceEmail(admins, users, TRAINING_ID, DATE_TIME, SUBJECT_2_PARAMS, BODY_FOR_ATTENDANCE, SUBBODY_FOR_ATTENDANCE);
 
             Assert.AreEqual("uvod " + NAME + " " + SURNAME + " " + EMAIL + " " + TRAINING_ID + NAME2 + " " + SURNAME2 + " " + EMAIL2 + " " + TRAINING_ID + " zaver", result.Body);
+        }
+
+        [TestMethod]
+        public void CreatePassRecoveryEmail()
+        {
+            InitializeEmailFactory();
+
+            Email result = factory.CreatePassRecoveryEmail(EMAIL, SUBJECT, BODY_1_PARAM, NEW_PASS);
+
+            Assert.AreEqual(EMAIL, result.Receiver);
+
+            Assert.AreEqual(SUBJECT, result.Subject);
+            Assert.AreEqual(string.Format(BODY_1_PARAM, NEW_PASS), result.Body);
         }
 
         private void PrepareTwoUsersToConfirmHisAttendance()

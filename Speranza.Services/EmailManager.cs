@@ -32,6 +32,12 @@ namespace Speranza.Services
             smtp.SendEmail(email);
         }
 
+        public void SendPassRecoveryEmail(string receiver, string newPass)
+        {
+            Email email = factory.CreatePassRecoveryEmail(receiver, EmailMessages.RecoveryPassSubject, EmailMessages.RecoveryPassBody, newPass);
+            smtp.SendEmail(email);
+        }
+
         public void SendRemovingUserFromTraining(string receiver, DateTime dateTime)
         {
             Email email = factory.CreateRemovingUserFromTrainingEmail(receiver, EmailMessages.RemovingUserFromTrainingSubject, EmailMessages.RemovingUserFromTrainingBody, dateTime);

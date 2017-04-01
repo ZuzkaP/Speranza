@@ -17,6 +17,7 @@ namespace Speranza.Tests.Services
         private const string EMAIL = "email";
         private const string TRAINING_ID = "traininigID";
         private const string EMAIL2 = "EMAIL2";
+        private const string NEW_PASS = "newPass";
         private EmailManager emailManager;
         private Mock<ISmtp> smtp;
         private Email email;
@@ -111,6 +112,24 @@ namespace Speranza.Tests.Services
             emailManager.SendSixthUserSignOffFromTraining(admins.Object, DATE_TIME);
 
             smtp.Verify(r => r.SendEmail(email), Times.Once);
+        }
+
+        [TestMethod]
+        public void SendRecoveryPassEmail()
+        {
+            InitializeEmailManager();
+            PrepareRecoveryPassEmail();
+
+            emailManager.SendPassRecoveryEmail(EMAIL, NEW_PASS);
+
+            smtp.Verify(r => r.SendEmail(email), Times.Once);
+        }
+
+        private void PrepareRecoveryPassEmail()
+        {
+            email = new Email();
+            factory.Setup(r => r.CreatePassRecoveryEmail(EMAIL, EmailMessages.RecoveryPassSubject, EmailMessages.RecoveryPassBody, NEW_PASS)).Returns(email);
+
         }
 
         private void Prepare6thUserWasSignedOffEmail()

@@ -25,6 +25,18 @@ namespace Speranza.Tests.Services
 
         }
 
+        [TestMethod]
+        public void CreatePass()
+        {
+            InitializeUidService();
+
+            string pass = uidService.CreatePassword();
+
+            Assert.IsNotNull(pass);
+            Assert.AreEqual(8, pass.Length);
+
+        }
+
         private void InitializeUidService()
         {
             uidService = new UidService();

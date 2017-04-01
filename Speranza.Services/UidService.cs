@@ -13,5 +13,10 @@ namespace Speranza.Services
         {
             return Guid.NewGuid().ToString();
         }
+
+        public string CreatePassword()
+        {
+            return Guid.NewGuid().ToString().Substring(0,8);
+        }
     }
 }

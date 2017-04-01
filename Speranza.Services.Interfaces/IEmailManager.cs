@@ -13,5 +13,6 @@ namespace Speranza.Services.Interfaces
         void SendConfirmUserAttendance(IList<IUser> admins, IList<IUser> users,string trainingID, DateTime dateTime);
         void SendSixthUserInTraining(IList<IUser> admins, DateTime dateTime);
         void SendSixthUserSignOffFromTraining(IList<IUser> admins, DateTime dateTime);
+        void SendPassRecoveryEmail(string email, string newPass);
     }
 }

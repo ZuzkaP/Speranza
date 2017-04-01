@@ -51,6 +51,7 @@ namespace Speranza.Tests.Services
         private const string TRAINING_ID = "TRAINING_ID";
         private const string EMAIL2 = "EMAIL2";
         private const string TRAINING2_ID = "TRAINING2_ID";
+        private const string NEW_PASS = "NewPass";
         private readonly DateTime DATE_TIME = new DateTime(2017, 1, 6, 10, 00, 00);
         private Mock<IUserProfileModel> userProfileModel;
         private Mock<IUserInTraining> userInTraining;
@@ -61,6 +62,7 @@ namespace Speranza.Tests.Services
         private Mock<IUserInTraining> user1InTraining;
         private Mock<IUser> user1;
         private Mock<IUser> user2;
+        private Mock<IUidService> uidService;
 
         [TestMethod]
         public void ReturnFalse_When_SessionIsEmpty()
@@ -441,6 +443,45 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(UserCategories.Gold, result);
         }
 
+        [TestMethod]
+        public void ReturnFalse_And_NotSendNewPass_When_EmailIsInvalid()
+        {
+            InitializeUserManager();
+            PrepareInvalidEmail();
+
+            bool result = manager.SendNewPass(EMAIL);
+
+            emailManager.Verify(r => r.SendPassRecoveryEmail(It.IsAny<string>(), It.IsAny<string>()),Times.Never);
+            db.Verify(r => r.ChangePassword(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void ReturnTrue_And_SendNewPass_When_EmailIsValid()
+        {
+            InitializeUserManager();
+            PrepareValidEmail();
+
+            bool result = manager.SendNewPass(EMAIL);
+
+            emailManager.Verify(r => r.SendPassRecoveryEmail(EMAIL,NEW_PASS), Times.Once);
+            db.Verify(r => r.ChangePassword(EMAIL, PASSWORD_CORRECT_HASH), Times.Once);
+            Assert.IsTrue(result);
+        }
+
+        private void PrepareValidEmail()
+        {
+            user1 = new Mock<IUser>();
+            db.Setup(r => r.GetUserData(EMAIL)).Returns(user1.Object);
+            uidService.Setup(r => r.CreatePassword()).Returns(NEW_PASS);
+            hasher.Setup(r => r.HashPassword(NEW_PASS)).Returns(PASSWORD_CORRECT_HASH);
+        }
+
+        private void PrepareInvalidEmail()
+        {
+            db.Setup(r => r.GetUserData(EMAIL)).Returns((IUser)null);
+        }
+
         private void PreparUserWith81Visits()
         {
             db.Setup(r => r.GetNumberOfVisits(EMAIL,DATE_TIME)).Returns(81);
@@ -702,10 +743,12 @@ namespace Speranza.Tests.Services
             datetimeService = new Mock<IDateTimeService>();
             hasher = new Mock<IHasher>();
             emailManager = new Mock<IEmailManager>();
-            manager = new UserManager(db.Object, factory.Object,datetimeService.Object,hasher.Object, emailManager.Object);
+            uidService = new Mock<IUidService>();
+            manager = new UserManager(db.Object, factory.Object,datetimeService.Object,hasher.Object, emailManager.Object, uidService.Object);
             collection = new SessionStateItemCollection();
             context = new FakeControllerContext(null, collection);
             datetimeService.Setup(r => r.GetCurrentDate()).Returns(DATE_TIME);
+          
            
         }
     }

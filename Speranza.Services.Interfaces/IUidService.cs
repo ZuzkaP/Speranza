@@ -9,5 +9,6 @@ namespace Speranza.Services.Interfaces
     public interface IUidService
     {
         string CreateID();
+        string CreatePassword();
     }
 }

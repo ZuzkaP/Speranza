@@ -37,7 +37,7 @@ namespace Speranza.App_Start
             uidService = new UidService();
             UserDataParser = new UserDataParser();
             EmailManager = new EmailManager(EmailFactory, Smtp);
-            UserManager = new UserManager(Db, Factory,DateTimeService,Hasher,EmailManager);
+            UserManager = new UserManager(Db, Factory,DateTimeService,Hasher,EmailManager, uidService);
             TrainingsManager = new TrainingsManager(Db, Factory, uidService, DateTimeService, UserManager, EmailManager);
             DaysManager = new DaysManager(Db, TrainingsManager, DateTimeService, Factory);
         }

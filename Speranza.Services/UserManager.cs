@@ -21,14 +21,16 @@ namespace Speranza.Services
         private IDateTimeService dateTimeService;
         private IHasher hasher;
         private IEmailManager emailManager;
+        private IUidService uidService;
 
-        public UserManager(IDatabaseGateway db, IModelFactory factory, IDateTimeService dateTimeService, IHasher hasher, IEmailManager emailManager)
+        public UserManager(IDatabaseGateway db, IModelFactory factory, IDateTimeService dateTimeService, IHasher hasher, IEmailManager emailManager, IUidService uidService)
         {
             this.db = db;
             this.factory = factory;
             this.dateTimeService = dateTimeService;
             this.hasher = hasher;
             this.emailManager = emailManager;
+            this.uidService = uidService;
         }
 
         public UserCategories GetUserCategory(ICollection session)
@@ -249,7 +251,17 @@ namespace Speranza.Services
 
         public bool SendNewPass(string email)
         {
-            throw new NotImplementedException();
+            var user = db.GetUserData(email);
+            if(user ==  null)
+            {
+            return false;
+            }
+            string pass = uidService.CreatePassword();
+            string hash = hasher.HashPassword(pass);
+            db.ChangePassword(email, hash);
+            emailManager.SendPassRecoveryEmail(email, pass);
+            return true;
+
         }
     }
 }

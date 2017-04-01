@@ -32,5 +32,7 @@ namespace Speranza.Services.Interfaces
         public const string SixthUserSignedUpInTrainingBody = " Ahoj admin, \nna tréning dňa {0} o {1} sa prihlásil 6. cvičiaci. Skontroluj, či máš trénera.\nTvoja Speranza";
         public const string SixthUserSignedOffFromTrainingSubject = "Odhlásil sa 6. cvičiaci";
         public const string SixthUserSignedOffFromTrainingBody = " Ahoj admin, \nna tréning dňa {0} o {1} sa odhlásil 6. cvičiaci. Nezabudni zrušiť trénera. \nTvoja Speranza";
+        public const string RecoveryPassBody = "Ahoj, tvoje nové heslo je <b>{0}</b>\nPo prihlásení si ho nezabudni zmeniť vo svojom profile. \nTvoja Speranza";
+        public const string RecoveryPassSubject="Speranza zmena hesla";
     }
 }

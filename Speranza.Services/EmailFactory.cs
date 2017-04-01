@@ -95,5 +95,16 @@ namespace Speranza.Services
             };
             return result;
         }
+
+        public Email CreatePassRecoveryEmail(string email, string recoveryPassSubject, string recoveryPassBody, string newPass)
+        {
+            Email result = new Email()
+            {
+                Body = string.Format(recoveryPassBody,newPass),
+                Receiver = email,
+                Subject = recoveryPassSubject
+            };
+            return result;
+        }
     }
 }
