@@ -118,6 +118,7 @@
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\UserProfile.js" />
+    <Content Include="SperanzaDB.mdf" />
     <Content Include="Views\Images\13575924_1162637887091209_273085601720545682_o.jpg" />
     <Content Include="Views\Images\13576634_1162641327090865_1280681672637538209_o.jpg" />
     <Content Include="Web.config" />

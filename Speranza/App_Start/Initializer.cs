@@ -28,7 +28,8 @@ namespace Speranza.App_Start
 
         static  Initializer()
         {
-            Db = InMemoryDatabase.Instance;
+            //Db = InMemoryDatabase.Instance;
+            Db = new Database.Database();
             Hasher = new Hasher();
             DateTimeService = new DateTimeService();
             Factory = new ModelFactory();

@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database.cs" />
     <Compile Include="IDatabaseGateway.cs" />
     <Compile Include="InMemoryDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
