@@ -270,14 +270,23 @@ namespace Speranza.Controllers
             }
         }
 
-        public ActionResult ForgottenPass()
+        public ViewResult ForgottenPass()
         {
-            return View();
+            var message = Session["Message"];
+            Session["Message"] = null;
+            return View(message);
+
         }
 
-        public ActionResult SendNewPass()
+        public ActionResult SendNewPass(string email)
         {
-            return View();
+            bool result = userManager.SendNewPass(email);
+            if(!result)
+            {
+            Session["Message"] = RegisterModelMessages.PasswordRecoveryFailed;
+            return RedirectToAction("ForgottenPass", "Accounts");
+            }
+            return RedirectToAction("Index", "Home");
         }
     }
 }

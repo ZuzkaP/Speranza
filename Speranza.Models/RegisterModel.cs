@@ -18,7 +18,9 @@ namespace Speranza.Models
         EmailFormatIsIncorrect = 16,
         PasswordIsTooShort = 32,
         PasswordHasNoNumber = 64,
-        PasswordHasNoLetter = 128
+        PasswordHasNoLetter = 128,
+        PasswordRecoveryFailed = 256
+
     }
 
     public class RegisterModel : IRegisterModel

@@ -17,6 +17,7 @@ namespace Speranza.Services.Interfaces
         void SetUserCategory(string email, UserCategories category);
         int UpdateCountOfFreeSignUps(string email, int changeNumberOfSignUps);
         IList<ITrainingModel> GetFutureTrainingsForUser(string v);
+        bool SendNewPass(string email);
         void ChangePassword(string email, string newPass);
         IList<IUserForTrainingDetailModel> GetAllUsersForTrainingDetails();
         void UpdateSeasonTickets();

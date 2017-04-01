@@ -99,6 +99,7 @@
     <Compile Include="Controllers\FakeControllerContext.cs" />
     <Compile Include="Controllers\HomeControllerShould.cs" />
     <Compile Include="Controllers\PeriodicalAttendancesControllerShould.cs" />
+    <Compile Include="Controllers\AccountsControllerForgottenPassShould.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DateTimeServiceShould.cs" />
     <Compile Include="Services\DaysManagerShould.cs" />

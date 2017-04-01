@@ -246,5 +246,10 @@ namespace Speranza.Services
             }).ToList();
 
         }
+
+        public bool SendNewPass(string email)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
