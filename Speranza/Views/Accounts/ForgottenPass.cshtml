@@ -1,10 +1,19 @@
-﻿
+﻿@using Speranza.Models;
+
 @{
     ViewBag.Title = "ForgottenPass";
     Layout = "~/Views/LayoutNotLoggedIn.cshtml";
 }
 <div class="container">
     <h2>Zmena hesla</h2>
+
+@if (Model != null)
+{
+    if (Model == RegisterModelMessages.PasswordRecoveryFailed)
+    {
+        <p><div class="alert alert-warning" role="alert">Email je nesprávny!</div></p>
+    }
+}
 
     @using (Html.BeginForm("SendNewPass", "Accounts", FormMethod.Post, new { @class = "form-horizontal" }))
     {
