@@ -11,15 +11,19 @@ namespace Speranza.Database
 {
     public class Database : IDatabaseGateway
     {
-        private const string SERVER_NAME = "localhost";
+        private const string SERVER_NAME = "localhost\\NTB";
         private const string DATABASE_NAME = "SPERANZADB";
         private SqlConnection connection;
 
         public Database()
         {
             string connetionString = null;
-            connetionString = "Data Source=" + SERVER_NAME + ";Initial Catalog=" + DATABASE_NAME;
+            connetionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Zuzka\Source\Repos\Speranza\SperanzaDB.mdf;Integrated Security=True;Connect Timeout=30";
+
+            //connetionString = "Data Source=" + SERVER_NAME + ";Initial Catalog=" + DATABASE_NAME;
             connection = new SqlConnection(connetionString);
+            connection.Open();
+            connection.Close();
         }
         public void AddUserToTraining(string email, string trainingID, DateTime timeOfSignUp)
         {
@@ -255,7 +259,11 @@ namespace Speranza.Database
         //SELECT column1, column2, ...FROM table_name;
         public bool UserExists(string email)
         {
-            throw new NotImplementedException();
+            string sql = string.Format("SELECT COUNT(*) FROM Users WHERE email ='{0}';",email);
+            var objects = ExecuteSqlWithResult(sql);
+            if ((int)objects[0][0] == 1)
+                return true;
+            return false;
         }
 
         private void ExecuteSql(string sql)
@@ -276,14 +284,20 @@ namespace Speranza.Database
             }
         }
 
-        private void ExecuteSqlWithResult(string sql)
+        private IList<object[]> ExecuteSqlWithResult(string sql)
         {
+            IList<object[]> rows = new List<object[]>();
             try
             {
                 connection.Open();
                 var command = new SqlCommand(sql, connection);
                 var reader = command.ExecuteReader();
-                reader.
+                while(reader.Read())
+                {
+                    object[] columns = new object[reader.FieldCount];
+                    reader.GetValues(columns);
+                    rows.Add(columns);
+                }
             }
             catch
             {
@@ -293,6 +307,7 @@ namespace Speranza.Database
             {
                 connection.Close();
             }
+            return rows;
         }
 
 
