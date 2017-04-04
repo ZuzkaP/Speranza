@@ -98,7 +98,28 @@ namespace Speranza.Database
 
         public IList<ITraining> GetDayTrainings(DateTime date)
         {
-            throw new NotImplementedException();
+
+            string sql = string.Format("SELECT * FROM Trainings WHERE CONVERT(date, T.time) ='{0}';", date.ToString("yyyy-MM-dd"));
+            var objects = ExecuteSqlWithResult(sql);
+            IList<ITraining> trainings = new List<ITraining>();
+            foreach (var item in objects)
+            {
+                Training training = new Training();
+                training.ID = (string)item[0];
+                training.Capacity = (int)item[1];
+                training.Description = (string)item[2];
+                training.Time = (DateTime)item[3];
+                training.Trainer = (string)item[4];
+                string sql2 = string.Format("SELECT Count(*) FROM UsersInTrainings WHERE trainingID ='{0}';", training.ID);
+                var objects2 = ExecuteSqlWithResult(sql2);
+                training.RegisteredNumber = (int)objects2[0][0];
+
+                trainings.Add(training);
+            }
+
+            return trainings;
+            
+            
         }
 
         public IList<string> GetEmailsOfAllUsersInTraining(string trainingID)

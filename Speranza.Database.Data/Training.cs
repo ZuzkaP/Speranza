@@ -9,13 +9,17 @@ namespace Speranza.Database.Data
 {
    public class Training : ITraining
     {
-        public string ID { get; }
+        public string ID { get; set; }
         public int Capacity { get; set; }
         public string Description { get; set; }
         public int RegisteredNumber { get; set; }
         public DateTime Time { get; set; }
         public string Trainer { get; set; }
 
+        public Training()
+        {
+                
+        }
 
         public Training(string id,DateTime dateTime, string description, string trainer, int capacity)
         {
