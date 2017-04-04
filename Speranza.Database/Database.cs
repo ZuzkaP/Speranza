@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Speranza.Common.Data;
 using Speranza.Database.Data.Interfaces;
 using System.Data.SqlClient;
+using Speranza.Database.Data;
 
 namespace Speranza.Database
 {
@@ -117,7 +118,20 @@ namespace Speranza.Database
 
         public int GetNumberOfVisits(string email, DateTime currentDate)
         {
-            throw new NotImplementedException();
+        
+            string sql = string.Format("SELECT COUNT(*) FROM UsersInTrainings WHERE email ='{0}' AND time <'{1}' AND participationDisproved = 0;", email,GetDateFormat(currentDate));
+            var objects = ExecuteSqlWithResult(sql);
+
+            if (objects.Count == 1)
+            {
+              return (int)objects[0][0];
+            }
+            return 0;
+        }
+
+        private string GetDateFormat(DateTime date)
+        {
+            return date.ToString("yyyy-MM-ddTHH:mm:ss");
         }
 
         public int GetSignOffLimit()
@@ -170,9 +184,24 @@ namespace Speranza.Database
             throw new NotImplementedException();
         }
 
+
         public IUser LoadUser(string email)
         {
-            throw new NotImplementedException();
+            string sql = string.Format("SELECT email,category,isAdmin,password FROM Users WHERE email ='{0}';", email);
+            var objects = ExecuteSqlWithResult(sql);
+
+            if (objects.Count == 1)
+            {
+                User user = new User();
+                user.Email = (string)objects[0][0];
+                user.Category = (UserCategories)objects[0][1];
+                user.IsAdmin = (byte)objects[0][2] == 1;
+                user.PasswordHash = (string)objects[0][3];
+
+                return user;
+            }
+
+            return null;
         }
 
         public void RegisterNewUser(string email, string name, string password, string phoneNumber, string surname)
@@ -180,12 +209,12 @@ namespace Speranza.Database
             //INSERT INTO table_name(column1, column2, column3, ...) VALUES(value1, value2, value3, ...);
 
             string sql = string.Format("INSERT INTO Users(email,name,surname,phoneNumber,password) VALUES( '{0}','{1}','{2}','{3}','{4}');",
-                email,name,surname,phoneNumber,password);
-               
+                email, name, surname, phoneNumber, password);
+
             ExecuteSql(sql);
         }
 
-       
+
         public void RemoveTrainingTemplate(int day, int time)
         {
             throw new NotImplementedException();
@@ -259,7 +288,7 @@ namespace Speranza.Database
         //SELECT column1, column2, ...FROM table_name;
         public bool UserExists(string email)
         {
-            string sql = string.Format("SELECT COUNT(*) FROM Users WHERE email ='{0}';",email);
+            string sql = string.Format("SELECT COUNT(*) FROM Users WHERE email ='{0}';", email);
             var objects = ExecuteSqlWithResult(sql);
             if ((int)objects[0][0] == 1)
                 return true;
@@ -292,7 +321,7 @@ namespace Speranza.Database
                 connection.Open();
                 var command = new SqlCommand(sql, connection);
                 var reader = command.ExecuteReader();
-                while(reader.Read())
+                while (reader.Read())
                 {
                     object[] columns = new object[reader.FieldCount];
                     reader.GetValues(columns);
