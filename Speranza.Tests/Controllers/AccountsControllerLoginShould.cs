@@ -138,7 +138,26 @@ namespace Speranza.Tests.Controllers
             Assert.IsTrue(string.IsNullOrEmpty(this.controller.Session["Email"] as string));
 
         }
-     
+
+        [TestMethod]
+        public void NotLogin_When_PasswordIsEmpty()
+        {
+            InitializeController();
+            LoginModel model = new LoginModel();
+            hasher.Setup(r => r.HashPassword(null)).Throws(new ArgumentNullException());
+            model.Email = EMAIL;
+            model.Password = null;
+
+            ViewResult result = (ViewResult)controller.Login(model);
+
+            db.Verify(r => r.LoadUser(It.IsAny<string>()), Times.Never);
+            Assert.AreEqual("../Home/Index", result.ViewName);
+
+            LoginModel modelFromServer = (LoginModel)result.Model;
+            Assert.IsFalse(modelFromServer.LoginSuccessful);
+            Assert.IsTrue(string.IsNullOrEmpty(this.controller.Session["Email"] as string));
+        }
+
         [TestMethod]
         public void Logout_When_Requested()
         {

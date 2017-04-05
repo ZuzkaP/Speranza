@@ -49,19 +49,21 @@ namespace Speranza.Controllers
         {
             Session["Email"] = null;
             model.LoginSuccessful = false;
-            string hashPass = hasher.HashPassword(model.Password);
-
-            ILoginResult result = userManager.Login(model.Email, hashPass);
-
-            if (result != null)
+            if (model.Password != null)
             {
-                Session["Email"] = result.Email;
-                Session["IsAdmin"] = result.IsAdmin;
-                Session["Category"] = result.Category;
-                model.LoginSuccessful = true;
-                return RedirectToAction("Calendar", "Calendar");
-            }
+                string hashPass = hasher.HashPassword(model.Password);
 
+                ILoginResult result = userManager.Login(model.Email, hashPass);
+
+                if (result != null)
+                {
+                    Session["Email"] = result.Email;
+                    Session["IsAdmin"] = result.IsAdmin;
+                    Session["Category"] = result.Category;
+                    model.LoginSuccessful = true;
+                    return RedirectToAction("Calendar", "Calendar");
+                }
+            }
             return View("../Home/Index", model);
         }
 
