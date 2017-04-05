@@ -183,13 +183,13 @@ namespace Speranza.Services
         {
             ITraining training = db.GetTrainingData(id);
             db.RemoveUserFromTraining(email, id);
-            var admins = db.GetAdmins();
             if(isAdmin)
             {
             emailManager.SendRemovingUserFromTraining(email, training.Time);
             }
             else if(training.RegisteredNumber == 6)
             {
+                var admins = db.GetAdmins();
                 emailManager.SendSixthUserSignOffFromTraining(admins, training.Time);
             }
             ITrainingModel model = factory.CreateTrainingModel(training);

@@ -16,6 +16,7 @@ namespace Speranza.Database
         private const string DATABASE_NAME = "SPERANZADB";
         private SqlConnection connection;
         private const string LAST_TEMPLATE_GENERATION_DATE = "LastTemplateGenerationDate";
+        private const string SETTINGS_SIGN_OFF_LIMIT = "SignOffLimit";
 
         public Database()
         {
@@ -27,9 +28,14 @@ namespace Speranza.Database
             connection.Open();
             connection.Close();
         }
+
+        //usersInTrainings.Add(new UserInTraining() { Email = email, TrainingID = trainingID, Time = time });
         public void AddUserToTraining(string email, string trainingID, DateTime timeOfSignUp)
         {
-            throw new NotImplementedException();
+            string sql = string.Format("INSERT INTO UsersInTrainings(email,trainingID,time) VALUES( '{0}','{1}','{2}');",
+              email,trainingID, GetDateFormat(timeOfSignUp));
+
+            ExecuteSql(sql);
         }
 
         public void AllowSigningUpToTrainings(string email)
@@ -54,7 +60,10 @@ namespace Speranza.Database
 
         public void CreateNewTraining(string trainingID, DateTime dateTime, string trainer, string trainingDescription, int capacity)
         {
-            throw new NotImplementedException();
+            string sql = string.Format("INSERT INTO Trainings(Id,time,trainer,description,capacity) VALUES( '{0}','{1}','{2}','{3}',{4});",
+               trainingID, GetDateFormat(dateTime), trainer, trainingDescription, capacity);
+
+            ExecuteSql(sql);
         }
 
         public void CreateRecurringTrainingTemplate(RecurringTrainingTemplate recurringTrainingTemplate)
@@ -72,10 +81,29 @@ namespace Speranza.Database
         {
             throw new NotImplementedException();
         }
-
+        //return users.Where(r => r.Value.IsAdmin).Select(r => GetUserData(r.Value.Email)).ToList();
         public IList<IUser> GetAdmins()
         {
-            throw new NotImplementedException();
+            string sql = string.Format("SELECT email,category,isAdmin,name,surname,phoneNumber,numberOfFreeSignUps FROM Users WHERE isAdmin=1;");
+            var objects = ExecuteSqlWithResult(sql);
+            var users = new List<IUser>();
+            foreach (var item in objects)
+            {
+                User user = new User();
+                user.Email = (string)item[0];
+                user.Category = (UserCategories)item[1];
+                user.IsAdmin = (byte)item[2] == 1;
+                user.Name = (string)item[3];
+                user.Surname = (string)item[4];
+                user.PhoneNumber = (string)item[5];
+                user.NumberOfFreeSignUpsOnSeasonTicket = (int)item[6];
+                string sql2 = string.Format("Select Count(*) from UsersInTrainings Where email ='{0}' AND (SELECT time from Trainings WHERE Id= trainingID) < GetDate();", user.Email);
+                var objects2 = ExecuteSqlWithResult(sql2);
+                user.NumberOfPastTrainings = (int)objects2[0][0];
+                users.Add(user);
+            }
+
+            return users;
         }
 
         public bool GetAllowedToSignUpFlag(string email)
@@ -87,12 +115,49 @@ namespace Speranza.Database
 
         public IList<ITraining> GetAllTrainings()
         {
-            throw new NotImplementedException();
+            string sql = string.Format("SELECT * FROM Trainings ;");
+            var objects = ExecuteSqlWithResult(sql);
+            IList<ITraining> trainings = new List<ITraining>();
+            foreach (var item in objects)
+            {
+                Training training = new Training();
+                training.ID = (string)item[0];
+                training.Capacity = (int)item[1];
+                training.Description = (string)item[2];
+                training.Time = (DateTime)item[3];
+                training.Trainer = (string)item[4];
+                string sql2 = string.Format("SELECT Count(*) FROM UsersInTrainings WHERE trainingID ='{0}';", training.ID);
+                var objects2 = ExecuteSqlWithResult(sql2);
+                training.RegisteredNumber = (int)objects2[0][0];
+
+                trainings.Add(training);
+            }
+
+            return trainings;
         }
 
         public IList<IUser> GetAllUsers()
         {
-            throw new NotImplementedException();
+            string sql = string.Format("SELECT email,category,isAdmin,name,surname,phoneNumber,numberOfFreeSignUps FROM Users ;");
+            var objects = ExecuteSqlWithResult(sql);
+            var users = new List<IUser>();
+            foreach (var item in objects)
+            {
+                User user = new User();
+                user.Email = (string)item[0];
+                user.Category = (UserCategories)item[1];
+                user.IsAdmin = (byte)item[2] == 1;
+                user.Name = (string)item[3];
+                user.Surname = (string)item[4];
+                user.PhoneNumber = (string)item[5];
+                user.NumberOfFreeSignUpsOnSeasonTicket = (int)item[6];
+                string sql2 = string.Format("Select Count(*) from UsersInTrainings Where email ='{0}' AND (SELECT time from Trainings WHERE Id= trainingID) < GetDate();", user.Email);
+                var objects2 = ExecuteSqlWithResult(sql2);
+                user.NumberOfPastTrainings = (int)objects2[0][0];
+                users.Add(user);
+            }
+
+            return users;
         }
 
         public IList<IUserInTraining> GetAllUsersInTrainingWithZeroEntranceFlag()
@@ -103,7 +168,7 @@ namespace Speranza.Database
         public IList<ITraining> GetDayTrainings(DateTime date)
         {
 
-            string sql = string.Format("SELECT * FROM Trainings WHERE CONVERT(date, T.time) ='{0}';", date.ToString("yyyy-MM-dd"));
+            string sql = string.Format("SELECT * FROM Trainings WHERE CONVERT(date, time) ='{0}';", date.ToString("yyyy-MM-dd"));
             var objects = ExecuteSqlWithResult(sql);
             IList<ITraining> trainings = new List<ITraining>();
             foreach (var item in objects)
@@ -164,7 +229,10 @@ namespace Speranza.Database
 
         public int GetSignOffLimit()
         {
-            throw new NotImplementedException();
+            string sql = string.Format("SELECT value FROM Settings WHERE Id ='{0}';", SETTINGS_SIGN_OFF_LIMIT);
+            var objects = ExecuteSqlWithResult(sql);
+            int limit = int.Parse((string)objects[0][0]);
+            return limit;
         }
 
         public IList<IRecurringTrainingTemplate> GetTemplates()
@@ -194,14 +262,39 @@ namespace Speranza.Database
             return templates;
         }
 
+        //var t = trainings.FirstOrDefault(r => r.ID == trainingID);
+        //    if (t != null)
+        //    {
+        //        t.RegisteredNumber = usersInTrainings.Count(r => r.TrainingID == t.ID);
+        //    }
+        //    return t;
         public ITraining GetTrainingData(string trainingID)
         {
-            throw new NotImplementedException();
+            string sql = string.Format("SELECT * FROM Trainings WHERE Id ='{0}';", trainingID);
+            var objects = ExecuteSqlWithResult(sql);
+            if(objects.Count == 0)
+            {
+                return null;
+            }
+                Training training = new Training();
+                training.ID = (string)objects[0][0];
+                training.Capacity = (int)objects[0][1];
+                training.Description = (string)objects[0][2];
+                training.Time = (DateTime)objects[0][3];
+                training.Trainer = (string)objects[0][4];
+                string sql2 = string.Format("SELECT Count(*) FROM UsersInTrainings WHERE trainingID ='{0}';", training.ID);
+                var objects2 = ExecuteSqlWithResult(sql2);
+                training.RegisteredNumber = (int)objects2[0][0];
+            
+            return training;
         }
 
+        //return trainings.Count(r => r.Time > date);
         public int GetTrainingsCountAfterDate(DateTime date)
         {
-            throw new NotImplementedException();
+            string sql = string.Format("SELECT Count(*) FROM Trainings WHERE time='{0}';", GetDateFormat(date));
+            var objects = ExecuteSqlWithResult(sql);
+            return (int)objects[0][0];
         }
 
         public int GetTrainingsCountBeforeDate(DateTime date)
@@ -267,10 +360,13 @@ namespace Speranza.Database
         {
             throw new NotImplementedException();
         }
-
+         //return usersInTrainings.Any(r => r.Email == email && r.TrainingID == trainingID);
         public bool IsUserAlreadySignedUpInTraining(string email, string trainingID)
         {
-            throw new NotImplementedException();
+            string sql = string.Format("SELECT COUNT(*) FROM UsersInTrainings WHERE email ='{0}' AND trainingID ='{1}';", email,trainingID);
+            var objects = ExecuteSqlWithResult(sql);
+
+            return (int)objects[0][0] == 1;
         }
 
 
@@ -311,7 +407,10 @@ namespace Speranza.Database
 
         public void RemoveUserFromTraining(string email, string trainingID)
         {
-            throw new NotImplementedException();
+            string sql = string.Format("DELETE FROM UsersInTrainings WHERE email ='{0}' AND trainingID ='{1}';",
+              email, trainingID);
+
+            ExecuteSql(sql);
         }
 
         public void SetAdminRole(string email, bool isAdmin)
