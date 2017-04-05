@@ -435,17 +435,20 @@ namespace Speranza.Database
 
         public void SetTrainer(string trainingID, string trainer)
         {
-            throw new NotImplementedException();
+            string sql = string.Format("UPDATE Trainings SET trainer = '{0}'  WHERE Id ='{1}';", trainer, trainingID);
+            ExecuteSql(sql);
         }
 
         public void SetTrainingCapacity(string trainingID, int capacity)
         {
-            throw new NotImplementedException();
+            string sql = string.Format("UPDATE Trainings SET capacity = {0}  WHERE Id ='{1}';", capacity, trainingID);
+            ExecuteSql(sql);
         }
 
-        public void SetTrainingDescription(string trainingID, string trainingDescription)
+    public void SetTrainingDescription(string trainingID, string trainingDescription)
         {
-            throw new NotImplementedException();
+            string sql = string.Format("UPDATE Trainings SET description = '{0}'  WHERE Id ='{1}';", trainingDescription,trainingID);
+            ExecuteSql(sql);
         }
 
         public void SetUserCategory(string email, UserCategories category)
