@@ -106,5 +106,10 @@ namespace Speranza.Views
         {
             return items.Select(r => new SelectListItem() { Text = r, Selected = r == selectedItem}).ToList();
         }
+
+        public static string GetEmailForJS(string email)
+        {
+           return email.Replace(".", "").Replace("@", "");
+        }
     }
 }

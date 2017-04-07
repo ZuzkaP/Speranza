@@ -189,9 +189,9 @@ namespace Speranza.Database
                 user.Surname = (string)item[4];
                 user.PhoneNumber = (string)item[5];
                 user.NumberOfFreeSignUpsOnSeasonTicket = (int)item[6];
-                string sql2 = string.Format("Select Count(*) from UsersInTrainings Where email ='{0}' AND (SELECT time from Trainings WHERE Id= trainingID) < GetDate();", user.Email);
+                string sql2 = string.Format("Select Count(*) from UsersInTrainings Where email ='{0}' AND (SELECT time from Trainings WHERE Id= trainingID) > GetDate();", user.Email);
                 var objects2 = ExecuteSqlWithResult(sql2);
-                user.NumberOfPastTrainings = (int)objects2[0][0];
+                user.NumberOfSignedUpTrainings = (int)objects2[0][0];
                 users.Add(user);
             }
 

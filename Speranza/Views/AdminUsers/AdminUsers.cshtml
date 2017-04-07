@@ -39,7 +39,7 @@
                     @Html.DropDownList("CategoryCombo", ViewHelper.CreateSelectListItems(Model.Categories, user.Category), new { id = user.Email, @class = "Category form-control" })
                 </td>
                 <td>
-                    <span id="freeSignUpsCell-@user.Email.Replace(".","").Replace("@","")"> @user.NumberOfFreeSignUps </span>
+                    <span id="freeSignUpsCell-@ViewHelper.GetEmailForJS(user.Email)"> @user.NumberOfFreeSignUps </span>
                     </td>
                     <td>
                     <div class="btn-group btn-group-xs">
@@ -52,7 +52,7 @@
                     </div>
                 </td>
                 <td>
-                    <span id="@user.Email-TrainingCount">@user.TrainingCount</span>
+                    <span id="@ViewHelper.GetEmailForJS(user.Email)-TrainingCount">@user.TrainingCount</span>
                         <span class="label label-info trainingsDetails" style="cursor:pointer" data-email="@user.Email">Detail</span>
                 </td>
                 <td>@Html.CheckBox("IsAdmin", user.IsAdmin, new { id = user.Email, @class = "IsAdmin" }) </td>

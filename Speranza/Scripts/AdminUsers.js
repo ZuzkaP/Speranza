@@ -58,15 +58,15 @@ $(function () {
                     $('#messageBox').html("Počet vstupov užívateľovi <b>" + response.Email + "</b> bol zvýšený o <b>" + response.ChangeNumberOfSignUps + "</b>");
                 else if (response.Message == 5) {
                     var changedCount = response.ChangeNumberOfSignUps;
-                    if ($('#freeSignUpsCell-' + response.Email).text() < response.ChangeNumberOfSignUps) {
-                        changedCount = $('#freeSignUpsCell-' + response.Email).text();
+                    if ($('#freeSignUpsCell-' + getEmailForJS(response.Email)).text() < response.ChangeNumberOfSignUps) {
+                        changedCount = $('#freeSignUpsCell-' + getEmailForJS(response.Email)).text();
                     }
                     $('#messageBox').html("Počet vstupov užívateľovi <b>" + response.Email + "</b> bol znížený o <b>" + changedCount + "</b>");
 
                 }
 
                 $('#messageBox').show();
-                $('#freeSignUpsCell-' + response.Email.replace(/\./g,"").replace(/@/g, "")).html(response.AfterChangeNumberOfSignUps);
+                $('#freeSignUpsCell-' + getEmailForJS(response.Email)).html(response.AfterChangeNumberOfSignUps);
             }
         });
 

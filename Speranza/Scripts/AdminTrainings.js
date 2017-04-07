@@ -396,7 +396,7 @@ function SignOutFromTraining(changedElement) {
                 success: function (response) {
                     if (response.Message == 6) {
                         $("#messageBoxAddUserWarning").hide();
-                        $('#' + id).remove();
+                        $('#' + getEmailForJS(id)).remove();
                         $('#messageBoxAddUserSuccess').html("Užívateľ <b>" + response.Email + "</b> bol úspešne odhlásený z tréningu <b>" + response.TrainingDate + "</b> o: <b>" + response.TrainingTime + "</b>!");
                         $('#messageBoxAddUserSuccess').show();
                         $('#' + training + '-RegisteredNumber').html($('#' + training + '-RegisteredNumber').html()-1);

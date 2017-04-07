@@ -17,7 +17,7 @@
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
-                @Html.ActionLink("Speranza", "Speranza", "Home", new { @class="navbar-brand"})
+                @Html.ActionLink("Speranza", "Speranza", "Home", new { @class = "navbar-brand" })
             </div>
             <ul class="nav navbar-nav">
                 <li>@Html.ActionLink("Kalendár", "Calendar", "Calendar")</li>
@@ -30,8 +30,8 @@
                 }
             </ul>
             <ul class="nav navbar-nav navbar-right">
-            <li> @Html.ActionLink("Prihlásený ako: " +Session["Email"].ToString(), "UserProfile", "Accounts") </li>  
-            <li>@Html.ActionLink("Odhlásiť sa", "Logout", "Accounts")</li>
+                <li> @Html.ActionLink("Prihlásený ako: " + Session["Email"].ToString(), "UserProfile", "Accounts") </li>
+                <li>@Html.ActionLink("Odhlásiť sa", "Logout", "Accounts")</li>
             </ul>
         </div>
     </nav>
@@ -43,6 +43,7 @@
     <script src="~/Scripts/jquery.ui.timepicker.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-    @RenderSection("scripts",false)
+    <script src="~/Scripts/EmailHelper.js"></script>
+    @RenderSection("scripts", false)
 </body>
 </html>

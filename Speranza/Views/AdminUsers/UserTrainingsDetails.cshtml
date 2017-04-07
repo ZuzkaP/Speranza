@@ -50,7 +50,7 @@ else
                             $('#' + training).remove();
                             $('#messageBoxTrainingDetails').html("Užívateľ <b>" + response.Email + "</b> bol úspešne odhlásený z tréningu <b>" + response.TrainingDate + "</b> o: <b>" + response.TrainingTime + "</b>!");
                             $('#messageBoxTrainingDetails').show();
-                            $('#' + id + '-TrainingCount').html($('#' + id + '-TrainingCount').html() - 1);
+                            $('#' + getEmailForJS(id) + '-TrainingCount').html($('#' + getEmailForJS(id) + '-TrainingCount').html() - 1);
                         }
 
 

@@ -1,4 +1,5 @@
 ﻿@model Speranza.Models.UsersInTrainingModel
+    @using Speranza.Views
 
 
 @if (Model.Users == null || Model.Users.Count == 0)
@@ -19,7 +20,7 @@ else
             </thead>
         @foreach (var user in Model.Users)
         {
-         <tr id="@user.Email">
+         <tr id="@ViewHelper.GetEmailForJS(user.Email)">
             <td>@user.Name </td>
             <td>@user.Surname </td>
              <td>@user.Email</td>
