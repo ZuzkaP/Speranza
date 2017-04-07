@@ -38,24 +38,45 @@ namespace Speranza.Database
             ExecuteSql(sql);
         }
 
+        //users[email].SignUpAllowed = true;
         public void AllowSigningUpToTrainings(string email)
         {
-            throw new NotImplementedException();
+            string sql = string.Format("Update Users SET isSignUpAllowed=1 WHERE email ='{0}';", email);
+            ExecuteSql(sql);
         }
+
+        //var training = trainings.FirstOrDefault(r => r.ID == trainingID);
+        //    if (training != null)
+        //    {
+        //        trainings.Remove(training);
+        //    }
 
         public void CancelTraining(string trainingID)
         {
-            throw new NotImplementedException();
+            string sql = string.Format("DELETE FROM Trainings WHERE Id ='{0}';", trainingID);
+
+            ExecuteSql(sql);
         }
 
+
+        //public void ChangePassword(string email, string newpasswordhash)
+        //{
+        //    if (users.ContainsKey(email))
+        //    {
+        //        users[email].Password = newpasswordhash;
+        //    }
+        //}
         public void ChangePassword(string email, string newpasswordhash)
         {
-            throw new NotImplementedException();
+            string sql = string.Format("Update Users SET password='{0}' WHERE email ='{1}';", newpasswordhash, email);
+            ExecuteSql(sql);
         }
 
+        //usersInTrainings.First(r => r.Email == email && r.TrainingID == trainingID).ParticipationConfirmed = true;
         public void ConfirmParticipation(string trainingID, string email)
         {
-            throw new NotImplementedException();
+            string sql = string.Format("Update UsersInTrainings SET participationConfirmed=1 WHERE trainingID ='{0}' AND email ='{1}';", trainingID, email);
+            ExecuteSql(sql);
         }
 
         public void CreateNewTraining(string trainingID, DateTime dateTime, string trainer, string trainingDescription, int capacity)
@@ -66,21 +87,38 @@ namespace Speranza.Database
             ExecuteSql(sql);
         }
 
+
+        //if (templates.Find(r => r.Day == recurringTrainingTemplate.Day && r.Time == recurringTrainingTemplate.Time) == null)
+        //  {
+        //      templates.Add(recurringTrainingTemplate);
+        //  }
         public void CreateRecurringTrainingTemplate(RecurringTrainingTemplate recurringTrainingTemplate)
         {
-            throw new NotImplementedException();
+            string sql = string.Format("SELECT COUNT(*) FROM RecurringTemplate WHERE day={0} AND time={1};", recurringTrainingTemplate.Day, recurringTrainingTemplate.Time);
+            var objects = ExecuteSqlWithResult(sql);
+
+            if ((int)objects[0][0] == 0)
+            {
+                string sql2 = string.Format("INSERT INTO RecurringTemplate(capacity,day,time,description,trainer,validFrom) VALUES( {0},{1},{2},'{3}','{4}','{5}');",
+                    recurringTrainingTemplate.Capacity, recurringTrainingTemplate.Day, recurringTrainingTemplate.Time, recurringTrainingTemplate.Description, recurringTrainingTemplate.Trainer, GetDateFormat(recurringTrainingTemplate.ValidFrom));
+                ExecuteSql(sql2);
+            }
         }
 
         public void DisproveParticipation(string trainingID, string email)
         {
-            throw new NotImplementedException();
+            string sql = string.Format("Update UsersInTrainings SET participationDisproved=1 WHERE trainingID ='{0}' AND email ='{1}';", trainingID, email);
+            ExecuteSql(sql);
         }
 
 
         public void ForbidSigningUpToTrainings(string email)
         {
-            throw new NotImplementedException();
+            string sql = string.Format("Update Users SET isSignUpAllowed=0 WHERE email ='{0}';", email);
+            ExecuteSql(sql);
         }
+
+
         //return users.Where(r => r.Value.IsAdmin).Select(r => GetUserData(r.Value.Email)).ToList();
         public IList<IUser> GetAdmins()
         {
