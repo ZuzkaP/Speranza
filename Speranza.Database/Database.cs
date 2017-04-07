@@ -274,9 +274,26 @@ namespace Speranza.Database
             return date;
         }
 
+        //return usersInTrainings.Where(r => r.AlreadyProcessed == false && GetTrainingData(r.TrainingID).Time <= date).ToList();
         public IList<IUserInTraining> GetNonProcessedUsersInTrainingBeforeDate(DateTime date)
         {
-            throw new NotImplementedException();
+            string sql = string.Format("SELECT U.* FROM UsersInTrainings U, Trainings T WHERE alreadyProcessed=0 AND  T.time<'{0}' AND T.Id = U.trainingID;", GetDateFormat(date));
+            var objects = ExecuteSqlWithResult(sql);
+            var usersInTrainings = new List<IUserInTraining>();
+            foreach (var item in objects)
+            {
+                var userInTraining = new UserInTraining();
+                userInTraining.Email = (string)item[0];
+                userInTraining.TrainingID = (string)item[1];
+                userInTraining.Time = (DateTime)item[2];
+                userInTraining.ParticipationConfirmed = (byte)item[3] == 1;
+                userInTraining.ParticipationDisproved = (byte)item[4] == 1;
+                userInTraining.AlreadyProcessed = (byte)item[5] == 1;
+                userInTraining.ZeroEntranceFlag = (byte)item[6] == 1;
+                usersInTrainings.Add(userInTraining);
+            }
+
+            return usersInTrainings;
         }
 
         public int GetNumberOfVisits(string email, DateTime currentDate)
@@ -444,10 +461,53 @@ namespace Speranza.Database
             return null;
         }
 
+        //        var usersInTraining = usersInTrainings.Where(r => r.TrainingID == trainingID);
+
+        //        var users = usersInTraining.Select(r => {
+        //            var user = GetUserData(r.Email);
+        //            user.SignUpTime = r.Time;
+        //            return user;
+        //        }).ToList();
+
+        //            foreach (var item in users)
+        //            {
+        //                if (usersInTraining.First(r => r.Email == item.Email).ParticipationConfirmed || usersInTraining.First(r => r.Email == item.Email).ParticipationDisproved)
+        //                {
+        //                    item.ParticipationSet = true;
+        //                }
+        //}
+        //            return users;
         public IList<IUser> GetUsersInTraining(string trainingID)
         {
-            throw new NotImplementedException();
+            string sql = string.Format("SELECT * FROM UsersInTrainings WHERE trainingID ='{0}';", trainingID);
+            var objects = ExecuteSqlWithResult(sql);
+            var usersInTrainings = new List<IUserInTraining>();
+            foreach (var item in objects)
+            {
+                var userInTraining = new UserInTraining();
+                userInTraining.Email = (string)item[0];
+                userInTraining.TrainingID = (string)item[1];
+                userInTraining.Time = (DateTime)item[2];
+                userInTraining.ParticipationConfirmed = (byte)item[3] == 1;
+                userInTraining.ParticipationDisproved = (byte)item[4] == 1;
+                userInTraining.AlreadyProcessed = (byte)item[5] == 1;
+                userInTraining.ZeroEntranceFlag = (byte)item[6] == 1;
+                usersInTrainings.Add(userInTraining);
+            }
+
+            var users = new List<IUser>();
+            foreach (var item in usersInTrainings)
+            {
+                var user = GetUserData(item.Email);
+                user.SignUpTime = item.Time;
+                user.ParticipationSet = item.ParticipationConfirmed || item.ParticipationDisproved;
+
+                users.Add(user);
+            }
+
+            return users;
         }
+
 
 
         //return usersInTrainings.Any(r => r.Email == email && r.TrainingID == trainingID);
@@ -555,22 +615,53 @@ namespace Speranza.Database
 
         public void SetUserCategory(string email, UserCategories category)
         {
-            throw new NotImplementedException();
+            string sql = string.Format("UPDATE Users SET category = {0}  WHERE email ='{1}';", (int)category, email);
+            ExecuteSql(sql);
         }
 
         public void SetZeroEntranceFlag(IUserInTraining userInTraining, bool flag)
         {
-            throw new NotImplementedException();
+            string sql = string.Format("UPDATE UsersInTrainings SET zeroEntranceFlag = {0}  WHERE email ='{1}' AND trainingID = '{2}';", flag ? 1 : 0, userInTraining.Email, userInTraining.TrainingID);
+            ExecuteSql(sql);
         }
 
+        //var userTrainings = usersInTrainings.Where(r => r.Email == email && trainings.First(s => s.ID == r.TrainingID).Time > date).ToList();
+        //    foreach (var item in userTrainings)
+        //    {
+        //        usersInTrainings.Remove(item);
+        //    }
         public void SignOutUserFromAllTrainingsAfterDate(string email, DateTime date)
         {
-            throw new NotImplementedException();
+            string sql = string.Format("DELETE FROM UsersInTrainings where email ='{0}' and (select time from Trainings where Id=trainingID) > '{1}';", email, GetDateFormat(date));
+
+            ExecuteSql(sql);
         }
+
+        //if (users.ContainsKey(email))
+        //    {
+        //        users[email].NumberOfFreeSignUps += changeNumberOfSignUps;
+        //        if (users[email].NumberOfFreeSignUps< 0)
+        //        {
+        //            users[email].NumberOfFreeSignUps = 0;
+        //        }
+        //        return users[email].NumberOfFreeSignUps;
+        //    }
+        //    return 0;
 
         public int UpdateCountOfFreeSignUps(string email, int changeNumberOfSignUps)
         {
-            throw new NotImplementedException();
+            string sql = string.Format("SELECT numberOfFreeSignUps from Users WHERE email='{0}' ;", email);
+            var objects = ExecuteSqlWithResult(sql);
+
+            int numberOfFreeSignUps = (int)objects[0][0] + changeNumberOfSignUps;
+            if (numberOfFreeSignUps < 0)
+            {
+                numberOfFreeSignUps = 0;
+            }
+            string sql2 = string.Format("Update Users SET numberOfFreeSignUps={0} WHERE email='{1}' ;", numberOfFreeSignUps, email);
+            ExecuteSql(sql2);
+
+            return numberOfFreeSignUps;
         }
 
 
