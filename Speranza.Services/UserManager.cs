@@ -181,11 +181,11 @@ namespace Speranza.Services
         {
             int count = db.GetNumberOfVisits(email, dateTimeService.GetCurrentDate());
 
-            if (count <= 40)
+            if (count <= 40 && category == UserCategories.Standard)
             {
                 return UserCategories.Standard;
             }
-            if (count <= 80)
+            if (count <= 80 && category != UserCategories.Gold)
             {
                 if (category != UserCategories.Silver)
                 {

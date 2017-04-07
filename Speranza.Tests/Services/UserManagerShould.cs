@@ -406,6 +406,43 @@ namespace Speranza.Tests.Services
         }
 
         [TestMethod]
+        public void NotUpdateCategory_When_IsGoldAndSettingToSilver()
+        {
+            InitializeUserManager();
+            PreparUserWith41Visits();
+
+            var result = manager.UpdateUserCategory(EMAIL, UserCategories.Gold);
+
+            db.Verify(r => r.SetUserCategory(It.IsAny<string>(), It.IsAny<UserCategories>()), Times.Never);
+            Assert.AreEqual(UserCategories.Gold, result);
+        }
+
+
+        [TestMethod]
+        public void NotUpdateCategory_When_IsSilverAndSettingToStandard()
+        {
+            InitializeUserManager();
+            PreparUserWith40Visits();
+
+            var result = manager.UpdateUserCategory(EMAIL, UserCategories.Silver);
+
+            db.Verify(r => r.SetUserCategory(It.IsAny<string>(), It.IsAny<UserCategories>()), Times.Never);
+            Assert.AreEqual(UserCategories.Silver, result);
+        }
+        
+        [TestMethod]
+        public void NotUpdateCategory_When_IsGoldAndSettingToStandard()
+        {
+            InitializeUserManager();
+            PreparUserWith40Visits();
+
+            var result = manager.UpdateUserCategory(EMAIL, UserCategories.Gold);
+
+            db.Verify(r => r.SetUserCategory(It.IsAny<string>(), It.IsAny<UserCategories>()), Times.Never);
+            Assert.AreEqual(UserCategories.Gold, result);
+        }
+
+        [TestMethod]
         public void NotUpdateCategory_When_IsGoldAndSettingToGold()
         {
             InitializeUserManager();
