@@ -66,7 +66,7 @@ $(function () {
                 }
 
                 $('#messageBox').show();
-                $('#freeSignUpsCell-' + response.Email).text(response.AfterChangeNumberOfSignUps);
+                $('#freeSignUpsCell-' + response.Email.replace(/\./g,"").replace(/@/g, "")).html(response.AfterChangeNumberOfSignUps);
             }
         });
 
