@@ -139,7 +139,7 @@
                     $("#IsTrainingInTime_" + (day * 13 + time - 7) + "_").removeClass("hidden");
                     $("#IsTrainingInTime_" + (day * 13 + time - 7) + "_").prop("checked", false);
                     $('#MessageBoxCreating').hide();
-                    $('#messageBoxSuccess').html("Tréning opakujúci sa v  " + dayNames[day] + " o " + time + ":00 bol zrušený.");
+                    $('#messageBoxSuccess').html("Tréning opakujúci sa v  " + dayNames[day] + " o " + time + ":00 bude zrušený, ak na ňom nie je nikto prihlásený!");
                     $('#messageBoxSuccess').show();
                 }
             });
