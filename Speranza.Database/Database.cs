@@ -135,9 +135,6 @@ namespace Speranza.Database
                 user.Surname = (string)item[4];
                 user.PhoneNumber = (string)item[5];
                 user.NumberOfFreeSignUpsOnSeasonTicket = (int)item[6];
-                string sql2 = string.Format("Select Count(*) from UsersInTrainings Where email ='{0}' AND (SELECT time from Trainings WHERE Id= trainingID) < GetDate();", user.Email);
-                var objects2 = ExecuteSqlWithResult(sql2);
-                user.NumberOfPastTrainings = (int)objects2[0][0];
                 users.Add(user);
             }
 
@@ -175,7 +172,7 @@ namespace Speranza.Database
 
         public IList<IUser> GetAllUsers()
         {
-            string sql = string.Format("SELECT email,category,isAdmin,name,surname,phoneNumber,numberOfFreeSignUps FROM Users ;");
+            string sql = string.Format("SELECT email,category,isAdmin,name,surname,phoneNumber,numberOfFreeSignUps,(Select Count(*) from UsersInTrainings Where email =Users.email AND (SELECT time from Trainings WHERE Id= trainingID) > GetDate()) FROM Users ;");
             var objects = ExecuteSqlWithResult(sql);
             var users = new List<IUser>();
             foreach (var item in objects)
@@ -188,9 +185,7 @@ namespace Speranza.Database
                 user.Surname = (string)item[4];
                 user.PhoneNumber = (string)item[5];
                 user.NumberOfFreeSignUpsOnSeasonTicket = (int)item[6];
-                string sql2 = string.Format("Select Count(*) from UsersInTrainings Where email ='{0}' AND (SELECT time from Trainings WHERE Id= trainingID) > GetDate();", user.Email);
-                var objects2 = ExecuteSqlWithResult(sql2);
-                user.NumberOfSignedUpTrainings = (int)objects2[0][0];
+                user.NumberOfSignedUpTrainings = (int)item[7];
                 users.Add(user);
             }
 
@@ -368,7 +363,7 @@ namespace Speranza.Database
         //    return t;
         public ITraining GetTrainingData(string trainingID)
         {
-            string sql = string.Format("SELECT * FROM Trainings WHERE Id ='{0}';", trainingID);
+            string sql = string.Format("SELECT *, (SELECT Count(*) FROM UsersInTrainings WHERE trainingID =Trainings.Id) FROM Trainings WHERE Id ='{0}';", trainingID);
             var objects = ExecuteSqlWithResult(sql);
             if (objects.Count == 0)
             {
@@ -380,9 +375,7 @@ namespace Speranza.Database
             training.Description = (string)objects[0][2];
             training.Time = (DateTime)objects[0][3];
             training.Trainer = (string)objects[0][4];
-            string sql2 = string.Format("SELECT Count(*) FROM UsersInTrainings WHERE trainingID ='{0}';", training.ID);
-            var objects2 = ExecuteSqlWithResult(sql2);
-            training.RegisteredNumber = (int)objects2[0][0];
+            training.RegisteredNumber = (int)objects[0][5];
 
             return training;
         }
@@ -432,7 +425,7 @@ namespace Speranza.Database
         //    }
         public IUser GetUserData(string email)
         {
-            string sql = string.Format("SELECT email,category,isAdmin,name,surname,phoneNumber,numberOfFreeSignUps FROM Users WHERE email ='{0}';", email);
+            string sql = string.Format("SELECT email,category,isAdmin,name,surname,phoneNumber,numberOfFreeSignUps, (Select Count(*) from UsersInTrainings Where email = Users.email AND (SELECT time from Trainings WHERE Id= trainingID) < GetDate()) FROM Users WHERE email ='{0}';", email);
             var objects = ExecuteSqlWithResult(sql);
 
             if (objects.Count == 1)
@@ -445,31 +438,13 @@ namespace Speranza.Database
                 user.Surname = (string)objects[0][4];
                 user.PhoneNumber = (string)objects[0][5];
                 user.NumberOfFreeSignUpsOnSeasonTicket = (int)objects[0][6];
-                string sql2 = string.Format("Select Count(*) from UsersInTrainings Where email ='{0}' AND (SELECT time from Trainings WHERE Id= trainingID) < GetDate();", email);
-                var objects2 = ExecuteSqlWithResult(sql2);
-                user.NumberOfPastTrainings = (int)objects2[0][0];
+                user.NumberOfPastTrainings = (int)objects[0][7];
                 return user;
             }
 
             return null;
         }
-
-        //        var usersInTraining = usersInTrainings.Where(r => r.TrainingID == trainingID);
-
-        //        var users = usersInTraining.Select(r => {
-        //            var user = GetUserData(r.Email);
-        //            user.SignUpTime = r.Time;
-        //            return user;
-        //        }).ToList();
-
-        //            foreach (var item in users)
-        //            {
-        //                if (usersInTraining.First(r => r.Email == item.Email).ParticipationConfirmed || usersInTraining.First(r => r.Email == item.Email).ParticipationDisproved)
-        //                {
-        //                    item.ParticipationSet = true;
-        //                }
-        //}
-        //            return users;
+        
         public IList<IUser> GetUsersInTraining(string trainingID)
         {
             string sql = string.Format("SELECT * FROM UsersInTrainings WHERE trainingID ='{0}';", trainingID);
@@ -501,9 +476,7 @@ namespace Speranza.Database
             return users;
         }
 
-
-
-        //return usersInTrainings.Any(r => r.Email == email && r.TrainingID == trainingID);
+        
         public bool IsUserAlreadySignedUpInTraining(string email, string trainingID)
         {
             string sql = string.Format("SELECT COUNT(*) FROM UsersInTrainings WHERE email ='{0}' AND trainingID ='{1}';", email, trainingID);
@@ -534,16 +507,12 @@ namespace Speranza.Database
 
         public void RegisterNewUser(string email, string name, string password, string phoneNumber, string surname)
         {
-            //INSERT INTO table_name(column1, column2, column3, ...) VALUES(value1, value2, value3, ...);
-
             string sql = string.Format("INSERT INTO Users(email,name,surname,phoneNumber,password) VALUES( '{0}','{1}','{2}','{3}','{4}');",
                 email, name, surname, phoneNumber, password);
 
             ExecuteSql(sql);
         }
-
-        //var template = templates.Find(r => r.Day == day && r.Time == time);
-        //templates.Remove(template);
+        
         public void RemoveTrainingTemplate(int day, int time)
         {
             string sql = string.Format("DELETE FROM RecurringTemplate WHERE day ={0} AND time ={1};", day, time);
@@ -558,18 +527,13 @@ namespace Speranza.Database
 
             ExecuteSql(sql);
         }
-
-        //if (users.ContainsKey(email))
-        //  {
-        //      users[email].IsAdmin = isAdmin;
-        //  }
+        
         public void SetAdminRole(string email, bool isAdmin)
         {
             string sql = string.Format("Update Users SET isAdmin={0} WHERE email ='{1}';", isAdmin ? 1 : 0, email);
             ExecuteSql(sql);
         }
 
-        //userInTraining.AlreadyProcessed = true;
         public void SetAlreadyProcessedFlag(IUserInTraining userInTraining)
         {
             string sql = string.Format("Update UsersInTrainings SET alreadyProcessed=1 WHERE email ='{0}' AND trainingID='{1}';", userInTraining.Email, userInTraining.TrainingID);
@@ -581,7 +545,7 @@ namespace Speranza.Database
             string sql = string.Format("Update Settings SET value='{0}' WHERE Id ='{1}';", GetDateFormat(dateTime), LAST_TEMPLATE_GENERATION_DATE);
             ExecuteSql(sql);
         }
-        //settings[SETTINGS_SIGN_OFF_LIMIT] = hoursLimit;
+
         public void SetSignOffLimit(int hoursLimit)
         {
             string sql = string.Format("Update Settings SET value={0} WHERE Id ='{1}';", hoursLimit, SETTINGS_SIGN_OFF_LIMIT);
@@ -618,29 +582,13 @@ namespace Speranza.Database
             ExecuteSql(sql);
         }
 
-        //var userTrainings = usersInTrainings.Where(r => r.Email == email && trainings.First(s => s.ID == r.TrainingID).Time > date).ToList();
-        //    foreach (var item in userTrainings)
-        //    {
-        //        usersInTrainings.Remove(item);
-        //    }
         public void SignOutUserFromAllTrainingsAfterDate(string email, DateTime date)
         {
             string sql = string.Format("DELETE FROM UsersInTrainings where email ='{0}' and (select time from Trainings where Id=trainingID) > '{1}';", email, GetDateFormat(date));
 
             ExecuteSql(sql);
         }
-
-        //if (users.ContainsKey(email))
-        //    {
-        //        users[email].NumberOfFreeSignUps += changeNumberOfSignUps;
-        //        if (users[email].NumberOfFreeSignUps< 0)
-        //        {
-        //            users[email].NumberOfFreeSignUps = 0;
-        //        }
-        //        return users[email].NumberOfFreeSignUps;
-        //    }
-        //    return 0;
-
+        
         public int UpdateCountOfFreeSignUps(string email, int changeNumberOfSignUps)
         {
             string sql = string.Format("SELECT numberOfFreeSignUps from Users WHERE email='{0}' ;", email);
@@ -657,20 +605,14 @@ namespace Speranza.Database
             return numberOfFreeSignUps;
         }
 
-
-        //if (users.ContainsKey(email))
-        //{
-        //    users[email].Name = name;
-        //    users[email].Surname = surname;
-        //    users[email].PhoneNumber = phoneNumber;
-        //}
+        
         public void UpdateUserData(string email, string name, string surname, string phoneNumber)
         {
             string sql = string.Format("UPDATE Users SET name = '{0}',surname= '{1}',phoneNumber='{2}'  WHERE email ='{3}';", name, surname, phoneNumber, email);
             ExecuteSql(sql);
         }
+        
 
-        //SELECT column1, column2, ...FROM table_name;
         public bool UserExists(string email)
         {
             string sql = string.Format("SELECT COUNT(*) FROM Users WHERE email ='{0}';", email);
