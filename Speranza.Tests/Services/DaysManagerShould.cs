@@ -31,6 +31,8 @@ namespace Speranza.Tests.Services
         private Mock<IRecurringTrainingTemplate> template2;
         private Mock<ITrainingModel> generatedTrainingModel2;
         private Mock<ITrainingModel> generatedTrainingModel1;
+        private Mock<ITraining> training1;
+        private Mock<ITraining> training2;
 
         [TestMethod]
         public void ShowEmptyTrainingList_When_NoTrainingExists()
@@ -91,8 +93,8 @@ namespace Speranza.Tests.Services
         private void PrepareDatabaseWithTwoTrainings()
         {
             List<ITraining> trainingsInDB = new List<ITraining>();
-            var training1 = new Mock<ITraining>();
-            var training2 = new Mock<ITraining>();
+            training1 = new Mock<ITraining>();
+            training2 = new Mock<ITraining>();
             training1.SetupGet(r => r.ID).Returns(ID1);
             training2.SetupGet(r => r.ID).Returns(ID2);
             training1.SetupGet(r => r.Time).Returns(new DateTime(2016, 12, 2, 14, 00, 00));
@@ -105,6 +107,13 @@ namespace Speranza.Tests.Services
             trainingModel2 = new Mock<ITrainingModel>();
             factory.Setup(r => r.CreateTrainingModel(training1.Object)).Returns(trainingModel1.Object);
             factory.Setup(r => r.CreateTrainingModel(training2.Object)).Returns(trainingModel2.Object);
+        }
+
+        private void PrepareDatabaseWithTwoManualTrainings()
+        {
+            PrepareDatabaseWithTwoTrainings();
+            training1.Setup(r => r.IsFromTemplate).Returns(false);
+            training2.Setup(r => r.IsFromTemplate).Returns(false);
         }
 
         [TestMethod]
@@ -255,10 +264,67 @@ namespace Speranza.Tests.Services
             generatedTrainingModel1.VerifySet(r => r.IsAllowedToSignUp = true);
             db.Verify(r => r.SetLastTemplateGenerationDate(date), Times.Once);
         }
+
+        [TestMethod]
+        public void NotDeleteTraining_When_ItDoesNotExistInTemplate_And_ItIsManual()
+        {
+            InitializeDaysManager();
+            PrepareDatabaseWithTwoManualTrainings();
+            PrepareNoTemplateForTheDay();
+
+            RequestDay();
+
+            trainingsManager.Verify(r => r.CancelTraining(It.IsAny<string>()),Times.Never);
+        }
+
+        [TestMethod]
+        public void NotDeleteTraining_When_ItDoesNotExistInTemplate_And_ItisAutomaticFromTemplate_And_SomeOneIsSignUp()
+        {
+            InitializeDaysManager();
+            PrepareDatabaseWithTwoAutomaticTrainingsWithTrainees();
+            PrepareNoTemplateForTheDay();
+
+            RequestDay();
+
+            trainingsManager.Verify(r => r.CancelTraining(It.IsAny<string>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void DeleteTraining_When_ItDoesNotExistInTemplate_And_ItisAutomaticFromTemplate_And_NoOneIsSignUp()
+        {
+            InitializeDaysManager();
+            PrepareDatabaseWithTwoAutomaticTrainingsWithNoTrainees();
+            PrepareNoTemplateForTheDay();
+
+            RequestDay();
+
+            trainingsManager.Verify(r => r.CancelTraining(ID1), Times.Once);
+            trainingsManager.Verify(r => r.CancelTraining(ID2), Times.Once);
+        }
+
+        private void PrepareDatabaseWithTwoAutomaticTrainingsWithNoTrainees()
+        {
+            PrepareDatabaseWithTwoTrainings();
+            training1.Setup(r => r.IsFromTemplate).Returns(true);
+            training2.Setup(r => r.IsFromTemplate).Returns(true);
+            training2.Setup(r => r.RegisteredNumber).Returns(0);
+            training1.Setup(r => r.RegisteredNumber).Returns(0);
+        }
+
+        private void PrepareDatabaseWithTwoAutomaticTrainingsWithTrainees()
+        {
+            PrepareDatabaseWithTwoTrainings();
+            training1.Setup(r => r.IsFromTemplate).Returns(true);
+            training2.Setup(r => r.IsFromTemplate).Returns(true);
+            training2.Setup(r => r.RegisteredNumber).Returns(5);
+            training1.Setup(r => r.RegisteredNumber).Returns(2);
+        }
+
         private void PrepareTemplateWasAlreadyGeneratedFlag()
         {
             db.Setup(r => r.GetLastTemplateGenerationDate()).Returns(date.Date);
         }
+
 
         private void PrepareTemplateTodayInPast()
         {

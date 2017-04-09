@@ -57,7 +57,7 @@ namespace Speranza.Services
                         {
                             continue;
                         }
-                        if(item.ValidFrom.Date > date.Date)
+                        if (item.ValidFrom.Date > date.Date)
                         {
                             continue;
                         }
@@ -65,7 +65,22 @@ namespace Speranza.Services
                         trainingModel.IsAllowedToSignUp = true;
                         model.Trainings.Add(trainingModel);
                     }
+
                     db.SetLastTemplateGenerationDate(date);
+                }
+
+                if (templates != null && trainings != null)
+                {
+                    foreach (var item in trainings)
+                    {
+                        if (!item.IsFromTemplate)
+                            continue;
+                        if (item.RegisteredNumber != 0)
+                            continue;
+                        if (templates.Any(r => item.Time.Hour == r.Time))
+                            continue;
+                        trainingManager.CancelTraining(item.ID);
+                    }
                 }
             }
             return model;
