@@ -323,7 +323,7 @@ namespace Speranza.Tests.Services
 
             string trainingID = manager.CreateNewTraining(DATE_TIME, TRAINER, DESCRIPTION,CAPACITY);
 
-            db.Verify(r => r.CreateNewTraining(TRAINING_ID,DATE_TIME, TRAINER, DESCRIPTION,CAPACITY), Times.Once);
+            db.Verify(r => r.CreateNewTraining(TRAINING_ID,DATE_TIME, TRAINER, DESCRIPTION,CAPACITY,false), Times.Once);
             Assert.AreEqual(TRAINING_ID, trainingID);
 
         }
@@ -636,7 +636,7 @@ namespace Speranza.Tests.Services
 
             Assert.AreEqual(trainingModel.Object, model);
             var expectedDate = new DateTime(DATE_TIME.Year, DATE_TIME.Month, DATE_TIME.Day, TIME_A, 00, 00);
-            db.Verify(r => r.CreateNewTraining(TRAINING_ID, expectedDate, TRAINER, DESCRIPTION, CAPACITY));
+            db.Verify(r => r.CreateNewTraining(TRAINING_ID, expectedDate, TRAINER, DESCRIPTION, CAPACITY, true));
         }
 
         [TestMethod]

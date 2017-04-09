@@ -15,19 +15,21 @@ namespace Speranza.Database.Data
         public int RegisteredNumber { get; set; }
         public DateTime Time { get; set; }
         public string Trainer { get; set; }
+        public bool IsFromTemplate { get; set; }
 
         public Training()
         {
                 
         }
 
-        public Training(string id,DateTime dateTime, string description, string trainer, int capacity)
+        public Training(string id,DateTime dateTime, string description, string trainer, int capacity, bool isFromTemplate)
         {
             this.ID = id;
             this.Time = dateTime;
             this.Description = description;
             this.Trainer = trainer;
             this.Capacity = capacity;
+            this.IsFromTemplate = isFromTemplate;
         }
 
       

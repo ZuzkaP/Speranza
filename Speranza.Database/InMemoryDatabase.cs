@@ -63,7 +63,7 @@ namespace Speranza.Database
         private ITraining PrepareTraining(DateTime dateTime, string v1, string v2, int v3)
         {
 
-            return new Training(Guid.NewGuid().ToString(), dateTime, v1, v2, v3);
+            return new Training(Guid.NewGuid().ToString(), dateTime, v1, v2, v3,false);
         }
 
         public void RegisterNewUser(string email, string name, string password, string phoneNumber, string surname)
@@ -289,11 +289,7 @@ namespace Speranza.Database
             }
         }
 
-        public void CreateNewTraining(string trainingID, DateTime dateTime, string trainer, string trainingDescription, int capacity)
-        {
-            trainings.Add(new Training(trainingID, dateTime, trainingDescription, trainer, capacity));
-        }
-
+     
         public void CancelTraining(string trainingID)
         {
             var training = trainings.FirstOrDefault(r => r.ID == trainingID);
@@ -434,6 +430,17 @@ namespace Speranza.Database
         {
             return users.Where(r => r.Value.IsAdmin).Select(r => GetUserData(r.Value.Email)).ToList();
         }
+
+        public void CreateNewTraining(string trainingID, DateTime dateTime, string trainer, string trainingDescription, int capacity)
+        {
+            CreateNewTraining(trainingID, dateTime, trainer, trainingDescription, capacity, false);
+        }
+
+        public void CreateNewTraining(string trainingID, DateTime dateTime, string trainer, string trainingDescription, int capacity, bool isFromTemplate)
+        {
+            trainings.Add(new Training(trainingID, dateTime, trainingDescription, trainer, capacity, isFromTemplate));
+        }
+
 
         private class UserInTraining : IUserInTraining
         {

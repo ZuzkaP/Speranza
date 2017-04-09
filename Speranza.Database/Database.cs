@@ -81,8 +81,13 @@ namespace Speranza.Database
 
         public void CreateNewTraining(string trainingID, DateTime dateTime, string trainer, string trainingDescription, int capacity)
         {
-            string sql = string.Format("INSERT INTO Trainings(Id,time,trainer,description,capacity) VALUES( '{0}','{1}','{2}','{3}',{4});",
-               trainingID, GetDateFormat(dateTime), trainer, trainingDescription, capacity);
+            CreateNewTraining(trainingID, dateTime, trainer, trainingDescription, capacity, false);
+        }
+
+        public void CreateNewTraining(string trainingID, DateTime dateTime, string trainer, string trainingDescription, int capacity,bool isFromTemplate)
+        {
+            string sql = string.Format("INSERT INTO Trainings(Id,time,trainer,description,capacity,isFromTemplate) VALUES( '{0}','{1}','{2}','{3}',{4}, {5});",
+               trainingID, GetDateFormat(dateTime), trainer, trainingDescription, capacity, isFromTemplate?1:0);
 
             ExecuteSql(sql);
         }
@@ -162,7 +167,8 @@ namespace Speranza.Database
                 training.Description = (string)item[2];
                 training.Time = (DateTime)item[3];
                 training.Trainer = (string)item[4];
-                training.RegisteredNumber = (int)item[5];
+                training.IsFromTemplate = (byte)item[5] == 1;
+                training.RegisteredNumber = (int)item[6];
 
                 trainings.Add(training);
             }
@@ -229,7 +235,9 @@ namespace Speranza.Database
                 training.Description = (string)item[2];
                 training.Time = (DateTime)item[3];
                 training.Trainer = (string)item[4];
-                training.RegisteredNumber = (int)item[5];
+                training.RegisteredNumber = (int)item[6];
+                training.IsFromTemplate = (byte)item[5] ==1;
+
 
                 trainings.Add(training);
             }
@@ -375,7 +383,8 @@ namespace Speranza.Database
             training.Description = (string)objects[0][2];
             training.Time = (DateTime)objects[0][3];
             training.Trainer = (string)objects[0][4];
-            training.RegisteredNumber = (int)objects[0][5];
+            training.IsFromTemplate = (byte)objects[0][5] == 1;
+            training.RegisteredNumber = (int)objects[0][6];
 
             return training;
         }
@@ -410,7 +419,8 @@ namespace Speranza.Database
                 training.Description = (string)item[2];
                 training.Time = (DateTime)item[3];
                 training.Trainer = (string)item[4];
-                training.RegisteredNumber = (int)item[5];
+                training.IsFromTemplate = (byte)item[5]==1;
+                training.RegisteredNumber = (int)item[6];
 
                 trainings.Add(training);
             }

@@ -85,8 +85,13 @@ namespace Speranza.Services
 
         public string CreateNewTraining(DateTime dateTime, string trainer, string description, int capacity)
         {
+           return  CreateNewTraining(dateTime, trainer, description, capacity, false);
+        }
+
+        public string CreateNewTraining(DateTime dateTime, string trainer, string description, int capacity, bool isFromTemplate)
+        {
             string trainingID = uidService.CreateID();
-            db.CreateNewTraining(trainingID, dateTime, trainer, description, capacity);
+            db.CreateNewTraining(trainingID, dateTime, trainer, description, capacity,isFromTemplate);
 
             return trainingID;
         }
@@ -124,7 +129,7 @@ namespace Speranza.Services
         public ITrainingModel GenerateTrainingFromTemplate(IRecurringTrainingTemplate template, DateTime date)
         {
             DateTime trainingDate = new DateTime(date.Year, date.Month, date.Day, template.Time, 00, 00);
-            var trainingID = CreateNewTraining(trainingDate, template.Trainer, template.Description, template.Capacity);
+            var trainingID = CreateNewTraining(trainingDate, template.Trainer, template.Description, template.Capacity,true);
             ITraining training = db.GetTrainingData(trainingID);
             return factory.CreateTrainingModel(training);
         }

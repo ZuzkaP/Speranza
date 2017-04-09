@@ -10,5 +10,6 @@ namespace Speranza.Database.Data.Interfaces
         int RegisteredNumber { get; set; }
         DateTime Time { get; set; }
         string Trainer { get; set; }
+        bool IsFromTemplate { get; set; }
     }
 }
