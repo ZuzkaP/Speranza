@@ -79,6 +79,7 @@ namespace Speranza.Services
                             continue;
                         if (templates.Any(r => item.Time.Hour == r.Time))
                             continue;
+                        model.Trainings.Remove(model.Trainings.First(r=>r.ID ==item.ID));
                         trainingManager.CancelTraining(item.ID);
                     }
                 }

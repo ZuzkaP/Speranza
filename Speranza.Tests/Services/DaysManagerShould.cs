@@ -105,6 +105,8 @@ namespace Speranza.Tests.Services
 
             trainingModel1 = new Mock<ITrainingModel>();
             trainingModel2 = new Mock<ITrainingModel>();
+            trainingModel1.SetupGet(r => r.ID).Returns(ID1);
+            trainingModel2.SetupGet(r => r.ID).Returns(ID2);
             factory.Setup(r => r.CreateTrainingModel(training1.Object)).Returns(trainingModel1.Object);
             factory.Setup(r => r.CreateTrainingModel(training2.Object)).Returns(trainingModel2.Object);
         }
@@ -298,6 +300,7 @@ namespace Speranza.Tests.Services
 
             RequestDay();
 
+            Assert.AreEqual(0, day.Trainings.Count);
             trainingsManager.Verify(r => r.CancelTraining(ID1), Times.Once);
             trainingsManager.Verify(r => r.CancelTraining(ID2), Times.Once);
         }
