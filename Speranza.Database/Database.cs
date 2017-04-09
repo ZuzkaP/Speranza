@@ -153,7 +153,8 @@ namespace Speranza.Database
 
         public IList<ITraining> GetAllTrainings()
         {
-            string sql = string.Format("SELECT * FROM Trainings ;");
+            string sql = string.Format("SELECT Trainings.*, (SELECT COUNT(email) FROM UsersInTrainings WHERE trainingID = Trainings.Id)  FROM Trainings;");
+
             var objects = ExecuteSqlWithResult(sql);
             IList<ITraining> trainings = new List<ITraining>();
             foreach (var item in objects)
@@ -164,9 +165,7 @@ namespace Speranza.Database
                 training.Description = (string)item[2];
                 training.Time = (DateTime)item[3];
                 training.Trainer = (string)item[4];
-                string sql2 = string.Format("SELECT Count(*) FROM UsersInTrainings WHERE trainingID ='{0}';", training.ID);
-                var objects2 = ExecuteSqlWithResult(sql2);
-                training.RegisteredNumber = (int)objects2[0][0];
+                training.RegisteredNumber = (int)item[5];
 
                 trainings.Add(training);
             }
@@ -224,7 +223,7 @@ namespace Speranza.Database
         public IList<ITraining> GetDayTrainings(DateTime date)
         {
 
-            string sql = string.Format("SELECT * FROM Trainings WHERE CONVERT(date, time) ='{0}';", date.ToString("yyyy-MM-dd"));
+            string sql = string.Format("SELECT Trainings.*, (SELECT COUNT(email) FROM UsersInTrainings WHERE trainingID = Trainings.Id)  FROM Trainings  WHERE CONVERT(date, Trainings.time) ='{0}' ;", date.ToString("yyyy-MM-dd"));
             var objects = ExecuteSqlWithResult(sql);
             IList<ITraining> trainings = new List<ITraining>();
             foreach (var item in objects)
@@ -235,16 +234,12 @@ namespace Speranza.Database
                 training.Description = (string)item[2];
                 training.Time = (DateTime)item[3];
                 training.Trainer = (string)item[4];
-                string sql2 = string.Format("SELECT Count(*) FROM UsersInTrainings WHERE trainingID ='{0}';", training.ID);
-                var objects2 = ExecuteSqlWithResult(sql2);
-                training.RegisteredNumber = (int)objects2[0][0];
+                training.RegisteredNumber = (int)item[5];
 
                 trainings.Add(training);
             }
 
             return trainings;
-
-
         }
 
         //return usersInTrainings.Where(r => r.TrainingID == trainingID).Select(r => r.Email).ToList();
@@ -410,7 +405,7 @@ namespace Speranza.Database
 
         public IList<ITraining> GetTrainingsForUser(string email)
         {
-            string sql = string.Format("Select T.* from Trainings T, UsersInTrainings U Where U.email ='{0}' AND U.trainingID = T.Id;", email);
+            string sql = string.Format("Select T.*, (SELECT COUNT(email) FROM UsersInTrainings WHERE trainingID = T.Id)  from Trainings T, UsersInTrainings U Where U.email ='{0}' AND U.trainingID = T.Id;", email);
             var objects = ExecuteSqlWithResult(sql);
             var trainings = new List<ITraining>();
 
@@ -422,9 +417,7 @@ namespace Speranza.Database
                 training.Description = (string)item[2];
                 training.Time = (DateTime)item[3];
                 training.Trainer = (string)item[4];
-                string sql2 = string.Format("SELECT Count(*) FROM UsersInTrainings WHERE trainingID ='{0}';", training.ID);
-                var objects2 = ExecuteSqlWithResult(sql2);
-                training.RegisteredNumber = (int)objects2[0][0];
+                training.RegisteredNumber = (int)item[5];
 
                 trainings.Add(training);
             }
