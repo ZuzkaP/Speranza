@@ -6,101 +6,90 @@
     Layout = "~/Views/LayoutNotLoggedIn.cshtml";
 }
 <div class="container">
-    <h2>Registrácia</h2>
-
-   
-    @if (Model != null)
-    {
-        if ((Model.Messages & RegisterModelMessages.EmailIsEmpty) != RegisterModelMessages.NoMessage)
-        {
-            <p><div class="alert alert-warning" role="alert">Email musí byť vyplnený!</div></p>
-        }
-        else if ((Model.Messages & RegisterModelMessages.EmailFormatIsIncorrect) != RegisterModelMessages.NoMessage)
-        {
-            <p><div class="alert alert-warning" role="alert">Email je v nesprávnom tvare!</div></p>
-        }
-        else if ((Model.Messages & RegisterModelMessages.PasswordIsEmpty) != RegisterModelMessages.NoMessage)
-        {
-            <p><div class="alert alert-warning" role="alert">Heslo musí byť vyplnené!</div></p>
-        }
-        else if ((Model.Messages & RegisterModelMessages.PasswordHasNoLetter) != RegisterModelMessages.NoMessage)
-        {
-            <p><div class="alert alert-warning" role="alert">Heslo musí obsahovať aspoň jedno písmeno!</div></p>
-        }
-        else if ((Model.Messages & RegisterModelMessages.PasswordHasNoNumber) != RegisterModelMessages.NoMessage)
-        {
-            <p><div class="alert alert-warning" role="alert">Heslo musí obsahovať aspoň jedno číslo!</div></p>
-        }
-        else if ((Model.Messages & RegisterModelMessages.PasswordIsTooShort) != RegisterModelMessages.NoMessage)
-        {
-            <p><div class="alert alert-warning" role="alert">Heslo musí obsahovať aspoň 6 znakov!</div></p>
-        }
-
-        else if ((Model.Messages & RegisterModelMessages.ConfirmPassIncorrect) != RegisterModelMessages.NoMessage)
-        {
-            <p><div class="alert alert-warning" role="alert">Heslo a jeho overenie sa nezhodujú!</div></p>
-        }
-        else if ((Model.Messages & RegisterModelMessages.UserAlreadyExists) != RegisterModelMessages.NoMessage)
-        {
-            <p><div class="alert alert-warning" role="alert">Používateľ s týmto emailom už existuje! Zabudol si heslo?</div></p>
-        }
-    }
 
 
-    @using (Html.BeginForm("Register", "Accounts", FormMethod.Post, new { @class = "form-horizontal"}))
-    {
-        <div class="form-group">
-            @Html.LabelFor(r=>r.Email,"Email: ", new { @class = "control-label col-sm-2" })
-            <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(r=>r.Name,"Meno: ", new { @class = "control-label col-sm-2" })
-            <div class="col-sm-6">
-                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
-            </div>
-        </div>
+    <div class="text-center" style="padding:50px 0">
+        <div class="logo">registrácia</div>
+        <div class="login-form-1">
+            @using (Html.BeginForm("Register", "Accounts", FormMethod.Post, new { @class = "text-left" }))
+            {
+                if (Model != null)
+                {
+                    if ((Model.Messages & RegisterModelMessages.EmailIsEmpty) != RegisterModelMessages.NoMessage)
+                    {
+                        <div class="login-form-main-message show error success">email musí byť vyplnený!</div>
+                    }
+                    else if ((Model.Messages & RegisterModelMessages.EmailFormatIsIncorrect) != RegisterModelMessages.NoMessage)
+                    {
+                        <div class="login-form-main-message show error success">email je v nesprávnom tvare!</div>
+                    }
+                    else if ((Model.Messages & RegisterModelMessages.PasswordIsEmpty) != RegisterModelMessages.NoMessage)
+                    {
+                        <div class="login-form-main-message show error success">heslo musí byť vyplnené!</div>
+                    }
+                    else if ((Model.Messages & RegisterModelMessages.PasswordHasNoLetter) != RegisterModelMessages.NoMessage)
+                    {
+                        <div class="login-form-main-message show error success">heslo musí obsahovať aspoň jedno písmeno!</div>
+                    }
+                    else if ((Model.Messages & RegisterModelMessages.PasswordHasNoNumber) != RegisterModelMessages.NoMessage)
+                    {
+                        <div class="login-form-main-message show error success">heslo musí obsahovať aspoň jedno číslo!</div>
+                    }
+                    else if ((Model.Messages & RegisterModelMessages.PasswordIsTooShort) != RegisterModelMessages.NoMessage)
+                    {
+                        <div class="login-form-main-message show error success">heslo musí obsahovať aspoň 6 znakov!</div>
+                    }
 
-            <div class="form-group">
-                @Html.LabelFor(r=>r.Surname,"Priezvisko: ", new { @class = "control-label col-sm-2" })
-                <div class="col-sm-6">
-                    @Html.TextBoxFor(m => m.Surname, new { @class = "form-control" })
-                </div>
-            </div>
+                    else if ((Model.Messages & RegisterModelMessages.ConfirmPassIncorrect) != RegisterModelMessages.NoMessage)
+                    {
+                        <div class="login-form-main-message show error success">heslo a jeho overenie sa nezhodujú!</div>
+                    }
+                    else if ((Model.Messages & RegisterModelMessages.UserAlreadyExists) != RegisterModelMessages.NoMessage)
+                    {
+                        <div class="login-form-main-message show error success">používateľ s týmto emailom už existuje! zabudol si heslo?</div>
+                    }
+                }
 
-            <div class="form-group">
-                @Html.LabelFor(r=>r.PhoneNumber,"Tel. číslo: ", new { @class = "control-label col-sm-2" })
-                <div class="col-sm-6">
-                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
-                </div>
-            </div>
+                <div class="main-login-form">
+                    <div class="login-group">
 
-            <div class="form-group">
-                @Html.LabelFor(r=>r.Password,"Heslo: ", new { @class = "control-label col-sm-2" })
-                <div class="col-sm-6">
-                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                </div>
-            </div>
+                        <div class="form-group">
+                            @Html.LabelFor(r => r.Email, "Email: ", new { @class = "sr-only" })
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "email" })
+                        </div>
 
-            <div class="form-group">
-                @Html.LabelFor(r=>r.ConfirmPassword,"Potvrdenie hesla: ", new { @class = "control-label col-sm-2" })
-                <div class="col-sm-6">
-                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-                </div>
-            </div>
+                        <div class="form-group">
+                            @Html.LabelFor(r => r.Name, "Meno: ", new { @class = "sr-only" })
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "meno" })
+                        </div>
 
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <input type="submit" value="Registrovať" id="btnSubmit" class="btn btn-info" />
-                </div>
-                </div>
+                        <div class="form-group">
+                            @Html.LabelFor(r => r.Surname, "Priezvisko: ", new { @class = "sr-only" })
+                            @Html.TextBoxFor(m => m.Surname, new { @class = "form-control", placeholder = "priezvisko" })
+                        </div>
 
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        @Html.ActionLink("Ak už máš účet PRIHLÁS SA!", "Index", "Home")
+                        <div class="form-group">
+                            @Html.LabelFor(r => r.PhoneNumber, "Tel. číslo: ", new { @class = "sr-only" })
+                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", placeholder = "tel. číslo" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(r => r.Password, "Heslo: ", new { @class = "sr-only" })
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "heslo" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(r => r.ConfirmPassword, "Potvrdenie hesla: ", new { @class = "sr-only" })
+                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "potvrdenie hesla" })
+                        </div>
                     </div>
+                    <button type="submit" id="btnSubmit" class="login-button"><i class="glyphicon glyphicon-chevron-right"></i></button>
                 </div>
-    }
-            </div>
+                <div class="etc-login-form">
+                    <p> @Html.ActionLink("ak už máš účet PRIHLÁS SA!", "Index", "Home")</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>

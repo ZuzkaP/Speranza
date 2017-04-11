@@ -5,37 +5,39 @@
     Layout = "~/Views/LayoutNotLoggedIn.cshtml";
 }
 <div class="container">
-    <h2>Zmena hesla</h2>
 
-@if (Model != null)
-{
-    if (    Model == RegisterModelMessages.PasswordRecoveryFailed)
-    {
-        <p><div class="alert alert-warning" role="alert">Email je nesprávny!</div></p>
-    }
-}
 
-    @using (Html.BeginForm("SendNewPass", "Accounts", FormMethod.Post, new { @class = "form-horizontal" }))
-    {
-    <div class="form-group">
-        @Html.Label("Email: ", new { @class = "control-label col-sm-2" })
-        <div class="col-sm-6">
-            @Html.TextBox("email",string.Empty, new { @class = "form-control" })
+    <div class="text-center" style="padding:50px 0">
+        <div class="logo">zmena hesla</div>
+        <div class="login-form-1">
+            @using (Html.BeginForm("SendNewPass", "Accounts", FormMethod.Post, new { @class = "text-left" }))
+            {
+                <div class="etc-login-form">
+                    <p>zadaj svoju emailovú adresu, kam ti pošleme nové heslo</p>
+                </div>
+                if (Model != null)
+                {
+                    if (Model == RegisterModelMessages.PasswordRecoveryFailed)
+                    {
+                        <div class="login-form-main-message show error success" role="alert">email je nesprávny!</div>
+                    }
+                }
+                <div class="main-login-form">
+                    <div class="login-group">
+                        <div class="form-group">
+                            @Html.Label("Email: ", new { @class = "sr-only" })
+                                @Html.TextBox("email", string.Empty, new { @class = "form-control", placeholder = "email" })
+                        </div>
+                    </div>
+                    <button type="submit" id="btnSubmit" class="login-button"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                </div>
+                <div class="etc-login-form">
+                    <p>@Html.ActionLink("späť na login", "Index", "Home")</p>
+                </div>
+            }
         </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            <input type="submit" value="Odoslať" id="btnSubmit" class="btn btn-info" />
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            @Html.ActionLink("Späť na login", "Index", "Home")
-        </div>
-    </div>
-    }
-
 
     </div>
+
+
+</div>

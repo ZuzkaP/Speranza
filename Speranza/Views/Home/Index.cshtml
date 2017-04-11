@@ -17,18 +17,18 @@
                 {
                     if (!Model.LoginSuccessful)
                     {
-                        <div class="login-form-main-message" role="alert">Meno alebo heslo nie je správne!</div>
+                        <div class="login-form-main-message show error success" role="alert">meno alebo heslo nie je správne!</div>
                     }
                 }
                 <div class="main-login-form">
                     <div class="login-group">
                         <div class="form-group">
                             @Html.Label("Email: ", new { @class = "sr-only" })
-                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "email" })
                         </div>
                         <div class="form-group">
                             @Html.Label("Heslo: ", new { @class = "sr-only" })
-                                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "heslo" })
                         </div>
                         <div class="form-group login-group-checkbox">
                             <input type="checkbox" id="lg_remember" name="lg_remember">
@@ -40,8 +40,8 @@
                     </div>
 
                     <div class="etc-login-form">
-                        <p>@Html.ActionLink("Ak si zabudol heslo tak si ho zmeň tu!", "ForgottenPass", "Accounts")</p>
-                        <p>@Html.ActionLink("Ak ešte nemáš účet tak sa registruj!", "Register", "Accounts")</p>
+                        <p>@Html.ActionLink("ak si zabudol heslo tak si ho zmeň tu!", "ForgottenPass", "Accounts")</p>
+                        <p>@Html.ActionLink("ak ešte nemáš účet tak sa registruj!", "Register", "Accounts")</p>
                     </div>
                     
                     }
