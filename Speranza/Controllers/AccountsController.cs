@@ -69,7 +69,7 @@ namespace Speranza.Controllers
                     {
                         string series = uidService.GenerateSeries();
                         string token = uidService.GenerateToken();
-                        cookieService.SetRememberMeCookie(series, token);
+                        cookieService.SetRememberMeCookie(Response.Cookies, series, token);
                         userManager.SetRememberMe(result.Email, series, token);
                     }
                     return RedirectToAction("Calendar", "Calendar");

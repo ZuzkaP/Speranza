@@ -44,9 +44,9 @@ namespace Speranza.Tests.Controllers
             uidService = new Mock<IUidService>();
             controller = new AccountsController(db.Object,hasher.Object,userManager.Object,null,null,factory.Object, cookieService.Object,uidService.Object);
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
+            HttpCookieCollection cookies = new HttpCookieCollection();
 
-            controller.ControllerContext = new FakeControllerContext(controller, sessionItems);
-           
+            controller.ControllerContext = new FakeControllerContext(controller, sessionItems, cookies);
         }
 
         [TestMethod]
@@ -63,7 +63,7 @@ namespace Speranza.Tests.Controllers
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
             Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
             Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
-            cookieService.Verify(r => r.SetRememberMeCookie(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            cookieService.Verify(r => r.SetRememberMeCookie(It.IsAny<HttpCookieCollection>(),It.IsAny<string>(), It.IsAny<string>()), Times.Never);
             userManager.Verify(r => r.SetRememberMe(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
 
 
@@ -83,7 +83,7 @@ namespace Speranza.Tests.Controllers
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
             Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
             Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
-            cookieService.Verify(r => r.SetRememberMeCookie(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            cookieService.Verify(r => r.SetRememberMeCookie(It.IsAny<HttpCookieCollection>(),It.IsAny<string>(), It.IsAny<string>()), Times.Never);
             userManager.Verify(r => r.SetRememberMe(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
 
 
@@ -125,7 +125,7 @@ namespace Speranza.Tests.Controllers
 
             LoginModel modelFromServer = (LoginModel)result.Model;
             Assert.IsFalse(modelFromServer.LoginSuccessful);
-            cookieService.Verify(r => r.SetRememberMeCookie(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            cookieService.Verify(r => r.SetRememberMeCookie(It.IsAny<HttpCookieCollection>(),It.IsAny<string>(), It.IsAny<string>()), Times.Never);
             userManager.Verify(r => r.SetRememberMe(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
 
         }
@@ -154,7 +154,7 @@ namespace Speranza.Tests.Controllers
             LoginModel modelFromServer = (LoginModel)result.Model;
             Assert.IsFalse(modelFromServer.LoginSuccessful);
             Assert.IsTrue(string.IsNullOrEmpty(this.controller.Session["Email"] as string));
-            cookieService.Verify(r => r.SetRememberMeCookie(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            cookieService.Verify(r => r.SetRememberMeCookie(It.IsAny<HttpCookieCollection>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
             userManager.Verify(r => r.SetRememberMe(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
 
 
@@ -178,7 +178,7 @@ namespace Speranza.Tests.Controllers
             LoginModel modelFromServer = (LoginModel)result.Model;
             Assert.IsFalse(modelFromServer.LoginSuccessful);
             Assert.IsTrue(string.IsNullOrEmpty(this.controller.Session["Email"] as string));
-            cookieService.Verify(r => r.SetRememberMeCookie(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            cookieService.Verify(r => r.SetRememberMeCookie(It.IsAny<HttpCookieCollection>(),It.IsAny<string>(), It.IsAny<string>()), Times.Never);
             userManager.Verify(r => r.SetRememberMe(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
 
         }
@@ -206,7 +206,7 @@ namespace Speranza.Tests.Controllers
 
             ActionResult result = controller.Login(model);
             
-            cookieService.Verify(r => r.SetRememberMeCookie(COOKIE_SERIES, COOKIE_TOKEN), Times.Once);
+            cookieService.Verify(r => r.SetRememberMeCookie(controller.Response.Cookies,COOKIE_SERIES, COOKIE_TOKEN), Times.Once);
             userManager.Verify(r => r.SetRememberMe(EMAIL, COOKIE_SERIES, COOKIE_TOKEN), Times.Once);
 
         }

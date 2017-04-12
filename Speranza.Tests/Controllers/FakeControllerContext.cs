@@ -11,23 +11,26 @@ namespace Speranza.Tests.Controllers
     internal class FakeControllerContext : ControllerContext
     {
         
-        public FakeControllerContext(Controller controller, SessionStateItemCollection sessionItems)
+        public FakeControllerContext(Controller controller, SessionStateItemCollection sessionItems, HttpCookieCollection cookies = null)
         {
             Controller = controller;
-            HttpContext = new FakeHttpContext(sessionItems);
-           
+            HttpContext = new FakeHttpContext(sessionItems,cookies);
         }
 
+      
 
         internal class FakeHttpContext : HttpContextBase
         {
             private SessionStateItemCollection sessionItems;
+            private HttpCookieCollection cookies;
+
             public Mock<HttpRequestBase> RequestMock { get; }
 
-            public FakeHttpContext(SessionStateItemCollection sessionItems)
+            public FakeHttpContext(SessionStateItemCollection sessionItems, HttpCookieCollection cookies)
             {
                 this.sessionItems = sessionItems;
-                RequestMock = new Mock<HttpRequestBase>();   
+                RequestMock = new Mock<HttpRequestBase>();
+                this.cookies = cookies;
             }
 
             public override HttpRequestBase Request
@@ -44,7 +47,7 @@ namespace Speranza.Tests.Controllers
                     return new FakeSessionState(sessionItems);
                 }
             }
-
+            public override HttpResponseBase Response { get { return new FakeHttpResponse(cookies); } }
 
             private class FakeSessionState : HttpSessionStateBase
             {
@@ -121,5 +124,19 @@ namespace Speranza.Tests.Controllers
 
             }
         }
+
+        internal class FakeHttpResponse : HttpResponseBase
+        {
+            HttpCookieCollection cookies;
+
+            public FakeHttpResponse(HttpCookieCollection cookies)
+            {
+                this.cookies = cookies;
+            }
+
+            public override HttpCookieCollection Cookies { get { return cookies; } }
+        }
     }
+
+    
 }

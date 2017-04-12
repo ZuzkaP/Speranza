@@ -1,7 +1,9 @@
-﻿namespace Speranza.Services.Interfaces
+﻿using System.Web;
+
+namespace Speranza.Services.Interfaces
 {
     public interface ICookieService
     {
-        void SetRememberMeCookie(string series, string token);
+        void SetRememberMeCookie(HttpCookieCollection cookies,string series, string token);
     }
 }
