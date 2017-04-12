@@ -22,13 +22,15 @@ namespace Speranza.Controllers
         private IDateTimeService dateTimeService;
         const int PASSWORD_LENGTH = 6;
         private IModelFactory factory;
+        private ICookieService cookieService;
+        private IUidService uidService;
 
-        public AccountsController() : this(Initializer.Db, Initializer.Hasher, Initializer.UserManager, Initializer.TrainingsManager, Initializer.DateTimeService, Initializer.Factory)
+        public AccountsController() : this(Initializer.Db, Initializer.Hasher, Initializer.UserManager, Initializer.TrainingsManager, Initializer.DateTimeService, Initializer.Factory, Initializer.CookieService, Initializer.UidService)
         {
 
         }
 
-        public AccountsController(IDatabaseGateway db, IHasher hasher, IUserManager userManager, ITrainingsManager trainingManager, IDateTimeService dateTimeService, IModelFactory factory)
+        public AccountsController(IDatabaseGateway db, IHasher hasher, IUserManager userManager, ITrainingsManager trainingManager, IDateTimeService dateTimeService, IModelFactory factory, ICookieService cookieService, IUidService uidService)
         {
             this.db = db;
             this.hasher = hasher;
@@ -36,6 +38,8 @@ namespace Speranza.Controllers
             this.trainingManager = trainingManager;
             this.dateTimeService = dateTimeService;
             this.factory = factory;
+            this.cookieService = cookieService;
+            this.uidService = uidService;
         }
 
         // GET: Accounts
@@ -61,6 +65,13 @@ namespace Speranza.Controllers
                     Session["IsAdmin"] = result.IsAdmin;
                     Session["Category"] = result.Category;
                     model.LoginSuccessful = true;
+                    if(model.RememberMe == true)
+                    {
+                        string series = uidService.GenerateSeries();
+                        string token = uidService.GenerateToken();
+                        cookieService.SetRememberMeCookie(series, token);
+                        userManager.SetRememberMe(result.Email, series, token);
+                    }
                     return RedirectToAction("Calendar", "Calendar");
                 }
             }

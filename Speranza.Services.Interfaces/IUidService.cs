@@ -10,5 +10,7 @@ namespace Speranza.Services.Interfaces
     {
         string CreateID();
         string CreatePassword();
+        string GenerateToken();
+        string GenerateSeries();
     }
 }

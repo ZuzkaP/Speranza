@@ -263,5 +263,10 @@ namespace Speranza.Services
             return true;
 
         }
+
+        public void SetRememberMe(string email, string cookieSeries, string cookieToken)
+        {
+            db.SetRememberMe(email, cookieSeries, cookieToken);
+        }
     }
 }

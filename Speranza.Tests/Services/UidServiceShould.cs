@@ -26,6 +26,30 @@ namespace Speranza.Tests.Services
         }
 
         [TestMethod]
+        public void CreateSeries()
+        {
+            InitializeUidService();
+
+            string series = uidService.GenerateSeries();
+
+            Assert.IsNotNull(series);
+            Assert.AreEqual(36, series.Length);
+
+        }
+
+        [TestMethod]
+        public void CreateToken()
+        {
+            InitializeUidService();
+
+            string token = uidService.GenerateToken();
+
+            Assert.IsNotNull(token);
+            Assert.AreEqual(36, token.Length);
+
+        }
+
+        [TestMethod]
         public void CreatePass()
         {
             InitializeUidService();

@@ -52,6 +52,8 @@ namespace Speranza.Tests.Services
         private const string EMAIL2 = "EMAIL2";
         private const string TRAINING2_ID = "TRAINING2_ID";
         private const string NEW_PASS = "NewPass";
+        private const string SERIES = "series";
+        private const string TOKEN = "token";
         private readonly DateTime DATE_TIME = new DateTime(2017, 1, 6, 10, 00, 00);
         private Mock<IUserProfileModel> userProfileModel;
         private Mock<IUserInTraining> userInTraining;
@@ -504,6 +506,18 @@ namespace Speranza.Tests.Services
             emailManager.Verify(r => r.SendPassRecoveryEmail(EMAIL,NEW_PASS), Times.Once);
             db.Verify(r => r.ChangePassword(EMAIL, PASSWORD_CORRECT_HASH), Times.Once);
             Assert.IsTrue(result);
+        }
+
+
+        [TestMethod]
+        public void StoreSeriesToken_IntoDB()
+        {
+            InitializeUserManager();
+
+             manager.SetRememberMe(EMAIL, SERIES, TOKEN);
+
+            db.Verify(r => r.SetRememberMe(EMAIL, SERIES, TOKEN), Times.Once);
+
         }
 
         private void PrepareValidEmail()

@@ -57,5 +57,6 @@ namespace Speranza.Database
         void SetZeroEntranceFlag(IUserInTraining userInTraining, bool flag);
         IList<IUserInTraining> GetAllUsersInTrainingWithZeroEntranceFlag();
         IList<IUser> GetAdmins();
+        void SetRememberMe(string email, string series, string token);
     }
 }

@@ -204,7 +204,7 @@ namespace Speranza.Tests.Controllers
             db = new Mock<IDatabaseGateway>();
             hasher = new Mock<IHasher>();
             userManager = new Mock<IUserManager>();
-            controller = new AccountsController(db.Object,hasher.Object,userManager.Object,null,null,null);
+            controller = new AccountsController(db.Object,hasher.Object,userManager.Object,null,null,null,null,null);
         }
     }
 }

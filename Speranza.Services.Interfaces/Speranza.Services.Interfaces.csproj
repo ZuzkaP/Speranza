@@ -48,6 +48,7 @@
     <Compile Include="Exceptions\InvalidTimeException.cs" />
     <Compile Include="Exceptions\InvalidUserEmailException.cs" />
     <Compile Include="Exceptions\TooManyPeopleInTrainingException.cs" />
+    <Compile Include="ICookieService.cs" />
     <Compile Include="IDateTimeService.cs" />
     <Compile Include="IDaysManager.cs" />
     <Compile Include="IEmailFactory.cs" />

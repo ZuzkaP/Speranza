@@ -676,6 +676,11 @@ namespace Speranza.Database
             return rows;
         }
 
+        public void SetRememberMe(string email, string series, string token)
+        {
+            throw new NotImplementedException();
+        }
+
         private class UserInTraining : IUserInTraining
         {
             public string Email { get; set; }

@@ -28,7 +28,11 @@ namespace Speranza.Tests.Controllers
         private const string PASSWORD = "pass";
         private const string EMAIL = "email";
         const UserCategories CATEGORY = UserCategories.Gold;
+        private const string COOKIE_SERIES = "Series";
+        private const string COOKIE_TOKEN = "Token";
         private Mock<ILoginResult> loginResult;
+        private Mock<ICookieService> cookieService;
+        private Mock<IUidService> uidService;
 
         private void InitializeController()
         {
@@ -36,10 +40,13 @@ namespace Speranza.Tests.Controllers
             hasher = new Mock<IHasher>();
             factory = new Mock<IModelFactory>();
             userManager = new Mock<IUserManager>();
-            controller = new AccountsController(db.Object,hasher.Object,userManager.Object,null,null,factory.Object);
+            cookieService = new Mock<ICookieService>();
+            uidService = new Mock<IUidService>();
+            controller = new AccountsController(db.Object,hasher.Object,userManager.Object,null,null,factory.Object, cookieService.Object,uidService.Object);
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
 
             controller.ControllerContext = new FakeControllerContext(controller, sessionItems);
+           
         }
 
         [TestMethod]
@@ -56,7 +63,10 @@ namespace Speranza.Tests.Controllers
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
             Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
             Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
-            
+            cookieService.Verify(r => r.SetRememberMeCookie(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            userManager.Verify(r => r.SetRememberMe(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+
+
         }
 
         [TestMethod]
@@ -73,6 +83,10 @@ namespace Speranza.Tests.Controllers
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
             Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
             Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
+            cookieService.Verify(r => r.SetRememberMeCookie(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            userManager.Verify(r => r.SetRememberMe(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+
+
         }
 
         private void PrepareDataForSuccessfulNonAdminLogin()
@@ -86,6 +100,7 @@ namespace Speranza.Tests.Controllers
             model = new LoginModel();
             model.Email = EMAIL;
             model.Password = PASSWORD;
+            model.RememberMe = false;
             hasher.Setup(r => r.HashPassword(model.Password)).Returns(HASH);
 
             loginResult = new Mock<ILoginResult>();
@@ -110,6 +125,9 @@ namespace Speranza.Tests.Controllers
 
             LoginModel modelFromServer = (LoginModel)result.Model;
             Assert.IsFalse(modelFromServer.LoginSuccessful);
+            cookieService.Verify(r => r.SetRememberMeCookie(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            userManager.Verify(r => r.SetRememberMe(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+
         }
 
         private void PrepareNotSuccessfulLogin()
@@ -136,6 +154,10 @@ namespace Speranza.Tests.Controllers
             LoginModel modelFromServer = (LoginModel)result.Model;
             Assert.IsFalse(modelFromServer.LoginSuccessful);
             Assert.IsTrue(string.IsNullOrEmpty(this.controller.Session["Email"] as string));
+            cookieService.Verify(r => r.SetRememberMeCookie(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            userManager.Verify(r => r.SetRememberMe(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+
+
 
         }
 
@@ -156,8 +178,11 @@ namespace Speranza.Tests.Controllers
             LoginModel modelFromServer = (LoginModel)result.Model;
             Assert.IsFalse(modelFromServer.LoginSuccessful);
             Assert.IsTrue(string.IsNullOrEmpty(this.controller.Session["Email"] as string));
-        }
+            cookieService.Verify(r => r.SetRememberMeCookie(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            userManager.Verify(r => r.SetRememberMe(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
 
+        }
+        
         [TestMethod]
         public void Logout_When_Requested()
         {
@@ -169,6 +194,32 @@ namespace Speranza.Tests.Controllers
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
             Assert.AreEqual("Home", ((RedirectToRouteResult)result).RouteValues["controller"]);
             Assert.AreEqual("Index", ((RedirectToRouteResult)result).RouteValues["action"]);
+        }
+
+        [TestMethod]
+        public void CorrectlyCreateCookiesWhenLoginWasSuccessfull_And_RememberMeWasChecked()
+        {
+            InitializeController();
+            PrepareDataForSuccessfulNonAdminLogin();
+            PrepareUidServiceForRememberMe();
+            PrepareCheckedRememberMe();
+
+            ActionResult result = controller.Login(model);
+            
+            cookieService.Verify(r => r.SetRememberMeCookie(COOKIE_SERIES, COOKIE_TOKEN), Times.Once);
+            userManager.Verify(r => r.SetRememberMe(EMAIL, COOKIE_SERIES, COOKIE_TOKEN), Times.Once);
+
+        }
+
+        private void PrepareUidServiceForRememberMe()
+        {
+            uidService.Setup(r => r.GenerateSeries()).Returns(COOKIE_SERIES);
+            uidService.Setup(r => r.GenerateToken()).Returns(COOKIE_TOKEN);
+        }
+
+        private void PrepareCheckedRememberMe()
+        {
+            model.RememberMe = true;
         }
     }
     

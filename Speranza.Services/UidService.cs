@@ -18,5 +18,15 @@ namespace Speranza.Services
         {
             return Guid.NewGuid().ToString().Substring(0,8);
         }
+
+        public string GenerateSeries()
+        {
+            return Guid.NewGuid().ToString();
+        }
+
+        public string GenerateToken()
+        {
+            return Guid.NewGuid().ToString();
+        }
     }
 }

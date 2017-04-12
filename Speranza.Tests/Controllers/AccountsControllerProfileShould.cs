@@ -499,7 +499,7 @@ namespace Speranza.Tests.Controllers
             dateTimeService = new Mock<IDateTimeService>();
             factory = new Mock<IModelFactory>();
             hasher = new Mock<IHasher>();
-            controller = new AccountsController(db.Object,hasher.Object,userManager.Object, trainingManager.Object,dateTimeService.Object,factory.Object);
+            controller = new AccountsController(db.Object,hasher.Object,userManager.Object, trainingManager.Object,dateTimeService.Object,factory.Object,null,null);
             userData = new Mock<IUser>();
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             controller.ControllerContext = new FakeControllerContext(controller, sessionItems);

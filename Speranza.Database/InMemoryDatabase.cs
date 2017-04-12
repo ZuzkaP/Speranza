@@ -15,6 +15,7 @@ namespace Speranza.Database
         private const string SETTINGS_SIGN_OFF_LIMIT = "SignOffLimit";
         Dictionary<string, RegisteredUser> users;
         Dictionary<string, object> settings;
+        Dictionary<string, string> tokens;
         List<ITraining> trainings;
         List<IRecurringTrainingTemplate> templates;
         List<IUserInTraining> usersInTrainings;
@@ -36,6 +37,7 @@ namespace Speranza.Database
             users = new Dictionary<string, RegisteredUser>();
             usersInTrainings = new List<IUserInTraining>();
             settings = new Dictionary<string, object>();
+            tokens = new Dictionary<string, string>();
             templates = new List<IRecurringTrainingTemplate>();
             users.Add("admin", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Admin", Surname = "Admin", PhoneNumber = "1234", IsAdmin = true, Category = UserCategories.Silver });
 
@@ -441,6 +443,11 @@ namespace Speranza.Database
             trainings.Add(new Training(trainingID, dateTime, trainingDescription, trainer, capacity, isFromTemplate));
         }
 
+        public void SetRememberMe(string email, string series, string token)
+        {
+            tokens.Add(series, token);
+            users[email].Series = series;
+        }
 
         private class UserInTraining : IUserInTraining
         {
@@ -459,6 +466,7 @@ namespace Speranza.Database
             public bool IsAdmin { get; set; }
             public int NumberOfFreeSignUps { get; internal set; }
             public bool SignUpAllowed { get; internal set; }
+            public string Series { get; internal set; }
 
             public RegisteredUser()
             {
