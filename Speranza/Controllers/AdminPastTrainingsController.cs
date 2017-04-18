@@ -16,15 +16,17 @@ namespace Speranza.Controllers
         private ITrainingsManager trainingManager;
         private IDateTimeService dateTimeService;
         private const int DEFAULT_PAGE_SIZE = 20;
+        private ICookieService cookieService;
 
-        public AdminPastTrainingsController(IUserManager userManager, ITrainingsManager trainingManager, IDateTimeService dateTimeService)
+        public AdminPastTrainingsController(IUserManager userManager, ITrainingsManager trainingManager, IDateTimeService dateTimeService, ICookieService cookieService)
         {
             this.userManager = userManager;
             this.trainingManager = trainingManager;
             this.dateTimeService = dateTimeService;
+            this.cookieService = cookieService;
         }
 
-        public AdminPastTrainingsController() : this(Initializer.UserManager, Initializer.TrainingsManager, Initializer.DateTimeService)
+        public AdminPastTrainingsController() : this(Initializer.UserManager, Initializer.TrainingsManager, Initializer.DateTimeService, Initializer.CookieService)
         {
 
         }
@@ -32,7 +34,7 @@ namespace Speranza.Controllers
         // GET: AdminPastTrainings
         public ActionResult AdminTrainings(int? pageSize = null)
         {
-            if (userManager.IsUserLoggedIn(Session))
+            if (userManager.IsUserLoggedIn(cookieService.GetRememberMeCookie(Request.Cookies),Session))
             {
                 if (!userManager.IsUserAdmin(Session))
                 {

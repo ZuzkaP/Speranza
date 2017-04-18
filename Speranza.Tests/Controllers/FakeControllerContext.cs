@@ -30,6 +30,7 @@ namespace Speranza.Tests.Controllers
             {
                 this.sessionItems = sessionItems;
                 RequestMock = new Mock<HttpRequestBase>();
+                RequestMock.SetupGet(r => r.Cookies).Returns(cookies);
                 this.cookies = cookies;
             }
 

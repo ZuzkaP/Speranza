@@ -25,12 +25,13 @@ namespace Speranza.Controllers
         IDateTimeService dateTimeService;
         private IDatabaseGateway db;
         private IModelFactory factory;
+        private ICookieService cookieService;
 
-        public CalendarController() : this(Initializer.Db,Initializer.UserManager, Initializer.DaysManager, Initializer.DateTimeService, Initializer.TrainingsManager, Initializer.Factory)
+        public CalendarController() : this(Initializer.Db,Initializer.UserManager, Initializer.DaysManager, Initializer.DateTimeService, Initializer.TrainingsManager, Initializer.Factory, Initializer.CookieService)
         {
 
         }
-        public CalendarController(IDatabaseGateway db, IUserManager userManager, IDaysManager dayManager, IDateTimeService dateTimeService, ITrainingsManager trainingManager, IModelFactory factory)
+        public CalendarController(IDatabaseGateway db, IUserManager userManager, IDaysManager dayManager, IDateTimeService dateTimeService, ITrainingsManager trainingManager, IModelFactory factory, ICookieService cookieService)
         {
             this.db = db;
             this.userManager = userManager;
@@ -38,11 +39,12 @@ namespace Speranza.Controllers
             this.dateTimeService = dateTimeService;
             this.trainingManager = trainingManager;
             this.factory = factory;
+            this.cookieService = cookieService;
         }
 
         public RedirectToRouteResult SignUp(string id)
         {
-            if (!userManager.IsUserLoggedIn(Session))
+            if (!userManager.IsUserLoggedIn(cookieService.GetRememberMeCookie(Request.Cookies), Session))
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -62,7 +64,7 @@ namespace Speranza.Controllers
 
         public ActionResult Calendar()
         {
-            if (!userManager.IsUserLoggedIn(Session))
+            if (!userManager.IsUserLoggedIn(cookieService.GetRememberMeCookie(Request.Cookies), Session))
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -97,7 +99,7 @@ namespace Speranza.Controllers
 
         public RedirectToRouteResult SignOff(string id)
         {
-            if (!userManager.IsUserLoggedIn(Session))
+            if (!userManager.IsUserLoggedIn(cookieService.GetRememberMeCookie(Request.Cookies), Session))
             {
                 return RedirectToAction("Index", "Home");
             }

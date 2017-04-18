@@ -20,24 +20,26 @@ namespace Speranza.Controllers
         private IUserManager userManager;
         private IDateTimeService dateTimeService;
         private IUserDataParser parser;
+        private ICookieService cookieService;
 
-        public AdminFutureTrainingsController() : this(Initializer.UserManager, Initializer.TrainingsManager, Initializer.DateTimeService, Initializer.UserDataParser)
+        public AdminFutureTrainingsController() : this(Initializer.UserManager, Initializer.TrainingsManager, Initializer.DateTimeService, Initializer.UserDataParser, Initializer.CookieService)
         {
 
         }
 
-        public AdminFutureTrainingsController(IUserManager userManager, ITrainingsManager trainingManager, IDateTimeService dateTimeService, IUserDataParser parser)
+        public AdminFutureTrainingsController(IUserManager userManager, ITrainingsManager trainingManager, IDateTimeService dateTimeService, IUserDataParser parser, ICookieService cookieService)
         {
             this.userManager = userManager;
             this.trainingManager = trainingManager;
             this.dateTimeService = dateTimeService;
             this.parser = parser;
+            this.cookieService = cookieService;
         }
 
         // GET: AdminTrainings
         public ActionResult AdminTrainings(int? pageSize =  null)
         {
-            if (userManager.IsUserLoggedIn(Session))
+            if (userManager.IsUserLoggedIn(cookieService.GetRememberMeCookie(Request.Cookies), Session))
             {
                 if (!userManager.IsUserAdmin(Session))
                 {

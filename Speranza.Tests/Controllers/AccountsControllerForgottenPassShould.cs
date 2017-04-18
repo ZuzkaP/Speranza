@@ -15,6 +15,7 @@ namespace Speranza.Tests.Controllers
         private const string EMAIL = "EMAIL";
         private AccountsController controller;
         private Mock<IUserManager> userManager;
+        private Mock<ICookieService> cookieService;
 
         [TestMethod]
         public void ShowMessage_When_PasswordWasNotChanged()
@@ -77,7 +78,8 @@ namespace Speranza.Tests.Controllers
         private void InitializeAccountsControllerForgottenPass()
         {
             userManager = new Mock<IUserManager>();
-            controller = new AccountsController(null, null, userManager.Object, null, null, null,null,null);
+            cookieService = new Mock<ICookieService>();
+            controller = new AccountsController(null, null, userManager.Object, null, null, null,cookieService.Object,null);
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             controller.ControllerContext = new FakeControllerContext(controller, sessionItems);
         }

@@ -17,6 +17,7 @@ namespace Speranza.Tests.Controllers
         private Mock<IDatabaseGateway> db;
         private Mock<IHasher> hasher;
         private Mock<IUserManager> userManager;
+        private Mock<ICookieService> cookieService;
 
         [TestMethod]
         public void ReturnCorrectView_When_RegisteringNewUser()
@@ -204,7 +205,8 @@ namespace Speranza.Tests.Controllers
             db = new Mock<IDatabaseGateway>();
             hasher = new Mock<IHasher>();
             userManager = new Mock<IUserManager>();
-            controller = new AccountsController(db.Object,hasher.Object,userManager.Object,null,null,null,null,null);
+            cookieService = new Mock<ICookieService>();
+            controller = new AccountsController(db.Object,hasher.Object,userManager.Object,null,null,null,cookieService.Object,null);
         }
     }
 }

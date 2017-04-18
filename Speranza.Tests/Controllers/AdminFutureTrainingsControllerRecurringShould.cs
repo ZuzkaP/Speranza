@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.SessionState;
 
@@ -33,6 +34,7 @@ namespace Speranza.Tests.Controllers
         private const int TIME = 8;
         private Mock<IRecurringTemplateModel> modelB;
         private Mock<IRecurringTemplateModel> modelA;
+        private Mock<ICookieService> cookieService;
 
         [TestMethod]
         public void ReturnToCalendar_When_UserIsNotAdmin_AndShowing()
@@ -281,9 +283,11 @@ namespace Speranza.Tests.Controllers
             userManager = new Mock<IUserManager>();
             trainingManager = new Mock<ITrainingsManager>();
             dateTimeService = new Mock<IDateTimeService>();
-            controller = new AdminFutureTrainingsController(userManager.Object, trainingManager.Object, dateTimeService.Object, null);
+            cookieService = new Mock<ICookieService>();
+            controller = new AdminFutureTrainingsController(userManager.Object, trainingManager.Object, dateTimeService.Object, null,cookieService.Object);
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
-            controller.ControllerContext = new FakeControllerContext(controller, sessionItems);
+            HttpCookieCollection cookies = new HttpCookieCollection();
+            controller.ControllerContext = new FakeControllerContext(controller, sessionItems, cookies);
             userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(true);
 
         }

@@ -29,12 +29,13 @@ namespace Speranza.Tests.Controllers
         private const string TRAINING_ID = "id";
         private Mock<ITrainingsManager> trainingManager;
         private readonly DateTime TRAININGDATE = new DateTime(2017, 01, 01, 00, 00, 00);
+        private Mock<ICookieService> cookieService;
 
         [TestMethod]
         public void ReturnToCalendar_When_ClickOnAdminUsers_And_UserIsNotLogin()
         {
             InitializeAdminUsersController();
-            userManager.Setup(r => r.IsUserLoggedIn(controller.Session)).Returns(false);
+            userManager.Setup(r => r.IsUserLoggedIn(null,controller.Session)).Returns(false);
             ActionResult result = controller.AdminUsers();
 
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
@@ -48,7 +49,7 @@ namespace Speranza.Tests.Controllers
         public void ReturnToCalendar_When_ClickOnAdminUsers_And_UserIsNotAdmin()
         {
             InitializeAdminUsersController();
-            userManager.Setup(r => r.IsUserLoggedIn(controller.Session)).Returns(true);
+            userManager.Setup(r => r.IsUserLoggedIn(null, controller.Session)).Returns(true);
             userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(false);
 
             ActionResult result = controller.AdminUsers();
@@ -363,11 +364,12 @@ namespace Speranza.Tests.Controllers
         {
             userManager = new Mock<IUserManager>();
             trainingManager = new Mock<ITrainingsManager>();
-            controller = new AdminUsersController(userManager.Object,trainingManager.Object);
+            cookieService = new Mock<ICookieService>();
+            controller = new AdminUsersController(userManager.Object,trainingManager.Object,cookieService.Object);
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             controller.ControllerContext = new FakeControllerContext(controller, sessionItems);
             controller.Session["Email"] = USER_EMAIL;
-            userManager.Setup(r => r.IsUserLoggedIn(controller.Session)).Returns(true);
+            userManager.Setup(r => r.IsUserLoggedIn(null, controller.Session)).Returns(true);
             userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(true);
         }
     }

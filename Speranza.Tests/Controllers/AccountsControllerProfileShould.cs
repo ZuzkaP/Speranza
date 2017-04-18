@@ -46,12 +46,13 @@ namespace Speranza.Tests.Controllers
         private Mock<IHasher> hasher;
         private Mock<IUser> user;
         private UserProfileModel updatedUserProfileModel;
+        private Mock<ICookieService> cookieService;
 
         [TestMethod]
         public void ReturnToLogin_When_UserIsNotLoggedIn()
         {
             InitializeAccountController();
-            userManager.Setup(r => r.IsUserLoggedIn(controller.Session)).Returns(false);
+            userManager.Setup(r => r.IsUserLoggedIn(null, controller.Session)).Returns(false);
 
             ActionResult result = controller.UserProfile();
 
@@ -104,7 +105,7 @@ namespace Speranza.Tests.Controllers
         public void ReturnToLogin_When_SavingUserProfileAndUserIsNotLoggedIn()
         {
             InitializeAccountController();
-            userManager.Setup(r => r.IsUserLoggedIn(controller.Session)).Returns(false);
+            userManager.Setup(r => r.IsUserLoggedIn(null,controller.Session)).Returns(false);
             ActionResult result = controller.SaveUserProfile(null);
 
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
@@ -317,7 +318,7 @@ namespace Speranza.Tests.Controllers
         public void NotChangePass_When_UserIsNotLoggedIn()
         {
             InitializeAccountController();
-            userManager.Setup(r => r.IsUserLoggedIn(controller.Session)).Returns(false);
+            userManager.Setup(r => r.IsUserLoggedIn(null, controller.Session)).Returns(false);
 
             ActionResult result = controller.ChangeUserPassword(OLDPASS,NEWPASS,CONFIRMPASS);
 
@@ -499,11 +500,12 @@ namespace Speranza.Tests.Controllers
             dateTimeService = new Mock<IDateTimeService>();
             factory = new Mock<IModelFactory>();
             hasher = new Mock<IHasher>();
-            controller = new AccountsController(db.Object,hasher.Object,userManager.Object, trainingManager.Object,dateTimeService.Object,factory.Object,null,null);
+            cookieService = new Mock<ICookieService>();
+            controller = new AccountsController(db.Object,hasher.Object,userManager.Object, trainingManager.Object,dateTimeService.Object,factory.Object,cookieService.Object,null);
             userData = new Mock<IUser>();
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             controller.ControllerContext = new FakeControllerContext(controller, sessionItems);
-            userManager.Setup(r => r.IsUserLoggedIn(controller.Session)).Returns(true);
+            userManager.Setup(r => r.IsUserLoggedIn(null, controller.Session)).Returns(true);
             controller.Session["Email"] = USER_EMAIL;
             userData.SetupGet(u => u.Name).Returns(NAME);
             userData.SetupGet(u => u.Surname).Returns(SURNAME);

@@ -137,7 +137,7 @@ namespace Speranza.Controllers
 
         public ActionResult SaveUserProfile(UserProfileModel model)
         {
-            if (userManager.IsUserLoggedIn(Session))
+            if (userManager.IsUserLoggedIn(cookieService.GetRememberMeCookie(Request.Cookies),Session))
             {
                 if(string.IsNullOrEmpty(model.Surname))
                 {
@@ -178,7 +178,7 @@ namespace Speranza.Controllers
 
         public ActionResult UserProfile()
         {
-            if (userManager.IsUserLoggedIn(Session))
+            if (userManager.IsUserLoggedIn(cookieService.GetRememberMeCookie(Request.Cookies), Session))
             {
                 IUserProfileModel model = userManager.GetUserProfileModelWithDataFromDB((string)Session["Email"]);
                 model.FutureTrainings = new List<ITrainingModel>();
@@ -206,7 +206,7 @@ namespace Speranza.Controllers
 
         public ActionResult ChangeUserPassword(string oldPass, string newPass, string confirmPass)
         {
-            if (userManager.IsUserLoggedIn(Session))
+            if (userManager.IsUserLoggedIn(cookieService.GetRememberMeCookie(Request.Cookies), Session))
             {
                 IUser user = db.LoadUser((string)Session["Email"]);
                 string hashOldPass = hasher.HashPassword(oldPass);

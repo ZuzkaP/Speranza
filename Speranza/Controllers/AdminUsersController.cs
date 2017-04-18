@@ -20,21 +20,23 @@ namespace Speranza.Controllers
     {
         IUserManager userManager;
         private ITrainingsManager trainingManager;
+        private ICookieService cookieService;
 
-        public AdminUsersController(): this(Initializer.UserManager,Initializer.TrainingsManager)
+        public AdminUsersController(): this(Initializer.UserManager,Initializer.TrainingsManager, Initializer.CookieService)
         {
 
         }
 
-        public AdminUsersController( IUserManager userManager, ITrainingsManager trainingManager)
+        public AdminUsersController( IUserManager userManager, ITrainingsManager trainingManager, ICookieService cookieService)
         {
             this.userManager = userManager;
             this.trainingManager = trainingManager;
+            this.cookieService = cookieService;
         }
         // GET: AdminUsers
         public ActionResult AdminUsers()
         {
-            if(userManager.IsUserLoggedIn(Session))
+            if(userManager.IsUserLoggedIn(cookieService.GetRememberMeCookie(Request.Cookies),Session))
             {
                 if (!userManager.IsUserAdmin(Session))
                 {

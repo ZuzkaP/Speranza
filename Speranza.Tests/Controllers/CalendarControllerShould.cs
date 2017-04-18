@@ -26,13 +26,13 @@ namespace Speranza.Tests.Controllers
         private Mock<IDateTimeService> dateTimeService;
 
         private readonly DateTime CURRENTDATE = new DateTime(2016, 11, 15);
-       
+        private Mock<ICookieService> cookieService;
 
         [TestMethod]
         public void ReturnToLogin_When_UserIsNotLoggedIn()
         {
             InitializeController();
-            userManager.Setup(r => r.IsUserLoggedIn(calendar.Session)).Returns(false);
+            userManager.Setup(r => r.IsUserLoggedIn(null, calendar.Session)).Returns(false);
             ActionResult result = calendar.Calendar();
 
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
@@ -158,19 +158,19 @@ namespace Speranza.Tests.Controllers
 
         private void GoldenUserIsLoggedIn()
         {
-            userManager.Setup(r => r.IsUserLoggedIn(calendar.Session)).Returns(true);
+            userManager.Setup(r => r.IsUserLoggedIn(null, calendar.Session)).Returns(true);
             userManager.Setup(r => r.GetUserCategory(calendar.Session)).Returns(UserCategories.Gold);
         }
 
         private void SilverUserIsLoggedIn()
         {
-            userManager.Setup(r => r.IsUserLoggedIn(calendar.Session)).Returns(true);
+            userManager.Setup(r => r.IsUserLoggedIn(null, calendar.Session)).Returns(true);
             userManager.Setup(r => r.GetUserCategory(calendar.Session)).Returns(UserCategories.Silver);
         }
 
         private void StandardUserIsLoggedIn()
         {
-            userManager.Setup(r => r.IsUserLoggedIn(calendar.Session)).Returns(true);
+            userManager.Setup(r => r.IsUserLoggedIn(null, calendar.Session)).Returns(true);
             userManager.Setup(r => r.GetUserCategory(calendar.Session)).Returns(UserCategories.Standard);
         }
 
@@ -180,7 +180,8 @@ namespace Speranza.Tests.Controllers
             daysManager = new Mock<IDaysManager>();
             dateTimeService = new Mock<IDateTimeService>();
             dateTimeService.Setup(r => r.GetCurrentDate()).Returns(CURRENTDATE);
-            calendar = new CalendarController(null,userManager.Object,daysManager.Object,dateTimeService.Object,null,null);
+            cookieService = new Mock<ICookieService>();
+            calendar = new CalendarController(null,userManager.Object,daysManager.Object,dateTimeService.Object,null,null,cookieService.Object);
            
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             calendar.ControllerContext = new FakeControllerContext(calendar, sessionItems);

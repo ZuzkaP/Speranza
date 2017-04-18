@@ -9,7 +9,7 @@ namespace Speranza.Services.Interfaces
 {
     public interface IUserManager
     {
-        bool IsUserLoggedIn(ICollection session);
+        bool IsUserLoggedIn(string cookie,ICollection session);
         UserCategories GetUserCategory(ICollection session);
         bool IsUserAdmin(ICollection session);
         IList<IUserForAdminModel> GetAllUsersForAdmin();

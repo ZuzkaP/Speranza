@@ -45,13 +45,21 @@ namespace Speranza.Services
             return UserCategories.Standard;
         }
 
-        public bool IsUserLoggedIn(ICollection session)
+        public bool IsUserLoggedIn(string cookie, ICollection session)
         {
             HttpSessionStateBase sessionData = session as HttpSessionStateBase;
             if (sessionData != null && sessionData.Count != 0)
             {
                 if (sessionData["Email"] != null && (string)sessionData["Email"] != "")
                     return true;
+            }
+            var user = VerifyRememberMe(cookie);
+            if(user != null)
+            {
+                sessionData["Email"] = user.Email;
+                sessionData["Category"] = user.Category;
+                sessionData["IsAdmin"] = user.IsAdmin;
+                return true;
             }
 
             return false;

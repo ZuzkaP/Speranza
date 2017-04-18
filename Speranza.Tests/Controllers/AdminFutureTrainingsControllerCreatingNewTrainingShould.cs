@@ -30,6 +30,7 @@ namespace Speranza.Tests.Controllers
         private const int  CAPACITY = 10;
         private readonly DateTime DATETIME_IN_PAST = new DateTime(2016, 01, 01, 12, 00, 00);
         private const int UNCORRECT_CAPACITY = 0;
+        private Mock<ICookieService> cookieService;
 
         [TestMethod]
         public void ReturnToCalendar_When_UserIsNotAdmin()
@@ -139,8 +140,9 @@ namespace Speranza.Tests.Controllers
         {
             userManager = new Mock<IUserManager>();
             trainingManager = new Mock<ITrainingsManager>();
-            dateTimeService = new Mock<IDateTimeService>(); 
-            controller = new AdminFutureTrainingsController(userManager.Object, trainingManager.Object, dateTimeService.Object,null);
+            dateTimeService = new Mock<IDateTimeService>();
+            cookieService = new Mock<ICookieService>();
+            controller = new AdminFutureTrainingsController(userManager.Object, trainingManager.Object, dateTimeService.Object,null,cookieService.Object);
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             controller.ControllerContext = new FakeControllerContext(controller, sessionItems);
             userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(true);

@@ -27,12 +27,13 @@ namespace Speranza.Tests.Controllers
         private Mock<ITrainingsManager> trainingManager;
         private readonly DateTime CURRENT_TIME = new DateTime(2017,1,1,10,00,00);
         private Mock<IModelFactory> factory;
+        private Mock<ICookieService> cookieService;
 
         [TestMethod]
         public void ReturnToLogin_When_UserIsNotLoggedIn()
         {
             InitializeController();
-            userManager.Setup(r => r.IsUserLoggedIn(calendar.Session)).Returns(false);
+            userManager.Setup(r => r.IsUserLoggedIn(null,calendar.Session)).Returns(false);
             RedirectToRouteResult result = calendar.SignUp(null);
             
             Assert.AreEqual("Index", result.RouteValues["action"]);
@@ -145,7 +146,7 @@ namespace Speranza.Tests.Controllers
         public void ReturnToLogin_When_UserIsNotLoggedIn_And_SigningOff()
         {
             InitializeController();
-            userManager.Setup(r => r.IsUserLoggedIn(calendar.Session)).Returns(false);
+            userManager.Setup(r => r.IsUserLoggedIn(null,calendar.Session)).Returns(false);
 
             RedirectToRouteResult result = calendar.SignOff(null);
 
@@ -162,6 +163,7 @@ namespace Speranza.Tests.Controllers
             factory = new Mock<IModelFactory>();
             dateTimeService = new Mock<IDateTimeService>();
             training = new Mock<ITraining>();
+            cookieService = new Mock<ICookieService>();
 
             training.SetupGet(r => r.Capacity).Returns(10);
             training.SetupGet(r => r.RegisteredNumber).Returns(8);
@@ -171,11 +173,11 @@ namespace Speranza.Tests.Controllers
 
             db = new Mock<IDatabaseGateway>();
             
-            calendar = new CalendarController(db.Object,userManager.Object, daysManager.Object, dateTimeService.Object,trainingManager.Object,factory.Object);
+            calendar = new CalendarController(db.Object,userManager.Object, daysManager.Object, dateTimeService.Object,trainingManager.Object,factory.Object,cookieService.Object);
             
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             calendar.ControllerContext = new FakeControllerContext(calendar, sessionItems);
-            userManager.Setup(r => r.IsUserLoggedIn(calendar.Session)).Returns(true);
+            userManager.Setup(r => r.IsUserLoggedIn(null,calendar.Session)).Returns(true);
 
             db.Setup(r => r.GetTrainingData(INVALIDID)).Returns((ITraining)null);
             db.Setup(r => r.GetTrainingData(ID)).Returns(training.Object);

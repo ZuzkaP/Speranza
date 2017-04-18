@@ -25,12 +25,13 @@ namespace Speranza.Tests.Controllers
         private const int CHANGED_PAGE_SIZE = 40;
         private const string TRAINING_ID = "testID";
         private List<ITrainingForAdminModel> trainings;
+        private Mock<ICookieService> cookieService;
 
         [TestMethod]
         public void ReturnToCalendar_When_ClickOnAdminUsers_And_UserIsNotLogin()
         {
             InitializeAdminTrainingsController();
-            userManager.Setup(r => r.IsUserLoggedIn(controller.Session)).Returns(false);
+            userManager.Setup(r => r.IsUserLoggedIn(null,controller.Session)).Returns(false);
             userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(false);
 
             ActionResult result = controller.AdminTrainings();
@@ -299,11 +300,12 @@ namespace Speranza.Tests.Controllers
             userManager = new Mock<IUserManager>();
             trainingManager = new Mock<ITrainingsManager>();
             dateTimeService = new Mock<IDateTimeService>();
-            controller = new AdminPastTrainingsController(userManager.Object, trainingManager.Object, dateTimeService.Object);
+            cookieService = new Mock<ICookieService>();
+            controller = new AdminPastTrainingsController(userManager.Object, trainingManager.Object, dateTimeService.Object, cookieService.Object);
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             controller.ControllerContext = new FakeControllerContext(controller, sessionItems);
             controller.Session["Email"] = USER_EMAIL;
-            userManager.Setup(r => r.IsUserLoggedIn(controller.Session)).Returns(true);
+            userManager.Setup(r => r.IsUserLoggedIn(null,controller.Session)).Returns(true);
             userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(true);
         }
     }

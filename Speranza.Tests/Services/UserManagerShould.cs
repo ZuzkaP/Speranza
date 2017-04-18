@@ -71,7 +71,7 @@ namespace Speranza.Tests.Services
         public void ReturnFalse_When_SessionIsEmpty()
         {
             InitializeUserManager();
-           Assert.IsFalse(manager.IsUserLoggedIn(context.HttpContext.Session));
+           Assert.IsFalse(manager.IsUserLoggedIn(null, context.HttpContext.Session));
         }
 
         [TestMethod]
@@ -79,7 +79,7 @@ namespace Speranza.Tests.Services
         {
             InitializeUserManager();
             collection["notEmail"] = "test";
-            Assert.IsFalse(manager.IsUserLoggedIn(context.HttpContext.Session));
+            Assert.IsFalse(manager.IsUserLoggedIn(null, context.HttpContext.Session));
         }
 
         [TestMethod]
@@ -87,7 +87,7 @@ namespace Speranza.Tests.Services
         {
             InitializeUserManager();
             collection["Email"] = "";
-            Assert.IsFalse(manager.IsUserLoggedIn(context.HttpContext.Session));
+            Assert.IsFalse(manager.IsUserLoggedIn(null, context.HttpContext.Session));
             
         }
 
@@ -96,7 +96,7 @@ namespace Speranza.Tests.Services
         {
             InitializeUserManager();
             collection["Email"] = "test";
-            Assert.IsTrue(manager.IsUserLoggedIn(context.HttpContext.Session));
+            Assert.IsTrue(manager.IsUserLoggedIn(null, context.HttpContext.Session));
         }
 
         [TestMethod]
@@ -558,6 +558,48 @@ namespace Speranza.Tests.Services
 
 
         [TestMethod]
+        public void NotLogin_When_CookieIsNotParsable_And_UserLoginIsChecked()
+        {
+            InitializeUserManager();
+
+            var result = manager.IsUserLoggedIn(NOT_PARSABLE_COOKIE, context.HttpContext.Session);
+
+            Assert.IsFalse(result);
+            Assert.IsNull(context.HttpContext.Session["Email"]);
+            Assert.IsNull(context.HttpContext.Session["Category"]);
+            Assert.IsNull(context.HttpContext.Session["IsAdmin"]);
+        }
+
+        [TestMethod]
+        public void NotLogin_When_CookieIsParsable_And_NotValid_And_UserLoginIsChecked()
+        {
+            InitializeUserManager();
+            PrepareNotValidCookieInDB();
+
+            var result = manager.IsUserLoggedIn(SERIES + "=" + TOKEN, context.HttpContext.Session);
+
+            Assert.IsFalse(result);
+            Assert.IsNull(context.HttpContext.Session["Email"]);
+            Assert.IsNull(context.HttpContext.Session["Category"]);
+            Assert.IsNull(context.HttpContext.Session["IsAdmin"]);
+        }
+
+        [TestMethod]
+        public void Login_When_CookieIsParsable_And_Valid_And_UserLoginIsChecked()
+        {
+            InitializeUserManager();
+            PrepareValidCookieInDB();
+
+            var result = manager.IsUserLoggedIn(SERIES + "=" + TOKEN, context.HttpContext.Session);
+
+            Assert.IsTrue(result);
+            Assert.AreEqual(EMAIL, context.HttpContext.Session["Email"]);
+            Assert.AreEqual(CATEGORY, context.HttpContext.Session["Category"]);
+            Assert.AreEqual(IS_ADMIN, context.HttpContext.Session["IsAdmin"]);
+        }
+
+
+        [TestMethod]
         public void CancelRememberMe()
         {
             InitializeUserManager();
@@ -566,6 +608,7 @@ namespace Speranza.Tests.Services
 
             db.Verify(r => r.CancelRememberMe(EMAIL), Times.Once);
         }
+
 
         private void PrepareValidCookieInDB()
         {
