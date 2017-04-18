@@ -268,5 +268,32 @@ namespace Speranza.Services
         {
             db.SetRememberMe(email, cookieSeries, cookieToken);
         }
+
+        public ILoginResult VerifyRememberMe(string cookie)
+        {
+            if (string.IsNullOrEmpty(cookie))
+            {
+                return null;
+            }
+            var split = cookie.Split('=');
+
+            if (split.Length != 2)
+            {
+                return null;
+            }
+            string series = split[0];
+            string token = split[1];
+            IUser user = db.LoadUser(series, token);
+            if (user != null)
+            {
+                LoginResult result = new LoginResult();
+                result.Category = user.Category;
+                result.Email = user.Email;
+                result.IsAdmin = user.IsAdmin;
+
+                return result;
+            }
+            return null;
+        }
     }
 }

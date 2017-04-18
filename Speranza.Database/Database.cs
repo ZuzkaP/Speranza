@@ -681,6 +681,11 @@ namespace Speranza.Database
             throw new NotImplementedException();
         }
 
+        public IUser LoadUser(string series, string token)
+        {
+            throw new NotImplementedException();
+        }
+
         private class UserInTraining : IUserInTraining
         {
             public string Email { get; set; }

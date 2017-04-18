@@ -10,6 +10,15 @@ namespace Speranza.Services
 {
     public class CookieService : ICookieService
     {
+        public string GetRememberMeCookie(HttpCookieCollection cookies)
+        {
+            if(cookies.AllKeys.Contains("RememberMe"))
+            {
+            return cookies["RememberMe"].Value;
+            }
+            return null;
+        }
+
         public void SetRememberMeCookie(HttpCookieCollection cookies,string series, string token)
         {
             var cookie = new HttpCookie("RememberMe");

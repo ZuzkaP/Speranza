@@ -13,6 +13,7 @@ namespace Speranza.Database
         void RegisterNewUser(string email, string name,string password, string phoneNumber, string surname);
         bool UserExists(string email);
         IUser LoadUser(string email);
+        IUser LoadUser(string series, string token);
         IList<ITraining> GetDayTrainings(DateTime date);
         IUser GetUserData(string email);
         void UpdateUserData(string email, string name, string surname, string phoneNumber);

@@ -102,6 +102,25 @@ namespace Speranza.Database
             return null;
         }
 
+
+        public IUser LoadUser(string series,string token)
+        {
+          if(tokens.ContainsKey(series) && tokens[series] == token)
+            {
+                var emails = users.Where(r=>r.Value.Series == series).Select(r=>r.Key).ToList();
+                if(emails.Count == 1)
+                { 
+                    User user = new User();
+                    user.Email = emails[0];
+                    user.Category = users[emails[0]].Category;
+                    user.IsAdmin = users[emails[0]].IsAdmin;
+                    return user;
+                }
+               
+            }
+            return null;
+           
+        }
         public IList<ITraining> GetDayTrainings(DateTime date)
         {
             var t = trainings.Where(r => r.Time.Date == date.Date).ToList();

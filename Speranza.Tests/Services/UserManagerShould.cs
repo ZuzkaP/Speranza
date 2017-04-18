@@ -54,6 +54,7 @@ namespace Speranza.Tests.Services
         private const string NEW_PASS = "NewPass";
         private const string SERIES = "series";
         private const string TOKEN = "token";
+        private const string NOT_PARSABLE_COOKIE = "abc";
         private readonly DateTime DATE_TIME = new DateTime(2017, 1, 6, 10, 00, 00);
         private Mock<IUserProfileModel> userProfileModel;
         private Mock<IUserInTraining> userInTraining;
@@ -517,7 +518,56 @@ namespace Speranza.Tests.Services
              manager.SetRememberMe(EMAIL, SERIES, TOKEN);
 
             db.Verify(r => r.SetRememberMe(EMAIL, SERIES, TOKEN), Times.Once);
+        }
 
+
+        [TestMethod]
+        public void NotLogin_When_CookieIsNotParsable()
+        {
+            InitializeUserManager();
+
+            var result = manager.VerifyRememberMe(NOT_PARSABLE_COOKIE);
+
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void NotLogin_When_CookieIsParsable_And_NotValid()
+        {
+            InitializeUserManager();
+            PrepareNotValidCookieInDB();
+
+            var result = manager.VerifyRememberMe(SERIES + "=" + TOKEN);
+
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void Login_When_CookieIsParsable_And_Valid()
+        {
+            InitializeUserManager();
+            PrepareValidCookieInDB();
+
+            var result = manager.VerifyRememberMe(SERIES + "=" + TOKEN);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(EMAIL, result.Email);
+            Assert.AreEqual(CATEGORY, result.Category);
+            Assert.AreEqual(IS_ADMIN, result.IsAdmin);
+        }
+
+        private void PrepareValidCookieInDB()
+        {
+            user1 = new Mock<IUser>();
+            user1.SetupGet(r => r.Category).Returns(CATEGORY);
+            user1.SetupGet(r => r.IsAdmin).Returns(IS_ADMIN);
+            user1.SetupGet(r => r.Email).Returns(EMAIL);
+            db.Setup(r => r.LoadUser(SERIES, TOKEN)).Returns(user1.Object);
+        }
+
+        private void PrepareNotValidCookieInDB()
+        {
+            db.Setup(r => r.LoadUser(SERIES, TOKEN)).Returns((IUser)null);
         }
 
         private void PrepareValidEmail()
