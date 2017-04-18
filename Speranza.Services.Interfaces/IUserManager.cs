@@ -32,5 +32,6 @@ namespace Speranza.Services.Interfaces
         UserCategories UpdateUserCategory(string email, UserCategories category);
         void SetRememberMe(string email, string cookieSeries, string cookieToken);
         ILoginResult VerifyRememberMe(string cookie);
+        void CancelRememberMe(string email);
     }
 }

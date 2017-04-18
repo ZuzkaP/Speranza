@@ -686,6 +686,11 @@ namespace Speranza.Database
             throw new NotImplementedException();
         }
 
+        public void CancelRememberMe(string email)
+        {
+            throw new NotImplementedException();
+        }
+
         private class UserInTraining : IUserInTraining
         {
             public string Email { get; set; }

@@ -295,5 +295,10 @@ namespace Speranza.Services
             }
             return null;
         }
+
+        public void CancelRememberMe(string email)
+        {
+            db.CancelRememberMe(email);
+        }
     }
 }

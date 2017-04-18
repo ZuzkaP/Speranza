@@ -170,6 +170,7 @@ namespace Speranza.Controllers
 
         public ActionResult Logout()
         {
+            userManager.CancelRememberMe((string)Session["Email"]);
             Session["Email"] = null;
             return RedirectToAction("Index", "Home");
         }

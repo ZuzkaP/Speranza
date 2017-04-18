@@ -556,6 +556,17 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(IS_ADMIN, result.IsAdmin);
         }
 
+
+        [TestMethod]
+        public void CancelRememberMe()
+        {
+            InitializeUserManager();
+
+            manager.CancelRememberMe(EMAIL);
+
+            db.Verify(r => r.CancelRememberMe(EMAIL), Times.Once);
+        }
+
         private void PrepareValidCookieInDB()
         {
             user1 = new Mock<IUser>();

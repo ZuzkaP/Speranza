@@ -468,6 +468,13 @@ namespace Speranza.Database
             users[email].Series = series;
         }
 
+        public void CancelRememberMe(string email)
+        {
+            tokens.Remove(users[email].Series);
+            users[email].Series = null;
+
+        }
+
         private class UserInTraining : IUserInTraining
         {
             public string Email { get; set; }

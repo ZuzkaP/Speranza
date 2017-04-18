@@ -187,13 +187,14 @@ namespace Speranza.Tests.Controllers
         public void Logout_When_Requested()
         {
             InitializeController();
-            controller.Session["Email"] = "test";
+            controller.Session["Email"] = EMAIL;
             ActionResult result = controller.Logout();
 
             Assert.AreEqual(null, controller.Session["Email"]);
             Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
             Assert.AreEqual("Home", ((RedirectToRouteResult)result).RouteValues["controller"]);
             Assert.AreEqual("Index", ((RedirectToRouteResult)result).RouteValues["action"]);
+            userManager.Verify(r => r.CancelRememberMe(EMAIL), Times.Once);
         }
 
         [TestMethod]
