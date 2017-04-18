@@ -28,8 +28,8 @@ namespace Speranza.App_Start
 
         static  Initializer()
         {
-            //Db = InMemoryDatabase.Instance;
-            Db = new Database.Database();
+            Db = InMemoryDatabase.Instance;
+            //Db = new Database.Database();
             Hasher = new Hasher();
             DateTimeService = new DateTimeService();
             Factory = new ModelFactory();
@@ -41,6 +41,7 @@ namespace Speranza.App_Start
             UserManager = new UserManager(Db, Factory,DateTimeService,Hasher,EmailManager, UidService);
             TrainingsManager = new TrainingsManager(Db, Factory, UidService, DateTimeService, UserManager, EmailManager);
             DaysManager = new DaysManager(Db, TrainingsManager, DateTimeService, Factory);
+            CookieService = new CookieService();
         }
     }
 }
