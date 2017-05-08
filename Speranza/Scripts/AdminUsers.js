@@ -115,3 +115,46 @@ $(document).ready(function () {
 
 }
 );
+
+
+$('#searchBox').keyup(function () {
+    var self = $(this);
+    var data = noDiacritics(self.val().toLowerCase());
+    var table = $('#UsersTable');
+    var rows = $('#UsersTable tr');
+    for (var i = 1; i < rows.length; i++) {
+        if (noDiacritics(rows.eq(i).children('td').eq(1).text().toLowerCase()).indexOf(data) < 0)
+        {
+            rows.eq(i).hide();
+        }
+        else
+        {
+            rows.eq(i).show();
+        }
+       
+    }
+});
+
+function noDiacritics(input) {
+    return input.
+
+        replace('á', 'a').
+        replace('ä', 'a').
+        replace('č', 'c').
+        replace('ď', 'd').
+        replace('é', 'e').
+        replace('í', 'i').
+        replace('ĺ', 'l').
+        replace('ľ', 'l').
+        replace('ň', 'n').
+        replace('ó', 'o').
+        replace('ô', 'o').
+        replace('ö', 'o').
+        replace('ŕ', 'r').
+        replace('ř', 'r').
+        replace('š', 's').
+        replace('ť', 't').
+        replace('ú', 'u').
+        replace('ý', 'y').
+        replace('ž', 'z');
+}
