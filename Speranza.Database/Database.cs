@@ -676,19 +676,41 @@ namespace Speranza.Database
             return rows;
         }
 
+        //tokens.Add(series, token);
+        //    users[email].Series = series;
         public void SetRememberMe(string email, string series, string token)
         {
-            throw new NotImplementedException();
-        }
+            string sql = string.Format("INSERT INTO Tokens(series,token) VALUES( '{0}','{1}');", series, token);
+            ExecuteSql(sql);
 
+            sql = string.Format("Update Users SET series='{0}' WHERE email ='{1}';", series,email);
+            ExecuteSql(sql);
+        }
+        
         public IUser LoadUser(string series, string token)
         {
-            throw new NotImplementedException();
-        }
+            string sql = string.Format("SELECT email FROM Users,Tokens WHERE users.series =tokens.series AND tokens.series ='{0}' AND tokens.token = '{1}';", series,token);
+            var result = ExecuteSqlWithResult(sql);
 
+            if(result.Count == 1)
+            {
+                return LoadUser((string)result[0][0]);
+            }
+            return null;
+        }
+        
         public void CancelRememberMe(string email)
         {
-            throw new NotImplementedException();
+            string sql = string.Format("SELECT series FROM Users WHERE email ='{0}';", email);
+            var result = ExecuteSqlWithResult(sql);
+
+            if(result.Count == 1 && result[0].Length == 1 && result[0][0] != null)
+            {
+                sql = string.Format("DELETE FROM Tokens WHERE  series ='{0}';", result[0][0]);
+                ExecuteSql(sql);
+            }
+            sql = string.Format("Update Users SET series=null WHERE email ='{0}';", email);
+            ExecuteSql(sql);
         }
 
         private class UserInTraining : IUserInTraining
