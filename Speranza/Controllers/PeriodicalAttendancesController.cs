@@ -26,6 +26,7 @@ namespace Speranza.Controllers
         {
             userManager.UpdateSeasonTickets();
             userManager.PromptToConfirmUserAttendance();
+            userManager.CleanUpTokens();
 
             return new EmptyResult();
         }

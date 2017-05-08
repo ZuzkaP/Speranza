@@ -60,5 +60,6 @@ namespace Speranza.Database
         IList<IUser> GetAdmins();
         void SetRememberMe(string email, string series, string token);
         void CancelRememberMe(string email);
+        void CleanUpTokens();
     }
 }

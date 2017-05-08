@@ -308,5 +308,10 @@ namespace Speranza.Services
         {
             db.CancelRememberMe(email);
         }
+
+        public void CleanUpTokens()
+        {
+            db.CleanUpTokens();
+        }
     }
 }

@@ -43,6 +43,16 @@ namespace Speranza.Tests.Controllers
             userManager.Verify(r => r.PromptToConfirmUserAttendance(), Times.Once);
         }
 
+        [TestMethod]
+        public void CallUserManagerToCleanUpTokens()
+        {
+            InitializePeriodicalController();
+
+            controller.Execute();
+
+            userManager.Verify(r => r.CleanUpTokens(), Times.Once);
+        }
+
         private void InitializePeriodicalController()
         {
             userManager = new Mock<IUserManager>();

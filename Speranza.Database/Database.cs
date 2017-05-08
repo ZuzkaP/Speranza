@@ -713,6 +713,26 @@ namespace Speranza.Database
             ExecuteSql(sql);
         }
 
+
+//        var forgotten = new List<string>();
+//            foreach (var token in tokens.Keys)
+//            {
+//               if(users.Count(r=>r.Value.Series == token) == 0)
+//                {
+//                    forgotten.Add(token);
+//                }
+//}
+
+//            foreach (var item in forgotten)
+//            {
+//                tokens.Remove(item);
+//            }
+        public void CleanUpTokens()
+        {
+            string sql = "DELETE FROM Tokens WHERE series NOT IN(SELECT series from Users WHERE series is not null);";
+            ExecuteSql(sql);
+        }
+
         private class UserInTraining : IUserInTraining
         {
             public string Email { get; set; }

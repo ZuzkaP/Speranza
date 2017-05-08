@@ -29,6 +29,7 @@ namespace Speranza.Services.Interfaces
         void UpdateUserData(IUserProfileModel model);
         IUserProfileModel GetUserProfileModelWithDataFromDB(string email);
         bool GetAllowedToSignUpFlag(string email);
+        void CleanUpTokens();
         UserCategories UpdateUserCategory(string email, UserCategories category);
         void SetRememberMe(string email, string cookieSeries, string cookieToken);
         ILoginResult VerifyRememberMe(string cookie);

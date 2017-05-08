@@ -475,6 +475,23 @@ namespace Speranza.Database
 
         }
 
+        public void CleanUpTokens()
+        {
+            var forgotten = new List<string>();
+            foreach (var token in tokens.Keys)
+            {
+               if(users.Count(r=>r.Value.Series == token) == 0)
+                {
+                    forgotten.Add(token);
+                }
+            }
+
+            foreach (var item in forgotten)
+            {
+                tokens.Remove(item);
+            }
+        }
+
         private class UserInTraining : IUserInTraining
         {
             public string Email { get; set; }

@@ -806,6 +806,16 @@ namespace Speranza.Tests.Services
             db.Verify(r => r.SetZeroEntranceFlag(user2InTraining.Object, false), Times.Once);
         }
 
+        [TestMethod]
+        public void CleanUpTokensPeriodically()
+        {
+            InitializeUserManager();
+
+            manager.CleanUpTokens();
+
+            db.Verify(r => r.CleanUpTokens(), Times.Once);
+        }
+
         private void PrepareTwoTrainingWithTwoUsersWithZeroEntranceFlag()
         {
             var training = new Mock<ITraining>();
@@ -891,6 +901,7 @@ namespace Speranza.Tests.Services
             
             factory.Setup(r => r.CreateUsersForTrainingDetailModel(user1.Object)).Returns(user1Model.Object);
         }
+
         private void InitializeUserManager()
         {
             factory = new Mock<IModelFactory>();
