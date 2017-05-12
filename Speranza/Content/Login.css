@@ -21,18 +21,18 @@ Last change	: 2015/03/27
 /*=== 1. General Structure ===*/
 html,
 body {
-    background: #efefef;
-    padding: 10px;
+    background: #a3bbe2;
+    /*padding: 10px;*/
     font-family: 'Trebuchet MS';
 }
 /*=== 2. Anchor Link ===*/
 a {
-    color: #aaaaaa;
+    color: black;
     transition: all ease-in-out 200ms;
 }
 
     a:hover {
-        color: #333333;
+        color: #555555;
         text-decoration: none;
     }
 /*=== 3. Text Outside the Box ===*/
@@ -307,6 +307,24 @@ label:hover:before {
 .logo {
     padding: 15px 0;
     font-size: 25px;
-    color: #aaaaaa;
+    color: black;
     font-weight: bold;
+}
+
+.carousel {
+    margin:auto;
+    width:100%;
+}
+
+.login{
+    /*position:absolute;
+    top:0;
+    left:50%;*/
+    top:-20px;
+}
+.login-in {
+    /*position: relative;
+    left: -50%;*/
+    /*background: rgba(255,255,255,0.8);*/
+    border-radius:6px;
 }
