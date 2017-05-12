@@ -244,3 +244,8 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 /Speranza/Views/Images
+/Speranza/Images/image5.jpg
+/Speranza/Images/image4.jpg
+/Speranza/Images/image3.jpg
+/Speranza/Images/image2.jpg
+/Speranza/Images/image1.jpg

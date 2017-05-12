@@ -15,8 +15,8 @@
             <span class="text-muted">Speranza &copy; 2017</span>
         </div>
     </footer>
-    <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/jquery-1.9.1.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
     <link href="~/Content/Login.css" rel="stylesheet" />
     <link href="~/Content/Footer.css" rel="stylesheet" />
@@ -40,5 +40,6 @@ window.cookieconsent.initialise({
   }
 })});
     </script>
+    @RenderSection("scripts", false)
 </body>
 </html>
