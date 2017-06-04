@@ -9,32 +9,101 @@
     <link href="~/Content/DatePickerStyle.css" rel="stylesheet" />
     <link href="~/Content/TimePickerStyle.css" rel="stylesheet" />
     <link href="~/Content/Speranza.css" rel="stylesheet" />
-
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link href="~/Content/Navbar.css" rel="stylesheet" />
     <title>@ViewBag.Title</title>
+    <link href="~/Images/speranzaIcon.ico" rel="shortcut icon" type="image/x-icon">
+
 </head>
 <body>
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                @Html.ActionLink("Speranza", "Calendar", "Calendar", null,new { @class = "navbar-brand" })
+
+
+    @*<nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    @Html.ActionLink("Speranza", "Calendar", "Calendar", null,new { @class = "navbar-brand" })
+                </div>
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Kalendár", "Calendar", "Calendar")</li>
+                    <li>@Html.ActionLink("Môj profil", "UserProfile", "Accounts")</li>
+                    @if (Session["IsAdmin"] != null && (bool)Session["IsAdmin"])
+                    {
+                        <li>@Html.ActionLink("Správa používateľov", "AdminUsers", "AdminUsers")</li>
+                        <li>@Html.ActionLink("Správa budúcich tréningov", "AdminTrainings", "AdminFutureTrainings")</li>
+                        <li>@Html.ActionLink("Správa minulých tréningov", "AdminTrainings", "AdminPastTrainings")</li>
+                    }
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li> @Html.ActionLink("Prihlásený ako: " + Session["Email"].ToString(), "UserProfile", "Accounts") </li>
+                    <li>@Html.ActionLink("Odhlásiť sa", "Logout", "Accounts")</li>
+                </ul>
             </div>
-            <ul class="nav navbar-nav">
-                <li>@Html.ActionLink("Kalendár", "Calendar", "Calendar")</li>
-                <li>@Html.ActionLink("Môj profil", "UserProfile", "Accounts")</li>
+        </nav>*@
+    @{
+        var action = ViewContext.RouteData.Values["action"].ToString();
+        var controller = ViewContext.RouteData.Values["controller"].ToString();
+    }
+
+    <div class="container nav">
+        <div class="row">
+            <div class="btn-group btn-group-justified">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-nav navbar-header" onclick="location.href='/Calendar/Calendar'">
+                        <p>Speranza</p>
+                    </button>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-nav @((action == "Calendar" && controller == "Calendar") ? "active" : "")" onclick="location.href=' /Calendar/Calendar'">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                        <p>Kalendár</p>
+                    </button>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-nav @((action == "UserProfile" && controller == "Accounts") ? "active" : "")" onclick="location.href='/Accounts/UserProfile'">
+                        <span class="glyphicon glyphicon-queen"></span>
+                        <p>Môj profil</p>
+                    </button>
+                </div>
+
                 @if (Session["IsAdmin"] != null && (bool)Session["IsAdmin"])
                 {
-                    <li>@Html.ActionLink("Správa používateľov", "AdminUsers", "AdminUsers")</li>
-                    <li>@Html.ActionLink("Správa budúcich tréningov", "AdminTrainings", "AdminFutureTrainings")</li>
-                    <li>@Html.ActionLink("Správa minulých tréningov", "AdminTrainings", "AdminPastTrainings")</li>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-nav @((action == "AdminUsers" && controller == "AdminUsers") ? "active" : "")" onclick="location.href='/AdminUsers/AdminUsers'">
+                            <span class="glyphicon glyphicon-pawn"></span>
+                            <p>Správa používateľov</p>
+                        </button>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-nav @((action == "AdminTrainings" && controller == "AdminFutureTrainings") ? "active" : "")" onclick="location.href='/AdminFutureTrainings/AdminTrainings'">
+                            <span class="glyphicon glyphicon-eye-open"></span>
+                            <p>Správa budúcich tréningov</p>
+                        </button>
+                    </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-nav @((action == "AdminTrainings" && controller == "AdminPastTrainings") ? "active" : "")" onclick="location.href='/AdminPastTrainings/AdminTrainings'">
+                                <span class="glyphicon glyphicon-eye-close"></span>
+                                <p>Správa minulých tréningov</p>
+                            </button>
+                        </div>
                 }
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li> @Html.ActionLink("Prihlásený ako: " + Session["Email"].ToString(), "UserProfile", "Accounts") </li>
-                <li>@Html.ActionLink("Odhlásiť sa", "Logout", "Accounts")</li>
-            </ul>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-nav" onclick="location.href='/Accounts/UserProfile'">
+                        <span class="glyphicon glyphicon-hand-down"></span>
+                        <p><span class="small">@Session["Email"].ToString()</span></p>
+                    </button>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-nav" onclick="location.href='/Accounts/Logout'">
+                        <span class="glyphicon glyphicon-log-out"></span>
+                        <p>Odhlásiť sa</p>
+                    </button>
+                </div>
+
+            </div>
         </div>
-    </nav>
+    </div>
+
+
     <div>
         @RenderBody()
     </div>
@@ -45,5 +114,6 @@
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/Scripts/EmailHelper.js"></script>
     @RenderSection("scripts", false)
+
 </body>
 </html>
