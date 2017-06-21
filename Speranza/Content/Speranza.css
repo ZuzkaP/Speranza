@@ -1,5 +1,9 @@
-﻿.obsolete{
-    color:#aaa;
+﻿.layout-login-body {
+    background-image: url("../Images/images (2).jpg");
+} 
+
+.obsolete {
+    color: #aaa;
 }
 
 .trainingSettings{
@@ -13,6 +17,10 @@
 
 .ui-autocomplete {
     z-index: 500000 !important;
+}
+
+.calendar-table{
+    background-color:wheat;
 }
 
 .loader {
@@ -34,4 +42,41 @@
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+.myProfileForm label {
+    color: lightgrey;
+    font-size: 14pt;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.myProfileForm input {
+    background: transparent;
+    color: deepskyblue;
+    font-weight: bold;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 13pt;
+}
+
+.myProfileForm input:read-only {
+        background: transparent;
+        color: lightgrey;
+        font-weight: normal;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: 13pt;
+ }
+ .myProfileForm input.btn:hover{
+        background: deepskyblue;
+        color:black;
+}
+
+ h2,h3{
+     color:lightgrey;
+ }
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background: rgba(255,255,255,0.2);
+}
+.table-striped th {
+    color: deepskyblue;
 }

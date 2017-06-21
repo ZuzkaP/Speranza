@@ -8,37 +8,15 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/DatePickerStyle.css" rel="stylesheet" />
     <link href="~/Content/TimePickerStyle.css" rel="stylesheet" />
-    <link href="~/Content/Speranza.css" rel="stylesheet" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link href="~/Content/Navbar.css" rel="stylesheet" />
+    <link href="~/Content/Speranza.css" rel="stylesheet" />
     <title>@ViewBag.Title</title>
     <link href="~/Images/speranzaIcon.ico" rel="shortcut icon" type="image/x-icon">
 
 </head>
-<body>
+<body class="layout-login-body">
 
-
-    @*<nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    @Html.ActionLink("Speranza", "Calendar", "Calendar", null,new { @class = "navbar-brand" })
-                </div>
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Kalendár", "Calendar", "Calendar")</li>
-                    <li>@Html.ActionLink("Môj profil", "UserProfile", "Accounts")</li>
-                    @if (Session["IsAdmin"] != null && (bool)Session["IsAdmin"])
-                    {
-                        <li>@Html.ActionLink("Správa používateľov", "AdminUsers", "AdminUsers")</li>
-                        <li>@Html.ActionLink("Správa budúcich tréningov", "AdminTrainings", "AdminFutureTrainings")</li>
-                        <li>@Html.ActionLink("Správa minulých tréningov", "AdminTrainings", "AdminPastTrainings")</li>
-                    }
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li> @Html.ActionLink("Prihlásený ako: " + Session["Email"].ToString(), "UserProfile", "Accounts") </li>
-                    <li>@Html.ActionLink("Odhlásiť sa", "Logout", "Accounts")</li>
-                </ul>
-            </div>
-        </nav>*@
     @{
         var action = ViewContext.RouteData.Values["action"].ToString();
         var controller = ViewContext.RouteData.Values["controller"].ToString();

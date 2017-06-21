@@ -91,6 +91,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Carousel.css" />
     <Content Include="Content\DatePickerStyle.css" />
     <Content Include="Content\Footer.css" />
     <Content Include="Content\Login.css" />
@@ -105,8 +106,13 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Images\09b2d308a8f7f46202dc263c18a208ff.jpg" />
+    <Content Include="Images\69208935-fantastic-fitness-wallpapers.jpg" />
+    <Content Include="Images\Ahealthyfitness-background-1.jpg" />
     <Content Include="Images\asc.gif" />
+    <Content Include="Images\background2.jpg" />
     <Content Include="Images\desc.gif" />
+    <Content Include="Images\HomeFitness.jpg" />
     <Content Include="Images\image3.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -116,7 +122,12 @@
     <Content Include="Images\image5.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\images %281%29.jpg" />
+    <Content Include="Images\images %282%29.jpg" />
+    <Content Include="Images\images.jpg" />
+    <Content Include="Images\intermittent-fasting.jpg" />
     <Content Include="Images\speranzaIcon.ico" />
+    <Content Include="Images\workout-fitness-sportswear-pushups-strong-694x417.jpg" />
     <Content Include="Scripts\AdminTrainings.js" />
     <Content Include="Scripts\AdminUsers.js" />
     <Content Include="Scripts\bootstrap.js" />

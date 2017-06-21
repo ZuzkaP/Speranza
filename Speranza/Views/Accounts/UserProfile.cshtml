@@ -19,7 +19,7 @@
         <p> @Html.Raw(ViewHelper.ShowMessageInView(Model.UserProfileMessage))</p>
     }
 
-    @using (Html.BeginForm("SaveUserProfile", "Accounts", FormMethod.Post, new { @class = "form-horizontal" }))
+    @using (Html.BeginForm("SaveUserProfile", "Accounts", FormMethod.Post, new { @class = "form-horizontal myProfileForm" }))
     {
         <div class="form-group">
             @Html.LabelFor(m => m.Email, "Email: ", new { @class = "control-label col-sm-3" })
@@ -46,7 +46,7 @@
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(m => m.Category, "Kategória", new { @class = "control-label col-sm-3" })
+            @Html.LabelFor(m => m.Category, "Kategória:", new { @class = "control-label col-sm-3" })
             <div class="col-sm-9">
                 @Html.TextBoxFor(m => m.Category, new { @class = "form-control", @readonly = "readonly" })
             </div>
@@ -81,7 +81,7 @@
 
     @if (Model.FutureTrainings.Count > 0 || Model.PastTrainings.Count > 0)
     {
-        <table class="table table-striped table-hover" >
+        <table class="table table-striped" >
             <thead>
                 <tr>
                     <th class="col-sm-2">Dátum</th>

@@ -7,13 +7,13 @@
     <title>@ViewBag.Title</title>
     <link href="~/Images/speranzaIcon.ico" rel="shortcut icon" type="image/x-icon">
 </head>
-<body>
+<bodys>
     <div>
         @RenderBody()
     </div>
     <footer class="footer">
         <div class="container">
-            <span class="text-muted">Speranza &copy; 2017</span>
+            <span class="text-muted footer-text">Speranza &copy; 2017</span>
         </div>
     </footer>
     <script src="~/Scripts/jquery-1.9.1.js"></script>
@@ -41,6 +41,7 @@ window.cookieconsent.initialise({
   }
 })});
     </script>
+
     @RenderSection("scripts", false)
-</body>
+</bodys>
 </html>
