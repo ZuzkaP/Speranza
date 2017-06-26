@@ -102,7 +102,7 @@
                         @if (item.IsAllowedToSignOff)
                     {
                             @Html.ActionLink("Odhlásiť", "SignOff", "Calendar", new { id = item.ID }, null)
-                        }
+                   }
                     </td>
                 </tr>
             }
@@ -113,7 +113,7 @@
                     <td>@item.Time.ToString("HH:mm")</td>
                     <td>@item.Description</td>
                     <td>@item.Trainer</td>
-                    <td><td>
+                    <td></td>
                 </tr>
             }
         </table>
