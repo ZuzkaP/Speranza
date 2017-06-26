@@ -19,7 +19,7 @@
         <p> @Html.Raw(ViewHelper.ShowMessageInView(Model.UserProfileMessage))</p>
     }
 
-    @using (Html.BeginForm("SaveUserProfile", "Accounts", FormMethod.Post, new { @class = "form-horizontal myProfileForm" }))
+    @using (Html.BeginForm("SaveUserProfile", "Accounts", FormMethod.Post, new { @class = "form-horizontal myProfileForm myForm" }))
     {
         <div class="form-group">
             @Html.LabelFor(m => m.Email, "Email: ", new { @class = "control-label col-sm-3" })

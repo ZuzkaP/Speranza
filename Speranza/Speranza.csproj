@@ -95,6 +95,7 @@
     <Content Include="Content\DatePickerStyle.css" />
     <Content Include="Content\Footer.css" />
     <Content Include="Content\Login.css" />
+    <Content Include="Content\Modal.css" />
     <Content Include="Content\Navbar.css" />
     <Content Include="Content\Speranza.css" />
     <Content Include="Content\TimePickerStyle.css" />
@@ -123,7 +124,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\images %281%29.jpg" />
-    <Content Include="Images\images %282%29.jpg" />
+    <Content Include="Images\BGlogin.jpg" />
     <Content Include="Images\images.jpg" />
     <Content Include="Images\intermittent-fasting.jpg" />
     <Content Include="Images\speranzaIcon.ico" />

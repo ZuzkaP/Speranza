@@ -1,5 +1,6 @@
-﻿.layout-login-body {
-    background-image: url("../Images/images (2).jpg");
+﻿@import url('Modal.css');
+.layout-login-body {
+    background-image: url("../Images/BGlogin.jpg");
 } 
 
 .obsolete {
@@ -44,13 +45,13 @@
     100% { transform: rotate(360deg); }
 }
 
-.myProfileForm label {
+label {
     color: lightgrey;
     font-size: 14pt;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
-.myProfileForm input {
+.myForm input {
     background: transparent;
     color: deepskyblue;
     font-weight: bold;
@@ -58,19 +59,19 @@
     font-size: 13pt;
 }
 
-.myProfileForm input:read-only {
+.myForm input:read-only {
         background: transparent;
         color: lightgrey;
         font-weight: normal;
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
         font-size: 13pt;
  }
- .myProfileForm input.btn:hover{
+.myForm input.btn:hover {
         background: deepskyblue;
-        color:black;
-}
+        color: black;
+    }
 
- h2,h3{
+ h2,h3,h4{
      color:lightgrey;
  }
 
