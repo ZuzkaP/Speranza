@@ -1,104 +1,52 @@
 ﻿@model Speranza.Models.LoginModel
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Speranza";
     Layout = "~/Views/LayoutNotLoggedIn.cshtml";
 }
+<div class="wrapper">
 
+<div class="container">
 
-<div class="login text-center" style="padding:50px 0">
-    <div class="login-in">
-        <div class="logo">login</div>
-        <div class="login-form-1">
-            @using (Html.BeginForm("Login", "Accounts", FormMethod.Post, new { @class = "text-left" }))
+    <div class="text-center" style="padding:50px 0">
+            <div class="loginForm login-form-1">
+                <div class="logo">Vitajte v Speranze!</div>
+                @using (Html.BeginForm("Login", "Accounts", FormMethod.Post, new { @class = "text-left" }))
             {
                 if (Model != null)
                 {
                     if (!Model.LoginSuccessful)
                     {
-                        <div class="login-form-main-message show error success" role="alert">meno alebo heslo nie je správne!</div>
+                            <div class="show error success" role="alert">meno alebo heslo nie je správne!</div>
+                        }
                     }
-                }
-                <div class="main-login-form">
-                    <div class="login-group">
-                        <div class="form-group">
-                            @Html.Label("Email: ", new { @class = "sr-only" })
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "email" })
-                        </div>
-                        <div class="form-group">
-                            @Html.Label("Heslo: ", new { @class = "sr-only" })
-                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "heslo" })
-                        </div>
-                        <div class="form-group login-group-checkbox">
+                    <div class="form-group">
+                        @Html.Label("Email: ", new { @class = "sr-only" })
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "email" })
+                    </div>
+                    <div class="form-group" style="background-color: transparent">
+                        @Html.Label("Heslo: ", new { @class = "sr-only" })
+                        @Html.PasswordFor(m => m.Password, new
+               {
+                   @class = "form-control",
+                   placeholder = "heslo"
+               })
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
                             @Html.CheckBoxFor(r => r.RememberMe)
-                            <label for="RememberMe">remember me</label>
+                            <label style="font-weight: normal; vertical-align: middle;" for="RememberMe">Remember me</label>
                         </div>
-
-                    </div>
-                    <button type="submit" id="btnSubmit" class="login-button"><i class="glyphicon glyphicon-chevron-right"></i></button>
-                </div>
-
-                    <div class="etc-login-form">
-                        <p>@Html.ActionLink("ak si zabudol heslo tak si ho zmeň tu!", "ForgottenPass", "Accounts")</p>
-                        <p>@Html.ActionLink("ak ešte nemáš účet tak sa registruj!", "Register", "Accounts")</p>
                     </div>
 
-            }
+
+                    <button type="submit" id="btnSubmit" class="login-button btn btn-block">Prihlásiť sa</button>
+
+                    <p class="loginLinks" style="float: left">@Html.ActionLink("Registrácia ", "Register", "Accounts")</p>
+                    <p class="loginLinks" style="float: right">@Html.ActionLink(" Obnova hesla", "ForgottenPass", "Accounts")</p>
+
+                }
+            </div>
         </div>
     </div>
-
-
-
-</div>
-
-    <div id="carousel-example-generic" class="carousel slide @*carousel-fade*@" data-ride="carousel">
-       
-
-        <!-- Wrapper for slides -->
-        <div class="carousel-inner" role="listbox">
-           
-            <div class="item active">
-               "Kto nezvracia cvičí pod svoje možnosti"
-            </div>
-            <div class="item">
-               "Všetko je v hlave"
-            </div>
-            <div class="item">
-                "Hláška 3"
-            </div>
-            <div class="item">
-                "Hláška 4"
-            </div>
-            <div class="item">
-                "Hláška 5"
-            </div>
-
-        </div>
-        <!-- Indicators -->
-        @*<ol class="carousel-indicators">
-            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-            <li data-target="#carousel-example-generic" data-slide-to="3"></li>
-            <li data-target="#carousel-example-generic" data-slide-to="4"></li>
-        </ol>*@
-        <!-- Controls -->
-        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
     </div>
-
-*/
-
-@section scripts {
-    <script>
-        $('.carousel').carousel({
-            interval: 2000
-        })
-</script>
-    }
