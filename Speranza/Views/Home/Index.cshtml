@@ -17,7 +17,7 @@
                 {
                     if (!Model.LoginSuccessful)
                     {
-                            <div class="show error success" role="alert">meno alebo heslo nie je správne!</div>
+                            <div class="show error success loginNotSuccess" role="alert">meno alebo heslo nie je správne!</div>
                         }
                     }
                     <div class="form-group">
@@ -35,7 +35,7 @@
                     <div class="form-group">
                         <div class="form-check">
                             @Html.CheckBoxFor(r => r.RememberMe)
-                            <label style="font-weight: normal; vertical-align: middle;" for="RememberMe">Remember me</label>
+                            <label class="rememberMe" style="font-weight: normal; vertical-align: middle;" for="RememberMe">Remember me</label>
                         </div>
                     </div>
 

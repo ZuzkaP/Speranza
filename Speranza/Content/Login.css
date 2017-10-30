@@ -46,6 +46,7 @@ Last change	: 2015/03/27
     font-weight: bold;
     font-style: italic;
 }
+
 html,
 body {
     background-color: #2a363f;
@@ -85,10 +86,11 @@ body {
         width: auto;
         display: block;
         position: static;
-        margin:auto;
+        margin: auto;
         padding: 0 15px;
         height: auto;
     }
+
     .wrapper {
         padding-top: 20px;
     }
@@ -100,51 +102,87 @@ body {
         height: auto;
     }
 }
-.logo {
-    color:#aeafb5;
-    font-size:2.8em;
-    float: left;
-    padding-bottom: 3%
 
+.logo {
+    color: #aeafb5;
+    font-size: 2.8em;
+    padding-bottom: 3%
 }
 
+.loginNotSuccess {
+    color: #8ac6e4;
+    font-weight: 500;
+    padding-bottom: 1%;
+}
 
 .login-button {
-    background-color:#c2c9d4;
-    margin-bottom: 2%;
-    color:black;
-    font-size: 1.0em;
+    display: block;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    float: none;
+    z-index: auto;
+    width: 100%;
+    height: 34px;
+    position: static;
+    cursor: pointer;
+    opacity: 1;
+    margin: 0 auto;
+    margin-bottom: 15px;
+    padding: 0;
+    overflow: visible;
+    font-size: 105%;
+    border-radius: 4px;
+    color: rgba(255,255,255,1);
+    text-align: center;
+    -o-text-overflow: clip;
+    text-overflow: clip;
+    letter-spacing: 1px;
+    background: transparent;
+    border-color: #9BA7A5;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    text-shadow: none;
+    -webkit-transition: background-color 0.3s cubic-bezier(0, 0, 0, 0), color 0.3s cubic-bezier(0, 0, 0, 0), width 0.3s cubic-bezier(0, 0, 0, 0), border-width 0.3s cubic-bezier(0, 0, 0, 0), border-color 0.3s cubic-bezier(0, 0, 0, 0);
+    -moz-transition: background-color 0.3s cubic-bezier(0, 0, 0, 0), color 0.3s cubic-bezier(0, 0, 0, 0), width 0.3s cubic-bezier(0, 0, 0, 0), border-width 0.3s cubic-bezier(0, 0, 0, 0), border-color 0.3s cubic-bezier(0, 0, 0, 0);
+    -o-transition: background-color 0.3s cubic-bezier(0, 0, 0, 0), color 0.3s cubic-bezier(0, 0, 0, 0), width 0.3s cubic-bezier(0, 0, 0, 0), border-width 0.3s cubic-bezier(0, 0, 0, 0), border-color 0.3s cubic-bezier(0, 0, 0, 0);
+    transition: background-color 0.3s cubic-bezier(0, 0, 0, 0), color 0.3s cubic-bezier(0, 0, 0, 0), width 0.3s cubic-bezier(0, 0, 0, 0), border-width 0.3s cubic-bezier(0, 0, 0, 0), border-color 0.3s cubic-bezier(0, 0, 0, 0);
+    -webkit-transform: none;
+    transform: none;
+    -webkit-transform-origin: 50% 50% 0;
+    transform-origin: 50% 50% 0;
 }
 
-.login-button :hover{
-    border-color: blue !important;
-    color: #060101 !important;
-    font-weight: bold !important;
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-
-}
+    .login-button:hover {
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+        border-color: #337cb7;
+        color:white;
+    }
 
 .loginForm input:focus {
-    border-color: blue !important;
-    color:white;
+    border-color: #337cb7 !important;
+    color: white;
+}
+
+.rememberMe:hover {
+    text-shadow: 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
 }
 
 .loginForm input {
-    background-color:transparent !important;
+    background-color: transparent !important;
     border-color: #9BA7A5 !important;
-    color:#9BA7A5;
-
+    color: #9BA7A5;
 }
 
 a, .loginLinks {
-    color:#c5cdd5;
+    color: #c5cdd5;
     font-size: 1.0em;
     display: inline;
 }
 
-.loginLinks :hover{
-    color:#ffffff;
-}
+.loginLinks :hover {
+        color: #ffffff;
+    }
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
