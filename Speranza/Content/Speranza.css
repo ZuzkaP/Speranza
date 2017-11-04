@@ -1,6 +1,11 @@
 ﻿@import url('Modal.css');
 .layout-login-body {
-    background-image: url("../Images/BGlogin.jpg");
+    width: 100%;
+    min-height: 100vh;
+    /*background-image: url(../Images/Ahealthyfitness-background-1.jpg);*/
+    background-color: #021926;
+    background-repeat: no-repeat;
+    background-size: cover;
 } 
 
 .obsolete {
@@ -21,7 +26,7 @@
 }
 
 .calendar-table{
-    background-color:wheat;
+    background-color: rgba(0, 0, 0, 0);
 }
 
 .loader {
