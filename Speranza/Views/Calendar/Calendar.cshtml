@@ -7,7 +7,7 @@
     Layout = "~/Views/Layout.cshtml";
 }
 
-<div class="container">
+<div class="container" style="background-color: white">
     <h2>Rozpis tréningov</h2>
 
     @if (Model != null)
@@ -15,8 +15,65 @@
         <p> @Html.Raw(ViewHelper.ShowMessageInView(Model.Message, Model.SignedUpOrSignedOffTraining))</p>
     }
 
+    <div class="cd-schedule loading">
+        <div class="timeline">
+            <ul>
+                @for (int i = 6; i < 21; i++)
+                {
+                    <li><span>@i.ToString("00"):00</span></li>
+                }
+            </ul>
+        </div> <!-- .timeline -->
+        
+        <div class="events">
+            <ul>
+                @foreach (var day in Model.Days)
+                {
+                    <li class="events-group">
+                        <div class="top-info"><span>@ViewHelper.TranslateDayNames(day.DayName) @day.Date</span>
+                        </div>
 
-    <table class="table table-bordered calendar-table">
+                        <ul>
+                            @{
+                                Random random = new Random();
+                                foreach (var training in day.Trainings.OrderBy(r=>r.Time))
+                                {
+                                    int index = random.Next(1, 5);
+                                    <li class="single-event" data-start="@training.Time.ToString("HH:mm")" data-end="@training.Time.AddHours(1).ToString("HH:mm")" data-event="event-@index">
+                                        <em class="event-name">
+                                            @training.Description
+                                        </em>
+                                        <span class="event-capacity">@training.RegisteredNumber/@training.Capacity</span>
+                                        @if (training.IsUserSignedUp)
+                                        {
+                                            if (training.IsAllowedToSignOff)
+                                            {
+                                                @Html.ActionLink("Odhlásiť", "SignOff", "Calendar", new { id = training.ID }, null);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (training.RegisteredNumber < training.Capacity && training.IsAllowedToSignUp && Model.AllowToSignUp)
+                                            {
+                                                @Html.ActionLink("Prihlásiť", "SignUp", "Calendar", new { id = training.ID }, null);
+                                            }
+                                        }  
+                                    </li>
+                                }
+
+                            }
+                    @*<li class="single-event" data-start="09:30" data-end="10:30" data-content="event-abs-circuit" data-event="event-1">
+                            <a href="#0">
+                                <em class="event-name">Abs Circuit</em>
+                            </a>
+                        </li>*@</ul>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    @*<table class="table table-bordered calendar-table">
         <thead>
             <tr>
                 <th></th>
@@ -79,6 +136,11 @@
         </tr>
         }
 
-    </table>
+    </table>*@
 
 </div>
+
+@section Styles{
+
+@*<link href="~/Content/Calendar-reset.css" rel="stylesheet" />*@
+}
