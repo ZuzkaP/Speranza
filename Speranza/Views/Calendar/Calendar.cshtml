@@ -7,7 +7,7 @@
     Layout = "~/Views/Layout.cshtml";
 }
 
-<div class="container" style="background-color: white">
+<div class="container calendar-container">
     <h2>Rozpis tréningov</h2>
 
     @if (Model != null)
@@ -15,6 +15,16 @@
         <p> @Html.Raw(ViewHelper.ShowMessageInView(Model.Message, Model.SignedUpOrSignedOffTraining))</p>
     }
 
+    @{var weeks = new List<List<IDayModel>>();
+
+        for (int i = 0; i < Model.Days.Count; i += 7)
+        {
+            weeks.Add(((List<IDayModel>)Model.Days).GetRange(i, Math.Min(7, Model.Days.Count - i)));
+        }
+    }
+
+    @foreach (var week in weeks)
+    {
     <div class="cd-schedule loading">
         <div class="timeline">
             <ul>
@@ -24,19 +34,20 @@
                 }
             </ul>
         </div> <!-- .timeline -->
-        
+
         <div class="events">
             <ul>
-                @foreach (var day in Model.Days)
+                @foreach (var day in week)
                 {
                     <li class="events-group">
-                        <div class="top-info"><span>@ViewHelper.TranslateDayNames(day.DayName) @day.Date</span>
+                        <div class="top-info">
+                            <span>@ViewHelper.TranslateDayNames(day.DayName) @day.Date</span>
                         </div>
 
                         <ul>
                             @{
                                 Random random = new Random();
-                                foreach (var training in day.Trainings.OrderBy(r=>r.Time))
+                                foreach (var training in day.Trainings.OrderBy(r => r.Time))
                                 {
                                     int index = random.Next(1, 5);
                                     <li class="single-event" data-start="@training.Time.ToString("HH:mm")" data-end="@training.Time.AddHours(1).ToString("HH:mm")" data-event="event-@index">
@@ -57,90 +68,91 @@
                                             {
                                                 @Html.ActionLink("Prihlásiť", "SignUp", "Calendar", new { id = training.ID }, null);
                                             }
-                                        }  
+                                        }
                                     </li>
                                 }
 
                             }
-                    @*<li class="single-event" data-start="09:30" data-end="10:30" data-content="event-abs-circuit" data-event="event-1">
-                            <a href="#0">
-                                <em class="event-name">Abs Circuit</em>
-                            </a>
-                        </li>*@</ul>
+                            @*<li class="single-event" data-start="09:30" data-end="10:30" data-content="event-abs-circuit" data-event="event-1">
+                                    <a href="#0">
+                                        <em class="event-name">Abs Circuit</em>
+                                    </a>
+                                </li>*@
+                        </ul>
                     </li>
-                }
+                                }
             </ul>
         </div>
     </div>
-
+                                }
     @*<table class="table table-bordered calendar-table">
-        <thead>
-            <tr>
-                <th></th>
+            <thead>
+                <tr>
+                    <th></th>
+                    @for (int i = 6; i < 21; i++)
+                {
+                        <th>@i.ToString("00"):00</th>
+                    }
+
+                </tr>
+            </thead>
+            @foreach (var day in Model.Days)
+            {
+                <tr>
+                    <td class="warning">
+                        @ViewHelper.TranslateDayNames(day.DayName)
+                    <br />
+                    @day.Date
+                </td>
                 @for (int i = 6; i < 21; i++)
-            {
-                    <th>@i.ToString("00"):00</th>
-                }
+                {
+                    IList<ITrainingModel> trainings = day.Trainings.Where(r => r.Time.Hour == i).ToList();
 
+                    if (trainings != null && trainings.Count > 0)
+                    {
+                        <td @(trainings.Any( r=>r.IsUserSignedUp)? Html.Raw("class=\"success\""): Html.Raw(""))>
+                            @foreach (var training in trainings)
+                            {
+                                @training.Description <br />
+                                @training.Trainer<br />
+                                @training.RegisteredNumber@:/@training.Capacity <br/>
+
+                            if (training.IsUserSignedUp)
+                            {
+                                if (training.IsAllowedToSignOff)
+                                {
+                                    @Html.ActionLink("Odhlásiť", "SignOff", "Calendar", new { id = training.ID }, null);
+                                }
+                            }
+                            else
+                            {
+                                if (training.RegisteredNumber < training.Capacity && training.IsAllowedToSignUp && Model.AllowToSignUp)
+                                {
+                                    @Html.ActionLink("Prihlásiť", "SignUp", "Calendar", new { id = training.ID }, null);
+                                }
+                            }
+                                if(training != trainings.Last())
+                                {
+                                    <br />
+                                    <hr />
+                                }
+                            }
+                        </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+
+                }
             </tr>
-        </thead>
-        @foreach (var day in Model.Days)
-        {
-            <tr>
-                <td class="warning">
-                    @ViewHelper.TranslateDayNames(day.DayName)
-                <br />
-                @day.Date
-            </td>
-            @for (int i = 6; i < 21; i++)
-            {
-                IList<ITrainingModel> trainings = day.Trainings.Where(r => r.Time.Hour == i).ToList();
-
-                if (trainings != null && trainings.Count > 0)
-                {
-                    <td @(trainings.Any( r=>r.IsUserSignedUp)? Html.Raw("class=\"success\""): Html.Raw(""))>
-                        @foreach (var training in trainings)
-                        {
-                            @training.Description <br />
-                            @training.Trainer<br />
-                            @training.RegisteredNumber@:/@training.Capacity <br/>
-
-                        if (training.IsUserSignedUp)
-                        {
-                            if (training.IsAllowedToSignOff)
-                            {
-                                @Html.ActionLink("Odhlásiť", "SignOff", "Calendar", new { id = training.ID }, null);
-                            }
-                        }
-                        else
-                        {
-                            if (training.RegisteredNumber < training.Capacity && training.IsAllowedToSignUp && Model.AllowToSignUp)
-                            {
-                                @Html.ActionLink("Prihlásiť", "SignUp", "Calendar", new { id = training.ID }, null);
-                            }
-                        }
-                            if(training != trainings.Last())
-                            {
-                                <br />
-                                <hr />
-                            }
-                        }
-                    </td>
-                }
-                else
-                {
-                    <td></td>
-                }
-
             }
-        </tr>
-        }
 
-    </table>*@
+        </table>*@
 
 </div>
 
 @section Styles{
 
-@*<link href="~/Content/Calendar-reset.css" rel="stylesheet" />*@
+    @*<link href="~/Content/Calendar-reset.css" rel="stylesheet" />*@
 }

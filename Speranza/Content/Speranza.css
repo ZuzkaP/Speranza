@@ -12,6 +12,19 @@
     color: #aaa;
 }
 
+.calendar-container {
+    background-color: #021926;
+    color: white;
+}
+
+.calendar-container h2{
+    margin:auto;
+    color:white;
+    text-align:center;
+    padding-top:3%;
+    font-size:23pt;
+}
+
 .trainingSettings{
     padding-bottom:25px;
 }
