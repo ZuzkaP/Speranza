@@ -27,6 +27,10 @@ ul {
     list-style: none;
 }
 
+.disabled-boxes {
+    color:red;
+    text-align:center;
+}
 /* -------------------------------- 
 
 Main Components 

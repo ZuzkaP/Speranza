@@ -24,7 +24,7 @@ namespace Speranza.Services
 
         public IDayModel GetDay(DateTime date, string email)
         {
-            IDayModel model = new DayModel(date.ToString("d.M."), dateTimeService.GetDayName(date));
+            IDayModel model = new DayModel(date.ToString("dd.MM."), dateTimeService.GetDayName(date));
             var trainings = db.GetDayTrainings(date);
             DateTime currentDate = dateTimeService.GetCurrentDate();
             if (trainings != null)

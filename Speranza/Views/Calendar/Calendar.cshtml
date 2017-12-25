@@ -1,6 +1,8 @@
 ﻿@using Speranza.Models.Interfaces;
 @using Speranza.Views
+@using System.Globalization;
 @using Speranza.Models;
+
 @model Speranza.Models.CalendarModel
 @{
     ViewBag.Title = "Calendar";
@@ -25,130 +27,115 @@
 
     @foreach (var week in weeks)
     {
-    <div class="cd-schedule loading">
-        <div class="timeline">
-            <ul>
-                @for (int i = 6; i < 21; i++)
-                {
-                    <li><span>@i.ToString("00"):00</span></li>
-                }
-            </ul>
-        </div> <!-- .timeline -->
+        <div class="cd-schedule loading">
+            <div class="timeline">
+                <ul>
+                    @for (int i = 6; i < 21; i++)
+                    {
+                        <li><span>@i.ToString("00"):00</span></li>
+                    }
+                </ul>
+            </div> <!-- .timeline -->
 
-        <div class="events">
-            <ul>
-                @foreach (var day in week)
-                {
-                    <li class="events-group">
+            <div class="events">
+                <ul>
+                    @foreach (var day in week)
+                    {
+                        <li class="events-group">
+                            <div class="top-info">
+                                <span>@ViewHelper.TranslateDayNames(day.DayName) @day.Date</span>
+                            </div>
+
+                            <ul>
+                                @{
+                                    Random random = new Random();
+                                    foreach (var training in day.Trainings.OrderBy(r => r.Time))
+                                    {
+                                        int index = random.Next(1, 5);
+                                        <li class="single-event" data-start="@training.Time.ToString("HH:mm")" data-end="@training.Time.AddHours(1).ToString("HH:mm")" data-event="event-@index">
+                                            <em class="event-name">
+                                                @training.Description
+                                            </em>
+                                            <span class="event-capacity">@training.RegisteredNumber/@training.Capacity</span>
+                                            @if (training.IsUserSignedUp)
+                                            {
+                                                if (training.IsAllowedToSignOff)
+                                                {
+                                                    @Html.ActionLink("Odhlásiť", "SignOff", "Calendar", new { id = training.ID }, null);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                if (training.RegisteredNumber < training.Capacity && training.IsAllowedToSignUp && Model.AllowToSignUp)
+                                                {
+                                                    @Html.ActionLink("Prihlásiť", "SignUp", "Calendar", new { id = training.ID }, null);
+                                                }
+                                            }
+                                        </li>
+                                    }
+
+                                }
+                            </ul>
+                        </li>
+                                    }
+
+                    @{var newYear = false;
+                        }
+                        @if (week.Count < 7)
+                        {
+
+                            var lastDay = week.Last();
+                            int lastDayName = (int)lastDay.DayName;
+                            var lastDayDate = lastDay.Date;
+                            DayNames nextDay=(DayNames)lastDayName;
+                            string[] formats = { "dd.MM.", "d.MM.", "d.M.", "dd.M." };
+                            for (int i = week.Count + 1; i <= 7; i++)
+                            {
+                    <li class="events-group disabled">
                         <div class="top-info">
-                            <span>@ViewHelper.TranslateDayNames(day.DayName) @day.Date</span>
+                            @{
+                                if (lastDayName < 6)
+                                {
+                                    nextDay = (DayNames)(++lastDayName);
+                                }
+                                else if (lastDayName == 6)
+                                {
+                                    lastDayName = -1;
+                                    nextDay = (DayNames)(++lastDayName);
+                                }
+                                else if (lastDayName < 6)
+                                {
+                                    nextDay = (DayNames)(--lastDayName);
+                                }
+                                DateTime nextDate = DateTime.MinValue;
+                                if (DateTime.TryParseExact(lastDayDate, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out nextDate))
+                                {
+                                    nextDate = nextDate.AddDays(1);
+                                    <span>@ViewHelper.TranslateDayNames(nextDay) @nextDate.ToString("dd.MM")</span>
+                                }
+                                else
+                                {
+                                    <span>@ViewHelper.TranslateDayNames(nextDay)</span>
+
+                                }
+                                lastDayDate = nextDate.ToString("dd.MM.");
+                            }
                         </div>
 
-                        <ul>
-                            @{
-                                Random random = new Random();
-                                foreach (var training in day.Trainings.OrderBy(r => r.Time))
-                                {
-                                    int index = random.Next(1, 5);
-                                    <li class="single-event" data-start="@training.Time.ToString("HH:mm")" data-end="@training.Time.AddHours(1).ToString("HH:mm")" data-event="event-@index">
-                                        <em class="event-name">
-                                            @training.Description
-                                        </em>
-                                        <span class="event-capacity">@training.RegisteredNumber/@training.Capacity</span>
-                                        @if (training.IsUserSignedUp)
-                                        {
-                                            if (training.IsAllowedToSignOff)
-                                            {
-                                                @Html.ActionLink("Odhlásiť", "SignOff", "Calendar", new { id = training.ID }, null);
-                                            }
-                                        }
-                                        else
-                                        {
-                                            if (training.RegisteredNumber < training.Capacity && training.IsAllowedToSignUp && Model.AllowToSignUp)
-                                            {
-                                                @Html.ActionLink("Prihlásiť", "SignUp", "Calendar", new { id = training.ID }, null);
-                                            }
-                                        }
-                                    </li>
-                                }
-
-                            }
-                            @*<li class="single-event" data-start="09:30" data-end="10:30" data-content="event-abs-circuit" data-event="event-1">
-                                    <a href="#0">
-                                        <em class="event-name">Abs Circuit</em>
-                                    </a>
-                                </li>*@
-                        </ul>
+                        <ul class=" disabled disabled-boxes">
+                            <li class="single-event">
+                                <em class="event-name">
+                                    X
+                                </em>
+</ul>
                     </li>
-                                }
-            </ul>
+                    }
+                    }
+                </ul>
+            </div>
         </div>
-    </div>
                                 }
-    @*<table class="table table-bordered calendar-table">
-            <thead>
-                <tr>
-                    <th></th>
-                    @for (int i = 6; i < 21; i++)
-                {
-                        <th>@i.ToString("00"):00</th>
-                    }
 
-                </tr>
-            </thead>
-            @foreach (var day in Model.Days)
-            {
-                <tr>
-                    <td class="warning">
-                        @ViewHelper.TranslateDayNames(day.DayName)
-                    <br />
-                    @day.Date
-                </td>
-                @for (int i = 6; i < 21; i++)
-                {
-                    IList<ITrainingModel> trainings = day.Trainings.Where(r => r.Time.Hour == i).ToList();
-
-                    if (trainings != null && trainings.Count > 0)
-                    {
-                        <td @(trainings.Any( r=>r.IsUserSignedUp)? Html.Raw("class=\"success\""): Html.Raw(""))>
-                            @foreach (var training in trainings)
-                            {
-                                @training.Description <br />
-                                @training.Trainer<br />
-                                @training.RegisteredNumber@:/@training.Capacity <br/>
-
-                            if (training.IsUserSignedUp)
-                            {
-                                if (training.IsAllowedToSignOff)
-                                {
-                                    @Html.ActionLink("Odhlásiť", "SignOff", "Calendar", new { id = training.ID }, null);
-                                }
-                            }
-                            else
-                            {
-                                if (training.RegisteredNumber < training.Capacity && training.IsAllowedToSignUp && Model.AllowToSignUp)
-                                {
-                                    @Html.ActionLink("Prihlásiť", "SignUp", "Calendar", new { id = training.ID }, null);
-                                }
-                            }
-                                if(training != trainings.Last())
-                                {
-                                    <br />
-                                    <hr />
-                                }
-                            }
-                        </td>
-                    }
-                    else
-                    {
-                        <td></td>
-                    }
-
-                }
-            </tr>
-            }
-
-        </table>*@
 
 </div>
 
