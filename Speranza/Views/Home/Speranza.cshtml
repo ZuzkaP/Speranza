@@ -8,14 +8,20 @@
 <h2>Foto galéria</h2>
     <div id="buttons"></div>
     <div id="gallery">
-        <figure><img src="~/Images/Ahealthyfitness-background-1.jpg" data-tags="Blog" alt="" /></figure>
-        <figure><img src="~/Images/09b2d308a8f7f46202dc263c18a208ff.jpg" data-tags="Health & Beauty" alt=""/></figure>
-        <figure><img src="~/Images/background2.jpg" data-tags="Business" alt="" /></figure>
-</div>
+        <img class="fs-gal" src="~/Images/Ahealthyfitness-background-1.jpg" data-tags="Blog" data-url="/Images/Ahealthyfitness-background-1.jpg"/>
+        <img class="fs-gal" src="~/Images/09b2d308a8f7f46202dc263c18a208ff.jpg" data-tags="Health & Beauty" data-url="/Images/09b2d308a8f7f46202dc263c18a208ff.jpg"/>
+        <img class="fs-gal" src="~/Images/09b2d308a8f7f46202dc263c18a208ff.jpg" data-tags="Business" data-url="/Images/09b2d308a8f7f46202dc263c18a208ff.jpg"/>
+    </div>
+    <div class="fs-gal-view">
+        <h1></h1>
+        <img class="fs-gal-prev fs-gal-nav" src="~/Images/galleryRows/prev.svg" alt="Previous picture" title="Previous picture" />
+        <img class="fs-gal-next fs-gal-nav" src="~/Images/galleryRows/next.svg" alt="Next picture" title="Next picture" />
+        <img class="fs-gal-close" src="~/Images/galleryRows/close.svg" alt="Close gallery" title="Close gallery" />
+    </div>
 </div>
 
 @section scripts {
     <script>
-        $('#gallery').flexgal();
+        //$('#gallery').flexgal();
     </script>
 }

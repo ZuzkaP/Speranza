@@ -98,6 +98,7 @@
     <Content Include="Content\DatePickerStyle.css" />
     <Content Include="Content\flexbox-gallery.css" />
     <Content Include="Content\Footer.css" />
+    <Content Include="Content\fs-gal.css" />
     <Content Include="Content\image-gallery.css" />
     <Content Include="Content\Login.css" />
     <Content Include="Content\Modal.css" />
@@ -118,6 +119,9 @@
     <Content Include="Images\asc.gif" />
     <Content Include="Images\background2.jpg" />
     <Content Include="Images\desc.gif" />
+    <Content Include="Images\galleryRows\close.svg" />
+    <Content Include="Images\galleryRows\next.svg" />
+    <Content Include="Images\galleryRows\prev.svg" />
     <Content Include="Images\HomeFitness.jpg" />
     <Content Include="Images\images %281%29.jpg" />
     <Content Include="Images\BGlogin.jpg" />
@@ -137,6 +141,7 @@
     <Content Include="Scripts\EmailHelper.js" />
     <Content Include="Scripts\filter-tags.js" />
     <Content Include="Scripts\flexbox-gallery.js" />
+    <Content Include="Scripts\fs-gal.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
