@@ -14,6 +14,8 @@
     <link href="~/Content/Navbar.css" rel="stylesheet" />
     <link href="~/Content/Speranza.css" rel="stylesheet" />
     <link href="~/Content/Calendar-style.css" rel="stylesheet" />
+    <link href="~/Content/image-gallery.css" rel="stylesheet" />
+    <link href="~/Content/flexbox-gallery.css" rel="stylesheet">
     <title>@ViewBag.Title</title>
     <link href="~/Images/speranzaIcon.ico" rel="shortcut icon" type="image/x-icon">
     @RenderSection("Styles", false)
@@ -30,7 +32,7 @@
         <div class="row">
             <div class="btn-group btn-group-justified">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-nav navbar-header" onclick="location.href='/Calendar/Calendar'">
+                    <button type="button" class="btn btn-nav navbar-header" onclick="location.href='/Home/Speranza'">
                         <p>Speranza</p>
                     </button>
                 </div>
@@ -89,15 +91,16 @@
     <div>
         @RenderBody()
     </div>
+    <script src="~/Scripts/jquery-3.2.1.min.js"></script>
     <script src="~/Scripts/Calendar-modernizr.js"></script>
-    <script src="~/Scripts/jquery-1.9.1.min.js"></script>
     <script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
     <script src="~/Scripts/jquery.ui.timepicker.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/Scripts/EmailHelper.js"></script>
     <script src="~/Scripts/Calendar-main.js"></script>
-   
+    <script src="~/Scripts/filter-tags.js"></script>
+    <script src="~/Scripts/flexbox-gallery.js"></script>
     @RenderSection("scripts", false)
 
 </body>

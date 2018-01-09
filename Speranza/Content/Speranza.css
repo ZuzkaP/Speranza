@@ -25,13 +25,35 @@
     font-size:23pt;
 }
 
-.trainingSettings{
-    padding-bottom:25px;
+.adminUsersLabel {
+    margin: 3%;
+    color: white;
+    text-align: center;
+    padding-top: 3%;
+    font-size: 23pt;
 }
 
-.paginationSettings{
-    margin-top:20px;
-    margin-bottom:20px;
+.userProfileLabel {
+    color: white;
+    padding-top: 2%;
+    font-size: 23pt;
+}
+
+.searchUsers {
+    margin-bottom: 2%;
+}
+.trainingSettings {
+    padding-top: 0px;
+}
+
+.hourslimit {
+    color: lightgrey;
+    margin-bottom:2px;
+}
+.paginationSettings {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 0%;
 }
 
 .ui-autocomplete {
@@ -80,6 +102,9 @@ label {
     color: white;
 }
 
+#pageSize {
+    width: 80px;
+}
     .myForm input:read-only {
         background: transparent;
         color: lightgrey;
@@ -92,9 +117,9 @@ label {
         color: black;
     }
 
- h2,h3,h4{
-     color:lightgrey;
- }
+h2, h3, h4 {
+    color: lightgrey;
+}
 
 .table-striped tbody tr:nth-of-type(odd) {
     background: rgba(255,255,255,0.12);
