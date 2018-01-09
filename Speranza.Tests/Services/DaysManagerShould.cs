@@ -70,7 +70,7 @@ namespace Speranza.Tests.Services
 
             RequestDay();
 
-            Assert.AreEqual("2.12.", day.Date);
+            Assert.AreEqual("02.12.", day.Date);
             Assert.AreEqual(DAY,day.DayName);
                 
         }

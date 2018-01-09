@@ -159,6 +159,7 @@
     <Compile Include="Controllers\AdminPastTrainingsController.cs" />
     <Compile Include="Controllers\AdminUsersController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
+    <Compile Include="Controllers\GalleryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PeriodicalAttendancesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -190,8 +191,8 @@
     <Content Include="Views\AdminPastTrainings\AdminTrainings.cshtml" />
     <Content Include="Views\AdminPastTrainings\TrainingDetails.cshtml" />
     <Content Include="Views\AdminPastTrainings\UsersInTraining.cshtml" />
-    <Content Include="Views\Home\Speranza.cshtml" />
     <Content Include="Views\Accounts\ForgottenPass.cshtml" />
+    <Content Include="Views\Gallery\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -97,6 +97,7 @@
     <Compile Include="Controllers\CalendarControllerShould.cs" />
     <Compile Include="Controllers\CalendarControllerTrainingsShould.cs" />
     <Compile Include="Controllers\FakeControllerContext.cs" />
+    <Compile Include="Controllers\GalleryControllerShould.cs" />
     <Compile Include="Controllers\HomeControllerShould.cs" />
     <Compile Include="Controllers\PeriodicalAttendancesControllerShould.cs" />
     <Compile Include="Controllers\AccountsControllerForgottenPassShould.cs" />

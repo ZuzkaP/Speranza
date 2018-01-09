@@ -50,6 +50,8 @@
     <Compile Include="DayModel.cs" />
     <Compile Include="LoginModel.cs" />
     <Compile Include="LoginResult.cs" />
+    <Compile Include="GalleryModel.cs" />
+    <Compile Include="PhotoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecurringModel.cs" />
     <Compile Include="RecurringTemplateModel.cs" />
