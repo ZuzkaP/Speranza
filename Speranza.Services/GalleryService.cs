@@ -28,7 +28,7 @@ namespace Speranza.Services
 
         public string ConvertFolderPathToTag(string folder)
         {
-            return Path.GetDirectoryName(folder);
+            return Path.GetFileName(folder);
         }
     }
 }

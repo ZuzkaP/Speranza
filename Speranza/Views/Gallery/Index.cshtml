@@ -1,4 +1,4 @@
-﻿
+﻿@model Speranza.Models.GalleryModel
 @{
     ViewBag.Title = "Speranza";
     Layout = "~/Views/Layout.cshtml";
@@ -8,9 +8,10 @@
     <h2>Foto galéria</h2>
     <div id="buttons"></div>
     <div id="gallery">
-        <figure><img src="~/Images/Ahealthyfitness-background-1.jpg" data-tags="Blog" alt="" /></figure>
-        <figure><img src="~/Images/09b2d308a8f7f46202dc263c18a208ff.jpg" data-tags="Health & Beauty" alt=""/></figure>
-        <figure><img src="~/Images/background2.jpg" data-tags="Business" alt="" /></figure>
+        @foreach (var photo in Model.Photos)
+        {
+            <figure><img src="@photo.Source" data-tags="@photo.Tag"/></figure>
+        }
     </div>
 </div>
 
