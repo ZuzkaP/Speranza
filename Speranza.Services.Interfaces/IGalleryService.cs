@@ -10,6 +10,6 @@ namespace Speranza.Services.Interfaces
     {
       List<string> GetFoldersWithImages();
       List<string> GetPhotosFromFolder(string folderPath);
-        string ConvertFolderPathToTag(string foldera);
+      string ConvertFolderPathToTag(string folder);
     }
 }

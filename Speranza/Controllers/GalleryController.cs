@@ -38,16 +38,18 @@ namespace Speranza.Controllers
             var folders = galleryService.GetFoldersWithImages();
 
             var model = new GalleryModel();
-
-            foreach (var folder in folders)
+            if (folders != null)
             {
-                var photosInFolder = galleryService.GetPhotosFromFolder(folder);
-                foreach (var photo in photosInFolder)
+                foreach (var folder in folders)
                 {
-                    PhotoModel photoModel = new PhotoModel();
-                    photoModel.Source = photo;
-                    photoModel.Tag = galleryService.ConvertFolderPathToTag(folder);
-                    model.Photos.Add(photoModel);
+                    var photosInFolder = galleryService.GetPhotosFromFolder(folder);
+                    foreach (var photo in photosInFolder)
+                    {
+                        PhotoModel photoModel = new PhotoModel();
+                        photoModel.Source = photo;
+                        photoModel.Tag = galleryService.ConvertFolderPathToTag(folder);
+                        model.Photos.Add(photoModel);
+                    }
                 }
             }
             return View(model);

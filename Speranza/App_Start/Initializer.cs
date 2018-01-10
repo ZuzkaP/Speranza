@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Speranza.Models;
 
 namespace Speranza.App_Start
 {
@@ -43,7 +44,7 @@ namespace Speranza.App_Start
             TrainingsManager = new TrainingsManager(Db, Factory, UidService, DateTimeService, UserManager, EmailManager);
             DaysManager = new DaysManager(Db, TrainingsManager, DateTimeService, Factory);
             CookieService = new CookieService();
-            GalleryService = null;
+            GalleryService = new GalleryService();
         }
     }
 }
