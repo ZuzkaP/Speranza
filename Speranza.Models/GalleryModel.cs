@@ -8,6 +8,12 @@ namespace Speranza.Models
 {
    public class GalleryModel
    {
-       public List<PhotoModel> Photos;
+       public List<PhotoModel> Photos { get; private set; }
+
+        public GalleryModel()
+       {
+           Photos = new List<PhotoModel>();
+       }
+       
    }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Speranza.App_Start;
+using Speranza.Models;
 using Speranza.Services.Interfaces;
 
 namespace Speranza.Controllers
@@ -13,16 +14,18 @@ namespace Speranza.Controllers
         private ICookieService cookieService;
 
         private IUserManager userManager;
+        private IGalleryService galleryService;
 
-        public GalleryController() : this(Initializer.UserManager,Initializer.CookieService)
+        public GalleryController() : this(Initializer.UserManager,Initializer.CookieService,Initializer.GalleryService)
         {
                 
         }
 
-        public GalleryController(IUserManager userManager,ICookieService cookieService)
+        public GalleryController(IUserManager userManager,ICookieService cookieService,IGalleryService galleryService)
         {
             this.cookieService = cookieService;
             this.userManager = userManager;
+            this.galleryService = galleryService;
         }
 
         // GET: Gallery
@@ -32,7 +35,22 @@ namespace Speranza.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            return View();
+            var folders = galleryService.GetFoldersWithImages();
+
+            var model = new GalleryModel();
+
+            foreach (var folder in folders)
+            {
+                var photosInFolder = galleryService.GetPhotosFromFolder(folder);
+                foreach (var photo in photosInFolder)
+                {
+                    PhotoModel photoModel = new PhotoModel();
+                    photoModel.Source = photo;
+                    photoModel.Tag = galleryService.ConvertFolderPathToTag(folder);
+                    model.Photos.Add(photoModel);
+                }
+            }
+            return View(model);
         }
     }
 }

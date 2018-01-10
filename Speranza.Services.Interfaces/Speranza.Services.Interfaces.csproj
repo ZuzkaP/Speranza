@@ -80,6 +80,7 @@
     <Compile Include="IDaysManager.cs" />
     <Compile Include="IEmailFactory.cs" />
     <Compile Include="IEmailManager.cs" />
+    <Compile Include="IGalleryService.cs" />
     <Compile Include="IHasher.cs" />
     <Compile Include="IModelFactory.cs" />
     <Compile Include="ITrainingsManager.cs" />
