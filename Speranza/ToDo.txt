@@ -1,0 +1,5 @@
+﻿1. Test gallery on server
+2. Check session issues
+3. Email sending issues
+4. Check if logout works correctly
+5. App Style
