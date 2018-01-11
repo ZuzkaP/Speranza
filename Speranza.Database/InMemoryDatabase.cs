@@ -472,9 +472,11 @@ namespace Speranza.Database
 
         public void CancelRememberMe(string email)
         {
-            tokens.Remove(users[email].Series);
+            if (users[email].Series != null && tokens.ContainsKey(users[email].Series))
+            {
+                tokens.Remove(users[email].Series);
+            }
             users[email].Series = null;
-
         }
 
         public void CleanUpTokens()

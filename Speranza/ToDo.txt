@@ -1,5 +1,5 @@
 ﻿1. Test gallery on server
 2. Check session issues
-3. Email sending issues
-4. Check if logout works correctly
-5. App Style
+3. Email sending issues - DONE
+4. Find out why logout works on second click
+5. App Style - a) forgotten pass error text style + check other messages
