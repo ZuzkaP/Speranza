@@ -44,6 +44,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Speranza.Database\Speranza.Database.csproj">
+      <Project>{880C37BD-82D3-4BA6-B212-C10483A513D9}</Project>
+      <Name>Speranza.Database</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Speranza.Smtp.Interfaces\Speranza.Smtp.Interfaces.csproj">
       <Project>{171ee06b-2e71-4e27-bc5c-073d5b40f60b}</Project>
       <Name>Speranza.Smtp.Interfaces</Name>

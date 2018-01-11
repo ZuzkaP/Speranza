@@ -58,9 +58,17 @@
       <Project>{0e00c507-13a6-4099-83d1-3d593e832913}</Project>
       <Name>Speranza.Database.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Speranza.Models.Interfaces\Speranza.Models.Interfaces.csproj">
+      <Project>{CC06C75B-BBE6-4DA0-87DA-1BC9DE8D2135}</Project>
+      <Name>Speranza.Models.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Speranza.Models\Speranza.Models.csproj">
       <Project>{94a66ca6-1784-49b7-9904-443bdbd5234f}</Project>
       <Name>Speranza.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Speranza.Smtp.Interfaces\Speranza.Smtp.Interfaces.csproj">
+      <Project>{171EE06B-2E71-4E27-BC5C-073D5B40F60B}</Project>
+      <Name>Speranza.Smtp.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

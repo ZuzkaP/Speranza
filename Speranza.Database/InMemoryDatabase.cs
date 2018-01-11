@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using Speranza.Models;
 using Speranza.Database.Data.Interfaces;
 using Speranza.Database.Data;
 using Speranza.Common.Data;
+using Speranza.Smtp.Interfaces;
 
 namespace Speranza.Database
 {
@@ -489,6 +491,16 @@ namespace Speranza.Database
             foreach (var item in forgotten)
             {
                 tokens.Remove(item);
+            }
+        }
+
+        public void WriteToLog(string eMessage, Email email)
+        {
+            string message = string.Format(" '{0}'---'{1}'---'{2}'---'{3}'---'{4}'\n",DateTime.Now.ToString("O"),email.Receiver,email.Subject,email.Body,eMessage);
+            
+            using (StreamWriter outfile = new StreamWriter("C:\\Users\\Zuzka\\Documents\\log.txt"))
+            {
+                outfile.Write(message);
             }
         }
 

@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Speranza.Database.Data;
 using Speranza.Common.Data;
+using Speranza.Smtp.Interfaces;
 
 namespace Speranza.Database
 {
@@ -61,5 +62,6 @@ namespace Speranza.Database
         void SetRememberMe(string email, string series, string token);
         void CancelRememberMe(string email);
         void CleanUpTokens();
+        void WriteToLog(string eMessage, Email email);
     }
 }

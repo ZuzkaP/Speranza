@@ -36,7 +36,7 @@ namespace Speranza.App_Start
             DateTimeService = new DateTimeService();
             Factory = new ModelFactory();
             EmailFactory = new EmailFactory();
-            Smtp = new Smtp.Smtp();
+            Smtp = new Smtp.Smtp(Db);
             UidService = new UidService();
             UserDataParser = new UserDataParser();
             EmailManager = new EmailManager(EmailFactory, Smtp);

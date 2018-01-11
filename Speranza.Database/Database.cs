@@ -7,6 +7,7 @@ using Speranza.Common.Data;
 using Speranza.Database.Data.Interfaces;
 using System.Data.SqlClient;
 using Speranza.Database.Data;
+using Speranza.Smtp.Interfaces;
 
 namespace Speranza.Database
 {
@@ -717,6 +718,12 @@ namespace Speranza.Database
         public void CleanUpTokens()
         {
             string sql = "DELETE FROM Tokens WHERE series NOT IN(SELECT series from Users WHERE series is not null);";
+            ExecuteSql(sql);
+        }
+
+        public void WriteToLog(string eMessage, Email email)
+        {
+            string sql = string.Format("INSERT INTO LOGS(timestamp,receiver,subject,body,exception) VALUES( '{0}','{1}','{2}','{3}','{4}');",DateTime.Now.ToString("O"),email.Receiver,email.Subject,email.Body,eMessage);
             ExecuteSql(sql);
         }
 
