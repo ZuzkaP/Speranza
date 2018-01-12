@@ -147,6 +147,7 @@
     <Content Include="Scripts\jquery.ui.timepicker.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\responsive-nav.min.js" />
     <Content Include="Scripts\UserProfile.js" />
     <Content Include="SperanzaDB.mdf" />
     <Content Include="ToDo.txt" />
