@@ -1,4 +1,5 @@
-﻿@import url('Modal.css');
+﻿@import url(https://fonts.googleapis.com/css?family=Share:400,700&subset=latin,latin-ext);
+@import url('Modal.css');
 .layout-login-body {
     width: 100%;
     min-height: 100vh;
@@ -88,14 +89,16 @@
 label {
     color: lightgrey;
     font-size: 14pt;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    /*font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;*/
+    font-family: Share, Helvetica, Arial, sans-serif;
 }
 
 .myForm input, .table textarea, .table input, #pageSize, .form-control option,.pagination {
     background: transparent;
     color: deepskyblue;
     font-weight: bold;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    /*font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;*/
+    font-family: Share, Helvetica, Arial, sans-serif;
     font-size: 13pt;
 }
 .table textarea, .table input, #pageSize {
@@ -109,7 +112,8 @@ label {
         background: transparent;
         color: lightgrey;
         font-weight: normal;
-        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        /*font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;*/
+        font-family: Share, Helvetica, Arial, sans-serif;
         font-size: 13pt;
  }
 .myForm input.btn:hover {
@@ -119,6 +123,8 @@ label {
 
 h2, h3, h4 {
     color: lightgrey;
+    font-family: Share, Helvetica, Arial, sans-serif;
+
 }
 
 .table-striped tbody tr:nth-of-type(odd) {

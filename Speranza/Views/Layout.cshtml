@@ -14,8 +14,6 @@
     <link href="~/Content/Navbar.css" rel="stylesheet" />
     <link href="~/Content/Speranza.css" rel="stylesheet" />
     <link href="~/Content/Calendar-style.css" rel="stylesheet" />
-    <link href="~/Content/image-gallery.css" rel="stylesheet" />
-    <link href="~/Content/flexbox-gallery.css" rel="stylesheet">
     <title>@ViewBag.Title</title>
     <link href="~/Images/speranzaIcon.ico" rel="shortcut icon" type="image/x-icon">
     @RenderSection("Styles", false)
@@ -40,6 +38,8 @@
             <li class="tabs__item">
                 <a href="/Accounts/UserProfile" class="tabs__link @((action == "UserProfile" && controller == "Accounts") ? "active" : "")">Profil</a>
             </li>
+        @if (Session["IsAdmin"] != null && (bool) Session["IsAdmin"])
+        {
             <li class="tabs__item">
                 <a href="/AdminUsers/AdminUsers" class="tabs__link @((action == "AdminUsers" && controller == "AdminUsers") ? "active" : "")">Klienti</a>
             </li>
@@ -49,68 +49,12 @@
             <li class="tabs__item">
                 <a href="/AdminPastTrainings/AdminTrainings" class="tabs__link  @((action == "AdminTrainings" && controller == "AdminPastTrainings") ? "active" : "")">História</a>
             </li>
+        }
             <li class="tabs__item">
                 <a href="/Accounts/Logout" class="tabs__link ">Odhlásiť</a>
             </li>
         </ul>
     </nav>
-
-    @*<div class="row">
-            <div class="btn-group btn-group-justified">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-nav navbar-header" onclick="location.href='/Gallery/Index'">
-                        <p>Speranza</p>
-                    </button>
-                </div>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-nav @((action == "Calendar" && controller == "Calendar") ? "active" : "")" onclick="location.href=' /Calendar/Calendar'">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                        <p>Kalendár</p>
-                    </button>
-                </div>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-nav @((action == "UserProfile" && controller == "Accounts") ? "active" : "")" onclick="location.href='/Accounts/UserProfile'">
-                        <span class="glyphicon glyphicon-queen"></span>
-                        <p>Môj profil</p>
-                    </button>
-                </div>
-
-                @if (Session["IsAdmin"] != null && (bool)Session["IsAdmin"])
-                {
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-nav @((action == "AdminUsers" && controller == "AdminUsers") ? "active" : "")" onclick="location.href='/AdminUsers/AdminUsers'">
-                            <span class="glyphicon glyphicon-pawn"></span>
-                            <p>Správa používateľov</p>
-                        </button>
-                    </div>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-nav @((action == "AdminTrainings" && controller == "AdminFutureTrainings") ? "active" : "")" onclick="location.href='/AdminFutureTrainings/AdminTrainings'">
-                            <span class="glyphicon glyphicon-eye-open"></span>
-                            <p>Správa budúcich tréningov</p>
-                        </button>
-                    </div>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-nav @((action == "AdminTrainings" && controller == "AdminPastTrainings") ? "active" : "")" onclick="location.href='/AdminPastTrainings/AdminTrainings'">
-                            <span class="glyphicon glyphicon-eye-close"></span>
-                            <p>Správa minulých tréningov</p>
-                        </button>
-                    </div>
-                }
-                <div class="btn-group">
-                    <button type="button" class="btn btn-nav" onclick="location.href='/Accounts/UserProfile'">
-                        <span class="glyphicon glyphicon-hand-down"></span>
-                        <p><span class="small">@Session["Email"].ToString()</span></p>
-                    </button>
-                </div>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-nav" onclick="location.href='/Accounts/Logout'">
-                        <span class="glyphicon glyphicon-log-out"></span>
-                        <p>Odhlásiť sa</p>
-                    </button>
-                </div>
-
-            </div>
-        </div>*@
 </div>
 
 

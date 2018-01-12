@@ -5,7 +5,7 @@
 }
 
 <div class="container calendar-container">
-    <h2>Foto galéria</h2>
+    <h2>Fotogaléria</h2>
     <div id="buttons"></div>
     <div id="gallery">
         @foreach (var photo in Model.Photos)
@@ -19,4 +19,9 @@
     <script>
         $('#gallery').flexgal();
     </script>
+}
+
+@section Styles
+{
+    <link href="~/Content/image-gallery.css" rel="stylesheet" />
 }
