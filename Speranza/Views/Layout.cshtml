@@ -28,8 +28,34 @@
         var controller = ViewContext.RouteData.Values["controller"].ToString();
     }
 
-    <div class="container nav">
-        <div class="row">
+<div class="container nav">
+    <nav class="nav-collapse" role="navigation">
+        <ul class="tabs primary-nav">
+            <li class="tabs__item">
+                <a href="/Gallery/Index" class="tabs__link @((action == "Index" && controller == "Gallery") ? "active" : "")">Galéria</a>
+            </li>
+            <li class="tabs__item">
+                <a href="/Calendar/Calendar" class="tabs__link @((action == "Calendar" && controller == "Calendar") ? "active" : "")">Kalendár</a>
+            </li>
+            <li class="tabs__item">
+                <a href="/Accounts/UserProfile" class="tabs__link @((action == "UserProfile" && controller == "Accounts") ? "active" : "")">Profil</a>
+            </li>
+            <li class="tabs__item">
+                <a href="/AdminUsers/AdminUsers" class="tabs__link @((action == "AdminUsers" && controller == "AdminUsers") ? "active" : "")">Klienti</a>
+            </li>
+            <li class="tabs__item">
+                <a href="/AdminFutureTrainings/AdminTrainings" class="tabs__link @((action == "AdminTrainings" && controller == "AdminFutureTrainings") ? "active" : "")">Tréningy</a>
+            </li>
+            <li class="tabs__item">
+                <a href="/AdminPastTrainings/AdminTrainings" class="tabs__link  @((action == "AdminTrainings" && controller == "AdminPastTrainings") ? "active" : "")">História</a>
+            </li>
+            <li class="tabs__item">
+                <a href="/Accounts/Logout" class="tabs__link ">Odhlásiť</a>
+            </li>
+        </ul>
+    </nav>
+
+    @*<div class="row">
             <div class="btn-group btn-group-justified">
                 <div class="btn-group">
                     <button type="button" class="btn btn-nav navbar-header" onclick="location.href='/Gallery/Index'">
@@ -84,8 +110,8 @@
                 </div>
 
             </div>
-        </div>
-    </div>
+        </div>*@
+</div>
 
 
     <div>
