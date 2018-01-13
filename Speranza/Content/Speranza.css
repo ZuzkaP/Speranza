@@ -93,6 +93,9 @@ label {
     font-family: Share, Helvetica, Arial, sans-serif;
 }
 
+input, input.form-control, button.btn {
+    font-size: 1.4rem;
+}
 .myForm input, .table textarea, .table input, #pageSize, .form-control option,.pagination {
     background: transparent;
     color: deepskyblue;
@@ -137,7 +140,20 @@ h2, h3, h4 {
 .table td {
     color: white;
     vertical-align: middle !important;
+    border-top: 0; 
+}
+
+.trainingsDetails {
+    border-bottom: solid 1px white;
+}
+.trainingsDetails:hover{
+    border-bottom: 1px solid deepskyblue;
+    color: deepskyblue;
 } 
+
+.table thead {
+    border-top:2px solid white;
+}
 
     a {
     color: mediumturquoise;
@@ -145,4 +161,74 @@ h2, h3, h4 {
 
 a:hover{
     color:mediumturquoise ;
+}
+
+
+select.selcls, select.selcls:focus{ 
+    border: 1px solid #fff;
+    padding: 5px;
+    background-color: transparent;
+    color: white;
+    font-size: 1.4rem;
+} 
+
+select.form-control:not([size]):not([multiple]) {
+  
+    height: calc(2.5rem + 5px);  
+}
+select.selcls option {
+    background-color:#223540;
+    color: white;
+    font-weight: normal;
+    font-family: inherit;
+    font-size: inherit;
+
+}
+
+.custom-checkbox {
+    min-height: 1rem;
+    padding-left: 0;
+    margin-right: 0;
+    cursor: pointer; 
+}
+.custom-checkbox .custom-control-indicator {
+    content: "";
+    display: inline-block;
+    position: relative;
+    width: 30px;
+    height: 10px;
+    background-color: #818181;
+    border-radius: 15px;
+    margin-right: 10px;
+    -webkit-transition: background .3s ease;
+    transition: background .3s ease;
+    vertical-align: middle;
+    margin: 0 16px;
+    box-shadow: none; 
+}
+.custom-checkbox .custom-control-indicator:after {
+    content: "";
+    position: absolute;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-color: #f1f1f1;
+    border-radius: 21px;
+    box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.4);
+    left: -2px;
+    top: -4px;
+    -webkit-transition: left .3s ease, background .3s ease, box-shadow .1s ease;
+    transition: left .3s ease, background .3s ease, box-shadow .1s ease; 
+}
+.custom-checkbox .custom-control-input:checked ~ .custom-control-indicator {
+    background-color: red;
+    background-image: none;
+    box-shadow: none !important; 
+}
+.custom-checkbox .custom-control-input:checked ~ .custom-control-indicator:after {
+    background-color: red;
+    left: 15px; 
+}
+.custom-checkbox .custom-control-input:focus ~ .custom-control-indicator {
+    box-shadow: none !important; 
 }

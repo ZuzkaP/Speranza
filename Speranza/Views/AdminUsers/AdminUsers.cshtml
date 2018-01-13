@@ -13,7 +13,7 @@
 
     <div id="messageBox" style="display:none;" class="alert alert-success" role="alert"></div>
 
-    <div class="col-sm-4 searchUsers">
+    <div class="col-sm-3 searchUsers">
         <input type="text" id="searchBox" placeholder="Hľadaj podľa priezviska..." class="form-control">
     </div>
 
@@ -39,7 +39,7 @@
                         <td>@user.Email</td>
                         <td>@user.PhoneNumber</td>
                         <td>
-                            @Html.DropDownList("CategoryCombo", ViewHelper.CreateSelectListItems(Model.Categories, user.Category), new { id = user.Email, @class = "Category form-control" })
+                            @Html.DropDownList("CategoryCombo", ViewHelper.CreateSelectListItems(Model.Categories, user.Category), new { id = user.Email, @class = "form-control selcls " })
                         </td>
                         <td>
                             <span id="freeSignUpsCell-@ViewHelper.GetEmailForJS(user.Email)"> @user.NumberOfFreeSignUps </span>
@@ -56,10 +56,17 @@
                         </td>
                         <td>
                             <span id="@ViewHelper.GetEmailForJS(user.Email)-TrainingCount">@user.TrainingCount</span>
-                            <span class="label label-info trainingsDetails" style="cursor:pointer" data-email="@user.Email">Detail</span>
+                            <span class="label label-info trainingsDetails" style="cursor: pointer" data-email="@user.Email">Detail</span>
                         </td>
-                        <td>@Html.CheckBox("IsAdmin", user.IsAdmin, new { id = user.Email, @class = "IsAdmin" }) </td>
-                    </tr>
+                        <td>
+                            <label class="custom-control custom-checkbox">
+                                @Html.CheckBox("IsAdmin", user.IsAdmin, new { id = user.Email, @class = "IsAdmin custom-control-input" })
+                                <span class="custom-control-indicator"></span>
+                            </label>
+                        </td>
+                        
+    @*<td class="custom-control custom-checkbox">@Html.CheckBox("IsAdmin", user.IsAdmin, new { id = user.Email, @class = "IsAdmin custom-control-input" }) </td>*@
+                     </tr>
                 }
             </tbody>
         </table>
