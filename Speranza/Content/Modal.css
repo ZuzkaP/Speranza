@@ -1,20 +1,32 @@
 ﻿
 .modal-content {
     border: 3px solid lightgrey;
-    ;
 }
 
 .modal-body {
-    background-image: url("../Images/BGlogin.jpg");
+    background-color: #021926;
 }
 .modal-header h4 {
     color: deepskyblue;
-    font-weight: bold;
+    font-size:2.5rem;
 }
 .modal-header, .modal-footer {
-    background-color: rgb(57, 57, 57);
+    background-color: black;
 }
+
 
 .modal .close {
     color: deepskyblue;
+    font-size: 3rem;
+}
+ .modal-footer button {
+     font-size: 1.6rem;
+}
+
+.modal a {
+    color: white;
+}
+
+.modal a:hover {
+    color:deepskyblue;
 }

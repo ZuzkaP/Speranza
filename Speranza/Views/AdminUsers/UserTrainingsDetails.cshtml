@@ -9,8 +9,9 @@
 }
 else
 {
-    <table class="table table-striped" id="myTable">
-        <thead>
+    <div class="table-responsive">
+        <table class="table table-striped" id="myTable">
+            <thead>
             <tr>
                 <th>Dátum</th>
                 <th>Čas</th>
@@ -18,48 +19,47 @@ else
                 <th>Popis</th>
                 <th>Akcie</th>
             </tr>
-        </thead>
+            </thead>
 
-        @foreach (var training in Model.Trainings)
-        {
-            <tr id="@training.ID">
-                <td>@training.Time.ToString("dd.MM.yyyy")</td>
-                <td>@training.Time.ToString("HH:mm")</td>
-                <td>@training.Trainer</td>
-                <td>@training.Description</td>
-                <td><a class="UserSignOut" data-email="@Model.Email" data-training="@training.ID" href="#">Odhlás používateľa</a></td>
-            </tr>
-        }
-    </table>
+            @foreach (var training in Model.Trainings)
+            {
+                <tr id="@training.ID">
+                    <td>@training.Time.ToString("dd.MM.yyyy")</td>
+                    <td>@training.Time.ToString("HH:mm")</td>
+                    <td>@training.Trainer</td>
+                    <td>@training.Description</td>
+                    <td><a class="UserSignOut" data-email="@Model.Email" data-training="@training.ID" href="#">Odhlás používateľa</a></td>
+                </tr>
+            }
+        </table>
+    </div>
 
-    <script>
+        <script>
 
-     $(function() {
-            $('.UserSignOut').click(function() {
-                var self = $(this);
-                var id = self.data('email');
-                var training = self.data('training');
-                $.ajax({
-                    url: "SignOutFromTraining",
-                    data: { id: id, training: training },
-                    type: 'POST',
-                    dataType: "json",
-                    success: function (response) {
-                        if (response.Message == 6)
-                        {
-                            $('#' + training).remove();
-                            $('#messageBoxTrainingDetails').html("Užívateľ <b>" + response.Email + "</b> bol úspešne odhlásený z tréningu <b>" + response.TrainingDate + "</b> o: <b>" + response.TrainingTime + "</b>!");
-                            $('#messageBoxTrainingDetails').show();
-                            $('#' + getEmailForJS(id) + '-TrainingCount').html($('#' + getEmailForJS(id) + '-TrainingCount').html() - 1);
+            $(function () {
+                $('.UserSignOut').click(function () {
+                    var self = $(this);
+                    var id = self.data('email');
+                    var training = self.data('training');
+                    $.ajax({
+                        url: "SignOutFromTraining",
+                        data: { id: id, training: training },
+                        type: 'POST',
+                        dataType: "json",
+                        success: function (response) {
+                            if (response.Message == 6) {
+                                $('#' + training).remove();
+                                $('#messageBoxTrainingDetails').html("Užívateľ <b>" + response.Email + "</b> bol úspešne odhlásený z tréningu <b>" + response.TrainingDate + "</b> o: <b>" + response.TrainingTime + "</b>!");
+                                $('#messageBoxTrainingDetails').show();
+                                $('#' + getEmailForJS(id) + '-TrainingCount').html($('#' + getEmailForJS(id) + '-TrainingCount').html() - 1);
+                            }
+
+
                         }
+                    });
 
-
-                    }
                 });
-
             });
-     });
 
         </script>
-
-}
+        }
