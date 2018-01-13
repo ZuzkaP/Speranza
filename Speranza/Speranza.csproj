@@ -109,6 +109,7 @@
     <Content Include="Content\Login.css" />
     <Content Include="Content\Modal.css" />
     <Content Include="Content\Navbar.css" />
+    <Content Include="Content\Pagination.css" />
     <Content Include="Content\Speranza.css" />
     <Content Include="Content\TimePickerStyle.css" />
     <Content Include="Global.asax" />
