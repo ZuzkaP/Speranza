@@ -155,12 +155,9 @@ h2, h3, h4 {
     border-top:2px solid white;
 }
 
-    a {
-    color: mediumturquoise;
-}
 
 a:hover{
-    color:mediumturquoise ;
+    color:deepskyblue ;
 }
 
 
@@ -176,6 +173,7 @@ select.form-control:not([size]):not([multiple]) {
   
     height: calc(2.5rem + 5px);  
 }
+
 select.selcls option {
     background-color:#223540;
     color: white;

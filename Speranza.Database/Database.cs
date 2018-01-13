@@ -480,6 +480,7 @@ namespace Speranza.Database
                 var user = GetUserData(item.Email);
                 user.SignUpTime = item.Time;
                 user.ParticipationSet = item.ParticipationConfirmed || item.ParticipationDisproved;
+                user.ParticipationDisapproved = item.ParticipationDisproved;
 
                 users.Add(user);
             }

@@ -75,7 +75,7 @@ function TrainingCapacity(element) {
 }
 
 
-$("#TrainingsTable").on("click", ".TrainingDetails", function (event) {
+$("#TrainingsTable").on("click", ".trainingsDetails", function (event) {
     TrainingDetails($(this));
 });
 

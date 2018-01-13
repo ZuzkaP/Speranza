@@ -51,16 +51,16 @@
             </div>
         </div>
 
-
+        <div class="table-responsive">
         <table class="table table-bordered">
             <thead>
-                <tr>
-                    <th></th>
-                    @for (int i = 7; i < 20; i++)
-            {
-                        <th>@i.ToString("00"):00</th>
-                    }
-                </tr>
+            <tr>
+                <th></th>
+                @for (int i = 7; i < 20; i++)
+                {
+                    <th>@i.ToString("00"):00</th>
+                }
+            </tr>
             </thead>
 
             @for (int j = 0; j <= 6; j++)
@@ -93,8 +93,8 @@
                                     }
                                 </div>
                             }
-                                    else
-                                    {
+                            else
+                            {
                                 @Html.CheckBoxFor(r => r.IsTrainingInTime[j * 13 + i - 7])
                             }
                             @*<span class="glyphicon glyphicon-ok"></span>*@
@@ -108,7 +108,8 @@
 
 
         </table>
-    </form>
+            </div>
+</form>
 </div>
 
 

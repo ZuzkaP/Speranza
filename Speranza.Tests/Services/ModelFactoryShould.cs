@@ -106,6 +106,7 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(false, model.HasNoAvailableTrainings);
             Assert.AreEqual(true, model.ParticipationSet);
             Assert.AreEqual(DATE, model.SignUpTime);
+            Assert.AreEqual(true, model.ParticipationDisapproved);
         }
 
         [TestMethod]
@@ -190,6 +191,7 @@ namespace Speranza.Tests.Services
             user.SetupGet(r => r.NumberOfPastTrainings).Returns(NUMBEROFPASTRAININGS);
             user.SetupGet(r => r.ParticipationSet).Returns(true);
             user.SetupGet(r => r.SignUpTime).Returns(DATE);
+            user.SetupGet(r => r.ParticipationDisapproved).Returns(true);
         }
 
         private void InitializeModelFactory()

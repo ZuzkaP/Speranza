@@ -34,6 +34,10 @@ namespace Speranza.Database.Data
         {
             get; set;
         }
+        public bool ParticipationDisapproved
+        {
+            get; set;
+        }
         public DateTime SignUpTime { get; set ; }
           }
 }

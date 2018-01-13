@@ -14,5 +14,6 @@ namespace Speranza.Models.Interfaces
         bool HasNoAvailableTrainings { get; set; }
         bool ParticipationSet { get; set; }
         DateTime SignUpTime { get; set; }
+        bool ParticipationDisapproved { get; set; }
     }
 }

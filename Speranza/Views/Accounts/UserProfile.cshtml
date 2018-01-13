@@ -81,8 +81,9 @@
 
     @if (Model.FutureTrainings.Count > 0 || Model.PastTrainings.Count > 0)
     {
-        <table class="table table-striped" >
-            <thead>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
                 <tr>
                     <th class="col-sm-2">Dátum</th>
                     <th class="col-sm-2">Čas</th>
@@ -90,36 +91,36 @@
                     <th class="col-sm-2">Tréner</th>
                     <th class="col-sm-2">Odhlásiť</th>
                 </tr>
-            </thead>
-            @foreach (var item in Model.FutureTrainings)
+                </thead>
+                @foreach (var item in Model.FutureTrainings)
                 {
-                <tr>
-                    <td>@item.Time.ToString("dd.MM.yyyy")</td>
-                    <td>@item.Time.ToString("HH:mm")</td>
-                    <td>@item.Description</td>
-                    <td>@item.Trainer</td>
-                    <td>
-                        @if (item.IsAllowedToSignOff)
-                    {
-                            @Html.ActionLink("Odhlásiť", "SignOff", "Calendar", new { id = item.ID }, null)
-                   }
-                    </td>
-                </tr>
-            }
-            @foreach (var item in Model.PastTrainings)
+                    <tr>
+                        <td>@item.Time.ToString("dd.MM.yyyy")</td>
+                        <td>@item.Time.ToString("HH:mm")</td>
+                        <td>@item.Description</td>
+                        <td>@item.Trainer</td>
+                        <td>
+                            @if (item.IsAllowedToSignOff)
+                            {
+                                @Html.ActionLink("Odhlásiť", "SignOff", "Calendar", new { id = item.ID }, null)
+                            }
+                        </td>
+                    </tr>
+                }
+                @foreach (var item in Model.PastTrainings)
                 {
-                <tr class="obsolete">
-                    <td>@item.Time.ToString("dd.MM.yyyy")</td>
-                    <td>@item.Time.ToString("HH:mm")</td>
-                    <td>@item.Description</td>
-                    <td>@item.Trainer</td>
-                    <td></td>
-                </tr>
+                    <tr class="obsolete">
+                        <td>@item.Time.ToString("dd.MM.yyyy")</td>
+                        <td>@item.Time.ToString("HH:mm")</td>
+                        <td>@item.Description</td>
+                        <td>@item.Trainer</td>
+                        <td></td>
+                    </tr>
+                }
+            </table>
+        </div>
             }
-        </table>
-
-    }
-</div>
+        </div>
 
 @Html.Partial("ChangePasswordModal")
 

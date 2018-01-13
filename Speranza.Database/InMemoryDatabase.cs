@@ -290,6 +290,10 @@ namespace Speranza.Database
                 {
                     item.ParticipationSet = true;
                 }
+                if (usersInTraining.First(r => r.Email == item.Email).ParticipationDisproved)
+                {
+                    item.ParticipationDisapproved = true;
+                }
             }
             return users;
         }
@@ -500,7 +504,7 @@ namespace Speranza.Database
         {
             string message = string.Format(" '{0}'---'{1}'---'{2}'---'{3}'---'{4}'\n",DateTime.Now.ToString("O"),email.Receiver,email.Subject,email.Body,eMessage);
             
-            using (StreamWriter outfile = new StreamWriter("C:\\Users\\Zuzka\\Documents\\log.txt"))
+            using (StreamWriter outfile = new StreamWriter("C:\\Users\\zuzana.papalova\\Documents\\log.txt"))
             {
                 outfile.Write(message);
             }

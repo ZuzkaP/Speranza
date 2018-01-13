@@ -17,7 +17,7 @@
     <div class="form-group form-horizontal col-sm-4 pull-right paginationSettings">
         @Html.Label("Počet tréningov na stránku:", new { @class = "control-label col-sm-9" })
         <div class="input-group col-sm-3">
-            <select id="pageSize" class="form-control">
+            <select id="pageSize" class="form-control selcls">
                 @foreach (var size in new[] { 20, 40, 50, 100 })
                 {
                     <option @(Model.PageSize == size ? "selected=\"selected\"" : "")>@size</option>
@@ -103,7 +103,7 @@
                 <td>@item.Trainer</td>
                 <td>
                     <span id="@item.ID-RegisteredNumber">@item.RegisteredNumber</span>
-                    <span class="label label-info TrainingDetails" style="cursor:pointer" data-training="@item.ID">Detail</span>
+                    <span class="trainingsDetails" style="cursor:pointer" data-training="@item.ID">Detail</span>
                 </td>
                 <td>@item.Capacity</td>
                 <td></td>

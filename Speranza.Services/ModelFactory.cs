@@ -94,6 +94,7 @@ namespace Speranza.Services
             model.HasNoAvailableTrainings = user.NumberOfFreeSignUpsOnSeasonTicket == 0;
             model.ParticipationSet = user.ParticipationSet;
             model.SignUpTime = user.SignUpTime;
+            model.ParticipationDisapproved = user.ParticipationDisapproved;
 
             return model;
         }

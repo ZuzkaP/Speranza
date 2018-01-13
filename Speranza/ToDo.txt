@@ -5,3 +5,7 @@
 
 
 5. App Style - a) forgotten pass error text style + check other messages
+
+
+6.Admin users - pagination
+7.Admin users - edit user names
