@@ -16,85 +16,80 @@
         <a class="btn btn-success" href="~/AdminFutureTrainings/Recurring" title="Nastavenie opakujúcich sa tréningov"><span class="glyphicon glyphicon-star"></span></a>
     </h2>
  
-    <div class="form-group form-horizontal myForm left">
-        @Html.Label("Limit pre odhlásenie: ", new {@class = "hourslimit control-label h4", title = "Počet hodín pred tréningom, pokiaľ sa používateľ ešťe môže odhlásiť"})
-        <div class="input-group col-sm-2">
-            <input id="SignOffLimit" type="number" value="@Model.SignOffLimit" min="0" class="form-control"/>
-            <div id="SignOffLimitHours" class="control-label input-group-addon">hod.</div>
+    <div class="form-group form-inline myForm left">
+        @Html.Label("Limit pre odhlásenie: ", new {@class = "hourslimit control-label", title = "Počet hodín pred tréningom, pokiaľ sa používateľ ešťe môže odhlásiť"})
+        <div class="input-group">
+            <input id="SignOffLimit" type="number" value="@Model.SignOffLimit" min="0" class="form-control" style="width:80px; height:30px; margin-left: 10px;"/>
+            <div id="SignOffLimitHours" class="label">hod.</div>
         </div>
     </div>
 
-
-    <div class="form-horizontal">
-        <div class="form-group col-sm-6 pull-right paginationSettings">
-            @Html.Label("Počet tréningov na stránku:", new { @class = "control-label col-sm-9" })
-            <div class="input-group col-sm-3">
-                <select id="pageSize" class="form-control">
-                    @foreach (var size in new[] { 20, 40, 50, 100 })
-                    {
-                        <option @(Model.PageSize == size ? "selected=\"selected\"" : "")>@size</option>
-                    }
-                </select>
-            </div>
-        </div>
-
-
-        <div class="form-group col-sm-6 pull-left">
-            <nav aria-label="Page navigation">
-                <ul class="pagination left">
-                    @if (Model.PageNumber == 1)
-                    {
-                        <li id="liPrev" class="disabled">
-                            <a class="liPage" data-page="@(Model.PageNumber-1)" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                    }
-                    else
-                    {
-                        <li id="liPrev">
-                            <a class="liPage" data-page="@(Model.PageNumber-1)" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                    }
-
-
-                    @for (int i = 1; i <= Model.PagesCount; i++)
-                    {
-                        if (i == Model.PageNumber)
-                        {
-                            <li id="liPage-@i" class="active"><a class="liPage" data-page="@i" href="#">@i</a></li>
-                        }
-                        else
-                        {
-                            <li id="liPage-@i"><a class="liPage" data-page="@i" href="#">@i</a></li>
-                        }
-                    }
-                    @if (Model.PageNumber == Model.PagesCount)
-                    {
-                        <li id="liNext" class="disabled">
-                            <a class="liPage" data-page="@(Model.PageNumber+1)" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                    }
-                    else
-                    {
-                        <li id="liNext">
-                            <a class="liPage" data-page="@(Model.PageNumber+1)" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                    }
-
-                </ul>
-
-            </nav>
+<div class="row">
+    <div class="form-inline form-group paginationSettings col-6">
+        @Html.Label("Počet tréningov na stránku:", new { @class = "control-label" })
+        <div style="margin-left: 10px">
+            <select id="pageSize" class="form-control selcls">
+                @foreach (var size in new[] { 20, 40, 50, 100 })
+                {
+                    <option @(Model.PageSize == size ? "selected=\"selected\"" : "")>@size</option>
+                }
+            </select>
         </div>
     </div>
 
-<div class="container">
+        <nav aria-label="Page navigation" class="col-6 paginationSettings">
+            <ul class="pagination float-right">
+                @if (Model.PageNumber == 1)
+                {
+                    <li id="liPrev" class="disabled">
+                        <a class="liPage" data-page="@(Model.PageNumber-1)" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li id="liPrev">
+                        <a class="liPage" data-page="@(Model.PageNumber-1)" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                }
+
+
+                @for (int i = 1; i <= Model.PagesCount; i++)
+                {
+                    if (i == Model.PageNumber)
+                    {
+                        <li id="liPage-@i" class="active"><a class="liPage" data-page="@i" href="#">@i</a></li>
+                    }
+                    else
+                    {
+                        <li id="liPage-@i"><a class="liPage" data-page="@i" href="#">@i</a></li>
+                    }
+                }
+                @if (Model.PageNumber == Model.PagesCount)
+                {
+                    <li id="liNext" class="disabled">
+                        <a class="liPage" data-page="@(Model.PageNumber+1)" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li id="liNext">
+                        <a class="liPage" data-page="@(Model.PageNumber+1)" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                }
+
+            </ul>
+
+        </nav>
+    </div>
+
  
     <div id="loader" class="loader"></div>
 <div class="table-responsive">
@@ -116,8 +111,8 @@
                 <tr id="@item.ID-Row">
                     <td id="@item.ID-date">@item.Time.ToString("dd.MM.yyyy")</td>
                     <td id="@item.ID-time">@item.Time.ToString("HH:mm")</td>
-                    <td><textarea class="trainingDescription form-control input-sm" rows="1" data-training="@item.ID">@item.Description</textarea></td>
-                    <td><input type="text" value="@item.Trainer" class="trainingTrainer form-control input-sm" data-training="@item.ID" /></td>
+                    <td><textarea style="min-width: 150px; min-height:34.5px;" class="trainingDescription form-control input-sm" rows="1" data-training="@item.ID">@item.Description</textarea></td>
+                    <td><input style="min-width: 80px" type="text" value="@item.Trainer" class="trainingTrainer form-control input-sm" data-training="@item.ID" /></td>
                     <td>
                         <span id="@item.ID-RegisteredNumber">@item.RegisteredNumber</span>
                         <span class="trainingsDetails" style="cursor:pointer" data-training="@item.ID">Detail</span>
@@ -129,7 +124,6 @@
         </tbody>
     </table>
     </div>
-</div>
 
 
 

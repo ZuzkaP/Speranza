@@ -10,3 +10,4 @@
 6.Admin users - pagination
 7.Admin users - edit user names 
 8. Past trainings - Select displayed training by date
+9. Check navbar in smaller devices

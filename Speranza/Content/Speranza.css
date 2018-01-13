@@ -38,6 +38,7 @@
     color: white;
     padding-top: 2%;
     font-size: 23pt;
+    margin-bottom: 2rem;
 }
 
 .searchUsers {
@@ -86,11 +87,15 @@
     100% { transform: rotate(360deg); }
 }
 
-label {
+label,.label {
     color: lightgrey;
     font-size: 14pt;
     /*font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;*/
     font-family: Share, Helvetica, Arial, sans-serif;
+}
+
+.label {
+    margin-left: 10px;
 }
 
 input, input.form-control, button.btn {
