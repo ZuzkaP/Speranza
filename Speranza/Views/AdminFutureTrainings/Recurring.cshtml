@@ -16,7 +16,7 @@
         <p> @Html.Raw(ViewHelper.ShowMessageInView(Model.Message))</p>
     }
 
-    <form class="form-horizontal" method="post" action="@Url.Action("CreateRecurring")">
+    <form class="form-horizontal myForm" method="post" action="@Url.Action("CreateRecurring")">
         <div class="col-sm-9">
             <div class="form-group">
                 @Html.LabelFor(m => m.Trainer, "Tréner", new { @class = "control-label col-sm-2" })

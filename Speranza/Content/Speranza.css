@@ -112,7 +112,7 @@ input, input.form-control, button.btn {
     margin-bottom: 0;
 }
 
-.myForm input, .table textarea, .table input, #pageSize, .form-control option {
+.myForm input, .table textarea, .table input, #pageSize, .form-control option, textarea.form-control {
     background: transparent;
     color: deepskyblue;
     font-weight: bold;
