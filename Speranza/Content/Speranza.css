@@ -258,3 +258,16 @@ select.selcls option {
 .mega-octicon {
      font-size: 24px;
 }
+
+.training-octicon {
+    font-size: 20px;
+}
+
+.tooltip > .tooltip-inner {
+    font-size: 1.5rem;
+}
+
+.trainingButtons {
+    width: 32px;
+    height: 32px;
+}

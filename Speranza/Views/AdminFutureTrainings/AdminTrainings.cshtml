@@ -12,8 +12,8 @@
 <div class="container trainingSettings">
     <h2  class="userProfileLabel">
         Správa budúcich tréningov
-        <button id="AddNewTraining" title="Vytvorenie nového tréningu" class="btn btn-warning"><span class="glyphicon glyphicon-plus"></span></button>
-        <a class="btn btn-success" href="~/AdminFutureTrainings/Recurring" title="Nastavenie opakujúcich sa tréningov"><span class="glyphicon glyphicon-star"></span></a>
+        <button id="AddNewTraining" data-toggle="tooltip" data-placement="bottom" title="Nový tréning" class="btn btn-warning trainingButtons"><span class="octicon training-octicon octicon-plus"></span></button>
+        <a class="btn btn-success trainingButtons" href="~/AdminFutureTrainings/Recurring" data-toggle="tooltip" data-placement="bottom" title="Opakovanie tréningu"><span class="octicon training-octicon octicon-calendar"></span></a>
     </h2>
  
     <div class="form-group form-inline myForm left">
@@ -145,7 +145,6 @@
                          @Html.Raw(value);
                     }
                 }
-
             ];
             $("#AddUser").autocomplete({
                 source: people
@@ -199,6 +198,10 @@
             var value = self.val();
             var url ='@Url.Action("AdminTrainings", "AdminFutureTrainings", new { pageSize = -1 })';
             window.location.href = url.replace("-1",value);
+        });
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
         });
     </script>
 
