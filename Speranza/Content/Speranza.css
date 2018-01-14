@@ -275,6 +275,8 @@ select.selcls option {
 .carousel-control-prev,
 .carousel-control-next {
     transform: scale(1.5,1.5);
+    top: 50%;
+    bottom: 50%;
 }
 
 .carousel-control-prev {
