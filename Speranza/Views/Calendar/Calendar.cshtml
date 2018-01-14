@@ -26,132 +26,135 @@
             }
     }
 
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <div id="calendarCarousel" class="carousel" data-ride="carousel" data-interval="false" data-wrap="false">
+        <ol class="carousel-indicators">
+            <li data-target="#calendarCarousel" data-slide-to="0" class="active"></li>
+            @for (int i = 1; i < weeks.Count; i++)
+            {
+                <li data-target="#calendarCarousel" data-slide-to="@i"></li>
+            }
+        </ol>
         <div class="carousel-inner">
             @foreach (var week in weeks)
             {
-                <div class="carousel-item">
-                    <div class="cd-schedule loading">
-                        <div class="timeline">
-                            <ul>
-                                @for (int i = 6; i < 21; i++)
-                                {
-                                    <li><span>@i.ToString("00"):00</span></li>
-                                }
-                            </ul>
-                        </div> <!-- .timeline -->
+                var active = "";
+                if (week == weeks.First())
+                {
+                    active = "active";
+                }
+                    <div class="carousel-item @active">
+                            <div class="cd-schedule loading">
+                                <div class="timeline">
+                                    <ul>
+                                        @for (int i = 6; i < 21; i++)
+                                        {
+                                            <li><span>@i.ToString("00"):00</span></li>
+                                        }
+                                    </ul>
+                                </div> <!-- .timeline -->
 
-                        <div class="events">
-                            <ul>
-                                @foreach (var day in week)
-                                {
-                                    <li class="events-group">
-                                        <div class="top-info">
-                                            <span>@ViewHelper.TranslateDayNames(day.DayName) @day.Date</span>
-                                        </div>
+                                <div class="events">
+                                    <ul>
+                                        @foreach (var day in week)
+                                        {
+                                            <li class="events-group">
+                                                <div class="top-info">
+                                                    <span>@ViewHelper.TranslateDayNames(day.DayName) @day.Date</span>
+                                                </div>
 
-                                        <ul>
-                                            @{
-                                                Random random = new Random();
-                                                foreach (var training in day.Trainings.OrderBy(r => r.Time))
-                                                {
-                                                    int index = random.Next(1, 5);
-                                                    <li class="single-event" data-start="@training.Time.ToString("HH:mm")" data-end="@training.Time.AddHours(1).ToString("HH:mm")" data-event="event-@index">
-                                                        <em class="event-name">
-                                                            @training.Description
-                                                        </em>
-                                                        <span class="event-capacity">@training.RegisteredNumber/@training.Capacity</span>
-                                                        @if (training.IsUserSignedUp)
+                                                <ul>
+                                                    @{
+                                                        Random random = new Random();
+                                                        foreach (var training in day.Trainings.OrderBy(r => r.Time))
                                                         {
-                                                            if (training.IsAllowedToSignOff)
+                                                            int index = random.Next(1, 5);
+                                                            <li class="single-event" data-start="@training.Time.ToString("HH:mm")" data-end="@training.Time.AddHours(1).ToString("HH:mm")" data-event="event-@index">
+                                                                <em class="event-name">
+                                                                    @training.Description
+                                                                </em>
+                                                                <span class="event-capacity">@training.RegisteredNumber/@training.Capacity</span>
+                                                                @if (training.IsUserSignedUp)
+                                                                {
+                                                                    if (training.IsAllowedToSignOff)
+                                                                    {
+                                                                        @Html.ActionLink("Odhlásiť", "SignOff", "Calendar", new { id = training.ID }, null)
+                                                                        ;
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                    if (training.RegisteredNumber < training.Capacity && training.IsAllowedToSignUp && Model.AllowToSignUp)
+                                                                    {
+                                                                        @Html.ActionLink("Prihlásiť", "SignUp", "Calendar", new { id = training.ID }, null)
+                                                                        ;
+                                                                    }
+                                                                }
+                                                            </li>
+                                                        }
+
+                                                    }
+                                                </ul>
+                                            </li>
+                                                        }
+
+                                        @{var newYear = false; }
+                                        @if (week.Count < 7)
+                                        {
+
+                                            var lastDay = week.Last();
+                                            int lastDayName = (int)lastDay.DayName;
+                                            var lastDayDate = lastDay.Date;
+                                            DayNames nextDay = (DayNames)lastDayName;
+                                            string[] formats = { "dd.MM.", "d.MM.", "d.M.", "dd.M." };
+                                            for (int i = week.Count + 1; i <= 7; i++)
+                                            {
+                                                <li class="events-group disabled">
+                                                    <div class="top-info">
+                                                        @{
+                                                            if (lastDayName == 6)
                                                             {
-                                                                @Html.ActionLink("Odhlásiť", "SignOff", "Calendar", new { id = training.ID }, null);
+                                                                lastDayName = -1;
                                                             }
-                                                        }
-                                                        else
-                                                        {
-                                                            if (training.RegisteredNumber < training.Capacity && training.IsAllowedToSignUp && Model.AllowToSignUp)
+                                                            nextDay = (DayNames)(++lastDayName);
+
+                                                            DateTime nextDate = DateTime.MinValue;
+                                                            if (DateTime.TryParseExact(lastDayDate, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out nextDate))
                                                             {
-                                                                @Html.ActionLink("Prihlásiť", "SignUp", "Calendar", new { id = training.ID }, null);
+                                                                nextDate = nextDate.AddDays(1);
+                                                                <span>@ViewHelper.TranslateDayNames(nextDay) @nextDate.ToString("dd.MM")</span>
                                                             }
+                                                            else
+                                                            {
+                                                                <span>@ViewHelper.TranslateDayNames(nextDay)</span>
+                                                            }
+                                                            lastDayDate = nextDate.ToString("dd.MM.");
                                                         }
-                                                    </li>
-                                                }
+                                                    </div>
 
-                                            }
-                                        </ul>
-                                    </li>
-                                                }
-
-                                @{var newYear = false;
-                                }
-                                @if (week.Count < 7)
-                                {
-
-                                    var lastDay = week.Last();
-                                    int lastDayName = (int)lastDay.DayName;
-                                    var lastDayDate = lastDay.Date;
-                                    DayNames nextDay = (DayNames)lastDayName;
-                                    string[] formats = { "dd.MM.", "d.MM.", "d.M.", "dd.M." };
-                                    for (int i = week.Count + 1; i <= 7; i++)
-                                    {
-                                        <li class="events-group disabled">
-                                            <div class="top-info">
-                                                @{
-                                                    if (lastDayName == 6)
-                                                    {
-                                                        lastDayName = -1;
-                                                    }
-                                                    nextDay = (DayNames)(++lastDayName);
-
-                                                    DateTime nextDate = DateTime.MinValue;
-                                                    if (DateTime.TryParseExact(lastDayDate, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out nextDate))
-                                                    {
-                                                        nextDate = nextDate.AddDays(1);
-                                                        <span>@ViewHelper.TranslateDayNames(nextDay) @nextDate.ToString("dd.MM")</span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span>@ViewHelper.TranslateDayNames(nextDay)</span>
-                                                    }
-                                                    lastDayDate = nextDate.ToString("dd.MM.");
-                                                }
-                                            </div>
-
-                                            <ul class=" disabled disabled-boxes">
-                                                <li class="single-event">
-                                            </ul>
-                                        </li>
-                                                        }
-                                                    }
-                            </ul>
+                                                    <ul class=" disabled disabled-boxes">
+                                                        <li class="single-event">
+                                                    </ul>
+                                                </li>
+                                                                }
+                                                            }
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
+                        }
                     </div>
+                    <a class="carousel-control-prev" href="#calendarCarousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#calendarCarousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
                 </div>
-                                                    }
-        </div>
-        <!-- Left and right controls -->
-        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#myCarousel" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
+            </div>
 
-</div>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#myCarousel').carousel({
-            interval: 1000
-        });
+            @section Styles{
 
-        $('.carousel-item')[0].className = "item active";
-    });
-</script>
-@section Styles{
-
-    @*<link href="~/Content/Calendar-reset.css" rel="stylesheet" />*@
-}
+                @*<link href="~/Content/Calendar-reset.css" rel="stylesheet" />*@
+            }
