@@ -44,6 +44,18 @@ html {
     }
 }
 
+@media screen and (max-width: 1200px) {
+    .tabs__item {
+        font-size: 1.3rem;
+    }
+}
+@media screen and (max-width: 50em) {
+    .tabs__item {
+        font-size: 1rem;
+    }
+}
+
+
 .tabs__link {
     display: block; /* [5] */
 }
