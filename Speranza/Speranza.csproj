@@ -104,11 +104,13 @@
     <Content Include="Content\Carousel.css" />
     <Content Include="Content\DatePickerStyle.css" />
     <Content Include="Content\flexbox-gallery.css" />
+    <Content Include="Content\fonts\octicons.svg" />
     <Content Include="Content\Footer.css" />
     <Content Include="Content\image-gallery.css" />
     <Content Include="Content\Login.css" />
     <Content Include="Content\Modal.css" />
     <Content Include="Content\Navbar.css" />
+    <Content Include="Content\octicons.css" />
     <Content Include="Content\Pagination.css" />
     <Content Include="Content\Speranza.css" />
     <Content Include="Content\TimePickerStyle.css" />
@@ -134,6 +136,9 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Content\fonts\octicons.woff" />
+    <Content Include="Content\fonts\octicons.ttf" />
+    <Content Include="Content\fonts\octicons.eot" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />

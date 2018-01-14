@@ -6,12 +6,12 @@
                 <h4 class="modal-title">Vytvoriť nový tréning</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
-            <div class="modal-body form-horizontal">
+            <div class="modal-body login-form-1 myForm">
                 <div id="messageBoxNewTraining" style="display:none;" class="alert alert-warning" role="alert"></div>
                 @*Training date*@
                 <div class="form-group">
                     @Html.Label("Dátum:", new { @class = "control-label col-sm-3" })
-                    <div class="input-group date col-sm-4">
+                    <div class="input-group col-sm-4">
                         <input id="TrainingDate" type="text" class="form-control">
                     </div>
                 </div>
@@ -20,7 +20,7 @@
                 <div class="form-group">
                     @Html.Label("Čas:", new { @class = "control-label col-sm-3" })
                     <div class="input-group col-sm-4">
-                        <select id="TrainingTime" class="form-control">
+                        <select id="TrainingTime" class="form-control selcls">
                             @for (int i = 6; i < 20; i++)
                             {
                                 <option>@string.Format("{0:00}:00",i)</option>

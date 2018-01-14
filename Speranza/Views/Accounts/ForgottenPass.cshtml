@@ -12,24 +12,29 @@
         <div class="login-form-1">
             @using (Html.BeginForm("SendNewPass", "Accounts", FormMethod.Post, new { @class = "text-left" }))
             {
-                <div class="etc-login-form">
+                <div class="etc-login-form loginNotSuccess">
                     <p>zadaj svoju emailovú adresu, kam ti pošleme nové heslo</p>
                 </div>
                 if (Model != null)
                 {
                     if (Model == RegisterModelMessages.PasswordRecoveryFailed)
-                    {
-                        <div class="login-form-main-message show error success" role="alert">email je nesprávny!</div>
+                    {   
+                        <div class="login-form-main-message show success loginNotSuccess" role="alert">email je nesprávny!</div>
                     }
                 }
                 <div class="main-login-form">
                     <div class="login-group">
                         <div class="form-group">
                             @Html.Label("Email: ", new { @class = "sr-only" })
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text octicon octicon-mention" id="basic-addon1"></span>
+                                </div>
                                 @Html.TextBox("email", string.Empty, new { @class = "form-control", placeholder = "email" })
+                            </div>
                         </div>
                     </div>
-                    <button type="submit" id="btnSubmit" class="login-button"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                    <button type="submit" id="btnSubmit" class="login-button"><span class="mega-octicon octicon-chevron-right"></span></button>
                 </div>
                 <div class="etc-login-form">
                     <p>@Html.ActionLink("späť na login", "Index", "Home")</p>

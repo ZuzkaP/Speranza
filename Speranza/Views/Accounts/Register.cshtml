@@ -18,36 +18,36 @@
                 {
                     if ((Model.Messages & RegisterModelMessages.EmailIsEmpty) != RegisterModelMessages.NoMessage)
                     {
-                        <div class="login-form-main-message show error success">email musí byť vyplnený!</div>
+                        <div class="login-form-main-message show error success loginNotSuccess">email musí byť vyplnený!</div>
                     }
                     else if ((Model.Messages & RegisterModelMessages.EmailFormatIsIncorrect) != RegisterModelMessages.NoMessage)
                     {
-                        <div class="login-form-main-message show error success">email je v nesprávnom tvare!</div>
+                        <div class="login-form-main-message show error success loginNotSuccess">email je v nesprávnom tvare!</div>
                     }
                     else if ((Model.Messages & RegisterModelMessages.PasswordIsEmpty) != RegisterModelMessages.NoMessage)
                     {
-                        <div class="login-form-main-message show error success">heslo musí byť vyplnené!</div>
+                        <div class="login-form-main-message show error success loginNotSuccess">heslo musí byť vyplnené!</div>
                     }
                     else if ((Model.Messages & RegisterModelMessages.PasswordHasNoLetter) != RegisterModelMessages.NoMessage)
                     {
-                        <div class="login-form-main-message show error success">heslo musí obsahovať aspoň jedno písmeno!</div>
+                        <div class="login-form-main-message show error success loginNotSuccess">heslo musí obsahovať aspoň jedno písmeno!</div>
                     }
                     else if ((Model.Messages & RegisterModelMessages.PasswordHasNoNumber) != RegisterModelMessages.NoMessage)
                     {
-                        <div class="login-form-main-message show error success">heslo musí obsahovať aspoň jedno číslo!</div>
+                        <div class="login-form-main-message show error success loginNotSuccess">heslo musí obsahovať aspoň jedno číslo!</div>
                     }
                     else if ((Model.Messages & RegisterModelMessages.PasswordIsTooShort) != RegisterModelMessages.NoMessage)
                     {
-                        <div class="login-form-main-message show error success">heslo musí obsahovať aspoň 6 znakov!</div>
+                        <div class="login-form-main-message show error success loginNotSuccess">heslo musí obsahovať aspoň 6 znakov!</div>
                     }
 
                     else if ((Model.Messages & RegisterModelMessages.ConfirmPassIncorrect) != RegisterModelMessages.NoMessage)
                     {
-                        <div class="login-form-main-message show error success">heslo a jeho overenie sa nezhodujú!</div>
+                        <div class="login-form-main-message show error success loginNotSuccess">heslo a jeho overenie sa nezhodujú!</div>
                     }
                     else if ((Model.Messages & RegisterModelMessages.UserAlreadyExists) != RegisterModelMessages.NoMessage)
                     {
-                        <div class="login-form-main-message show error success">používateľ s týmto emailom už existuje! zabudol si heslo?</div>
+                        <div class="login-form-main-message show error success loginNotSuccess">používateľ s týmto emailom už existuje! zabudol si heslo?</div>
                     }
                 }
 
@@ -56,35 +56,66 @@
 
                         <div class="form-group">
                             @Html.LabelFor(r => r.Email, "Email: ", new { @class = "sr-only" })
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "email" })
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text octicon octicon-mention" id="basic-addon1"></span>
+                                </div>
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "email" })
+                            </div>
                         </div>
 
                         <div class="form-group">
                             @Html.LabelFor(r => r.Name, "Meno: ", new { @class = "sr-only" })
-                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "meno" })
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text octicon octicon-person" id="basic-addon2"></span>
+                                </div>
+                                @Html.TextBoxFor(m => m.Name, new {@class = "form-control", placeholder = "meno"})
+                            </div>
                         </div>
 
                         <div class="form-group">
                             @Html.LabelFor(r => r.Surname, "Priezvisko: ", new { @class = "sr-only" })
-                            @Html.TextBoxFor(m => m.Surname, new { @class = "form-control", placeholder = "priezvisko" })
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text octicon octicon-person" id="basic-addon2"></span>
+                                </div>
+                                @Html.TextBoxFor(m => m.Surname, new { @class = "form-control", placeholder = "priezvisko" })
+                            </div>
                         </div>
 
                         <div class="form-group">
                             @Html.LabelFor(r => r.PhoneNumber, "Tel. číslo: ", new { @class = "sr-only" })
-                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", placeholder = "tel. číslo" })
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text octicon octicon-device-mobile" id="basic-addon2"></span>
+                                </div>
+                                @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", placeholder = "tel. číslo" })
+                            </div>
                         </div>
 
                         <div class="form-group">
                             @Html.LabelFor(r => r.Password, "Heslo: ", new { @class = "sr-only" })
-                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "heslo" })
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text octicon octicon-key" id="basic-addon2"></span>
+                                </div>
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "heslo" })
+                            </div>
                         </div>
 
                         <div class="form-group">
                             @Html.LabelFor(r => r.ConfirmPassword, "Potvrdenie hesla: ", new { @class = "sr-only" })
-                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "potvrdenie hesla" })
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text octicon octicon-key" id="basic-addon2"></span>
+                                </div>
+                                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "potvrdenie hesla" })
+                            </div>
                         </div>
+                            
                     </div>
-                    <button type="submit" id="btnSubmit" class="login-button btn btn-block"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                    <button type="submit" id="btnSubmit" class="login-button btn btn-block"><i class="mega-octicon octicon-chevron-right"></i></button>
                 </div>
                 <div class="etc-login-form">
                     <p> @Html.ActionLink("ak už máš účet PRIHLÁS SA!", "Index", "Home")</p>

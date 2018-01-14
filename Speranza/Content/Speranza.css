@@ -121,6 +121,13 @@ input, input.form-control, button.btn {
     font-size: 13pt;
 }
 
+#NewTrainingDescription {
+    background: transparent;
+    color: deepskyblue;
+    font-family: Share, Helvetica, Arial, sans-serif;
+    font-size: 13pt;
+}
+
 .table textarea, .table input, #pageSize {
     color: white;
 }
@@ -246,4 +253,8 @@ select.selcls option {
 }
 .custom-checkbox .custom-control-input:focus ~ .custom-control-indicator {
     box-shadow: none !important; 
+}
+
+.mega-octicon {
+     font-size: 24px;
 }
