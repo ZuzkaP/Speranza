@@ -157,7 +157,7 @@ h2, h3, h4 {
 .table-striped tbody tr:nth-of-type(odd) {
     background: rgba(255,255,255,0.12);
 }
-.table-striped th {
+.table-striped th,.table-bordered th {
     color: deepskyblue;
 }
 

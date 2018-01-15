@@ -16,39 +16,51 @@
         <p> @Html.Raw(ViewHelper.ShowMessageInView(Model.Message))</p>
     }
 
-    <form class="form-horizontal myForm" method="post" action="@Url.Action("CreateRecurring")">
-        <div class="col-sm-9">
-            <div class="form-group">
-                @Html.LabelFor(m => m.Trainer, "Tréner", new { @class = "control-label col-sm-2" })
-                <div class="col-sm-3">
-                    @Html.TextBoxFor(m => m.Trainer, new { @class = "form-control" })
+    <form class="myForm" method="post" action="@Url.Action("CreateRecurring")">
+        <div class="container">
+            <div class="row">
+                @*Trainer*@
+                <div class="form-group col-lg-4 col-sm-12">
+                    @Html.LabelFor(m => m.Trainer, "Tréner", new {@class = "col-12"})
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text octicon octicon-jersey octicon-newTraining"></span>
+                        </div>
+                        @Html.TextBoxFor(m => m.Trainer, new { @class = "form-control col-8" })
+                    </div>
                 </div>
-            </div>
 
+                <div class="form-group  col-lg-4 col-sm-12">
+                    @Html.LabelFor(m => m.ValidFrom, "Platný od", new {@class = "col-12"})
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text octicon octicon-arrow-right octicon-newTraining"></span>
+                        </div>
+                        <input type="text" class="form-control col-8" id="GenerationDate" name="ValidFrom" data-role="date" data-inline="true" />
+                    </div>
+                </div>
+            
+                @*Training Capacity*@
+                <div class="form-group col-lg-4 col-sm-12">
+                    @Html.LabelFor(m => m.Capacity, "Kapacita", new {@class = "col-12"})
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text octicon octicon-organization octicon-newTraining"></span>
+                        </div>
+                        @Html.TextBoxFor(m => m.Capacity, new { @class = "form-control col-8", type = "number", min = "1", @Value = 10 })
+                    </div>
+                </div>
+
+            </div>
+            
             @*Training Description*@
-            <div class="form-group">
-                @Html.LabelFor(m => m.Description, "Popis", new { @class = "control-label col-sm-2" })
-                <div class="col-sm-3">
-                    @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
-                </div>
-
+            <div class="form-group col-lg-6 offset-lg-3 col-sm-12">
+                @Html.LabelFor(m => m.Description, "Popis", new {@class = "col-10 offset-lg-1"})
+                    @Html.TextAreaFor(m => m.Description, new {@class = "form-control col-10 offset-lg-1" })
             </div>
-
-            @*Training Capacity*@
-            <div class="form-group">
-                @Html.LabelFor(m => m.Capacity, "Kapacita", new { @class = "control-label col-sm-2" })
-                <div class="col-sm-3">
-                    @Html.TextBoxFor(m => m.Capacity, new { @class = "form-control", type = "number", min = "1", @Value = 10 })
+                <div class="col-2 offset-5">
+                    <button type="submit" class="btn btn-primary btn-lg">Pridaj</button>
                 </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(m => m.ValidFrom, "Platný od", new { @class = "control-label col-sm-2" })
-                <div class="col-sm-3">
-                    <input type="text" class="form-control" id="GenerationDate" name="ValidFrom" data-role="date" data-inline="true"/>
-                </div>
-                <input type="submit" value="Pridaj" class="btn btn-primary" />
-            </div>
         </div>
 
         <div class="table-responsive">
