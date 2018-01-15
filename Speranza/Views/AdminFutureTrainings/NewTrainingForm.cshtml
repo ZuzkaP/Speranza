@@ -6,59 +6,84 @@
                 <h4 class="modal-title">Vytvoriť nový tréning</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
-            <div class="modal-body login-form-1 myForm">
+            <div class="modal-body myForm">
                 <div id="messageBoxNewTraining" style="display:none;" class="alert alert-warning" role="alert"></div>
-                @*Training date*@
-                <div class="form-group">
-                    @Html.Label("Dátum:", new { @class = "control-label col-sm-3" })
-                    <div class="input-group col-sm-4">
-                        <input id="TrainingDate" type="text" class="form-control">
-                    </div>
-                </div>
+                <div class="container">
+                    <div class="row">
+                        @*Training date*@
+                        <div class="form-group col-6">
+                            @Html.Label("Dátum:", new { @class = "col-12" })
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text octicon octicon-calendar octicon-newTraining"></span>
+                                </div>
+                                <input id="TrainingDate" type="text" class="form-control col-8">
+                            </div>
+                        </div>
 
-                @*Training time*@
-                <div class="form-group">
-                    @Html.Label("Čas:", new { @class = "control-label col-sm-3" })
-                    <div class="input-group col-sm-4">
-                        <select id="TrainingTime" class="form-control selcls">
-                            @for (int i = 6; i < 20; i++)
-                            {
-                                <option>@string.Format("{0:00}:00",i)</option>
-                            }
-                            </select>
+                        @*Training time*@
+                        <div class="form-group col-6">
+                            @Html.Label("Čas:", new { @class = "col-12" })
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text octicon octicon-watch octicon-newTraining"></span>
+                                </div>
+                                <select id="TrainingTime" class="form-control selcls col-8" style="height: 35px;">
+                                    @for (int i = 6; i < 20; i++)
+                                    {
+                                        <option>@string.Format("{0:00}:00", i)</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                </div>
-
-                @*Training trainer*@
-                <div class="form-group">
-                    @Html.Label("Tréner:", new { @class = "control-label col-sm-3", @for = "Trainer" })
-                    <div class="col-sm-6 input-group">
-                        @Html.TextBox("Trainer", "", new { @class = "form-control", id = "NewTrainingTrainer" })
+                    
+                    <div class="row">
+                        @*Training trainer*@
+                        <div class="form-group col-6">
+                            @Html.Label("Tréner:", new { @class = "col-12", @for = "Trainer" })
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text octicon octicon-jersey octicon-newTraining"></span>
+                                </div>
+                                @Html.TextBox("Trainer", "", new { @class = "form-control col-8", id = "NewTrainingTrainer" })
+                            </div>
+                        </div>
+                    
+                    
+                        @*Training Capacity*@
+                        <div class="form-group col-6">
+                            @Html.Label("Kapacita:", new { @class = "col-sm-12", @for = "Capacity" })
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text octicon octicon-organization octicon-newTraining"></span>
+                                </div>
+                                <input type="number" name="Capacity" min="1" value="10" class="form-control col-8" id="NewTrainingCapacity">
+                            </div>
+                        </div>
                     </div>
-                </div>
+                    
 
-                @*Training Description*@
-                <div class="form-group">
-                    @Html.Label("Popis:", new { @class = "control-label col-sm-3", @for = "Description" })
-                    <div class="col-sm-6 input-group">
-                        @Html.TextArea("Description", "", new { @class = "form-control", id = "NewTrainingDescription" })
+                    @*Training Description*@
+                    <div class="form-group col-11">
+                        @Html.Label("Popis:", new { @class = "col-12", @for = "Description" })
+                        @*<div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text octicon octicon-pencil octicon-newTraining"></span>
+                    </div>*@
+                        @Html.TextArea("Description", "", new { @class = "form-control col-12", id = "NewTrainingDescription" })
                     </div>
-                </div>
+                    @*</div>*@
 
-                @*Training Capacity*@
-                <div class="form-group">
-                    @Html.Label("Kapacita:", new { @class = "control-label col-sm-3", @for = "Capacity" })
-                    <div class="col-sm-6 input-group">
-                        <input type="number" name="Capacity" min="1" value="10" class="form-control" id="NewTrainingCapacity">
-                    </div>
-                </div>
+                   
 
+                </div>
             </div>
 
             <div class="modal-footer">
                 @*SaveButton*@
-                <button id="CreateTrainingButton" type="submit" class="btn btn-default">Vytvoriť</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Zrušiť</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Zrušiť</button>
+                <button id="CreateTrainingButton" type="submit" class="btn btn-primary">Vytvoriť</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

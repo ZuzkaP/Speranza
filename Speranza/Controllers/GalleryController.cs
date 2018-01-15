@@ -4,8 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Speranza.App_Start;
+using Speranza.Database;
 using Speranza.Models;
 using Speranza.Services.Interfaces;
+using Speranza.Smtp.Interfaces;
 
 namespace Speranza.Controllers
 {
@@ -15,17 +17,19 @@ namespace Speranza.Controllers
 
         private IUserManager userManager;
         private IGalleryService galleryService;
+        private IDatabaseGateway db;
 
-        public GalleryController() : this(Initializer.UserManager,Initializer.CookieService,Initializer.GalleryService)
+        public GalleryController() : this(Initializer.UserManager,Initializer.CookieService,Initializer.GalleryService, Initializer.Db)
         {
                 
         }
 
-        public GalleryController(IUserManager userManager,ICookieService cookieService,IGalleryService galleryService)
+        public GalleryController(IUserManager userManager,ICookieService cookieService,IGalleryService galleryService, IDatabaseGateway db)
         {
             this.cookieService = cookieService;
             this.userManager = userManager;
             this.galleryService = galleryService;
+            this.db = db;
         }
 
         // GET: Gallery

@@ -290,3 +290,15 @@ select.selcls option {
 .nav-toggle {
     z-index: 5000;
 }
+
+.octicon-newTraining {
+    height: 35px;
+    width: 35px;
+    font-size: 24px;
+    color: yellow;
+    background-color: transparent;
+}
+
+.form-control:focus {
+    background-color: transparent;
+}

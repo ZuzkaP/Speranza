@@ -111,9 +111,9 @@
     <Content Include="Content\Modal.css" />
     <Content Include="Content\Navbar.css" />
     <Content Include="Content\octicons.css" />
-    <Content Include="Content\Pagination.css" />
     <Content Include="Content\Speranza.css" />
     <Content Include="Content\TimePickerStyle.css" />
+    <Content Include="fonts\Roboto\LICENSE.txt" />
     <Content Include="Global.asax" />
     <Content Include="Images\09b2d308a8f7f46202dc263c18a208ff.jpg" />
     <Content Include="Images\69208935-fantastic-fitness-wallpapers.jpg" />
@@ -126,6 +126,7 @@
     <Content Include="Images\BGlogin.jpg" />
     <Content Include="Images\images.jpg" />
     <Content Include="Images\intermittent-fasting.jpg" />
+    <Content Include="Images\pexels-photo.jpg" />
     <Content Include="Images\speranzaIcon.ico" />
     <Content Include="Images\workout-fitness-sportswear-pushups-strong-694x417.jpg" />
     <Content Include="Scripts\AdminTrainings.js" />
@@ -139,6 +140,12 @@
     <Content Include="Content\fonts\octicons.woff" />
     <Content Include="Content\fonts\octicons.ttf" />
     <Content Include="Content\fonts\octicons.eot" />
+    <Content Include="fonts\Roboto\RobotoCondensed-Bold.ttf" />
+    <Content Include="fonts\Roboto\RobotoCondensed-BoldItalic.ttf" />
+    <Content Include="fonts\Roboto\RobotoCondensed-Italic.ttf" />
+    <Content Include="fonts\Roboto\RobotoCondensed-Light.ttf" />
+    <Content Include="fonts\Roboto\RobotoCondensed-LightItalic.ttf" />
+    <Content Include="fonts\Roboto\RobotoCondensed-Regular.ttf" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -184,9 +191,10 @@
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="Scripts\UserProfile.js" />
-    <Content Include="SperanzaDB.mdf" />
     <Content Include="ToDo.txt" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\Initializer.cs" />
@@ -249,7 +257,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="fonts\" />
     <Folder Include="Views\PeriodicalAttendances\" />
   </ItemGroup>
   <ItemGroup>

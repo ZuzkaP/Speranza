@@ -1,13 +1,16 @@
 ﻿1. Test gallery on server
-2. Check session issues
+2. Check session issues - DONE, IT MYSTERIOUSLY WORKS ON LOCALHOST
 3. Email sending issues - DONE
-4. Find out why logout works on second click
+4. Find out why logout works on second click DONE, IT MYSTERIOUSLY WORKS
 
 
-5. App Style - a) forgotten pass error text style + check other messages
+5. App Style - a) forgotten pass error text style + check other messages DONE
 
 
 6.Admin users - pagination
 7.Admin users - edit user names 
 8. Past trainings - Select displayed training by date
-9. Check navbar in smaller devices
+9. Check navbar in smaller devices DONE
+10.Zmena hesla - header, buttony DONE
+11. Design issue on server on forgotten pass and register view(font,icons)
+12. new training modal open calendar when click on icon

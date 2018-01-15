@@ -5,6 +5,7 @@
         $('#ConfirmPass').val('');
         $('#ModalMessageBoxSuccess').hide();
         $('#ModalMessageBox').hide();
+        $('#ChangePassButton').show();
         $('#ChangePassModal').modal('show');
     });
 
@@ -46,7 +47,7 @@ $("#ChangePassButton").click(function () {
                     if (response.Message == 7)
                     {
                         showMessageBoxSuccess("Vaše heslo bolo úspešne zmenené!");
-
+                        $('#ChangePassButton').hide();
                     }
                     return;
             }
