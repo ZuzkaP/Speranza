@@ -103,7 +103,7 @@ namespace Speranza.Tests.Controllers
             userManager = new Mock<IUserManager>();
             cookieService = new Mock<ICookieService>();
             galleryService = new Mock<IGalleryService>();
-            gallery = new GalleryController(userManager.Object,cookieService.Object,galleryService.Object);
+            gallery = new GalleryController(userManager.Object,cookieService.Object,galleryService.Object,null);
 
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             gallery.ControllerContext = new FakeControllerContext(gallery, sessionItems);

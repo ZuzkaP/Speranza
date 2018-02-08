@@ -3,9 +3,7 @@
 3. Email sending issues - DONE
 4. Find out why logout works on second click DONE, IT MYSTERIOUSLY WORKS
 
-
 5. App Style - a) forgotten pass error text style + check other messages DONE
-
 
 6.Admin users - pagination
 7.Admin users - edit user names 

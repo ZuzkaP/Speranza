@@ -22,9 +22,10 @@ namespace Speranza.Database
         public Database()
         {
             string connetionString = null;
-            connetionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\zuzana.papalova\Documents\Speranza\SperanzaDB.mdf;Integrated Security=True;Connect Timeout=30";
+            //connetionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\zuzana.papalova\Documents\Speranza\SperanzaDB.mdf;Integrated Security=True;Connect Timeout=30";
+            //connetionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Zuzka\Source\Repos\Speranza\SperanzaDB.mdf;Integrated Security=True;Connect Timeout=30";
 
-            //connetionString = "server=192.168.1.5;uid=db6570;pwd=speranzaDB;database=db6570";
+            connetionString = "server=192.168.1.5;uid=db6570;pwd=speranzaDB;database=db6570";
             connection = new SqlConnection(connetionString);
             connection.Open();
             connection.Close();
