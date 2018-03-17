@@ -323,9 +323,9 @@ select.selcls option {
     right:-30px;  
 }
 
-.nav-toggle {
+/*.nav-toggle {
     z-index: 5000;
-}
+}*/
 
 .octicon-newTraining {
     height: 35px;
