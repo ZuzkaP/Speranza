@@ -334,6 +334,11 @@ Main Components
   background: #443453;
 }
 
+.recurring .single-event[data-event="event-2"],
+.cd-schedule [data-event="event-2"] .header-bg {
+    background: #053b59;
+}
+
 .cd-schedule .single-event[data-event="event-2"]:hover {
   background: #513e63;
 }
@@ -627,3 +632,18 @@ Main Components
   opacity: 1;
   visibility: visible;
 }
+
+.recurring .timeline li:nth-of-type(2n) span {
+
+    display: block;
+}
+
+.recurring-checkbox {
+    margin-top: 15%;
+    text-align: center;
+}
+
+.recurring-checkbox{
+    transform: scale(1.13);
+}
+

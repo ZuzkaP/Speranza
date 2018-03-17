@@ -277,7 +277,7 @@ namespace Speranza.Controllers
             IList<IRecurringTemplateModel> templates = trainingManager.GetTemplates();
             foreach (var item in templates)
             {
-                int index = item.Day *13 + item.Time - 7;
+                int index = item.Day *15 + item.Time - 6;
                 model.IsTrainingInTime[index] = true;
                 model.Templates.Add(item);
             }

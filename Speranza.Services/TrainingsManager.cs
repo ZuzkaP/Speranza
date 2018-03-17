@@ -99,7 +99,7 @@ namespace Speranza.Services
         public void CreateRecurringTraining(IRecurringModel model)
         {
             int day = 0;
-            int time = 7; 
+            int time = 6; 
              foreach (var item in model.IsTrainingInTime)
             {
                 if (item)
@@ -118,10 +118,10 @@ namespace Speranza.Services
                     db.SetLastTemplateGenerationDate(dateTimeService.GetCurrentDate().AddDays(-1));
                 }
                 time++;
-                if(time > 19)
+                if(time > 20)
                 {
                     day++;
-                    time = 7;
+                    time = 6;
                 }
             }
         }

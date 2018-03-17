@@ -145,6 +145,9 @@
     <Content Include="fonts\Roboto\RobotoCondensed-Light.ttf" />
     <Content Include="fonts\Roboto\RobotoCondensed-LightItalic.ttf" />
     <Content Include="fonts\Roboto\RobotoCondensed-Regular.ttf" />
+    <Content Include="Content\Checkboxes\checkbox.less" />
+    <Content Include="Content\Checkboxes\color.less" />
+    <Content Include="Content\Checkboxes\size.less" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />

@@ -7,7 +7,7 @@
     string[] days = { "Pondelok", "Utorok", "Streda", "Štvrtok", "Piatok", "Sobota", "Nedeľa" };
 }
 
-<div class="container">
+<div class="container calendar-container">
     <h2 class="userProfileLabel">Nastavenie opakujúcich sa tréningov</h2>
 
     <div id="messageBoxSuccess" style="display:none;" class="alert alert-success" role="alert"></div>
@@ -21,7 +21,7 @@
             <div class="row">
                 @*Trainer*@
                 <div class="form-group col-lg-4 col-sm-12">
-                    @Html.LabelFor(m => m.Trainer, "Tréner", new {@class = "col-12"})
+                    @Html.LabelFor(m => m.Trainer, "Tréner", new { @class = "col-12" })
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text octicon octicon-jersey octicon-newTraining"></span>
@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="form-group  col-lg-4 col-sm-12">
-                    @Html.LabelFor(m => m.ValidFrom, "Platný od", new {@class = "col-12"})
+                    @Html.LabelFor(m => m.ValidFrom, "Platný od", new { @class = "col-12" })
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text octicon octicon-arrow-right octicon-newTraining"></span>
@@ -39,10 +39,10 @@
                         <input type="text" class="form-control col-8" id="GenerationDate" name="ValidFrom" data-role="date" data-inline="true" />
                     </div>
                 </div>
-            
+
                 @*Training Capacity*@
                 <div class="form-group col-lg-4 col-sm-12">
-                    @Html.LabelFor(m => m.Capacity, "Kapacita", new {@class = "col-12"})
+                    @Html.LabelFor(m => m.Capacity, "Kapacita", new { @class = "col-12" })
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text octicon octicon-organization octicon-newTraining"></span>
@@ -52,19 +52,19 @@
                 </div>
 
             </div>
-            
+
             @*Training Description*@
             <div class="form-group col-lg-6 offset-lg-3 col-sm-12">
-                @Html.LabelFor(m => m.Description, "Popis", new {@class = "col-10 offset-lg-1"})
-                    @Html.TextAreaFor(m => m.Description, new {@class = "form-control col-10 offset-lg-1" })
+                @Html.LabelFor(m => m.Description, "Popis", new { @class = "col-10 offset-lg-1" })
+                @Html.TextAreaFor(m => m.Description, new { @class = "form-control col-10 offset-lg-1" })
             </div>
-                <div class="col-2 offset-5">
-                    <button type="submit" class="btn btn-primary btn-lg">Pridaj</button>
-                </div>
+            <div class="col-2 offset-5">
+                <button type="submit" class="btn btn-primary btn-lg">Pridaj</button>
+            </div>
         </div>
 
-        <div class="table-responsive">
-        <table class="table table-bordered">
+        @* <div class="table-responsive">*@
+        @*<table class="table table-bordered">
             <thead>
             <tr>
                 <th></th>
@@ -73,61 +73,89 @@
                     <th>@i.ToString("00"):00</th>
                 }
             </tr>
-            </thead>
+            </thead>*@
 
-            @for (int j = 0; j <= 6; j++)
-            {
-                <tr>
-                    <td class="warning">@days[j]</td>
-                    @for (int i = 7; i < 20; i++)
+        <div class="cd-schedule loading recurring">
+            <div class="timeline">
+                <ul>
+                    @for (int i = 6; i < 21; i++)
                     {
-                        <td class="text-center">
-                            @*<div class="btn-group" data-toggle="buttons">
-                                <label class="btn btn-primary">*@
-
-                            @if (Model.IsTrainingInTime[j * 13 + i - 7])
-                            {
-                                var template = Model.Templates.First(r => r.Day == j && r.Time == i);
-                                @Html.CheckBoxFor(r => r.IsTrainingInTime[j * 13 + i - 7], new { @class = "hidden" })
-                                <div id="TemplateData-@(j * 13 + i - 7)">
-                                    <a href="#" class="RemoveTemplate" data-time="@i" data-day="@j"><span class="glyphicon glyphicon-remove text-danger"></span></a>
-                                    <br />
-                                    @template.Description
-                                    <br />
-                                    @template.Trainer
-                                    <br />
-                                    @template.Capacity
-                                    @if (template.ValidFrom != DateTime.MinValue)
-                                    {
-                                        <br />
-                                        @: Od
-                                        @template.ValidFrom.ToString("dd.MM.yyyy");
-                                    }
-                                </div>
-                            }
-                            else
-                            {
-                                @Html.CheckBoxFor(r => r.IsTrainingInTime[j * 13 + i - 7])
-                            }
-                            @*<span class="glyphicon glyphicon-ok"></span>*@
-                            @*</label>*@
-                            @*</div>*@
-                        </td>
+                        <li><span>@i.ToString("00"):00</span></li>
                     }
-                </tr>
-            }
+                </ul>
+            </div> <!-- .timeline -->
+            
+        <div class="events">
+            <ul>
+                @for (int j = 0; j <= 6; j++)
+                {
+                    <li class="events-group">
+                        <div class="top-info">
+                            <span>@days[j]</span>
+                        </div>
+                        <ul id="myList">
+                            @for (int i = 6; i < 21; i++)
+                            {
+                                if (!Model.IsTrainingInTime[j * 15 + i - 6])
+                                {
+                                    <li class="single-event withNoTraining" id="liID-@(j * 15 + i - 6)" data-start="@TimeSpan.FromHours(i).ToString()" data-end="@TimeSpan.FromHours(i+1).ToString()">
+                                        <span>
+                                            <label class="custom-control custom-checkbox recurring-checkbox">
+                                                @Html.CheckBoxFor(r => r.IsTrainingInTime[j * 15 + i - 6], new {@class = "custom-control-input" })
+                                                <span class="custom-control-indicator"></span>
+                                            </label>
+                                        </span>
+                                        </li>
+                                }
+                                else
+                                {
+                                    var dayTimeTemplate = @Model.Templates.First(r => r.Day == j && r.Time == i);
+                            <li class="single-event withTraining" data-animation="false" data-trigger="click" data-toggle="popover" title="@dayTimeTemplate.Trainer" data-content="@dayTimeTemplate.Description" data-start="@TimeSpan.FromHours(i).ToString(@"hh\:mm")" data-end="@TimeSpan.FromHours(i+1).ToString(@"hh\:mm")">
+                                 @Html.CheckBoxFor(r => r.IsTrainingInTime[j * 15 + i - 6], new {@class = "custom-control-input hidden" })
+                                    <em class="event-name">
+                                    @dayTimeTemplate.Trainer
+                                </em>
+                                <span class="event-capacity">@dayTimeTemplate.Capacity</span>
+                                <a href="#" class="RemoveTemplate" data-time="@i" data-day="@j"><span class="octicon octicon-x text-danger"></span></a>
+                                    </li>
 
+                                }
+                            }
+                        </ul>
+                    </li>
 
-
-        </table>
+                }
+            </ul>
             </div>
-</form>
+        </div>
+    </form>
 </div>
 
 
 @section scripts
     {
     <script>
+        var isshown = false;
+        var clickedAway = false;
+
+        $('body').on('click', function (e) {
+            {
+                if (isshown && clickedAway) {
+                    $('[data-toggle="popover"]').popover('hide');
+                    isshown = false;
+                    clickedAway = false;
+                } else {
+                    clickedAway = true;
+                }
+            }
+        });
+
+        $('body').on('shown.bs.popover', function () {
+            isshown = true;
+            clickedAway = false;
+        })
+
+
         $(".SetupTraining").click(function () {
             var self = $(this);
             var dayName = self.data('day-name');
@@ -135,7 +163,7 @@
 
             $("#modalHeader").html(dayName + " " + time + ":00");
             $("#SetupTrainingModal").modal("show");
-        })
+        });
 
         $(".RemoveTemplate").click(function () {
             var self = $(this);
@@ -148,15 +176,21 @@
                 type: 'POST',
                 dataType: "json",
                 success: function (response) {
-                    $("#TemplateData-" + (day * 13 + time - 7)).remove();
-                    $("#IsTrainingInTime_" + (day * 13 + time - 7) + "_").removeClass("hidden");
-                    $("#IsTrainingInTime_" + (day * 13 + time - 7) + "_").prop("checked", false);
+                    //  var item = document.getElementById("#liID-" + (day * 15 + time - 6));
+                    $("#liID-" + (day * 15 + time - 6)).remove();
+                    item.parentNode.removeChild(item);
+                    //$(".withNoTraining #liID-" + (day * 15 + time - 6)).insertAfter('#liID' + (day * 15 + time - 6 - 1));
+                    var list = document.getElementById("myList");
+                    list.appendChild(".withNoTraining #liID-" + (day * 15 + time - 6));
+                    $("#IsTrainingInTime_" + (day * 15 + time - 6) + "_").removeClass("hidden");
+                    $("#IsTrainingInTime_" + (day * 15 + time - 6) + "_").prop("checked", false);
+                    self.parent().parent().data('event', 'event-2');
                     $('#MessageBoxCreating').hide();
                     $('#messageBoxSuccess').html("Tréning opakujúci sa v  " + dayNames[day] + " o " + time + ":00 bude zrušený, ak na ňom nie je nikto prihlásený!");
                     $('#messageBoxSuccess').show();
                 }
             });
-        })
+        });
 
         $(function () {
             $('#GenerationDate').datepicker({
@@ -170,6 +204,11 @@
                 constrainInput: true
             }).datepicker("setDate", new Date());
         });
+
+
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        })
 
     </script>
 }

@@ -48,6 +48,10 @@
     padding-top: 0px;
 }
 
+#trainingDetailsModal input {
+    background: transparent;
+}
+
 .hourslimit {
     color: lightgrey;
     margin-bottom:2px;
@@ -60,7 +64,10 @@
 
 .ui-autocomplete {
     z-index: 500000 !important;
+    width:100%
 }
+
+=
 
 .calendar-table{
     background-color: rgba(0, 0, 0, 0);
@@ -247,10 +254,18 @@ select.selcls option {
     background-image: none;
     box-shadow: none !important; 
 }
+
 .custom-checkbox .custom-control-input:checked ~ .custom-control-indicator:after {
     background-color: red;
     left: 15px; 
 }
+
+.recurring .custom-checkbox .custom-control-input:checked ~ .custom-control-indicator:after{
+    /*background-color: #007bff;*/
+    background-color: yellow;  
+          
+}
+
 .custom-checkbox .custom-control-input:focus ~ .custom-control-indicator {
     box-shadow: none !important; 
 }
@@ -301,4 +316,26 @@ select.selcls option {
 
 .form-control:focus {
     background-color: transparent;
+}
+
+.recurring-checkbox .custom-control-input:checked ~ .custom-control-indicator{
+    background-color: #007bff;
+}
+
+.popover-header { 
+    color: black; 
+    font-size: 18px;
+    text-align:center;
+}
+
+/* Popover Body */
+.popover-body{
+    color: black;
+    font-size: 15px;
+    overflow:auto;
+    overflow-y: auto;
+    height: 100px;
+}
+.popover {
+    width: 200px;
 }

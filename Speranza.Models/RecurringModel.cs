@@ -25,7 +25,7 @@ namespace Speranza.Models
         public RecurringModel()
         {
             IsTrainingInTime = new List<bool>();
-            for (int i = 0; i < 7*13; i++)
+            for (int i = 0; i < 7*15; i++)
             {
                 IsTrainingInTime.Add(false);
             }
