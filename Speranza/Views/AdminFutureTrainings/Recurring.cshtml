@@ -26,7 +26,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text octicon octicon-jersey octicon-newTraining"></span>
                         </div>
-                        @Html.TextBoxFor(m => m.Trainer, new { @class = "form-control col-8" })
+                        @Html.TextBoxFor(m => m.Trainer, new { @class = "form-control col-12" })
                     </div>
                 </div>
 
@@ -36,7 +36,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text octicon octicon-arrow-right octicon-newTraining"></span>
                         </div>
-                        <input type="text" class="form-control col-8" id="GenerationDate" name="ValidFrom" data-role="date" data-inline="true" />
+                        <input type="text" class="form-control col-12" id="GenerationDate" name="ValidFrom" data-role="date" data-inline="true" />
                     </div>
                 </div>
 
@@ -47,21 +47,25 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text octicon octicon-organization octicon-newTraining"></span>
                         </div>
-                        @Html.TextBoxFor(m => m.Capacity, new { @class = "form-control col-8", type = "number", min = "1", @Value = 10 })
+                        @Html.TextBoxFor(m => m.Capacity, new { @class = "form-control col-12", type = "number", min = "1", @Value = 10 })
                     </div>
                 </div>
 
             </div>
-
-            @*Training Description*@
-            <div class="form-group col-lg-6 offset-lg-3 col-sm-12">
-                @Html.LabelFor(m => m.Description, "Popis", new { @class = "col-10 offset-lg-1" })
-                @Html.TextAreaFor(m => m.Description, new { @class = "form-control col-10 offset-lg-1" })
+            
+            <div class="row">
+                @*Training Description*@
+                <div class="form-group col-lg-6 offset-lg-3 col-sm-12">
+                    @Html.LabelFor(m => m.Description, "Popis", new { @class = "col-12" })
+                    @Html.TextAreaFor(m => m.Description, new { @class = "form-control col-12" })
+                </div>
             </div>
-            <div class="col-2 offset-5">
-                <button type="submit" class="btn btn-primary btn-lg">Pridaj</button>
+                <div class="row">
+                    <div class="col-lg-2 offset-lg-5 col-sm-2">
+                        <button type="submit" class="btn btn-primary col-lg-12">Pridaj</button>
+                    </div>
+                </div>
             </div>
-        </div>
 
         @* <div class="table-responsive">*@
         @*<table class="table table-bordered">
@@ -84,48 +88,50 @@
                     }
                 </ul>
             </div> <!-- .timeline -->
-            
-        <div class="events">
-            <ul>
-                @for (int j = 0; j <= 6; j++)
-                {
-                    <li class="events-group">
-                        <div class="top-info">
-                            <span>@days[j]</span>
-                        </div>
-                        <ul id="myList">
-                            @for (int i = 6; i < 21; i++)
-                            {
-                                if (!Model.IsTrainingInTime[j * 15 + i - 6])
+
+            <div class="events">
+                <ul>
+                    @for (int j = 0; j <= 6; j++)
+                    {
+                        <li class="events-group">
+                            <div class="top-info">
+                                <span>@days[j]</span>
+                            </div>
+                            <ul id="myList">
+                                @for (int i = 6; i < 21; i++)
                                 {
-                                    <li class="single-event withNoTraining" id="liID-@(j * 15 + i - 6)" data-start="@TimeSpan.FromHours(i).ToString()" data-end="@TimeSpan.FromHours(i+1).ToString()">
-                                        <span>
-                                            <label class="custom-control custom-checkbox recurring-checkbox">
-                                                @Html.CheckBoxFor(r => r.IsTrainingInTime[j * 15 + i - 6], new {@class = "custom-control-input" })
-                                                <span class="custom-control-indicator"></span>
-                                            </label>
-                                        </span>
+                                    if (!Model.IsTrainingInTime[j * 15 + i - 6])
+                                    {
+                                        <li class="single-event withNoTraining" id="liID-@(j * 15 + i - 6)" data-start="@TimeSpan.FromHours(i).ToString()" data-end="@TimeSpan.FromHours(i+1).ToString()">
+                                            <span>
+                                                <span class="d-lg-none">@TimeSpan.FromHours(i).ToString("hh':'mm")</span>
+                                                <label class="custom-control custom-checkbox recurring-checkbox">
+                                                    @Html.CheckBoxFor(r => r.IsTrainingInTime[j * 15 + i - 6], new {@class = "custom-control-input"})
+                                                    <span class="custom-control-indicator"></span>
+                                                </label>
+                                            </span>
                                         </li>
-                                }
-                                else
-                                {
-                                    var dayTimeTemplate = @Model.Templates.First(r => r.Day == j && r.Time == i);
-                            <li class="single-event withTraining" data-animation="false" data-trigger="click" data-toggle="popover" title="@dayTimeTemplate.Trainer" data-content="@dayTimeTemplate.Description" data-start="@TimeSpan.FromHours(i).ToString(@"hh\:mm")" data-end="@TimeSpan.FromHours(i+1).ToString(@"hh\:mm")">
-                                 @Html.CheckBoxFor(r => r.IsTrainingInTime[j * 15 + i - 6], new {@class = "custom-control-input hidden" })
-                                    <em class="event-name">
-                                    @dayTimeTemplate.Trainer
-                                </em>
-                                <span class="event-capacity">@dayTimeTemplate.Capacity</span>
-                                <a href="#" class="RemoveTemplate" data-time="@i" data-day="@j"><span class="octicon octicon-x text-danger"></span></a>
-                                    </li>
+                                    }
+                                    else
+                                    {
+                                        var dayTimeTemplate = @Model.Templates.First(r => r.Day == j && r.Time == i);
+                                        <li class="single-event withTraining" data-animation="false" data-trigger="click" data-toggle="popover" title="@dayTimeTemplate.Trainer" data-content="@dayTimeTemplate.Description" data-start="@TimeSpan.FromHours(i).ToString(@"hh\:mm")" data-end="@TimeSpan.FromHours(i+1).ToString(@"hh\:mm")">
+                                            @Html.CheckBoxFor(r => r.IsTrainingInTime[j * 15 + i - 6], new { @class = "custom-control-input hidden" })
+                                            <em class="event-name">
+                                                <span class="octicon octicon-heart text-danger" style="font-size:120%"></span>
+                                                <span class="event-capacity"  style="font-size:120%">@dayTimeTemplate.Capacity</span>
+                                            </em>
+                                            <span class="small" style="padding-left: 5px">Od: @dayTimeTemplate.ValidFrom.Date.ToString("dd.MM.yy")</span>
+                                            <a href="#" class="RemoveTemplate" data-time="@i" data-day="@j"><span class="octicon octicon-x text-primary"></span></a>
+                                        </li>
 
+                                    }
                                 }
-                            }
-                        </ul>
-                    </li>
+                            </ul>
+                        </li>
 
-                }
-            </ul>
+                    }
+                </ul>
             </div>
         </div>
     </form>

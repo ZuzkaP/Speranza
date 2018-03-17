@@ -235,6 +235,7 @@ select.selcls option {
     margin: 0 16px;
     box-shadow: none; 
 }
+
 .custom-checkbox .custom-control-indicator:after {
     content: "";
     position: absolute;
@@ -249,6 +250,7 @@ select.selcls option {
     -webkit-transition: left .3s ease, background .3s ease, box-shadow .1s ease;
     transition: left .3s ease, background .3s ease, box-shadow .1s ease; 
 }
+
 .custom-checkbox .custom-control-input:checked ~ .custom-control-indicator {
     background-color: red;
     background-image: none;
@@ -259,6 +261,25 @@ select.selcls option {
     background-color: red;
     left: 15px; 
 }
+
+@media only screen and (max-width: 799px) {
+    .custom-checkbox .custom-control-indicator {
+        width: 45px;
+        height: 15px;
+    }
+ 
+       .custom-checkbox .custom-control-indicator:after {
+        border-radius: 21px;
+        width: 27px;
+        height: 27px;
+        left: -3px;
+        top: -6px;
+    }
+    .custom-checkbox .custom-control-input:checked ~ .custom-control-indicator:after {
+        left: 23px; 
+    }  
+}
+
 
 .recurring .custom-checkbox .custom-control-input:checked ~ .custom-control-indicator:after{
     /*background-color: #007bff;*/
@@ -313,7 +334,7 @@ select.selcls option {
     color: yellow;
     background-color: transparent;
 }
-
+    
 .form-control:focus {
     background-color: transparent;
 }
