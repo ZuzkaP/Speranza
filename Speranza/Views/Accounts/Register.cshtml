@@ -125,11 +125,27 @@
                         <div class="form-group">
                             @Html.CheckBoxFor(r => r.ConfirmDataPrivacy, new { @class = "confirmation" })
                             @Html.LabelFor(r => r.ConfirmDataPrivacy, "Súhlasím so spracovaním osobných údajov.", new { @class = "loginLinks" })
+                            <a data-toggle="collapse" data-target="#dataPrivacyText" href="#dataPrivacyText" aria-expanded="false" aria-controls="dataPrivacyText">
+                                Zobraz detaily
+                            </a>
+                            <div class="collapse" id="dataPrivacyText">
+                                <div class="card card-block">
+                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                                </div>
+                            </div>
                         </div>
                         
                         <div class="form-group">
                             @Html.CheckBoxFor(r => r.ConfirmPersonalResponsibility, new { @class = "confirmation" })
                             @Html.LabelFor(r => r.ConfirmPersonalResponsibility, "Potvrdzujem, že cvičím na vlastnú zodpovednosť.", new { @class = "loginLinks" })
+                            <a data-toggle="collapse" data-target="#dataResponsibilityText" href="#dataResponsibilityText" aria-expanded="false" aria-controls="dataResponsibilityText">
+                                Zobraz detaily
+                            </a>
+                            <div class="collapse" id="dataResponsibilityText">
+                                <div class="card card-block">
+                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                                </div>
+                            </div>
                         </div>
 
                     </div>
