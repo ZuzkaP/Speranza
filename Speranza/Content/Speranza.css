@@ -64,10 +64,11 @@
 
 .ui-autocomplete {
     z-index: 500000 !important;
-    width:100%
-}
+    background-color: #031926;
+    border-color: white;
+    color: white;
 
-=
+}
 
 .calendar-table{
     background-color: rgba(0, 0, 0, 0);

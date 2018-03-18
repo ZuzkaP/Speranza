@@ -39,7 +39,7 @@
                         <td>@user.Email</td>
                         <td>@user.PhoneNumber</td>
                         <td>
-                            @Html.DropDownList("CategoryCombo", ViewHelper.CreateSelectListItems(Model.Categories, user.Category), new { id = user.Email, @class = "form-control selcls " })
+                            @Html.DropDownList("CategoryCombo", ViewHelper.CreateSelectListItems(Model.Categories, user.Category), new { id = user.Email, @class = "form-control selcls Category" })
                         </td>
                         <td>
                             <span id="freeSignUpsCell-@ViewHelper.GetEmailForJS(user.Email)"> @user.NumberOfFreeSignUps </span>
