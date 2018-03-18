@@ -212,7 +212,7 @@ Main Components
   .cd-schedule .events .top-info {
     /* vertically center its content */
     display: table;
-    height: 75px;
+    height: 75px !important;
     border-bottom: 1px solid #EAEAEA;
     /* reset style */
     padding: 0;

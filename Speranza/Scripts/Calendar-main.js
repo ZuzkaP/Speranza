@@ -18,7 +18,8 @@ jQuery(document).ready(function($){
 		this.eventsWrapper = this.element.find('.events');
 		this.eventsGroup = this.eventsWrapper.find('.events-group');
 		this.singleEvents = this.eventsGroup.find('.single-event');
-		this.eventSlotHeight = this.eventsGroup.eq(0).children('.top-info').outerHeight();
+	    //this.eventSlotHeight = this.eventsGroup.eq(0).children('.top-info').outerHeight();
+		this.eventSlotHeight = 75;
 
 		this.modal = this.element.find('.event-modal');
 		this.modalHeader = this.modal.find('.header');
@@ -42,7 +43,9 @@ jQuery(document).ready(function($){
 		var mq = this.mq();
 		if( mq == 'desktop' && !this.element.hasClass('js-full') ) {
 			//in this case you are on a desktop version (first load or resize from mobile)
-			this.eventSlotHeight = this.eventsGroup.eq(0).children('.top-info').outerHeight();
+		    //this.eventSlotHeight = this.eventsGroup.eq(0).children('.top-info').outerHeight();
+		    this.eventSlotHeight = 75;
+
 			this.element.addClass('js-full');
 			this.placeEvents();
 			this.element.hasClass('modal-is-open') && this.checkEventModal();
@@ -93,7 +96,7 @@ jQuery(document).ready(function($){
 			//place each event in the grid -> need to set top position and height
 			var start = getScheduleTimestamp($(this).attr('data-start')),
 				duration = getScheduleTimestamp($(this).attr('data-end')) - start;
-
+		   
 			var eventTop = self.eventSlotHeight*(start - self.timelineStart)/self.timelineUnitDuration,
 				eventHeight = self.eventSlotHeight*duration/self.timelineUnitDuration;
 			

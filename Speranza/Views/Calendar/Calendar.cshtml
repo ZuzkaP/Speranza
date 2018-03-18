@@ -68,11 +68,11 @@
                                                         foreach (var training in day.Trainings.OrderBy(r => r.Time))
                                                         {
                                                             int index = random.Next(1, 5);
-                                                            <li class="single-event" data-start="@training.Time.ToString("HH:mm")" data-end="@training.Time.AddHours(1).ToString("HH:mm")" data-event="event-@index">
+                                                            <li class="single-event"  data-animation="false" data-trigger="click" data-toggle="popover" title="@training.Trainer" data-content="@training.Description" data-start="@training.Time.ToString("HH:mm")" data-end="@training.Time.AddHours(1).ToString("HH:mm")" data-event="event-@index">
                                                                 <em class="event-name">
-                                                                    @training.Description
+                                                                    <span class="octicon octicon-heart text-danger" style="font-size:120%"></span>
+                                                                    <span class="event-capacity" style="font-size:120%">@training.RegisteredNumber/@training.Capacity</span>
                                                                 </em>
-                                                                <span class="event-capacity">@training.RegisteredNumber/@training.Capacity</span>
                                                                 @if (training.IsUserSignedUp)
                                                                 {
                                                                     if (training.IsAllowedToSignOff)
@@ -154,7 +154,31 @@
                 </div>
             </div>
 
-            @section Styles{
+@section scripts
+{
+<script>
+    var isshown = false;
+    var clickedAway = false;
 
-                @*<link href="~/Content/Calendar-reset.css" rel="stylesheet" />*@
+    $(function () {
+        $('[data-toggle="popover"]').popover();
+    });
+
+    $('body').on('click', function (e) {
+        {
+            if (isshown && clickedAway) {
+                $('[data-toggle="popover"]').popover('hide');
+                isshown = false;
+                clickedAway = false;
+            } else {
+                clickedAway = true;
             }
+        }
+    });
+
+    $('body').on('shown.bs.popover', function () {
+        isshown = true;
+        clickedAway = false;
+    });
+</script>
+}
