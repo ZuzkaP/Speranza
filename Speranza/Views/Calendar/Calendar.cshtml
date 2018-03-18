@@ -42,143 +42,154 @@
                 {
                     active = "active";
                 }
-                    <div class="carousel-item @active">
-                            <div class="cd-schedule loading">
-                                <div class="timeline">
-                                    <ul>
-                                        @for (int i = 6; i < 21; i++)
-                                        {
-                                            <li><span>@i.ToString("00"):00</span></li>
-                                        }
-                                    </ul>
-                                </div> <!-- .timeline -->
+                <div class="carousel-item @active">
+                    <div class="cd-schedule loading">
+                        <div class="timeline">
+                            <ul>
+                                @for (int i = 6; i < 21; i++)
+                                {
+                                    <li><span>@i.ToString("00"):00</span></li>
+                                }
+                            </ul>
+                        </div> <!-- .timeline -->
 
-                                <div class="events">
-                                    <ul>
-                                        @foreach (var day in week)
-                                        {
-                                            <li class="events-group">
-                                                <div class="top-info">
-                                                    <span>@ViewHelper.TranslateDayNames(day.DayName) @day.Date</span>
-                                                </div>
+                        <div class="events">
+                            <ul>
+                                @foreach (var day in week)
+                                {
+                                    <li class="events-group">
+                                        <div class="top-info">
+                                            <span>@ViewHelper.TranslateDayNames(day.DayName) @day.Date</span>
+                                        </div>
 
-                                                <ul>
-                                                    @{
-                                                        Random random = new Random();
-                                                        foreach (var training in day.Trainings.OrderBy(r => r.Time))
-                                                        {
-                                                            int index = random.Next(1, 5);
-                                                            <li class="single-event"  data-animation="false" data-trigger="click" data-toggle="popover" title="@training.Trainer" data-content="@training.Description" data-start="@training.Time.ToString("HH:mm")" data-end="@training.Time.AddHours(1).ToString("HH:mm")" data-event="event-@index">
-                                                                <em class="event-name">
-                                                                    <span class="octicon octicon-heart text-danger" style="font-size:120%"></span>
-                                                                    <span class="event-capacity" style="font-size:120%">@training.RegisteredNumber/@training.Capacity</span>
-                                                                </em>
-                                                                @if (training.IsUserSignedUp)
-                                                                {
-                                                                    if (training.IsAllowedToSignOff)
-                                                                    {
-                                                                        @Html.ActionLink("Odhlásiť", "SignOff", "Calendar", new { id = training.ID }, null)
-                                                                        ;
-                                                                    }
-                                                                }
-                                                                else
-                                                                {
-                                                                    if (training.RegisteredNumber < training.Capacity && training.IsAllowedToSignUp && Model.AllowToSignUp)
-                                                                    {
-                                                                        @Html.ActionLink("Prihlásiť", "SignUp", "Calendar", new { id = training.ID }, null)
-                                                                        ;
-                                                                    }
-                                                                }
-                                                            </li>
-                                                        }
-
-                                                    }
-                                                </ul>
-                                            </li>
-                                                        }
-
-                                        @{var newYear = false; }
-                                        @if (week.Count < 7)
-                                        {
-
-                                            var lastDay = week.Last();
-                                            int lastDayName = (int)lastDay.DayName;
-                                            var lastDayDate = lastDay.Date;
-                                            DayNames nextDay = (DayNames)lastDayName;
-                                            string[] formats = { "dd.MM.", "d.MM.", "d.M.", "dd.M." };
-                                            for (int i = week.Count + 1; i <= 7; i++)
-                                            {
-                                                <li class="events-group disabled">
-                                                    <div class="top-info">
-                                                        @{
-                                                            if (lastDayName == 6)
+                                        <ul>
+                                            @{
+                                                Random random = new Random();
+                                                foreach (var training in day.Trainings.OrderBy(r => r.Time))
+                                                {
+                                                    int index = random.Next(1, 5);
+                                                    <li class="single-event" data-animation="false" data-trigger="click" data-toggle="popover" title="@training.Trainer" data-content="@training.Description" data-start="@training.Time.ToString("HH:mm")" data-end="@training.Time.AddHours(1).ToString("HH:mm")" data-event="event-@index">
+                                                        <em class="event-name">
+                                                            @if (training.IsUserSignedUp)
                                                             {
-                                                                lastDayName = -1;
-                                                            }
-                                                            nextDay = (DayNames)(++lastDayName);
-
-                                                            DateTime nextDate = DateTime.MinValue;
-                                                            if (DateTime.TryParseExact(lastDayDate, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out nextDate))
-                                                            {
-                                                                nextDate = nextDate.AddDays(1);
-                                                                <span>@ViewHelper.TranslateDayNames(nextDay) @nextDate.ToString("dd.MM")</span>
+                                                                <span class="octicon octicon-heart text-danger" style="font-size: 120%"></span>
                                                             }
                                                             else
                                                             {
-                                                                <span>@ViewHelper.TranslateDayNames(nextDay)</span>
+                                                                <span class="octicon octicon-organization text-dark" style="font-size: 120%"></span>
                                                             }
-                                                            lastDayDate = nextDate.ToString("dd.MM.");
+                                                            <span class="event-capacity" style="font-size: 120%">@training.RegisteredNumber/@training.Capacity</span>
+                                                        </em>
+                                                        @if (training.IsUserSignedUp)
+                                                        {
+                                                            if (training.IsAllowedToSignOff)
+                                                            {
+                                                                <a href="SignOff?id=@training.ID" id="@training.ID">
+                                                                    Odhlásiť
+                                                                    <span class="octicon octicon-x text-dark" style="font-size: 120%"></span>
+                                                                </a>
+                                                            }
                                                         }
-                                                    </div>
-
-                                                    <ul class=" disabled disabled-boxes">
-                                                        <li class="single-event">
-                                                    </ul>
-                                                </li>
-                                                                }
+                                                        else
+                                                        {
+                                                            if (training.RegisteredNumber < training.Capacity && training.IsAllowedToSignUp && Model.AllowToSignUp)
+                                                            {
+                                                                <a href="SignUp?id=@training.ID" id="@training.ID">
+                                                                    Prihlásiť
+                                                                    <span class="octicon octicon-plus text-dark" style="font-size: 120%"></span>
+                                                                </a>
                                                             }
-                                    </ul>
-                                </div>
-                            </div>
+                                                        }
+                                                    </li>
+                                                }
+
+                                            }
+                                        </ul>
+                                    </li>
+                                                }
+
+                                @{var newYear = false; }
+                                @if (week.Count < 7)
+                                {
+
+                                    var lastDay = week.Last();
+                                    int lastDayName = (int)lastDay.DayName;
+                                    var lastDayDate = lastDay.Date;
+                                    DayNames nextDay = (DayNames)lastDayName;
+                                    string[] formats = { "dd.MM.", "d.MM.", "d.M.", "dd.M." };
+                                    for (int i = week.Count + 1; i <= 7; i++)
+                                    {
+                                        <li class="events-group disabled">
+                                            <div class="top-info">
+                                                @{
+                                                    if (lastDayName == 6)
+                                                    {
+                                                        lastDayName = -1;
+                                                    }
+                                                    nextDay = (DayNames)(++lastDayName);
+
+                                                    DateTime nextDate = DateTime.MinValue;
+                                                    if (DateTime.TryParseExact(lastDayDate, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out nextDate))
+                                                    {
+                                                        nextDate = nextDate.AddDays(1);
+                                                        <span>@ViewHelper.TranslateDayNames(nextDay) @nextDate.ToString("dd.MM")</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>@ViewHelper.TranslateDayNames(nextDay)</span>
+                                                    }
+                                                    lastDayDate = nextDate.ToString("dd.MM.");
+                                                }
+                                            </div>
+
+                                            <ul class=" disabled disabled-boxes">
+                                                <li class="single-event">
+                                            </ul>
+                                        </li>
+                                                        }
+                                                    }
+                            </ul>
                         </div>
-                        }
                     </div>
-                    <a class="carousel-control-prev" href="#calendarCarousel" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#calendarCarousel" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
                 </div>
-            </div>
+                                                    }
+        </div>
+        <a class="carousel-control-prev" href="#calendarCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#calendarCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</div>
 
 @section scripts
 {
-<script>
-    var isshown = false;
-    var clickedAway = false;
+    <script>
+        var isshown = false;
+        var clickedAway = false;
 
-    $(function () {
-        $('[data-toggle="popover"]').popover();
-    });
+        $(function () {
+            $('[data-toggle="popover"]').popover();
+        });
 
-    $('body').on('click', function (e) {
-        {
-            if (isshown && clickedAway) {
-                $('[data-toggle="popover"]').popover('hide');
-                isshown = false;
-                clickedAway = false;
-            } else {
-                clickedAway = true;
+        $('body').on('click', function (e) {
+            {
+                if (isshown && clickedAway) {
+                    $('[data-toggle="popover"]').popover('hide');
+                    isshown = false;
+                    clickedAway = false;
+                } else {
+                    clickedAway = true;
+                }
             }
-        }
-    });
+        });
 
-    $('body').on('shown.bs.popover', function () {
-        isshown = true;
-        clickedAway = false;
-    });
-</script>
+        $('body').on('shown.bs.popover', function () {
+            isshown = true;
+            clickedAway = false;
+        });
+    </script>
 }

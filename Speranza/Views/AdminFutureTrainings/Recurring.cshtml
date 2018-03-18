@@ -102,28 +102,27 @@
                                 {
                                     if (!Model.IsTrainingInTime[j * 15 + i - 6])
                                     {
-                                        <li class="single-event withNoTraining" id="liID-@(j * 15 + i - 6)" data-start="@TimeSpan.FromHours(i).ToString()" data-end="@TimeSpan.FromHours(i+1).ToString()">
-                                            <span>
+                                        <li class="single-event" data-start="@TimeSpan.FromHours(i).ToString()" data-end="@TimeSpan.FromHours(i+1).ToString()">
                                                 <span class="d-lg-none">@TimeSpan.FromHours(i).ToString("hh':'mm")</span>
                                                 <label class="custom-control custom-checkbox recurring-checkbox">
                                                     @Html.CheckBoxFor(r => r.IsTrainingInTime[j * 15 + i - 6], new { @class = "custom-control-input" })
                                                     <span class="custom-control-indicator"></span>
                                                 </label>
-                                            </span>
                                         </li>
                                     }
                                     else
                                     {
                                         var dayTimeTemplate = @Model.Templates.First(r => r.Day == j && r.Time == i);
-                                        <li class="single-event withTraining" data-animation="false" data-trigger="click" data-toggle="popover" title="@dayTimeTemplate.Trainer" data-content="@dayTimeTemplate.Description" data-start="@TimeSpan.FromHours(i).ToString(@"hh\:mm")" data-end="@TimeSpan.FromHours(i+1).ToString(@"hh\:mm")">
-                                            @Html.CheckBoxFor(r => r.IsTrainingInTime[j * 15 + i - 6], new { @class = "custom-control-input hidden" })
+                                        <li class="single-event" data-animation="false" data-trigger="click" data-toggle="popover" title="@dayTimeTemplate.Trainer" data-content="@dayTimeTemplate.Description" data-start="@TimeSpan.FromHours(i).ToString(@"hh\:mm")" data-end="@TimeSpan.FromHours(i+1).ToString(@"hh\:mm")">
+                                            
+                                             @Html.CheckBoxFor(r => r.IsTrainingInTime[j * 15 + i - 6], new { @class = "custom-control-input hidden" })
                                             <em class="event-name">
                                                 <span class="octicon octicon-heart text-danger" style="font-size:120%"></span>
                                                 <span class="event-capacity" style="font-size:120%">@dayTimeTemplate.Capacity</span>
                                             </em>
                                             <span class="small" style="padding-left: 5px">Od: @dayTimeTemplate.ValidFrom.Date.ToString("dd.MM.yy")</span>
                                             <a href="#" class="RemoveTemplate" data-time="@i" data-day="@j"><span class="octicon octicon-x text-primary"></span></a>
-                                        </li>
+                                                </li>
 
                                     }
                                 }
@@ -145,7 +144,7 @@
         var clickedAway = false;
 
         $(function () {
-            $('[data-toggle="popover"]').popover();
+            $('[data-toggle="popover"]').popover({ html: false });
         });
 
         $('body').on('click', function (e) {
@@ -186,15 +185,7 @@
                 type: 'POST',
                 dataType: "json",
                 success: function (response) {
-                    //  var item = document.getElementById("#liID-" + (day * 15 + time - 6));
-                    $("#liID-" + (day * 15 + time - 6)).remove();
-                    item.parentNode.removeChild(item);
-                    //$(".withNoTraining #liID-" + (day * 15 + time - 6)).insertAfter('#liID' + (day * 15 + time - 6 - 1));
-                    var list = document.getElementById("myList");
-                    list.appendChild(".withNoTraining #liID-" + (day * 15 + time - 6));
-                    $("#IsTrainingInTime_" + (day * 15 + time - 6) + "_").removeClass("hidden");
-                    $("#IsTrainingInTime_" + (day * 15 + time - 6) + "_").prop("checked", false);
-                    self.parent().parent().data('event', 'event-2');
+                    location.reload();
                     $('#MessageBoxCreating').hide();
                     $('#messageBoxSuccess').html("Tréning opakujúci sa v  " + dayNames[day] + " o " + time + ":00 bude zrušený, ak na ňom nie je nikto prihlásený!");
                     $('#messageBoxSuccess').show();
