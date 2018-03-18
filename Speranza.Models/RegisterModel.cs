@@ -19,8 +19,9 @@ namespace Speranza.Models
         PasswordIsTooShort = 32,
         PasswordHasNoNumber = 64,
         PasswordHasNoLetter = 128,
-        PasswordRecoveryFailed = 256
-
+        PasswordRecoveryFailed = 256,
+        PrivacyWasNotConfirmed = 512,
+        OwnResponsibilityWasNotConfirmed = 1024
     }
 
     public class RegisterModel : IRegisterModel
@@ -42,7 +43,7 @@ namespace Speranza.Models
         public string ConfirmPassword { get; set; }
 
         public RegisterModelMessages Messages { get; set; }
-
-       
+        public bool ConfirmDataPrivacy { get; set; }
+        public bool ConfirmPersonalResponsibility { get; set; }
     }
 }

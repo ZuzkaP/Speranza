@@ -24,6 +24,14 @@
                     {
                         <div class="login-form-main-message show error success loginNotSuccess">email je v nesprávnom tvare!</div>
                     }
+                    else if ((Model.Messages & RegisterModelMessages.PrivacyWasNotConfirmed) != RegisterModelMessages.NoMessage)
+                    {
+                        <div class="login-form-main-message show error success loginNotSuccess">súhlas so spracovaním údajov musí byť akceptovaný!</div>
+                    }
+                    else if ((Model.Messages & RegisterModelMessages.OwnResponsibilityWasNotConfirmed) != RegisterModelMessages.NoMessage)
+                    {
+                        <div class="login-form-main-message show error success loginNotSuccess">súhlas s cvičením na vlastnú zodpovednosť musí byť akceptovaný!</div>
+                    }
                     else if ((Model.Messages & RegisterModelMessages.PasswordIsEmpty) != RegisterModelMessages.NoMessage)
                     {
                         <div class="login-form-main-message show error success loginNotSuccess">heslo musí byť vyplnené!</div>
@@ -70,7 +78,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text octicon octicon-person" id="basic-addon2"></span>
                                 </div>
-                                @Html.TextBoxFor(m => m.Name, new {@class = "form-control", placeholder = "meno"})
+                                @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "meno" })
                             </div>
                         </div>
 
@@ -113,7 +121,17 @@
                                 @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "potvrdenie hesla" })
                             </div>
                         </div>
-                            
+
+                        <div class="form-group">
+                            @Html.CheckBoxFor(r => r.ConfirmDataPrivacy, new { @class = "confirmation" })
+                            @Html.LabelFor(r => r.ConfirmDataPrivacy, "Súhlasím so spracovaním osobných údajov.", new { @class = "loginLinks" })
+                        </div>
+                        
+                        <div class="form-group">
+                            @Html.CheckBoxFor(r => r.ConfirmPersonalResponsibility, new { @class = "confirmation" })
+                            @Html.LabelFor(r => r.ConfirmPersonalResponsibility, "Potvrdzujem, že cvičím na vlastnú zodpovednosť.", new { @class = "loginLinks" })
+                        </div>
+
                     </div>
                     <button type="submit" id="btnSubmit" class="login-button btn btn-block"><i class="mega-octicon octicon-chevron-right"></i></button>
                 </div>

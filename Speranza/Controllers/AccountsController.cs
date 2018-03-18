@@ -81,7 +81,7 @@ namespace Speranza.Controllers
         [HttpPost]
         public ViewResult Register(RegisterModel model)
         {
-
+            
             if (String.IsNullOrEmpty(model.Email))
             {
                 model.Messages |= RegisterModelMessages.EmailIsEmpty;
@@ -92,6 +92,14 @@ namespace Speranza.Controllers
                 model.Messages |= RegisterModelMessages.EmailFormatIsIncorrect;
             }
 
+            if (!model.ConfirmDataPrivacy)
+            {
+                model.Messages |= RegisterModelMessages.PrivacyWasNotConfirmed;
+            }
+            if (!model.ConfirmPersonalResponsibility)
+            {
+                model.Messages |= RegisterModelMessages.OwnResponsibilityWasNotConfirmed;
+            }
             if (String.IsNullOrEmpty(model.Password))
             {
                 model.Messages |= RegisterModelMessages.PasswordIsEmpty;

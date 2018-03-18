@@ -93,6 +93,8 @@ namespace Speranza.Tests.Controllers
             model.Surname = "Papalova";
             model.PhoneNumber = "0616554984899";
             model.ConfirmPassword = "1234Zuzka";
+            model.ConfirmDataPrivacy = true;
+            model.ConfirmPersonalResponsibility = true;
 
             string hashedPassword = "hashPassword";
             hasher.Setup(r => r.HashPassword(model.Password)).Returns(hashedPassword);
@@ -112,6 +114,8 @@ namespace Speranza.Tests.Controllers
             model.Password = "1234Zuzka";
             model.Email = "test@test.com";
             model.ConfirmPassword = "1234Zuzka";
+            model.ConfirmDataPrivacy = true;
+            model.ConfirmPersonalResponsibility = true;
 
             db.Setup(r => r.UserExists(model.Email)).Returns(true);
 
@@ -199,6 +203,44 @@ namespace Speranza.Tests.Controllers
             Assert.AreNotEqual(RegisterModelMessages.NoMessage, RegisterModelMessages.PasswordHasNoLetter & modelFromServer.Messages);
         }
 
+        [TestMethod]
+        public void NotRegisterNewUserAndReturnErrorMessage_When_UserNotAcceptPrivacy()
+        {
+            InitializeController();
+            RegisterModel model = new RegisterModel();
+            model.Password = "1234Zuzka";
+            model.Email = "test@test.com";
+            model.ConfirmPassword = "1234Zuzka";
+            model.ConfirmDataPrivacy = false;
+
+            ViewResult result = controller.Register(model);
+
+            db.Verify(r => r.RegisterNewUser(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            Assert.AreEqual("Register", result.ViewName);
+
+            RegisterModel modelFromServer = (RegisterModel)result.Model;
+            Assert.AreNotEqual(RegisterModelMessages.NoMessage, RegisterModelMessages.PrivacyWasNotConfirmed & modelFromServer.Messages);
+        }
+
+        [TestMethod]
+        public void NotRegisterNewUserAndReturnErrorMessage_When_UserNotAcceptOwnRensponsibility()
+        {
+            InitializeController();
+            RegisterModel model = new RegisterModel();
+            model.Password = "1234Zuzka";
+            model.Email = "test@test.com";
+            model.ConfirmPassword = "1234Zuzka";
+            model.ConfirmDataPrivacy = false;
+            model.ConfirmPersonalResponsibility = false;
+
+            ViewResult result = controller.Register(model);
+
+            db.Verify(r => r.RegisterNewUser(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            Assert.AreEqual("Register", result.ViewName);
+
+            RegisterModel modelFromServer = (RegisterModel)result.Model;
+            Assert.AreNotEqual(RegisterModelMessages.NoMessage, RegisterModelMessages.OwnResponsibilityWasNotConfirmed & modelFromServer.Messages);
+        }
 
         private void InitializeController()
         {
