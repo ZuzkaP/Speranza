@@ -730,16 +730,16 @@ namespace Speranza.Tests.Services
         private void PrepareModelWithTwoCheckedTimeslotsWithoutValidFrom()
         {
             PrepareModelWithNoCheckedTimeslot();
-            model.IsTrainingInTime[DAY_A*13 + TIME_A - 7] = true;
-            model.IsTrainingInTime[DAY_B*13 + TIME_B - 7] = true;
+            model.IsTrainingInTime[DAY_A*15 + TIME_A - 6] = true;
+            model.IsTrainingInTime[DAY_B*15 + TIME_B - 6] = true;
         }
 
         private void PrepareModelWithTwoCheckedTimeslotsWithValidFrom()
         {
             PrepareModelWithNoCheckedTimeslot();
             model.ValidFrom = "15.03.2017";
-            model.IsTrainingInTime[DAY_A * 13 + TIME_A - 7] = true;
-            model.IsTrainingInTime[DAY_B * 13 + TIME_B - 7] = true;
+            model.IsTrainingInTime[DAY_A * 15 + TIME_A - 6] = true;
+            model.IsTrainingInTime[DAY_B * 15 + TIME_B - 6] = true;
         }
 
 
@@ -757,7 +757,7 @@ namespace Speranza.Tests.Services
         private void PrepareArrayWithNoCheckedTraining()
         {
             checkedTrainings = new List<bool>();
-            for (int i = 0; i < 7 * 13; i++)
+            for (int i = 0; i < 7 * 15; i++)
             {
                 checkedTrainings.Add(false);
             }

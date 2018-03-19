@@ -160,7 +160,7 @@ namespace Speranza.Tests.Controllers
             ViewResult result = (ViewResult)controller.Recurring();
 
             RecurringModel model = (RecurringModel)result.Model;
-            Assert.AreEqual(7*13, model.IsTrainingInTime.Count);
+            Assert.AreEqual(7*15, model.IsTrainingInTime.Count);
             Assert.IsFalse(model.IsTrainingInTime.Any(r=> r == true));
         }
 
@@ -173,10 +173,10 @@ namespace Speranza.Tests.Controllers
             ViewResult result = (ViewResult)controller.Recurring();
 
             RecurringModel model = (RecurringModel)result.Model;
-            Assert.AreEqual(7 * 13, model.IsTrainingInTime.Count);
+            Assert.AreEqual(7 * 15, model.IsTrainingInTime.Count);
             Assert.AreEqual(2,model.IsTrainingInTime.Count(r => r == true));
-            Assert.AreEqual(true,model.IsTrainingInTime[8]);
-            Assert.AreEqual(true,model.IsTrainingInTime[27]);
+            Assert.AreEqual(true,model.IsTrainingInTime[9]);
+            Assert.AreEqual(true,model.IsTrainingInTime[32]);
 
             Assert.AreEqual(modelA.Object,model.Templates[0]);
             Assert.AreEqual(modelB.Object, model.Templates[1]);
