@@ -361,3 +361,13 @@ select.selcls option {
 .popover {
     width: 200px;
 }
+
+.popover { background: #424254 !important; }
+.popover-body{color: white}
+.popover.bottom .arrow:after {
+    border-bottom-color:white;
+}
+
+.popover-header {
+    background-color: #f6b066;
+}
