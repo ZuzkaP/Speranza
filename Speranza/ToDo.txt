@@ -12,3 +12,6 @@
 10.Zmena hesla - header, buttony DONE
 11. Design issue on server on forgotten pass and register view(font,icons)
 12. new training modal open calendar when click on icon
+
+
+pass:WOuhmJdz
