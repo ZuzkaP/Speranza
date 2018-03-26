@@ -23,7 +23,10 @@ namespace Speranza.Services
         {
             var cookie = new HttpCookie("RememberMe");
             cookie.Values.Add(series, token);
+            cookie.Expires = DateTime.Now.AddMonths(1);
             cookies.Add(cookie);
+
+
         }
     }
 }
