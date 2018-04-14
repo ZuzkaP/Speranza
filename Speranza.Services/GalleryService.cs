@@ -13,7 +13,7 @@ namespace Speranza.Services
     public class GalleryService : IGalleryService
     {
         private IDatabaseGateway db;
-        private const string GALLERY = "/Gallery";
+        private const string GALLERY = "speranza/www/Gallery";
 
         public GalleryService(IDatabaseGateway db)
         {
