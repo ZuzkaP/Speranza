@@ -84,22 +84,22 @@
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
-                <tr>
-                    <th class="col-sm-2">Dátum</th>
-                    <th class="col-sm-2">Čas</th>
-                    <th class="col-sm-4">Popis</th>
-                    <th class="col-sm-2">Tréner</th>
-                    <th class="col-sm-2">Odhlásiť</th>
+                <tr class="d-flex">
+                    <th class="col-2">Dátum</th>
+                    <th class="col-2">Čas</th>
+                    <th class="col-4">Popis</th>
+                    <th class="col-2">Tréner</th>
+                    <th class="col-2">Odhlásiť</th>
                 </tr>
                 </thead>
                 @foreach (var item in Model.FutureTrainings)
                 {
-                    <tr>
-                        <td>@item.Time.ToString("dd.MM.yyyy")</td>
-                        <td>@item.Time.ToString("HH:mm")</td>
-                        <td>@item.Description</td>
-                        <td>@item.Trainer</td>
-                        <td>
+                    <tr class="d-flex">
+                        <td class="col-2">@item.Time.ToString("dd.MM.yyyy")</td>
+                        <td class="col-2">@item.Time.ToString("HH:mm")</td>
+                        <td class="col-4">@item.Description</td>
+                        <td class="col-2">@item.Trainer</td>
+                        <td class="col-2">
                             @if (item.IsAllowedToSignOff)
                             {
                                 @Html.ActionLink("Odhlásiť", "SignOff", "Calendar", new { id = item.ID }, null)
@@ -109,12 +109,12 @@
                 }
                 @foreach (var item in Model.PastTrainings)
                 {
-                    <tr class="obsolete">
-                        <td>@item.Time.ToString("dd.MM.yyyy")</td>
-                        <td>@item.Time.ToString("HH:mm")</td>
-                        <td>@item.Description</td>
-                        <td>@item.Trainer</td>
-                        <td></td>
+                    <tr class="obsolete d-flex">
+                        <td class="col-2">@item.Time.ToString("dd.MM.yyyy")</td>
+                        <td class="col-2">@item.Time.ToString("HH:mm")</td>
+                        <td class="col-4">@item.Description</td>
+                        <td class="col-2">@item.Trainer</td>
+                        <td class="col-2"></td>
                     </tr>
                 }
             </table>
