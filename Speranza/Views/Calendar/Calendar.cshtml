@@ -94,10 +94,20 @@
                                                         {
                                                             if (training.RegisteredNumber < training.Capacity && training.IsAllowedToSignUp && Model.AllowToSignUp)
                                                             {
-                                                                <a href="SignUp?id=@training.ID" id="@training.ID">
-                                                                    Prihlásiť
-                                                                    <span class="octicon octicon-plus text-dark" style="font-size: 120%"></span>
-                                                                </a>
+                                                                if (!training.IsAllowedToSignOff)
+                                                                {
+                                                                    <a href="SignUp?id=@training.ID" id="@training.ID" data-toggle="confirmation" data-btn-ok-label="Áno" data-btn-ok-class="btn btn-info" data-btn-cancel-class="btn btn-danger" data-btn-cancel-label="Nie" data-title="Prihlásenie" data-content="Z tohto tréningu už nie je možné sa odhlásiť. Si si istý, že sa chceš prihlásiť?">
+                                                                        Prihlásiť
+                                                                        <span class="octicon octicon-plus text-dark" style="font-size: 120%"></span>
+                                                                    </a>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <a href="SignUp?id=@training.ID" id="@training.ID">
+                                                                        Prihlásiť
+                                                                        <span class="octicon octicon-plus text-dark" style="font-size: 120%"></span>
+                                                                    </a>
+                                                                }
                                                             }
                                                         }
                                                     </li>
@@ -167,6 +177,7 @@
 
 @section scripts
 {
+    <script src="~/Scripts/bootstrap-confirmation.min.js"></script>
     <script>
         var isshown = false;
         var clickedAway = false;
@@ -191,5 +202,16 @@
             isshown = true;
             clickedAway = false;
         });
+
+        $('[data-toggle=confirmation]').confirmation({
+            rootSelector: '[data-toggle=confirmation]',
+            // other options
+        });
+        //function checkLimitToSignOff(isAllowedToSignOff) {
+        //    if (!isAllowedToSignOff) {
+        //        return confirm("Z tohto tréningu už nie je možné sa odhlásiť. Si si istý, že sa chceš prihlásiť?");
+        //    }
+        //}
     </script>
+
 }
