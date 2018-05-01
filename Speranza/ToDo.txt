@@ -7,8 +7,9 @@
 7.Admin users - edit user names 
 8. Past trainings - Select displayed training by date
 9. widgety - statistika - kolko ludi bolo tyzdenne/mesacne na treningy
+10.widgety - pre userov -kolko odcvicili tento mesiac/rok
+11. integracia so stravou/garmin
 
 10. message to web header
-11. limit 4 hours - user can still asign 
 
 pass:WOuhmJdz
