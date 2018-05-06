@@ -1,4 +1,28 @@
-﻿$(function () {
+﻿
+$("#SetMessageForClients").click(function () {
+    $('#NewUserMessage').modal('show');
+});
+
+$(function () {
+    $(".NewMessageFormDatePicker").datepicker({
+        beforeShow: function () {
+            setTimeout(function () {
+                $('.ui-datepicker').css('z-index', 99999999999999);
+            }, 0);
+        },
+        dateFormat: "dd.mm.yy",
+        minDate: 0,
+        constrainInput: true,
+        monthNames: ["Január", "Február", "Marec", "Apríl", "Máj", "Jún", "Júl", "August", "September", "Október", "November", "December"],
+        monthNamesShort: ["Jan", "Feb", "Mar", "Apr", "Máj", "Jún", "Júl", "Aug", "Sep", "Okt", "Nov", "Dec"],
+        dayNames: ["Nedeľa", "Pondelok", "Utorok", "Streda", "Štvrtok", "Piatok", "Sobota"],
+        dayNamesMin: ["Ne", "Po", "Ut", "St", "Št", "Pi", "So"],
+        firstDay: 1
+    });
+});
+
+
+$(function () {
     $('.IsAdmin').change(function () {
 
         var self = $(this);

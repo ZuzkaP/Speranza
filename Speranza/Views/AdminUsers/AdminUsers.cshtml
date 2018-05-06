@@ -7,7 +7,9 @@
 }
 
 <div class="container calendar-container">
-    <h2 class="adminUsersLabel">Správa používateľov</h2>
+    <h2 class="adminUsersLabel">Správa používateľov
+    <button id="SetMessageForClients" data-toggle="tooltip" data-placement="bottom" title="Nastav oznam pre klientov" class="btn btn-warning trainingButtons"><span class="octicon octicon-megaphone"></span></button>
+    </h2>
 
 
 
@@ -73,10 +75,13 @@
     </div>
 
 @Html.Partial("UserTrainingsList");
+@Html.Partial("NewMessageForm")
 
 @section scripts {
     <script>
-
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
     </script>
 <script src="~/Scripts/AdminUsers.js"></script>
 <script src="~/Scripts/jquery.tablesorter.min.js"></script>
