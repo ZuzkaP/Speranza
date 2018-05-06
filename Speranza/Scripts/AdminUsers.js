@@ -22,6 +22,22 @@ $(function () {
 });
 
 
+$('#CreateMessage').click(function () {
+    var dateFrom = $('#MessageDateFrom').prop('value');
+    var dateTo = $('#MessageDateTo').prop('value');
+    var message = $('#Message').val();
+    $.ajax({
+        url: "AddNewMessage",
+        data: { dateFrom: dateFrom, dateTo: dateTo, message: message},
+        type: 'POST',
+        dataType: "json",
+        success: function (response) {
+                alert(response.text);
+        }
+    });
+});
+
+
 $(function () {
     $('.IsAdmin').change(function () {
 

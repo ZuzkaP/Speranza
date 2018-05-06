@@ -169,5 +169,10 @@ namespace Speranza.Controllers
             return Json(model);
         }
 
+        public ActionResult AddNewMessage(string dateFrom, string dateTo, string message)
+        {
+            return Json("");
+        }
+
     }
 }

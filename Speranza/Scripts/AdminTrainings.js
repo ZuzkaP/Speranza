@@ -141,7 +141,7 @@ $(function () {
 $("#NewTraining").keyup(function (event) {
     if (event.target.id != "NewTrainingDescription" && event.keyCode == 13) {
         $("#CreateTrainingButton").click();
-    } CreateTrainingButton
+    } 
 });
 
 $('#CreateTrainingButton').click(function () {
