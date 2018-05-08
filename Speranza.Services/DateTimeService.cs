@@ -40,5 +40,16 @@ namespace Speranza.Services
             }
             return resultDate.AddHours(resultTime.Hour).AddMinutes(resultTime.Minute);
         }
+
+        public DateTime ParseDate(string date)
+        {
+            DateTime parsedDate;
+            if (!DateTime.TryParse(date, out parsedDate))
+            {
+                throw new InvalidTimeException();
+            }
+
+            return parsedDate;
+        }
     }
 }

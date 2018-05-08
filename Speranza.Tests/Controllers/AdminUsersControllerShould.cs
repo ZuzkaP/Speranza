@@ -30,6 +30,19 @@ namespace Speranza.Tests.Controllers
         private Mock<ITrainingsManager> trainingManager;
         private readonly DateTime TRAININGDATE = new DateTime(2017, 01, 01, 00, 00, 00);
         private Mock<ICookieService> cookieService;
+        private Mock<IDateTimeService> dateTimeService { get; set; }
+        private const string MESSAGE = "test message";
+        private const string LONGMESSAGE = "this messageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" +
+                                           "is toooooooooooooooooooooo" +
+                                           "looooooooooooooooooooooooooooo" +
+                                           "oooooooooooooooooooooooooooooooooooooooooooooooooo" +
+                                           "ooooooooooooooooooooooooooooooooooooooooooooooooooooooooo" +
+                                           "ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo" +
+                                           "ooooooooooong";
+        private const string DATESTRINGFROM = "01.01.2017";
+        private const string DATESTRINGTO = "05.01.2017";
+        private readonly DateTime DATE1 = new DateTime(2017, 01, 01);
+        private readonly DateTime DATE2 = DateTime.Now.AddDays(1);
 
         [TestMethod]
         public void ReturnToCalendar_When_ClickOnAdminUsers_And_UserIsNotLogin()
@@ -360,17 +373,80 @@ namespace Speranza.Tests.Controllers
             Assert.AreEqual(TRAININGDATE.ToString("HH:mm"), ((UserSignOffModel)result.Data).TrainingTime);
         }
 
+        [TestMethod]
+        public void NotAddNewMessage_When_LoggedUserIsNotAdmin()
+        {
+            InitializeAdminUsersController();
+            userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(false);
+
+            ActionResult result = controller.AddNewMessage(DATESTRINGFROM, DATESTRINGTO,MESSAGE);
+
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["controller"]);
+            Assert.AreEqual("Calendar", ((RedirectToRouteResult)result).RouteValues["action"]);
+            userManager.Verify(r => r.UpdateCountOfFreeSignUps(It.IsAny<string>(), It.IsAny<int>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void NotAddNewMessage_When_OneDateIsInPast()
+        {
+            InitializeAdminUsersController();
+            dateTimeService.Setup(r => r.ParseDate(DATESTRINGFROM)).Returns(DATE1);
+            dateTimeService.Setup(r => r.ParseDate(DATESTRINGTO)).Returns(DATE2);
+            dateTimeService.Setup(r => r.GetCurrentDate()).Returns(DateTime.Now);
+            JsonResult result = (JsonResult)controller.AddNewMessage(DATESTRINGFROM,DATESTRINGTO,MESSAGE);
+
+            Assert.AreEqual(AdminUsersInfoMessage.MESSAGEISINPAST, result.Data);
+            userManager.Verify(r => r.AddNewInfoMessage(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void NotAddNewMessage_When_ItIsTooLong()
+        {
+            InitializeAdminUsersController();
+            dateTimeService.Setup(r => r.ParseDate(DATESTRINGFROM)).Returns(DateTime.Now.AddDays(1));
+            dateTimeService.Setup(r => r.ParseDate(DATESTRINGTO)).Returns(DateTime.Now.AddDays(3));
+            dateTimeService.Setup(r => r.GetCurrentDate()).Returns(DateTime.Now);
+
+            JsonResult result = (JsonResult)controller.AddNewMessage(DATESTRINGFROM, DATESTRINGTO, LONGMESSAGE);
+
+            Assert.AreEqual(AdminUsersInfoMessage.MESSAGEISTOOLONG, result.Data);
+            userManager.Verify(r => r.AddNewInfoMessage(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void AddNewMessage_When_ItIsValid()
+        {
+            InitializeAdminUsersController();
+            DateTime datefrom = DateTime.Now.AddDays(1);
+            dateTimeService.Setup(r => r.ParseDate(DATESTRINGFROM)).Returns(datefrom);
+            DateTime dateto = DateTime.Now.AddDays(3);
+            dateTimeService.Setup(r => r.ParseDate(DATESTRINGTO)).Returns(dateto);
+            dateTimeService.Setup(r => r.GetCurrentDate()).Returns(DateTime.Now);
+            var model = new Mock<IUserNotificationMessageModel>();
+
+            JsonResult result = (JsonResult)controller.AddNewMessage(DATESTRINGFROM, DATESTRINGTO, MESSAGE);
+
+            userManager.Verify(r => r.AddNewInfoMessage(datefrom, dateto, MESSAGE), Times.Once);
+            Assert.AreEqual(AdminUsersInfoMessage.MessageSuccessfullyAdded,((UserNotificationMessageModel)result.Data).Status);
+            Assert.AreEqual(datefrom, ((UserNotificationMessageModel)result.Data).DateFrom);
+            Assert.AreEqual(dateto, ((UserNotificationMessageModel)result.Data).DateTo);
+            Assert.AreEqual(MESSAGE, ((UserNotificationMessageModel)result.Data).Message);
+        }
+
         private void InitializeAdminUsersController()
         {
             userManager = new Mock<IUserManager>();
             trainingManager = new Mock<ITrainingsManager>();
             cookieService = new Mock<ICookieService>();
-            controller = new AdminUsersController(userManager.Object,trainingManager.Object,cookieService.Object);
+            dateTimeService = new Mock<IDateTimeService>();
+            controller = new AdminUsersController(userManager.Object,trainingManager.Object,cookieService.Object,dateTimeService.Object);
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             controller.ControllerContext = new FakeControllerContext(controller, sessionItems);
             controller.Session["Email"] = USER_EMAIL;
             userManager.Setup(r => r.IsUserLoggedIn(null, controller.Session)).Returns(true);
             userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(true);
         }
+
     }
 }

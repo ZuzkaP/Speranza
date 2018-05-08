@@ -309,6 +309,11 @@ namespace Speranza.Services
             db.CancelRememberMe(email);
         }
 
+        public void AddNewInfoMessage(DateTime dateFrom, DateTime dateTo, string message)
+        {
+            throw new NotImplementedException();
+        }
+
         public void CleanUpTokens()
         {
             db.CleanUpTokens();

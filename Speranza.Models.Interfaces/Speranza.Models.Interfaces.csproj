@@ -52,6 +52,7 @@
     <Compile Include="ITrainingForAdminModel.cs" />
     <Compile Include="IUserForAdminModel.cs" />
     <Compile Include="IUserForTrainingDetailModel.cs" />
+    <Compile Include="IUserNotificationMessageModel.cs" />
     <Compile Include="IUserProfileModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserProfileMessages.cs" />

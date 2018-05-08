@@ -15,6 +15,7 @@ namespace Speranza.Models
         SuccessfullyDecreasedCountOfSignUps = 5,
         SuccessfullyUserSignOffFromTraining = 6
     }
+
     public class AdminUsersModel 
     {
         public IList<string> Categories { get;private set; }

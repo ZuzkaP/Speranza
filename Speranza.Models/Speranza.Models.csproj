@@ -65,6 +65,7 @@
     <Compile Include="UpdateCountOfSignUpsModel.cs" />
     <Compile Include="UserForAdminModel.cs" />
     <Compile Include="UserForTrainingDetailModel.cs" />
+    <Compile Include="UserNotificationMessageModel.cs" />
     <Compile Include="UserProfileModel.cs" />
     <Compile Include="UserSignOffModel.cs" />
     <Compile Include="UsersInTrainingModel.cs" />
