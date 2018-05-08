@@ -276,7 +276,7 @@ namespace Speranza.Tests.Controllers
             factory.Setup(r => r.CreateTrainingModel(trainingC.Object)).Returns(trainingModelC.Object);
             factory.Setup(r => r.CreateTrainingModel(trainingD.Object)).Returns(trainingModelD.Object);
 
-            dateTimeService.Setup(r => r.GetCurrentDate()).Returns(new DateTime(2016, 12, 17));
+            dateTimeService.Setup(r => r.GetCurrentDateTime()).Returns(new DateTime(2016, 12, 17));
 
             ActionResult result = controller.UserProfile();
 
@@ -475,7 +475,7 @@ namespace Speranza.Tests.Controllers
             trainingModel.SetupGet(r => r.Time).Returns(new DateTime(2016, 12, 2, 18, 00, 00));
             factory.Setup(r => r.CreateTrainingModel(trainingD.Object)).Returns(trainingModel.Object);
 
-            dateTimeService.Setup(r => r.GetCurrentDate()).Returns(date);
+            dateTimeService.Setup(r => r.GetCurrentDateTime()).Returns(date);
         }
 
         private void PrepareTrainingInCloseFuture()
@@ -488,7 +488,7 @@ namespace Speranza.Tests.Controllers
             trainingModel.SetupGet(r => r.Time).Returns(new DateTime(2016, 12, 2, 12,00,00));
             factory.Setup(r => r.CreateTrainingModel(trainingD.Object)).Returns(trainingModel.Object);
 
-            dateTimeService.Setup(r => r.GetCurrentDate()).Returns(date);
+            dateTimeService.Setup(r => r.GetCurrentDateTime()).Returns(date);
         }
         
         private void InitializeAccountController()

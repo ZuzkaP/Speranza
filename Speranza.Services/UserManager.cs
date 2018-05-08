@@ -107,7 +107,7 @@ namespace Speranza.Services
         public IList<ITrainingModel> GetFutureTrainingsForUser(string email)
         {
             IList<ITraining> alluserTrainings = db.GetTrainingsForUser(email);
-            IList<ITraining> futureUserTrainings = alluserTrainings.Where(r => r.Time > dateTimeService.GetCurrentDate()).ToList();
+            IList<ITraining> futureUserTrainings = alluserTrainings.Where(r => r.Time > dateTimeService.GetCurrentDateTime()).ToList();
             IList<ITrainingModel> trainingsModels = new List<ITrainingModel>();
             foreach (var training in futureUserTrainings)
             {
@@ -187,7 +187,7 @@ namespace Speranza.Services
 
         public UserCategories UpdateUserCategory(string email, UserCategories category)
         {
-            int count = db.GetNumberOfVisits(email, dateTimeService.GetCurrentDate());
+            int count = db.GetNumberOfVisits(email, dateTimeService.GetCurrentDateTime());
 
             if (count <= 40 && category == UserCategories.Standard)
             {
@@ -210,7 +210,7 @@ namespace Speranza.Services
 
         public void UpdateSeasonTickets()
         {
-            var usersInTraining = db.GetNonProcessedUsersInTrainingBeforeDate(dateTimeService.GetCurrentDate());
+            var usersInTraining = db.GetNonProcessedUsersInTrainingBeforeDate(dateTimeService.GetCurrentDateTime());
             foreach (var item in usersInTraining)
             {
                 IUser user = db.GetUserData(item.Email);
@@ -311,7 +311,7 @@ namespace Speranza.Services
 
         public void AddNewInfoMessage(DateTime dateFrom, DateTime dateTo, string message)
         {
-            throw new NotImplementedException();
+            db.AddNewMessage(dateFrom,dateTo,message);
         }
 
         public void CleanUpTokens()

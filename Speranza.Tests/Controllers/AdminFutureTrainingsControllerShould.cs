@@ -457,7 +457,7 @@ namespace Speranza.Tests.Controllers
         {
             InitializeAdminTrainingsController();
             userDataParser.Setup(r => r.ParseData(USER_DATA)).Returns(USER_EMAIL);
-            dateTimeService.Setup(r => r.GetCurrentDate()).Returns(CURRENT_DATE);
+            dateTimeService.Setup(r => r.GetCurrentDateTime()).Returns(CURRENT_DATE);
             trainingManager.Setup(r => r.AddUserToTraining(USER_EMAIL, TRAINING_ID, CURRENT_DATE,true)).Returns(CalendarMessages.SignUpSuccessful);
             var user = new Mock<IUserForTrainingDetailModel>();
             userManager.Setup(r => r.GetAddedUserData(USER_EMAIL)).Returns(user.Object);

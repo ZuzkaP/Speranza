@@ -115,7 +115,7 @@ namespace Speranza.Services
                     template.ValidFrom = tempValidFrom;
 
                     db.CreateRecurringTrainingTemplate(template);
-                    db.SetLastTemplateGenerationDate(dateTimeService.GetCurrentDate().AddDays(-1));
+                    db.SetLastTemplateGenerationDate(dateTimeService.GetCurrentDateTime().AddDays(-1));
                 }
                 time++;
                 if(time > 20)
@@ -140,7 +140,7 @@ namespace Speranza.Services
             var trainingsForAdmin = new List<ITrainingForAdminModel>();
             foreach (var item in trainingsFromDB)
             {
-               if(item.Time > dateTimeService.GetCurrentDate())
+               if(item.Time > dateTimeService.GetCurrentDateTime())
                 {
                     ITrainingForAdminModel model = factory.CreateTrainingForAdminModel(item);
                     trainingsForAdmin.Add(model);
@@ -181,7 +181,7 @@ namespace Speranza.Services
         public void RemoveTrainingTemplate(int day, int time)
         {
             db.RemoveTrainingTemplate(day, time);
-            db.SetLastTemplateGenerationDate(dateTimeService.GetCurrentDate().AddDays(-1));
+            db.SetLastTemplateGenerationDate(dateTimeService.GetCurrentDateTime().AddDays(-1));
         }
 
         public ITrainingModel RemoveUserFromTraining(string email, string id,bool isAdmin)
@@ -229,7 +229,7 @@ namespace Speranza.Services
 
         public int GetFutureTrainingsCount()
         {
-            return db.GetTrainingsCountAfterDate(dateTimeService.GetCurrentDate());
+            return db.GetTrainingsCountAfterDate(dateTimeService.GetCurrentDateTime());
         }
 
         public IList<ITrainingForAdminModel> GetPastTrainings(int from, int to)
@@ -238,7 +238,7 @@ namespace Speranza.Services
             var trainingsForAdmin = new List<ITrainingForAdminModel>();
             foreach (var item in trainingsFromDB)
             {
-                if (item.Time <= dateTimeService.GetCurrentDate())
+                if (item.Time <= dateTimeService.GetCurrentDateTime())
                 {
                     ITrainingForAdminModel model = factory.CreateTrainingForAdminModel(item);
                     trainingsForAdmin.Add(model);
@@ -249,7 +249,7 @@ namespace Speranza.Services
 
         public int GetPastTrainingsCount()
         {
-            return db.GetTrainingsCountBeforeDate(dateTimeService.GetCurrentDate());
+            return db.GetTrainingsCountBeforeDate(dateTimeService.GetCurrentDateTime());
         }
 
         public void ConfirmParticipation(string trainingID, string email)
@@ -261,7 +261,7 @@ namespace Speranza.Services
         public void DisproveParticipation(string trainingID, string email)
         {
             db.DisproveParticipation(trainingID, email);
-            db.SignOutUserFromAllTrainingsAfterDate(email,dateTimeService.GetCurrentDate());
+            db.SignOutUserFromAllTrainingsAfterDate(email,dateTimeService.GetCurrentDateTime());
             db.ForbidSigningUpToTrainings(email);
         }
     }

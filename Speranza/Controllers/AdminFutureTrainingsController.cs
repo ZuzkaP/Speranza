@@ -157,7 +157,7 @@ namespace Speranza.Controllers
             try
             {
                 DateTime dateTime = dateTimeService.ParseDateTime(date, time);
-                if(dateTime < dateTimeService.GetCurrentDate())
+                if(dateTime < dateTimeService.GetCurrentDateTime())
                 {
                     return Json(AdminTrainingsMessages.NewTrainingDateInPast);
                 }
@@ -223,7 +223,7 @@ namespace Speranza.Controllers
             {
                 return Json(CalendarMessages.UserDoesNotExist);
             }
-            var message = trainingManager.AddUserToTraining(email, trainingID, dateTimeService.GetCurrentDate(),true);
+            var message = trainingManager.AddUserToTraining(email, trainingID, dateTimeService.GetCurrentDateTime(),true);
             if(message == CalendarMessages.SignUpSuccessful)
             {
                 return Json(userManager.GetAddedUserData(email));

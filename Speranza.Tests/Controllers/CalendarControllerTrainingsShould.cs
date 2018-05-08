@@ -169,7 +169,7 @@ namespace Speranza.Tests.Controllers
             training.SetupGet(r => r.RegisteredNumber).Returns(8);
             training.SetupGet(r => r.Time).Returns(new DateTime(2017,1,9,10,00,00));
 
-            dateTimeService.Setup(r => r.GetCurrentDate()).Returns(CURRENT_TIME);
+            dateTimeService.Setup(r => r.GetCurrentDateTime()).Returns(CURRENT_TIME);
 
             db = new Mock<IDatabaseGateway>();
             

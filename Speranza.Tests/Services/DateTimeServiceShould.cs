@@ -21,7 +21,7 @@ namespace Speranza.Tests.Services
         {
             InitializeService();
             DateTime expected = DateTime.Now;
-            DateTime recieved = service.GetCurrentDate();
+            DateTime recieved = service.GetCurrentDateTime();
             Assert.AreEqual(expected.Year, recieved.Year);
             Assert.AreEqual(expected.Month, recieved.Month);
             Assert.AreEqual(expected.Day, recieved.Day);

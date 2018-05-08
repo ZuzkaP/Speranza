@@ -179,7 +179,7 @@ namespace Speranza.Tests.Controllers
             userManager = new Mock<IUserManager>();
             daysManager = new Mock<IDaysManager>();
             dateTimeService = new Mock<IDateTimeService>();
-            dateTimeService.Setup(r => r.GetCurrentDate()).Returns(CURRENTDATE);
+            dateTimeService.Setup(r => r.GetCurrentDateTime()).Returns(CURRENTDATE);
             cookieService = new Mock<ICookieService>();
             calendar = new CalendarController(null,userManager.Object,daysManager.Object,dateTimeService.Object,null,null,cookieService.Object);
            

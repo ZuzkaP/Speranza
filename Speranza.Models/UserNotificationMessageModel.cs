@@ -11,7 +11,8 @@ namespace Speranza.Models
     {
         MESSAGEISINPAST = 0,
         MessageSuccessfullyAdded = 1,
-        MESSAGEISTOOLONG = 2
+        MESSAGEISTOOLONG = 2,
+        MessageIsEmpty = 3
     }
     public class UserNotificationMessageModel : IUserNotificationMessageModel
     {

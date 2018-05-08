@@ -843,7 +843,7 @@ namespace Speranza.Tests.Services
             uidService = new Mock<IUidService>();
             emailManager = new Mock<IEmailManager>();
             dateTimeService = new Mock<IDateTimeService>();
-            dateTimeService.Setup(r => r.GetCurrentDate()).Returns(CURRENT_DATE);
+            dateTimeService.Setup(r => r.GetCurrentDateTime()).Returns(CURRENT_DATE);
             userManager = new Mock<IUserManager>();
             manager = new TrainingsManager(db.Object,factory.Object,uidService.Object,dateTimeService.Object,userManager.Object,emailManager.Object);
 

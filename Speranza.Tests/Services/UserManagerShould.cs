@@ -66,6 +66,7 @@ namespace Speranza.Tests.Services
         private Mock<IUser> user1;
         private Mock<IUser> user2;
         private Mock<IUidService> uidService;
+        private const string MESSAGE = "message";
 
         [TestMethod]
         public void ReturnFalse_When_SessionIsEmpty()
@@ -816,6 +817,17 @@ namespace Speranza.Tests.Services
             db.Verify(r => r.CleanUpTokens(), Times.Once);
         }
 
+        [TestMethod]
+        public void AddNewMessage()
+        {
+            InitializeUserManager();
+
+            manager.AddNewInfoMessage(DateTime.Today.AddDays(2),DateTime.Today.AddDays(3),MESSAGE);
+
+            db.Verify(r => r.AddNewMessage(DateTime.Today.AddDays(2), DateTime.Today.AddDays(3),MESSAGE), Times.Once);
+        }
+
+
         private void PrepareTwoTrainingWithTwoUsersWithZeroEntranceFlag()
         {
             var training = new Mock<ITraining>();
@@ -913,7 +925,7 @@ namespace Speranza.Tests.Services
             manager = new UserManager(db.Object, factory.Object,datetimeService.Object,hasher.Object, emailManager.Object, uidService.Object);
             collection = new SessionStateItemCollection();
             context = new FakeControllerContext(null, collection);
-            datetimeService.Setup(r => r.GetCurrentDate()).Returns(DATE_TIME);
+            datetimeService.Setup(r => r.GetCurrentDateTime()).Returns(DATE_TIME);
           
            
         }

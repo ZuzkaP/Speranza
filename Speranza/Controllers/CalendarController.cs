@@ -49,7 +49,7 @@ namespace Speranza.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-           CalendarMessages message = trainingManager.AddUserToTraining((string)Session["Email"], id,dateTimeService.GetCurrentDate());
+           CalendarMessages message = trainingManager.AddUserToTraining((string)Session["Email"], id,dateTimeService.GetCurrentDateTime());
             if(message ==  CalendarMessages.SignUpSuccessful)
             {
                 ITraining training = db.GetTrainingData(id);
@@ -71,7 +71,7 @@ namespace Speranza.Controllers
             var userEmail = (string)Session["Email"];
             Session["Category"] = userManager.UpdateUserCategory(userEmail,(UserCategories)Session["Category"]);
             CalendarModel model = new CalendarModel();
-            DateTime today = dateTimeService.GetCurrentDate();
+            DateTime today = dateTimeService.GetCurrentDateTime();
             int daysCount =
                 userManager.GetUserCategory(Session) == UserCategories.Silver ?
                 SILVER_USERS_DAYS :

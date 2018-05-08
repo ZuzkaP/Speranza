@@ -26,7 +26,7 @@ namespace Speranza.Services
         {
             IDayModel model = new DayModel(date.ToString("dd.MM."), dateTimeService.GetDayName(date));
             var trainings = db.GetDayTrainings(date);
-            DateTime currentDate = dateTimeService.GetCurrentDate();
+            DateTime currentDate = dateTimeService.GetCurrentDateTime();
             if (trainings != null)
             {
                 foreach (var item in trainings)

@@ -63,5 +63,6 @@ namespace Speranza.Database
         void CancelRememberMe(string email);
         void CleanUpTokens();
         void WriteToLog(string eMessage, Email email);
+        void AddNewMessage(DateTime from, DateTime to, string message);
     }
 }

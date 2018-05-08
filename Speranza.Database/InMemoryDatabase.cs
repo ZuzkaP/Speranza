@@ -8,6 +8,7 @@ using Speranza.Models;
 using Speranza.Database.Data.Interfaces;
 using Speranza.Database.Data;
 using Speranza.Common.Data;
+using Speranza.Models.Interfaces;
 using Speranza.Smtp.Interfaces;
 
 namespace Speranza.Database
@@ -21,6 +22,7 @@ namespace Speranza.Database
         List<ITraining> trainings;
         List<IRecurringTrainingTemplate> templates;
         List<IUserInTraining> usersInTrainings;
+        List<IUserNotificationMessage> messages;
         static InMemoryDatabase database;
         private const string LAST_TEMPLATE_GENERATION_DATE = "LastTemplateGenerationDate";
 
@@ -38,6 +40,7 @@ namespace Speranza.Database
         {
             users = new Dictionary<string, RegisteredUser>();
             usersInTrainings = new List<IUserInTraining>();
+            messages = new List<IUserNotificationMessage>();
             settings = new Dictionary<string, object>();
             tokens = new Dictionary<string, string>();
             templates = new List<IRecurringTrainingTemplate>();
@@ -508,6 +511,11 @@ namespace Speranza.Database
             {
                 outfile.Write(message);
             }
+        }
+
+        public void AddNewMessage(DateTime @from, DateTime to, string message)
+        {
+            messages.Add(new UserNotificationMessage(from,to,message));
         }
 
         private class UserInTraining : IUserInTraining

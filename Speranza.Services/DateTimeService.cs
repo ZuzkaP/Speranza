@@ -8,9 +8,13 @@ namespace Speranza.Services
 {
     public class DateTimeService : IDateTimeService
     {
-        public DateTime GetCurrentDate()
+        public DateTime GetCurrentDateTime()
         {
             return DateTime.Now;
+        }
+        public DateTime GetCurrentDate()
+        {
+            return DateTime.Now.Date;
         }
 
         public DayNames GetDayName(DateTime date)

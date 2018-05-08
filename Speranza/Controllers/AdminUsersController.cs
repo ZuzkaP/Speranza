@@ -13,6 +13,7 @@ using System.Net;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using System.Web.WebPages;
 
 namespace Speranza.Controllers
 {
@@ -180,9 +181,14 @@ namespace Speranza.Controllers
             }
             DateTime dateTimeFrom = dateTimeService.ParseDate(dateFrom);
             DateTime dateTimeTo = dateTimeService.ParseDate(dateTo);
-            if (dateTimeFrom < dateTimeService.GetCurrentDate() || dateTimeTo < dateTimeService.GetCurrentDate())
+            if (dateTimeFrom.Date < dateTimeService.GetCurrentDate() || dateTimeTo.Date < dateTimeService.GetCurrentDate())
             {
                 return Json(AdminUsersInfoMessage.MESSAGEISINPAST);
+            }
+            if (message.IsEmpty())
+            {
+                return Json(AdminUsersInfoMessage.MessageIsEmpty);
+
             }
             var model = new UserNotificationMessageModel();
             model.Message = message;

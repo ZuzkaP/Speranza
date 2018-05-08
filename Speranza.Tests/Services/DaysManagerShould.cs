@@ -365,21 +365,21 @@ namespace Speranza.Tests.Services
         {
             PrepareDatabaseWithTwoTrainings();
             trainingModel1.Setup(r => r.Time).Returns(new DateTime(2016, 12, 2, 18, 00, 00));
-            dateTimeService.Setup(r => r.GetCurrentDate()).Returns(date);
+            dateTimeService.Setup(r => r.GetCurrentDateTime()).Returns(date);
         }
 
         private void PrepareTrainingInCloseFuture()
         {
             PrepareDatabaseWithTwoTrainings();
             trainingModel1.Setup(r => r.Time).Returns(new DateTime(2016, 12, 2, 12, 00, 00));
-            dateTimeService.Setup(r => r.GetCurrentDate()).Returns(date);
+            dateTimeService.Setup(r => r.GetCurrentDateTime()).Returns(date);
         }
 
         private void PrepareTrainingInPast()
         {
             PrepareDatabaseWithTwoTrainings();
             trainingModel1.Setup(r => r.Time).Returns(new DateTime(2016, 12, 2, 8, 00, 00));
-            dateTimeService.Setup(r => r.GetCurrentDate()).Returns(date);
+            dateTimeService.Setup(r => r.GetCurrentDateTime()).Returns(date);
         }
 
         private void PrepareDatabaseWithNoTrainings()
@@ -400,7 +400,7 @@ namespace Speranza.Tests.Services
             factory = new Mock<IModelFactory>();
             manager = new DaysManager(db.Object, trainingsManager.Object, dateTimeService.Object, factory.Object);
             dateTimeService.Setup(r => r.GetDayName(date)).Returns(DAY);
-            dateTimeService.Setup(r => r.GetCurrentDate()).Returns(date);
+            dateTimeService.Setup(r => r.GetCurrentDateTime()).Returns(date);
             trainingsManager.Setup(r => r.GetSignOffLimit()).Returns(4);
 
 

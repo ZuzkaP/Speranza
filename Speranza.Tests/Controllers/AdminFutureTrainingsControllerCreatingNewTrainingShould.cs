@@ -146,7 +146,7 @@ namespace Speranza.Tests.Controllers
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             controller.ControllerContext = new FakeControllerContext(controller, sessionItems);
             userManager.Setup(r => r.IsUserAdmin(controller.Session)).Returns(true);
-            dateTimeService.Setup(r => r.GetCurrentDate()).Returns(DATETIME);
+            dateTimeService.Setup(r => r.GetCurrentDateTime()).Returns(DATETIME);
 
         }
     }

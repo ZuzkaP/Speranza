@@ -9,6 +9,7 @@ namespace Speranza.Services.Interfaces
 {
     public interface IDateTimeService
     {
+        DateTime GetCurrentDateTime();
         DateTime GetCurrentDate();
         DayNames GetDayName(DateTime date);
         DateTime ParseDateTime(string date, string time);

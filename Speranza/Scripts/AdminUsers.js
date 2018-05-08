@@ -31,8 +31,29 @@ $('#CreateMessage').click(function () {
         data: { dateFrom: dateFrom, dateTo: dateTo, message: message},
         type: 'POST',
         dataType: "json",
-        success: function (response) {
-                alert(response.text);
+        success: function(response) {
+            switch (response) {
+            case 0:
+                $('#messageBoxInfoForUsersInModal').html("Nie je možné zobraziť správu v minulosti!");
+                $('#messageBoxInfoForUsersInModal').show();
+                return;
+            case 2:
+                $('#messageBoxInfoForUsersInModal')
+                    .html("Nastavte kratšiu správu.");
+                $('#messageBoxInfoForUsersInModal').show();
+                return;
+            case 3:
+                $('#messageBoxInfoForUsersInModal')
+                    .html("Nie je možné nastaviť prázdnu správu.");
+                $('#messageBoxInfoForUsersInModal').show();
+                return;
+            default: //case 1
+                $('#NewUserMessage').modal('hide');
+                $('#usermessageBoxOnAdminUserPage')
+                    .html("Správa bola úspešne nastavená a bude zobrazená v predvolenom termíne.");
+                $('#usermessageBoxOnAdminUserPage').show();
+                return;
+            }
         }
     });
 });

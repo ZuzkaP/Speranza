@@ -729,6 +729,14 @@ namespace Speranza.Database
             ExecuteSql(sql);
         }
 
+        public void AddNewMessage(DateTime from, DateTime to, string message)
+        {
+            string sql = string.Format("INSERT INTO ACTUALINFO(datefrom,dateto,message) VALUES( '{0}','{1}','{2}');",
+                from, to, message);
+
+            ExecuteSql(sql);
+        }
+
         private class UserInTraining : IUserInTraining
         {
             public string Email { get; set; }

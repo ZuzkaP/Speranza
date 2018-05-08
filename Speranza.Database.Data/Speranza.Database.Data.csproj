@@ -44,6 +44,7 @@
     <Compile Include="RecurringTrainingTemplate.cs" />
     <Compile Include="Training.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="UserNotificationMessage.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Speranza.Common.Data\Speranza.Common.Data.csproj">

@@ -393,7 +393,7 @@ namespace Speranza.Tests.Controllers
             InitializeAdminUsersController();
             dateTimeService.Setup(r => r.ParseDate(DATESTRINGFROM)).Returns(DATE1);
             dateTimeService.Setup(r => r.ParseDate(DATESTRINGTO)).Returns(DATE2);
-            dateTimeService.Setup(r => r.GetCurrentDate()).Returns(DateTime.Now);
+            dateTimeService.Setup(r => r.GetCurrentDateTime()).Returns(DateTime.Now);
             JsonResult result = (JsonResult)controller.AddNewMessage(DATESTRINGFROM,DATESTRINGTO,MESSAGE);
 
             Assert.AreEqual(AdminUsersInfoMessage.MESSAGEISINPAST, result.Data);
@@ -406,11 +406,25 @@ namespace Speranza.Tests.Controllers
             InitializeAdminUsersController();
             dateTimeService.Setup(r => r.ParseDate(DATESTRINGFROM)).Returns(DateTime.Now.AddDays(1));
             dateTimeService.Setup(r => r.ParseDate(DATESTRINGTO)).Returns(DateTime.Now.AddDays(3));
-            dateTimeService.Setup(r => r.GetCurrentDate()).Returns(DateTime.Now);
+            dateTimeService.Setup(r => r.GetCurrentDateTime()).Returns(DateTime.Now);
 
             JsonResult result = (JsonResult)controller.AddNewMessage(DATESTRINGFROM, DATESTRINGTO, LONGMESSAGE);
 
             Assert.AreEqual(AdminUsersInfoMessage.MESSAGEISTOOLONG, result.Data);
+            userManager.Verify(r => r.AddNewInfoMessage(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void NotAddNewMessage_When_ItIsEmpty()
+        {
+            InitializeAdminUsersController();
+            dateTimeService.Setup(r => r.ParseDate(DATESTRINGFROM)).Returns(DateTime.Now.AddDays(1));
+            dateTimeService.Setup(r => r.ParseDate(DATESTRINGTO)).Returns(DateTime.Now.AddDays(3));
+            dateTimeService.Setup(r => r.GetCurrentDateTime()).Returns(DateTime.Now);
+
+            JsonResult result = (JsonResult)controller.AddNewMessage(DATESTRINGFROM, DATESTRINGTO, String.Empty);
+
+            Assert.AreEqual(AdminUsersInfoMessage.MessageIsEmpty, result.Data);
             userManager.Verify(r => r.AddNewInfoMessage(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<string>()), Times.Never);
         }
 
@@ -422,7 +436,7 @@ namespace Speranza.Tests.Controllers
             dateTimeService.Setup(r => r.ParseDate(DATESTRINGFROM)).Returns(datefrom);
             DateTime dateto = DateTime.Now.AddDays(3);
             dateTimeService.Setup(r => r.ParseDate(DATESTRINGTO)).Returns(dateto);
-            dateTimeService.Setup(r => r.GetCurrentDate()).Returns(DateTime.Now);
+            dateTimeService.Setup(r => r.GetCurrentDateTime()).Returns(DateTime.Now);
             var model = new Mock<IUserNotificationMessageModel>();
 
             JsonResult result = (JsonResult)controller.AddNewMessage(DATESTRINGFROM, DATESTRINGTO, MESSAGE);
