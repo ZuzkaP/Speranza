@@ -9,9 +9,9 @@ namespace Speranza.Models
 {
     public enum AdminUsersInfoMessage
     {
-        MESSAGEISINPAST = 0,
+        MessageInPast = 0,
         MessageSuccessfullyAdded = 1,
-        MESSAGEISTOOLONG = 2,
+        MessageIsTooLong = 2,
         MessageIsEmpty = 3
     }
     public class UserNotificationMessageModel : IUserNotificationMessageModel

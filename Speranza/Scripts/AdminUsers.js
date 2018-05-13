@@ -50,7 +50,7 @@ $('#CreateMessage').click(function () {
             default: //case 1
                 $('#NewUserMessage').modal('hide');
                 $('#usermessageBoxOnAdminUserPage')
-                    .html("Správa bola úspešne nastavená a bude zobrazená v predvolenom termíne.");
+                    .html("Správa bola úspešne nastavená a bude zobrazená v danom dátume.");
                 $('#usermessageBoxOnAdminUserPage').show();
                 return;
             }

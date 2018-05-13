@@ -82,6 +82,7 @@
     <Compile Include="IEmailManager.cs" />
     <Compile Include="IGalleryService.cs" />
     <Compile Include="IHasher.cs" />
+    <Compile Include="IMessageManager.cs" />
     <Compile Include="IModelFactory.cs" />
     <Compile Include="ITrainingsManager.cs" />
     <Compile Include="IUidService.cs" />

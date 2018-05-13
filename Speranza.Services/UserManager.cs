@@ -10,6 +10,7 @@ using Speranza.Models.Interfaces;
 using Speranza.Database;
 using System.Linq;
 using Speranza.Common.Data;
+using Speranza.Database.Data;
 using Speranza.Models;
 
 namespace Speranza.Services
@@ -308,12 +309,6 @@ namespace Speranza.Services
         {
             db.CancelRememberMe(email);
         }
-
-        public void AddNewInfoMessage(DateTime dateFrom, DateTime dateTo, string message)
-        {
-            db.AddNewMessage(dateFrom,dateTo,message);
-        }
-
         public void CleanUpTokens()
         {
             db.CleanUpTokens();

@@ -28,6 +28,7 @@ namespace Speranza.Tests.Controllers
         private const int CHANGEDCOUNT = 12;
         private const string TRAINING_ID = "id";
         private Mock<ITrainingsManager> trainingManager;
+        private Mock<IMessageManager> messageManager;
         private readonly DateTime TRAININGDATE = new DateTime(2017, 01, 01, 00, 00, 00);
         private Mock<ICookieService> cookieService;
         private Mock<IDateTimeService> dateTimeService { get; set; }
@@ -391,13 +392,13 @@ namespace Speranza.Tests.Controllers
         public void NotAddNewMessage_When_OneDateIsInPast()
         {
             InitializeAdminUsersController();
-            dateTimeService.Setup(r => r.ParseDate(DATESTRINGFROM)).Returns(DATE1);
-            dateTimeService.Setup(r => r.ParseDate(DATESTRINGTO)).Returns(DATE2);
-            dateTimeService.Setup(r => r.GetCurrentDateTime()).Returns(DateTime.Now);
+            dateTimeService.Setup(r => r.ParseDate(DATESTRINGFROM)).Returns(DATE1.Date);
+            dateTimeService.Setup(r => r.ParseDate(DATESTRINGTO)).Returns(DATE2.Date);
+            dateTimeService.Setup(r => r.GetCurrentDate()).Returns(DateTime.Now.Date);
             JsonResult result = (JsonResult)controller.AddNewMessage(DATESTRINGFROM,DATESTRINGTO,MESSAGE);
 
-            Assert.AreEqual(AdminUsersInfoMessage.MESSAGEISINPAST, result.Data);
-            userManager.Verify(r => r.AddNewInfoMessage(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<string>()), Times.Never);
+            Assert.AreEqual(AdminUsersInfoMessage.MessageInPast, result.Data);
+            messageManager.Verify(r => r.AddNewInfoMessage(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<string>()), Times.Never);
         }
 
         [TestMethod]
@@ -410,22 +411,8 @@ namespace Speranza.Tests.Controllers
 
             JsonResult result = (JsonResult)controller.AddNewMessage(DATESTRINGFROM, DATESTRINGTO, LONGMESSAGE);
 
-            Assert.AreEqual(AdminUsersInfoMessage.MESSAGEISTOOLONG, result.Data);
-            userManager.Verify(r => r.AddNewInfoMessage(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<string>()), Times.Never);
-        }
-
-        [TestMethod]
-        public void NotAddNewMessage_When_ItIsEmpty()
-        {
-            InitializeAdminUsersController();
-            dateTimeService.Setup(r => r.ParseDate(DATESTRINGFROM)).Returns(DateTime.Now.AddDays(1));
-            dateTimeService.Setup(r => r.ParseDate(DATESTRINGTO)).Returns(DateTime.Now.AddDays(3));
-            dateTimeService.Setup(r => r.GetCurrentDateTime()).Returns(DateTime.Now);
-
-            JsonResult result = (JsonResult)controller.AddNewMessage(DATESTRINGFROM, DATESTRINGTO, String.Empty);
-
-            Assert.AreEqual(AdminUsersInfoMessage.MessageIsEmpty, result.Data);
-            userManager.Verify(r => r.AddNewInfoMessage(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<string>()), Times.Never);
+            Assert.AreEqual(AdminUsersInfoMessage.MessageIsTooLong, result.Data);
+            messageManager.Verify(r => r.AddNewInfoMessage(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<string>()), Times.Never);
         }
 
         [TestMethod]
@@ -441,7 +428,7 @@ namespace Speranza.Tests.Controllers
 
             JsonResult result = (JsonResult)controller.AddNewMessage(DATESTRINGFROM, DATESTRINGTO, MESSAGE);
 
-            userManager.Verify(r => r.AddNewInfoMessage(datefrom, dateto, MESSAGE), Times.Once);
+            messageManager.Verify(r => r.AddNewInfoMessage(datefrom, dateto, MESSAGE), Times.Once);
             Assert.AreEqual(AdminUsersInfoMessage.MessageSuccessfullyAdded,((UserNotificationMessageModel)result.Data).Status);
             Assert.AreEqual(datefrom, ((UserNotificationMessageModel)result.Data).DateFrom);
             Assert.AreEqual(dateto, ((UserNotificationMessageModel)result.Data).DateTo);
@@ -454,7 +441,8 @@ namespace Speranza.Tests.Controllers
             trainingManager = new Mock<ITrainingsManager>();
             cookieService = new Mock<ICookieService>();
             dateTimeService = new Mock<IDateTimeService>();
-            controller = new AdminUsersController(userManager.Object,trainingManager.Object,cookieService.Object,dateTimeService.Object);
+            messageManager = new Mock<IMessageManager>();
+            controller = new AdminUsersController(userManager.Object,trainingManager.Object,cookieService.Object,dateTimeService.Object,messageManager.Object);
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             controller.ControllerContext = new FakeControllerContext(controller, sessionItems);
             controller.Session["Email"] = USER_EMAIL;

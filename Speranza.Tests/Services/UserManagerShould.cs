@@ -817,15 +817,6 @@ namespace Speranza.Tests.Services
             db.Verify(r => r.CleanUpTokens(), Times.Once);
         }
 
-        [TestMethod]
-        public void AddNewMessage()
-        {
-            InitializeUserManager();
-
-            manager.AddNewInfoMessage(DateTime.Today.AddDays(2),DateTime.Today.AddDays(3),MESSAGE);
-
-            db.Verify(r => r.AddNewMessage(DateTime.Today.AddDays(2), DateTime.Today.AddDays(3),MESSAGE), Times.Once);
-        }
 
 
         private void PrepareTwoTrainingWithTwoUsersWithZeroEntranceFlag()

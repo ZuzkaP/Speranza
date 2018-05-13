@@ -27,6 +27,7 @@ namespace Speranza.App_Start
         public static ISmtp Smtp { get; private set; }
         public static IUidService UidService { get; private set; }
         public static IGalleryService GalleryService { get; private set; }
+        public static IMessageManager MessageManager { get; private set; }
 
         static  Initializer()
         {
@@ -45,6 +46,7 @@ namespace Speranza.App_Start
             DaysManager = new DaysManager(Db, TrainingsManager, DateTimeService, Factory);
             CookieService = new CookieService();
             GalleryService = new GalleryService(Db);
+            MessageManager = new MessageManager(Db);
         }
     }
 }

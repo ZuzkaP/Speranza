@@ -64,5 +64,6 @@ namespace Speranza.Database
         void CleanUpTokens();
         void WriteToLog(string eMessage, Email email);
         void AddNewMessage(DateTime from, DateTime to, string message);
+        string GetMessageForCurrentDate();
     }
 }

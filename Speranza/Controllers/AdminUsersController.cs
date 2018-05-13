@@ -21,21 +21,23 @@ namespace Speranza.Controllers
     {
         IUserManager userManager;
         private ITrainingsManager trainingManager;
+        private IMessageManager messageManager;
         private ICookieService cookieService;
         private IDateTimeService dateTimeService;
         private const int ALLOWED_MESSAGE_LENGHT = 100;
 
-        public AdminUsersController(): this(Initializer.UserManager,Initializer.TrainingsManager, Initializer.CookieService, Initializer.DateTimeService)
+        public AdminUsersController(): this(Initializer.UserManager,Initializer.TrainingsManager, Initializer.CookieService, Initializer.DateTimeService, Initializer.MessageManager)
         {
 
         }
 
-        public AdminUsersController( IUserManager userManager, ITrainingsManager trainingManager, ICookieService cookieService, IDateTimeService dateTimeService)
+        public AdminUsersController( IUserManager userManager, ITrainingsManager trainingManager, ICookieService cookieService, IDateTimeService dateTimeService, IMessageManager messageManager)
         {
             this.userManager = userManager;
             this.trainingManager = trainingManager;
             this.cookieService = cookieService;
             this.dateTimeService = dateTimeService;
+            this.messageManager = messageManager;
         }
         // GET: AdminUsers
         public ActionResult AdminUsers()
@@ -183,25 +185,21 @@ namespace Speranza.Controllers
             DateTime dateTimeTo = dateTimeService.ParseDate(dateTo);
             if (dateTimeFrom.Date < dateTimeService.GetCurrentDate() || dateTimeTo.Date < dateTimeService.GetCurrentDate())
             {
-                return Json(AdminUsersInfoMessage.MESSAGEISINPAST);
+                return Json(AdminUsersInfoMessage.MessageInPast);
             }
-            if (message.IsEmpty())
-            {
-                return Json(AdminUsersInfoMessage.MessageIsEmpty);
 
-            }
             var model = new UserNotificationMessageModel();
             model.Message = message;
             if (model.Message.Length > ALLOWED_MESSAGE_LENGHT)
             {
-                return Json(AdminUsersInfoMessage.MESSAGEISTOOLONG);
+                return Json(AdminUsersInfoMessage.MessageIsTooLong);
 
             }
             model.Message = message;
             model.DateFrom = dateTimeFrom;
             model.DateTo = dateTimeTo;
             model.Status = AdminUsersInfoMessage.MessageSuccessfullyAdded;
-            userManager.AddNewInfoMessage(dateTimeFrom, dateTimeTo, message);
+            messageManager.AddNewInfoMessage(dateTimeFrom, dateTimeTo, message);
             return Json(model);
         }
 

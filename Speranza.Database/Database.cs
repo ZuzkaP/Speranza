@@ -737,6 +737,11 @@ namespace Speranza.Database
             ExecuteSql(sql);
         }
 
+        public string GetMessageForCurrentDate()
+        {
+            throw new NotImplementedException();
+        }
+
         private class UserInTraining : IUserInTraining
         {
             public string Email { get; set; }

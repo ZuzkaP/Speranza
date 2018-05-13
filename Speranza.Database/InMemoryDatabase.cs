@@ -518,6 +518,11 @@ namespace Speranza.Database
             messages.Add(new UserNotificationMessage(from,to,message));
         }
 
+        public string GetMessageForCurrentDate()
+        {
+            throw new NotImplementedException();
+        }
+
         private class UserInTraining : IUserInTraining
         {
             public string Email { get; set; }

@@ -35,6 +35,6 @@ namespace Speranza.Services.Interfaces
         void SetRememberMe(string email, string cookieSeries, string cookieToken);
         ILoginResult VerifyRememberMe(string cookie);
         void CancelRememberMe(string email);
-        void AddNewInfoMessage(DateTime dateFrom, DateTime dateTo, string message);
+
     }
 }

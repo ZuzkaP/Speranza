@@ -53,7 +53,7 @@ namespace Speranza.Services
                 throw new InvalidTimeException();
             }
 
-            return parsedDate;
+            return parsedDate.Date;
         }
     }
 }

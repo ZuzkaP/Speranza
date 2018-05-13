@@ -45,6 +45,7 @@
     <Compile Include="EmailFactory.cs" />
     <Compile Include="EmailManager.cs" />
     <Compile Include="GalleryService.cs" />
+    <Compile Include="MessageManager.cs" />
     <Compile Include="UidService.cs" />
     <Compile Include="DateTimeService.cs" />
     <Compile Include="DaysManager.cs" />
