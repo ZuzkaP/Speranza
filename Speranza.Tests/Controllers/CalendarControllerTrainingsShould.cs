@@ -28,6 +28,7 @@ namespace Speranza.Tests.Controllers
         private readonly DateTime CURRENT_TIME = new DateTime(2017,1,1,10,00,00);
         private Mock<IModelFactory> factory;
         private Mock<ICookieService> cookieService;
+        private Mock<IMessageManager> messageManager;
 
         [TestMethod]
         public void ReturnToLogin_When_UserIsNotLoggedIn()
@@ -164,6 +165,7 @@ namespace Speranza.Tests.Controllers
             dateTimeService = new Mock<IDateTimeService>();
             training = new Mock<ITraining>();
             cookieService = new Mock<ICookieService>();
+            messageManager = new Mock<IMessageManager>();
 
             training.SetupGet(r => r.Capacity).Returns(10);
             training.SetupGet(r => r.RegisteredNumber).Returns(8);
@@ -173,7 +175,7 @@ namespace Speranza.Tests.Controllers
 
             db = new Mock<IDatabaseGateway>();
             
-            calendar = new CalendarController(db.Object,userManager.Object, daysManager.Object, dateTimeService.Object,trainingManager.Object,factory.Object,cookieService.Object);
+            calendar = new CalendarController(db.Object,userManager.Object, daysManager.Object, dateTimeService.Object,trainingManager.Object,factory.Object,cookieService.Object,messageManager.Object);
             
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             calendar.ControllerContext = new FakeControllerContext(calendar, sessionItems);

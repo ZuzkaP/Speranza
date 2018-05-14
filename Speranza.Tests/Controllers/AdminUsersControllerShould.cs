@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using Speranza.Database;
 using Speranza.Models.Interfaces;
 using Speranza.Common.Data;
+using Speranza.Database.Data;
 
 namespace Speranza.Tests.Controllers
 {
@@ -433,6 +434,31 @@ namespace Speranza.Tests.Controllers
             Assert.AreEqual(datefrom, ((UserNotificationMessageModel)result.Data).DateFrom);
             Assert.AreEqual(dateto, ((UserNotificationMessageModel)result.Data).DateTo);
             Assert.AreEqual(MESSAGE, ((UserNotificationMessageModel)result.Data).Message);
+        }
+
+        [TestMethod]
+        public void GetNoMessage_When_ItDoesNotExist()
+        {
+            InitializeAdminUsersController();
+            messageManager.Setup(r => r.GetMessageForCurrentDate()).Returns((IUserNotificationMessage)null);
+
+            ViewResult result = controller.GetUsersInfoMessage();
+
+            Assert.IsNull(result);
+            messageManager.Verify(r=>r.GetMessageForCurrentDate(),Times.Once);
+        }
+
+        [TestMethod]
+        public void GetMessageIfAlreadyExists()
+        {
+            InitializeAdminUsersController();
+            messageManager.Setup(r => r.GetMessageForCurrentDate()).Returns(new UserNotificationMessage(DateTime.Now.Date.AddDays(-2),DateTime.Now.Date.AddDays(1),MESSAGE));
+
+            ViewResult result = controller.GetUsersInfoMessage();
+
+            IUserNotificationMessageModel model =(UserNotificationMessageModel) result.Model;
+            Assert.AreEqual(MESSAGE,model.Message);
+            messageManager.Verify(r => r.GetMessageForCurrentDate(), Times.Once);
         }
 
         private void InitializeAdminUsersController()

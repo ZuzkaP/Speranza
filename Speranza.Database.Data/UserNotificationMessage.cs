@@ -20,5 +20,8 @@ namespace Speranza.Database.Data
             Message = msg;
         }
 
+        public UserNotificationMessage()
+        {
+        }
     }
 }

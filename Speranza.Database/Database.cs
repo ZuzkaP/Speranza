@@ -18,6 +18,9 @@ namespace Speranza.Database
         private SqlConnection connection;
         private const string LAST_TEMPLATE_GENERATION_DATE = "LastTemplateGenerationDate";
         private const string SETTINGS_SIGN_OFF_LIMIT = "SignOffLimit";
+        private const string INFO_MESSAGE = "info message";
+        private const string MESSAGE_TO = "12.12.2012";
+        private const string MESSAGE_FROM = "12.12.2012";
 
         public Database()
         {
@@ -731,15 +734,37 @@ namespace Speranza.Database
 
         public void AddNewMessage(DateTime from, DateTime to, string message)
         {
-            string sql = string.Format("INSERT INTO ACTUALINFO(datefrom,dateto,message) VALUES( '{0}','{1}','{2}');",
-                from, to, message);
+            string sql = string.Format("Update Settings SET value='{0}' WHERE Id ='{1}';", GetDateFormat(from), MESSAGE_FROM);
+            ExecuteSql(sql);
 
+            sql = string.Format("Update Settings SET value='{0}' WHERE Id ='{1}';", GetDateFormat(to), MESSAGE_TO);
+            ExecuteSql(sql);
+
+            sql = string.Format("Update Settings SET value='{0}' WHERE Id ='{1}';", message, INFO_MESSAGE);
             ExecuteSql(sql);
         }
 
-        public string GetMessageForCurrentDate()
+        public IUserNotificationMessage GetMessageForCurrentDate()
         {
-            throw new NotImplementedException();
+            string sql = string.Format("SELECT value FROM Settings WHERE Id ='{0}';", INFO_MESSAGE);
+            var objects = ExecuteSqlWithResult(sql);
+            string message = objects[0].ToString();
+
+            sql = string.Format("SELECT value FROM Settings WHERE Id ='{0}';", MESSAGE_FROM);
+            objects = ExecuteSqlWithResult(sql);
+            DateTime dateFrom = DateTime.Parse(objects[0].ToString());
+
+            sql = string.Format("SELECT value FROM Settings WHERE Id ='{0}';", MESSAGE_TO);
+            objects = ExecuteSqlWithResult(sql);
+            DateTime dateTo = DateTime.Parse(objects[0].ToString());
+
+
+            if (dateFrom <= DateTime.Now.Date && dateTo >= DateTime.Now.Date)
+            {
+                return new UserNotificationMessage(dateFrom,dateTo,message);
+            }
+            else
+                return null;
         }
 
         private class UserInTraining : IUserInTraining

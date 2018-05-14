@@ -203,5 +203,21 @@ namespace Speranza.Controllers
             return Json(model);
         }
 
+        public ViewResult GetUsersInfoMessage()
+        {
+            IUserNotificationMessage infoMessage = messageManager.GetMessageForCurrentDate();
+            if (infoMessage == null)
+            {
+                return null;
+            }
+            else
+            {
+                IUserNotificationMessageModel model = new UserNotificationMessageModel();
+                model.Message = infoMessage.Message;
+                model.DateFrom = infoMessage.DateFrom;
+                model.DateTo = infoMessage.DateTo;
+                return View(model);
+            }
+        }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Speranza.Database;
+using Speranza.Database.Data;
 using Speranza.Database.Data.Interfaces;
 using Speranza.Services.Interfaces;
 
@@ -22,9 +23,15 @@ namespace Speranza.Services
             db.AddNewMessage(dateFrom, dateTo, message);
         }
         
-        public string GetMessageForCurrentDate()
+        public IUserNotificationMessage GetMessageForCurrentDate()
         {
-            return db.GetMessageForCurrentDate();
+            IUserNotificationMessage message = new UserNotificationMessage();
+            var messageFromDB = db.GetMessageForCurrentDate();
+            message.Message = messageFromDB.Message;
+            message.DateFrom = messageFromDB.DateFrom;
+            message.DateTo = messageFromDB.DateTo;
+
+            return message;
         }
     }
 }

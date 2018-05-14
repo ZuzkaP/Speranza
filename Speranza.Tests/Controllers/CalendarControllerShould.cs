@@ -22,11 +22,13 @@ namespace Speranza.Tests.Controllers
         private const int DAYS_COUNT_SILVER_USER = 30;
         private const int DAYS_COUNT_GOLDEN_USER = 60;
         private const string EMAIL = "testEmail";
+        private const string USER_INFO_MESSAGE = "infoMessage";
         private Mock<IDaysManager> daysManager;
         private Mock<IDateTimeService> dateTimeService;
 
         private readonly DateTime CURRENTDATE = new DateTime(2016, 11, 15);
         private Mock<ICookieService> cookieService;
+        private Mock<IMessageManager> messageManager;
 
         [TestMethod]
         public void ReturnToLogin_When_UserIsNotLoggedIn()
@@ -156,6 +158,24 @@ namespace Speranza.Tests.Controllers
             Assert.AreEqual(UserCategories.Silver, calendar.Session["Category"]);
         }
 
+
+        [TestMethod]
+        public void ShowMessageInHeader_When_ItExistsInDB()
+        {
+            InitializeController();
+            StandardUserIsLoggedIn();
+            messageManager.Setup(r => r.GetMessageForCurrentDate().Message).Returns(USER_INFO_MESSAGE);
+            calendar.Calendar();
+
+            ActionResult result = calendar.Calendar();
+
+            CalendarModel model = (CalendarModel)((ViewResult)result).Model;
+            Assert.IsNotNull(model.UserInfoMessage);
+            Assert.AreEqual(USER_INFO_MESSAGE, model.UserInfoMessage);
+            // + UI
+        }
+
+
         private void GoldenUserIsLoggedIn()
         {
             userManager.Setup(r => r.IsUserLoggedIn(null, calendar.Session)).Returns(true);
@@ -181,7 +201,8 @@ namespace Speranza.Tests.Controllers
             dateTimeService = new Mock<IDateTimeService>();
             dateTimeService.Setup(r => r.GetCurrentDateTime()).Returns(CURRENTDATE);
             cookieService = new Mock<ICookieService>();
-            calendar = new CalendarController(null,userManager.Object,daysManager.Object,dateTimeService.Object,null,null,cookieService.Object);
+            messageManager = new Mock<IMessageManager>();
+            calendar = new CalendarController(null,userManager.Object,daysManager.Object,dateTimeService.Object,null,null,cookieService.Object,messageManager.Object);
            
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
             calendar.ControllerContext = new FakeControllerContext(calendar, sessionItems);

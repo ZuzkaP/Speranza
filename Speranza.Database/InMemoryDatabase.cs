@@ -518,9 +518,9 @@ namespace Speranza.Database
             messages.Add(new UserNotificationMessage(from,to,message));
         }
 
-        public string GetMessageForCurrentDate()
+        public IUserNotificationMessage GetMessageForCurrentDate()
         {
-            throw new NotImplementedException();
+          return messages.FirstOrDefault(r => r.DateFrom.Date <= DateTime.Now.Date && r.DateTo.Date >= DateTime.Now.Date);
         }
 
         private class UserInTraining : IUserInTraining

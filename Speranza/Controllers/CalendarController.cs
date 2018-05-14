@@ -23,15 +23,16 @@ namespace Speranza.Controllers
         IDaysManager dayManager;
         ITrainingsManager trainingManager;
         IDateTimeService dateTimeService;
+        IMessageManager messageManager;
         private IDatabaseGateway db;
         private IModelFactory factory;
         private ICookieService cookieService;
 
-        public CalendarController() : this(Initializer.Db,Initializer.UserManager, Initializer.DaysManager, Initializer.DateTimeService, Initializer.TrainingsManager, Initializer.Factory, Initializer.CookieService)
+        public CalendarController() : this(Initializer.Db,Initializer.UserManager, Initializer.DaysManager, Initializer.DateTimeService, Initializer.TrainingsManager, Initializer.Factory, Initializer.CookieService, Initializer.MessageManager)
         {
 
         }
-        public CalendarController(IDatabaseGateway db, IUserManager userManager, IDaysManager dayManager, IDateTimeService dateTimeService, ITrainingsManager trainingManager, IModelFactory factory, ICookieService cookieService)
+        public CalendarController(IDatabaseGateway db, IUserManager userManager, IDaysManager dayManager, IDateTimeService dateTimeService, ITrainingsManager trainingManager, IModelFactory factory, ICookieService cookieService, IMessageManager messageManager)
         {
             this.db = db;
             this.userManager = userManager;
@@ -40,6 +41,7 @@ namespace Speranza.Controllers
             this.trainingManager = trainingManager;
             this.factory = factory;
             this.cookieService = cookieService;
+            this.messageManager = messageManager;
         }
 
         public RedirectToRouteResult SignUp(string id)
@@ -88,6 +90,7 @@ namespace Speranza.Controllers
             model.AllowToSignUp = userManager.GetAllowedToSignUpFlag(userEmail);
             model.Message = CalendarMessages.NoMessage;
             model.SignedUpOrSignedOffTraining = (ITrainingModel) Session["Training"];
+            model.UserInfoMessage = messageManager.GetMessageForCurrentDate().Message;
             if (Session["Message"] != null)
             {
                 model.Message = (CalendarMessages)Session["Message"];
