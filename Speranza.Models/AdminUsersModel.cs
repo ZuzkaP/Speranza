@@ -21,9 +21,12 @@ namespace Speranza.Models
         public IList<string> Categories { get;private set; }
         public IList<IUserForAdminModel> Users { get; set; }
 
+        public IUserNotificationMessageModel MessageModel { get; set; }
+
         public AdminUsersModel()
         {
             Categories = new List<string>();
+            MessageModel = new UserNotificationMessageModel();
         }
     }
 }

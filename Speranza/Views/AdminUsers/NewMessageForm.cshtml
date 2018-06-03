@@ -1,4 +1,4 @@
-﻿@*New training modal window*@
+﻿@model Speranza.Models.AdminUsersModel
 <div class="modal fade" id="NewUserMessage" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -18,7 +18,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text octicon octicon-calendar octicon-newTraining"></span>
                                 </div>
-                                <input id="MessageDateFrom" type="text" class="form-control col-8 NewMessageFormDatePicker">
+                                <input id="MessageDateFrom" type="text" class="form-control col-8 NewMessageFormDatePicker" value="@Model.MessageModel.DateFrom">
                             </div>
                         </div>
 
@@ -29,7 +29,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text octicon octicon-calendar octicon-newTraining"></span>
                                 </div>
-                                <input id="MessageDateTo" type="text" class="form-control col-8 NewMessageFormDatePicker">
+                                <input id="MessageDateTo" type="text" class="form-control col-8 NewMessageFormDatePicker" value="@Model.MessageModel.DateTo">
                             </div>
                         </div>
 
@@ -40,7 +40,7 @@
                         @*Message*@
                         <div class="form-group col-11">
                             @Html.Label("Text oznamu:", new { @class = "col-12", @for = "Message" })
-                            @Html.TextArea("Message", "", new { @class = "form-control col-12", id = "Message", maxlength = "120" })
+                            @Html.TextAreaFor(r =>r.MessageModel.Message , new { @class = "form-control col-12", id = "Message", maxlength = "120"})
                         </div>
                         @*</div>*@
 

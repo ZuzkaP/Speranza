@@ -90,7 +90,7 @@ namespace Speranza.Controllers
             model.AllowToSignUp = userManager.GetAllowedToSignUpFlag(userEmail);
             model.Message = CalendarMessages.NoMessage;
             model.SignedUpOrSignedOffTraining = (ITrainingModel) Session["Training"];
-            model.UserInfoMessage = messageManager.GetMessageForCurrentDate().Message;
+            model.UserInfoMessage.Message = messageManager.GetMessageForCurrentDate().Message ?? "";
             if (Session["Message"] != null)
             {
                 model.Message = (CalendarMessages)Session["Message"];

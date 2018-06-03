@@ -55,7 +55,7 @@ namespace Speranza.Controllers
                 model.Categories.Add(UserCategories.Standard.ToString());
                 model.Categories.Add(UserCategories.Silver.ToString());
                 model.Categories.Add(UserCategories.Gold.ToString());
-
+                model.MessageModel = GetUsersInfoMessage();
                 return View("AdminUsers",model);
             }
             return RedirectToAction("Index", "Home");
@@ -203,7 +203,7 @@ namespace Speranza.Controllers
             return Json(model);
         }
 
-        public ViewResult GetUsersInfoMessage()
+        public IUserNotificationMessageModel GetUsersInfoMessage()
         {
             IUserNotificationMessage infoMessage = messageManager.GetMessageForCurrentDate();
             if (infoMessage == null)
@@ -216,7 +216,7 @@ namespace Speranza.Controllers
                 model.Message = infoMessage.Message;
                 model.DateFrom = infoMessage.DateFrom;
                 model.DateTo = infoMessage.DateTo;
-                return View(model);
+                return model;
             }
         }
     }

@@ -6,7 +6,7 @@ namespace Speranza.Models
 
     public class CalendarModel
     {
-        public string UserInfoMessage { get; set; }
+        public UserNotificationMessageModel UserInfoMessage { get; set; }
         public IList<IDayModel> Days { get; private set; }
         public CalendarMessages Message { get; set; }
         public ITrainingModel SignedUpOrSignedOffTraining { get; set; }
@@ -15,6 +15,7 @@ namespace Speranza.Models
         public CalendarModel()
         {
             Days = new List<IDayModel>();
+            UserInfoMessage = new UserNotificationMessageModel();
         }
     }
 }

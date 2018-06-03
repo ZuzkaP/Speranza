@@ -27,11 +27,13 @@ namespace Speranza.Services
         {
             IUserNotificationMessage message = new UserNotificationMessage();
             var messageFromDB = db.GetMessageForCurrentDate();
-            message.Message = messageFromDB.Message;
-            message.DateFrom = messageFromDB.DateFrom;
-            message.DateTo = messageFromDB.DateTo;
-
-            return message;
+            if (messageFromDB != null)
+            {
+                message.Message = messageFromDB.Message ?? "";
+                message.DateFrom = messageFromDB.DateFrom;
+                message.DateTo = messageFromDB.DateTo;
+            }
+            return message; 
         }
     }
 }

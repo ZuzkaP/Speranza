@@ -10,6 +10,7 @@ using Speranza.Database.Data.Interfaces;
 using Speranza.Models.Interfaces;
 using Speranza.Services.Interfaces;
 using Speranza.Common.Data;
+using Speranza.Database.Data;
 
 namespace Speranza.Tests.Controllers
 {
@@ -171,7 +172,7 @@ namespace Speranza.Tests.Controllers
 
             CalendarModel model = (CalendarModel)((ViewResult)result).Model;
             Assert.IsNotNull(model.UserInfoMessage);
-            Assert.AreEqual(USER_INFO_MESSAGE, model.UserInfoMessage);
+            Assert.AreEqual(USER_INFO_MESSAGE, model.UserInfoMessage.Message);
             // + UI
         }
 
@@ -202,6 +203,7 @@ namespace Speranza.Tests.Controllers
             dateTimeService.Setup(r => r.GetCurrentDateTime()).Returns(CURRENTDATE);
             cookieService = new Mock<ICookieService>();
             messageManager = new Mock<IMessageManager>();
+            messageManager.Setup(r => r.GetMessageForCurrentDate()).Returns(new UserNotificationMessage());
             calendar = new CalendarController(null,userManager.Object,daysManager.Object,dateTimeService.Object,null,null,cookieService.Object,messageManager.Object);
            
             SessionStateItemCollection sessionItems = new SessionStateItemCollection();
