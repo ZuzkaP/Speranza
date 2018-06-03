@@ -515,6 +515,7 @@ namespace Speranza.Database
 
         public void AddNewMessage(DateTime @from, DateTime to, string message)
         {
+            messages.Clear();
             messages.Add(new UserNotificationMessage(from,to,message));
         }
 

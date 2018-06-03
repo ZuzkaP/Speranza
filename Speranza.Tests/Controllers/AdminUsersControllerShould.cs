@@ -442,7 +442,7 @@ namespace Speranza.Tests.Controllers
             InitializeAdminUsersController();
             messageManager.Setup(r => r.GetMessageForCurrentDate()).Returns((IUserNotificationMessage)null);
 
-            ViewResult result = controller.GetUsersInfoMessage();
+            IUserNotificationMessageModel result = controller.GetUsersInfoMessage();
 
             Assert.IsNull(result);
             messageManager.Verify(r=>r.GetMessageForCurrentDate(),Times.Once);
@@ -454,9 +454,9 @@ namespace Speranza.Tests.Controllers
             InitializeAdminUsersController();
             messageManager.Setup(r => r.GetMessageForCurrentDate()).Returns(new UserNotificationMessage(DateTime.Now.Date.AddDays(-2),DateTime.Now.Date.AddDays(1),MESSAGE));
 
-            ViewResult result = controller.GetUsersInfoMessage();
+            IUserNotificationMessageModel result = controller.GetUsersInfoMessage();
 
-            IUserNotificationMessageModel model =(UserNotificationMessageModel) result.Model;
+            IUserNotificationMessageModel model =(UserNotificationMessageModel) result;
             Assert.AreEqual(MESSAGE,model.Message);
             messageManager.Verify(r => r.GetMessageForCurrentDate(), Times.Once);
         }

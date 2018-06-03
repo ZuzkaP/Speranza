@@ -24,7 +24,7 @@ namespace Speranza.Controllers
         private IMessageManager messageManager;
         private ICookieService cookieService;
         private IDateTimeService dateTimeService;
-        private const int ALLOWED_MESSAGE_LENGHT = 100;
+        private const int ALLOWED_MESSAGE_LENGHT = 300;
 
         public AdminUsersController(): this(Initializer.UserManager,Initializer.TrainingsManager, Initializer.CookieService, Initializer.DateTimeService, Initializer.MessageManager)
         {
@@ -187,7 +187,10 @@ namespace Speranza.Controllers
             {
                 return Json(AdminUsersInfoMessage.MessageInPast);
             }
-
+            if (dateTimeFrom.Date > dateTimeTo.Date)
+            {
+                return Json(AdminUsersInfoMessage.IncorrectDateRange);
+            }
             var model = new UserNotificationMessageModel();
             model.Message = message;
             if (model.Message.Length > ALLOWED_MESSAGE_LENGHT)

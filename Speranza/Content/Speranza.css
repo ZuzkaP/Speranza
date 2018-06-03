@@ -371,3 +371,12 @@ select.selcls option {
 .popover-header {
     background-color: #f6b066;
 }
+
+.info-message {
+    color:yellow;
+    text-align: center;
+    margin-top: 10px;
+    font-size: large;
+    
+   
+}

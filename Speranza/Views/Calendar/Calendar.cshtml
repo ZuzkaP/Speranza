@@ -8,8 +8,11 @@
     ViewBag.Title = "Calendar";
     Layout = "~/Views/Layout.cshtml";
 }
-<span>@Model.UserInfoMessage.Message</span>
+
 <div class="container calendar-container">
+    <div class="info-message">
+     @Model.UserInfoMessage.Message
+   </div>
     <h2>Rozpis tréningov</h2>
 
     @if (Model != null)
@@ -20,10 +23,10 @@
 
     @{var weeks = new List<List<IDayModel>>();
 
-            for (int i = 0; i < Model.Days.Count; i += 7)
-            {
-                weeks.Add(((List<IDayModel>)Model.Days).GetRange(i, Math.Min(7, Model.Days.Count - i)));
-            }
+        for (int i = 0; i < Model.Days.Count; i += 7)
+        {
+            weeks.Add(((List<IDayModel>) Model.Days).GetRange(i, Math.Min(7, Model.Days.Count - i)));
+        }
     }
 
     <div id="calendarCarousel" class="carousel" data-ride="carousel" data-interval="false" data-wrap="false">
@@ -116,17 +119,17 @@
                                             }
                                         </ul>
                                     </li>
-                                                }
+                                }
 
                                 @{var newYear = false; }
                                 @if (week.Count < 7)
                                 {
 
                                     var lastDay = week.Last();
-                                    int lastDayName = (int)lastDay.DayName;
+                                    int lastDayName = (int) lastDay.DayName;
                                     var lastDayDate = lastDay.Date;
-                                    DayNames nextDay = (DayNames)lastDayName;
-                                    string[] formats = { "dd.MM.", "d.MM.", "d.M.", "dd.M." };
+                                    DayNames nextDay = (DayNames) lastDayName;
+                                    string[] formats = {"dd.MM.", "d.MM.", "d.M.", "dd.M."};
                                     for (int i = week.Count + 1; i <= 7; i++)
                                     {
                                         <li class="events-group disabled">
@@ -136,7 +139,7 @@
                                                     {
                                                         lastDayName = -1;
                                                     }
-                                                    nextDay = (DayNames)(++lastDayName);
+                                                    nextDay = (DayNames) (++lastDayName);
 
                                                     DateTime nextDate = DateTime.MinValue;
                                                     if (DateTime.TryParseExact(lastDayDate, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out nextDate))
@@ -156,13 +159,13 @@
                                                 <li class="single-event">
                                             </ul>
                                         </li>
-                                                        }
-                                                    }
+                                    }
+                                }
                             </ul>
                         </div>
                     </div>
                 </div>
-                                                    }
+            }
         </div>
         <a class="carousel-control-prev" href="#calendarCarousel" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>

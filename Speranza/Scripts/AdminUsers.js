@@ -31,8 +31,10 @@ $('#CreateMessage').click(function () {
         data: { dateFrom: dateFrom, dateTo: dateTo, message: message},
         type: 'POST',
         dataType: "json",
-        success: function(response) {
+        success: function (response) {
+            debugger;
             switch (response) {
+            
             case 0:
                 $('#messageBoxInfoForUsersInModal').html("Nie je možné zobraziť správu v minulosti!");
                 $('#messageBoxInfoForUsersInModal').show();
@@ -45,6 +47,11 @@ $('#CreateMessage').click(function () {
             case 3:
                 $('#messageBoxInfoForUsersInModal')
                     .html("Nie je možné nastaviť prázdnu správu.");
+                $('#messageBoxInfoForUsersInModal').show();
+                return;
+            case 4:
+                $('#messageBoxInfoForUsersInModal')
+                    .html("Nesprávne zvolený časový úsek!");
                 $('#messageBoxInfoForUsersInModal').show();
                 return;
             default: //case 1
