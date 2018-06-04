@@ -310,5 +310,15 @@ namespace Speranza.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
+
+        public ActionResult RemoveAccount()
+        {
+            if (!userManager.IsUserLoggedIn(cookieService.GetRememberMeCookie(Request.Cookies), Session))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            userManager.RemoveAccountFromDB(Session["Email"].ToString());
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

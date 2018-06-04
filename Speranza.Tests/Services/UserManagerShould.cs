@@ -817,6 +817,17 @@ namespace Speranza.Tests.Services
             db.Verify(r => r.CleanUpTokens(), Times.Once);
         }
 
+        [TestMethod]
+        public void RemoveAllUserData_When_Requested()
+        {
+            InitializeUserManager();
+            manager.RemoveAccountFromDB(EMAIL);
+
+            db.Verify(r => r.SignOutUserFromAllTrainingsAfterDate(EMAIL,DATE_TIME), Times.Once);
+            db.Verify(r => r.CancelRememberMe(EMAIL), Times.Once);
+            db.Verify(r => r.RemoveAccountFromDB(EMAIL), Times.Once);
+        }
+
 
 
         private void PrepareTwoTrainingWithTwoUsersWithZeroEntranceFlag()

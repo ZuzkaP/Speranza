@@ -309,6 +309,14 @@ namespace Speranza.Services
         {
             db.CancelRememberMe(email);
         }
+
+        public void RemoveAccountFromDB(string email)
+        {
+            db.SignOutUserFromAllTrainingsAfterDate(email,dateTimeService.GetCurrentDateTime());
+            db.CancelRememberMe(email);
+            db.RemoveAccountFromDB(email);
+        }
+
         public void CleanUpTokens()
         {
             db.CleanUpTokens();

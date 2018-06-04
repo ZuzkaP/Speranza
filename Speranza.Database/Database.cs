@@ -767,6 +767,13 @@ namespace Speranza.Database
                 return null;
         }
 
+        public void RemoveAccountFromDB(string email)
+        {
+            string sql = string.Format("DELETE FROM Users where email ='{0}';", email);
+
+            ExecuteSql(sql);
+        }
+
         private class UserInTraining : IUserInTraining
         {
             public string Email { get; set; }

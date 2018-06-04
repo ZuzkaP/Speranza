@@ -36,5 +36,6 @@ namespace Speranza.Services.Interfaces
         ILoginResult VerifyRememberMe(string cookie);
         void CancelRememberMe(string email);
 
+        void RemoveAccountFromDB(string email);
     }
 }

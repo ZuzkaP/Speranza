@@ -78,22 +78,6 @@ namespace Speranza.Tests.Controllers
             userManager.Setup(r => r.GetUserProfileModelWithDataFromDB(USER_EMAIL)).Returns(new UserProfileModel());
         }
 
-        //[TestMethod]
-        //public void LoadCategory_And_NumberOfFreeSignUps_And_NumberOfPastTrainings()
-        //{
-        //    InitializeAccountController();
-        //    PrepareUserFromDB();
-        //    PrepareNewEmptyUserProfileModel();
-
-        //    ViewResult result = (ViewResult)controller.UserProfile();
-
-        //    UserProfileModel model = (UserProfileModel)result.Model;
-
-        //    Assert.AreEqual(CATEGORY, model.Category);
-        //    Assert.AreEqual(NUMBEROFFREESIGNUPS, model.NumberOfFreeSignUps);
-        //    Assert.AreEqual(NUMBEROFPASTRAININGS, model.NumberOfPastTrainings);
-        //}
-
         private void PrepareUserFromDB()
         {
             userData.SetupGet(u => u.Category).Returns(UserCategories.Silver);
@@ -462,6 +446,35 @@ namespace Speranza.Tests.Controllers
             Assert.AreEqual(HASHPASS, ((ChangePassModel)result.Data).OldPass);
             Assert.IsNull(((ChangePassModel)result.Data).ConfirmPass);
             userManager.Verify(r => r.ChangePassword(USER_EMAIL, HASHNEWPASS), Times.Once);
+        }
+
+        [TestMethod]
+        public void ShouldNotRemoveAccount_When_UserIsNotLoggedIn()
+        {
+            InitializeAccountController();
+            userManager.Setup(r => r.IsUserLoggedIn(null, controller.Session)).Returns(false);
+
+            ActionResult result = controller.RemoveAccount();
+
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.AreEqual("Home", ((RedirectToRouteResult)result).RouteValues["controller"]);
+            Assert.AreEqual("Index", ((RedirectToRouteResult)result).RouteValues["action"]);
+            userManager.Verify(r => r.RemoveAccountFromDB(It.IsAny<string>()), Times.Never);
+
+        }
+
+        [TestMethod]
+        public void ShouldRemoveAccount_When_UserRequires()
+        {
+            InitializeAccountController();
+
+            ActionResult result = controller.RemoveAccount();
+
+            Assert.IsInstanceOfType(result, typeof(RedirectToRouteResult));
+            Assert.AreEqual("Home", ((RedirectToRouteResult)result).RouteValues["controller"]);
+            Assert.AreEqual("Index", ((RedirectToRouteResult)result).RouteValues["action"]);
+            userManager.Verify(r => r.RemoveAccountFromDB(USER_EMAIL), Times.Once);
+
         }
 
 

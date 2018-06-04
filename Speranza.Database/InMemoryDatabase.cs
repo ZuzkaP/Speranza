@@ -524,6 +524,11 @@ namespace Speranza.Database
           return messages.FirstOrDefault(r => r.DateFrom.Date <= DateTime.Now.Date && r.DateTo.Date >= DateTime.Now.Date);
         }
 
+        public void RemoveAccountFromDB(string email)
+        {
+            users.Remove(email);
+        }
+
         private class UserInTraining : IUserInTraining
         {
             public string Email { get; set; }

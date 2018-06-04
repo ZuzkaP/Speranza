@@ -65,5 +65,6 @@ namespace Speranza.Database
         void WriteToLog(string eMessage, Email email);
         void AddNewMessage(DateTime from, DateTime to, string message);
         IUserNotificationMessage GetMessageForCurrentDate();
+        void RemoveAccountFromDB(string email);
     }
 }

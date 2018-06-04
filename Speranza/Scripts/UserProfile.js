@@ -71,5 +71,7 @@ function showMessageBoxSuccess(text) {
 
 $('[data-toggle=confirmation]').confirmation({
         rootSelector: '[data-toggle=confirmation]',
-        // other options
+        onConfirm: function (value) {
+            location.href='RemoveAccount';
+        }
     });
