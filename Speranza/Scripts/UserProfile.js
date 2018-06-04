@@ -68,3 +68,8 @@ function showMessageBoxSuccess(text) {
     $("#ModalMessageBoxSuccess").html(text);
     $("#ModalMessageBoxSuccess").show();
 }
+
+$('[data-toggle=confirmation]').confirmation({
+        rootSelector: '[data-toggle=confirmation]',
+        // other options
+    });

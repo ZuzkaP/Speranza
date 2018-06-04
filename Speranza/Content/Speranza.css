@@ -377,6 +377,8 @@ select.selcls option {
     text-align: center;
     margin-top: 10px;
     font-size: large;
-    
-   
+}
+
+.userProfileButtons{
+margin-left: 30px;
 }
