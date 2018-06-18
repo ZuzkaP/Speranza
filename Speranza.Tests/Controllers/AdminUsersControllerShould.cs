@@ -35,12 +35,14 @@ namespace Speranza.Tests.Controllers
         private Mock<IDateTimeService> dateTimeService { get; set; }
         private const string MESSAGE = "test message";
         private const string LONGMESSAGE = "this messageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" +
-                                           "is toooooooooooooooooooooo" +
-                                           "looooooooooooooooooooooooooooo" +
-                                           "oooooooooooooooooooooooooooooooooooooooooooooooooo" +
-                                           "ooooooooooooooooooooooooooooooooooooooooooooooooooooooooo" +
-                                           "ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo" +
-                                           "ooooooooooong";
+                                           "is toooooooooooooooooooooossssssssssssssssssssssssssssssssssss" +
+                                           "looooooooooooooooooooooooooooossssssssssssssssssssssssssssssss" +
+                                           "oooooooooooooooooooooooooooooooooooooooooooooooooossssssssssss" +
+                                           "ooooooooooooooooooooooooooooooooooooooooooooooooooooooooosssss" +
+                                           "ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooos" +
+                                           "ooooooooooongdfssssssssssssssfdsgggggggggggggggggggggggfdfsdfsdf"+
+                                           "ooooooooooongdfssssssssssssssfdsgggggggggggggggggggggggfdfsdfsdf"+
+                                           "ooooooooooongdfssssssssssssssfdsgggggggggggggggggggggggfdfsdfsdf";
         private const string DATESTRINGFROM = "01.01.2017";
         private const string DATESTRINGTO = "05.01.2017";
         private readonly DateTime DATE1 = new DateTime(2017, 01, 01);

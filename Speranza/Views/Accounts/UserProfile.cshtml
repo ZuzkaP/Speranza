@@ -8,77 +8,78 @@
 }
 
 <div class="container">
-    <h2 class="userProfileLabel">
-        Môj profil
-    </h2>
-    <div class="row">
-        <button id="ChangePass" class="btn btn-warning userProfileButtons"><span class="octicon octicon-lock"></span> Zmeniť heslo</button>
-        <button id="RemoveAccount" class="btn btn-danger offset-6" data-toggle="confirmation"
-                data-btn-ok-label="Áno, zmazať" data-btn-ok-class="btn-danger"
-                data-btn-cancel-label="Nie, nemazať" data-btn-cancel-class="btn-success"
-                data-title="Zmazanie konta" data-content="Ste si istý, že si prajete vymazať váš účet? Váš účet už nebude viac aktívny a nebude možné ho obnoviť!">
-            <span class="octicon octicon-trashcan"></span>
-            Zmazať účet
-        </button>
+    <div class="align-content-center">
+        <h2 class="userProfileLabel">
+            Môj profil
+        </h2>
+        <div class="row">
+            <button id="ChangePass" class="btn btn-warning userProfileButtons"><span class="octicon octicon-lock"></span> Zmeniť heslo</button>
+            <button id="RemoveAccount" class="btn btn-danger offset-lg-6" data-toggle="confirmation"
+                    data-btn-ok-label="Áno, zmazať" data-btn-ok-class="btn-danger"
+                    data-btn-cancel-label="Nie, nemazať" data-btn-cancel-class="btn-success"
+                    data-title="Zmazanie konta" data-content="Ste si istý, že si prajete vymazať váš účet? Váš účet už nebude viac aktívny a nebude možné ho obnoviť!">
+                <span class="octicon octicon-trashcan"></span>
+                Zmazať účet
+            </button>
+        </div>
+
+        @if (Model != null)
+        {
+            <p> @Html.Raw(ViewHelper.ShowMessageInView(Model.UserProfileMessage))</p>
+        }
+
+        @using (Html.BeginForm("SaveUserProfile", "Accounts", FormMethod.Post, new { @class = "form-horizontal myProfileForm myForm" }))
+        {
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email, "Email: ", new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name, "Meno: ", new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Surname, "Priezvisko: ", new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(m => m.Surname, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.PhoneNumber, "Tel. číslo: ", new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Category, "Kategória:", new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(m => m.Category, new { @class = "form-control", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.NumberOfFreeSignUps, "Koľko vstupov mi ešte ostáva: ", new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(m => m.NumberOfFreeSignUps, new { @class = "form-control", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.NumberOfPastTrainings, "Koľko som už toho odmakal/a: ", new { @class = "control-label col-sm-3" })
+                <div class="col-sm-9">
+                    @Html.TextBoxFor(m => m.NumberOfPastTrainings, new { @class = "form-control", @readonly = "readonly" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="userProfileButtons">
+                    <button type="submit" id="btnSubmit" class="btn btn-lg btn-primary"><span class="octicon octicon-check"></span> Uložiť</button>
+                </div>
+            </div>
+        }
     </div>
-
-    @if (Model != null)
-    {
-        <p> @Html.Raw(ViewHelper.ShowMessageInView(Model.UserProfileMessage))</p>
-    }
-
-    @using (Html.BeginForm("SaveUserProfile", "Accounts", FormMethod.Post, new { @class = "form-horizontal myProfileForm myForm" }))
-    {
-        <div class="form-group">
-            @Html.LabelFor(m => m.Email, "Email: ", new { @class = "control-label col-sm-3" })
-            <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @readonly = "readonly" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Name, "Meno: ", new { @class = "control-label col-sm-3" })
-            <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Surname, "Priezvisko: ", new { @class = "control-label col-sm-3" })
-            <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.Surname, new { @class = "form-control" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.PhoneNumber, "Tel. číslo: ", new { @class = "control-label col-sm-3" })
-            <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Category, "Kategória:", new { @class = "control-label col-sm-3" })
-            <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.Category, new { @class = "form-control", @readonly = "readonly" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.NumberOfFreeSignUps, "Koľko vstupov mi ešte ostáva: ", new { @class = "control-label col-sm-3" })
-            <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.NumberOfFreeSignUps, new { @class = "form-control", @readonly = "readonly" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.NumberOfPastTrainings, "Koľko som už toho odmakal/a: ", new { @class = "control-label col-sm-3" })
-            <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.NumberOfPastTrainings, new { @class = "form-control", @readonly = "readonly" })
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <div class="userProfileButtons">
-                <button type="submit" id="btnSubmit" class="btn btn-lg btn-primary"><span class="octicon octicon-check"></span> Uložiť</button>
-            </div>
-        </div>
-    }
-
     <h3>Moje tréningy</h3>
 
     @if (Model != null)
@@ -92,21 +93,21 @@
             <table class="table table-striped">
                 <thead>
                     <tr class="d-flex">
-                        <th class="col-2">Dátum</th>
-                        <th class="col-2">Čas</th>
-                        <th class="col-4">Popis</th>
-                        <th class="col-2">Tréner</th>
-                        <th class="col-2">Odhlásiť</th>
+                        <th class="col-lg-2">Dátum</th>
+                        <th class="col-lg-2">Čas</th>
+                        <th class="col-lg-4">Popis</th>
+                        <th class="col-lg-2">Tréner</th>
+                        <th class="col-lg-2">Odhlásiť</th>
                     </tr>
                 </thead>
                 @foreach (var item in Model.FutureTrainings)
                 {
                     <tr class="d-flex">
-                        <td class="col-2">@item.Time.ToString("dd.MM.yyyy")</td>
-                        <td class="col-2">@item.Time.ToString("HH:mm")</td>
-                        <td class="col-4">@item.Description</td>
-                        <td class="col-2">@item.Trainer</td>
-                        <td class="col-2">
+                        <td class="col-lg-2">@item.Time.ToString("dd.MM.yyyy")</td>
+                        <td class="col-lg-2">@item.Time.ToString("HH:mm")</td>
+                        <td class="col-lg-4">@item.Description</td>
+                        <td class="col-lg-2">@item.Trainer</td>
+                        <td class="col-lg-2">
                             @if (item.IsAllowedToSignOff)
                             {
                                 @Html.ActionLink("Odhlásiť", "SignOff", "Calendar", new { id = item.ID }, null)
@@ -117,11 +118,11 @@
                 @foreach (var item in Model.PastTrainings)
                 {
                     <tr class="obsolete d-flex">
-                        <td class="col-2">@item.Time.ToString("dd.MM.yyyy")</td>
-                        <td class="col-2">@item.Time.ToString("HH:mm")</td>
-                        <td class="col-4">@item.Description</td>
-                        <td class="col-2">@item.Trainer</td>
-                        <td class="col-2"></td>
+                        <td class="col-lg-2">@item.Time.ToString("dd.MM.yyyy")</td>
+                        <td class="col-lg-2">@item.Time.ToString("HH:mm")</td>
+                        <td class="col-lg-4">@item.Description</td>
+                        <td class="col-lg-2">@item.Trainer</td>
+                        <td class="col-lg-2"></td>
                     </tr>
                 }
             </table>
