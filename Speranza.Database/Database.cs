@@ -18,17 +18,18 @@ namespace Speranza.Database
         private SqlConnection connection;
         private const string LAST_TEMPLATE_GENERATION_DATE = "LastTemplateGenerationDate";
         private const string SETTINGS_SIGN_OFF_LIMIT = "SignOffLimit";
-        private const string INFO_MESSAGE = "info message";
-        private const string MESSAGE_TO = "12.12.2012";
-        private const string MESSAGE_FROM = "12.12.2012";
+        private const string INFO_MESSAGE = "infoMessage";
+        private const string MESSAGE_TO = "messageTo";
+        private const string MESSAGE_FROM = "messageFrom";
 
         public Database()
         {
             string connetionString = null;
-            connetionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\zuzana.papalova\Documents\Speranza\SperanzaDB.mdf;Integrated Security=True;Connect Timeout=30";
+            //connetionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\zuzana.papalova\Documents\Speranza\SperanzaDB.mdf;Integrated Security=True;Connect Timeout=30";
             //connetionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Zuzka\Source\Repos\Speranza\SperanzaDB.mdf;Integrated Security=True;Connect Timeout=30";
 
             //connetionString = "server=192.168.1.5;uid=db6570;pwd=speranzaDB;database=db6570";
+            connetionString = "server=c228wq.forpsi.com;uid=f104277;pwd=speranzaDB;database=f104277";
             connection = new SqlConnection(connetionString);
             connection.Open();
             connection.Close();
@@ -748,15 +749,15 @@ namespace Speranza.Database
         {
             string sql = string.Format("SELECT value FROM Settings WHERE Id ='{0}';", INFO_MESSAGE);
             var objects = ExecuteSqlWithResult(sql);
-            string message = objects[0].ToString();
+            string message = objects[0][0].ToString();
 
             sql = string.Format("SELECT value FROM Settings WHERE Id ='{0}';", MESSAGE_FROM);
             objects = ExecuteSqlWithResult(sql);
-            DateTime dateFrom = DateTime.Parse(objects[0].ToString());
+            DateTime dateFrom = DateTime.Parse(objects[0][0].ToString());
 
             sql = string.Format("SELECT value FROM Settings WHERE Id ='{0}';", MESSAGE_TO);
             objects = ExecuteSqlWithResult(sql);
-            DateTime dateTo = DateTime.Parse(objects[0].ToString());
+            DateTime dateTo = DateTime.Parse(objects[0][0].ToString());
 
 
             if (dateFrom <= DateTime.Now.Date && dateTo >= DateTime.Now.Date)
