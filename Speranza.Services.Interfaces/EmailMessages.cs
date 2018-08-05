@@ -18,14 +18,14 @@ namespace Speranza.Services.Interfaces
 
         public const string WelcomeSubject = "Registrácia";
         public const string WelcomeBody = "Vitajte v štúdiu Speranza. Vaša registrácia bola úspešná.";
-        public const string TrainingCanceledBody = "Ahoj, \n ospravedlňujeme sa, ale tréning dňa {0} o {1} je zrušený. Tešíme sa na teba pri ďalšej návšteve. \n Speranza tím";
+        public const string TrainingCanceledBody = "Ahoj, \nospravedlňujeme sa, ale tréning dňa {0} o {1} je zrušený. Tešíme sa na teba pri ďalšej návšteve. \nSperanza tím";
         public const string TrainingCanceledSubject = "Zrušenie tréningu dňa {0} o {1}";
         public const string AddingUserToTrainingSubject = "Prihlásenie na tréning dňa {0} o {1}";
-        public const string AddingUserToTrainingBody = "Ahoj, admin ťa pridal na tréning dňa {0} o {1} \n Speranza";
-        public const string RemovingUserFromTrainingBody = "Ahoj, admin ťa odhlásil z tréningu dňa {0} o {1} \n Tešíme sa na tvoju ďalšiu návštevu. \n Speranza";
+        public const string AddingUserToTrainingBody = "Ahoj, admin ťa pridal na tréning dňa {0} o {1}. \nTešíme sa na teba. \nTvoja Speranza";
+        public const string RemovingUserFromTrainingBody = "Ahoj, admin ťa odhlásil z tréningu dňa {0} o {1} \nTešíme sa na tvoju ďalšiu návštevu. \nSperanza";
         public const string RemovingUserFromTrainingSubject = "Odhlásenie z tréningu dňa {0} o {1}";
         public const string ConfirmAttendanceSubject = "Potvrdenie účasti na tréningu dňa {0} o {1}";
-        public const string ConfirmAttendanceBody = " Ahoj admin, \npotrvď účasť/neúčasť týchto cvičiacich na tréningu. \n{0}\n\n Tvoja Speranza";
+        public const string ConfirmAttendanceBody = " Ahoj admin, \npotrvď účasť/neúčasť týchto cvičiacich na tréningu. \n{0}\n\nTvoja Speranza";
         public static string ConfirmAttendanceSubBody = "{0} {1} <a href=\""+ /*urlHelper.Action("ConfirmParticipation", "AdminPastTrainings") +*/ "?traningId={3}&amp;email={2}\">potvrď účasť</a> / <a href=\""+urlHelper.Action("ConfirmParticipation", "AdminPastTrainings")+"\">potvrď neúčasť</a>";
         private static UrlHelper urlHelper;
         public const string SixthUserSignedUpInTrainingSubject = "Prihlásil sa 6. cvičiaci";

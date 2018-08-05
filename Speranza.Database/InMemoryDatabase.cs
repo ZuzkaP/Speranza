@@ -44,7 +44,7 @@ namespace Speranza.Database
             settings = new Dictionary<string, object>();
             tokens = new Dictionary<string, string>();
             templates = new List<IRecurringTrainingTemplate>();
-            users.Add("admin", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Admin", Surname = "Admin", PhoneNumber = "1234", IsAdmin = true, Category = UserCategories.Silver });
+            users.Add("admin@sk", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Admin", Surname = "Admin", PhoneNumber = "1234", IsAdmin = true, Category = UserCategories.Silver });
 
             users.Add("miro", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Miro", Surname = "Pavlicko", PhoneNumber = "1234", IsAdmin = false, NumberOfFreeSignUps = 10 });
             users.Add("Zuzka", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Zuzana", Surname = "papalova", PhoneNumber = "1234", IsAdmin = false, Category = UserCategories.Gold, NumberOfFreeSignUps = 7 });
@@ -60,8 +60,8 @@ namespace Speranza.Database
             trainings.Add(PrepareTraining(new DateTime(year, month, day, 14, 00, 00).AddDays(8), "training c.5", "Filip", 10));
             trainings.Add(PrepareTraining(new DateTime(year, month, day, 09, 00, 00).AddDays(4), "training c.3", "Filip", 10));
             trainings.Add(PrepareTraining(new DateTime(year, month, day, 09, 00, 00).AddDays(-10), "training c.3", "Filip", 10));
-            usersInTrainings.Add(new UserInTraining() { Email = "admin", TrainingID = trainings[0].ID });
-            usersInTrainings.Add(new UserInTraining() { Email = "admin", TrainingID = trainings[5].ID });
+            usersInTrainings.Add(new UserInTraining() { Email = "admin@sk", TrainingID = trainings[0].ID });
+            usersInTrainings.Add(new UserInTraining() { Email = "admin@sk", TrainingID = trainings[5].ID });
 
             settings.Add(SETTINGS_SIGN_OFF_LIMIT, 4);
             settings.Add(LAST_TEMPLATE_GENERATION_DATE, DateTime.MinValue);

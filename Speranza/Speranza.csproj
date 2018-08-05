@@ -227,6 +227,7 @@
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="Scripts\UserProfile.js" />
+    <Content Include="Scripts\UsersInTraining.js" />
     <Content Include="ToDo.txt" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

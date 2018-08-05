@@ -16,7 +16,7 @@ namespace Speranza.Database.Data.Interfaces
         int NumberOfPastTrainings { get; set; }
         int NumberOfSignedUpTrainings { get; set; }
         bool ParticipationSet { get; set; }
-        bool ParticipationDisapproved{get; set;}
+        bool  ParticipationDisapproved{get; set;}
         DateTime SignUpTime { get; set; }
     }
 }

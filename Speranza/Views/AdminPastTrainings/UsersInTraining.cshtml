@@ -26,9 +26,9 @@ else
                     <td id="Participation">
                         @if (user.HasNoAvailableTrainings && !user.ParticipationSet)
                         {
-                            <a href="#" class="ConfirmParticipation trainingsDetails text-nowrap" id="cp-@user.Email" data-training="@Model.TrainingID" data-email="@user.Email"><span class="glyphicon glyphicon-ok" style="color:green;"></span> Potvrď účasť</a>
+                            <a href="#" class="ConfirmParticipation trainingsDetails text-nowrap" id="cp-@user.Email.Replace("@","")" data-training="@Model.TrainingID" data-email="@user.Email"><span class="glyphicon glyphicon-ok" style="color:green;"></span> Potvrď účasť</a>
                             @:&nbsp;&nbsp;
-                            <a href="#" class="DisproveParticipation trainingsDetails text-nowrap" id="dp-@user.Email" data-training="@Model.TrainingID" data-email="@user.Email"><span class="glyphicon glyphicon-remove" style="color:red;"></span> Potvrď neúčasť</a>
+                            <a href="#" class="DisproveParticipation trainingsDetails text-nowrap" id="dp-@user.Email.Replace("@","")" data-training="@Model.TrainingID" data-email="@user.Email"><span class="glyphicon glyphicon-remove" style="color:red;"></span> Potvrď neúčasť</a>
                         }
                         else if (user.ParticipationDisapproved)
                         {
@@ -42,50 +42,4 @@ else
     </div>
         }
 
-        <script>
-            $(".ConfirmParticipation").click(function () {
-                var self = $(this);
-                var trainingID = self.data("training");
-                var email = self.data("email");
-                $.ajax({
-                    //controller method
-                    url: "ConfirmParticipation",
-                    //controller method parameter : trainingID
-                    data: { trainingID: trainingID, email: email },
-                    type: 'POST',
-                    dataType: "json",
-                    success: function (response) {
-                        if (response == 15) {
-                            $("#cp-" + email).hide();
-                            $("#dp-" + email).hide();
-                            $("#messageBoxParticipation").html("Účasť bola potvrdená!");
-                            $("#messageBoxParticipation").show();
-                        }
-                    }
-                });
-            });
-
-            $(".DisproveParticipation").click(function () {
-                var self = $(this);
-                var trainingID = self.data("training");
-                var email = self.data("email");
-                $.ajax({
-                    //controller method
-                    url: "DisproveParticipation",
-                    //controller method parameter : trainingID
-                    data: { trainingID: trainingID, email: email },
-                    type: 'POST',
-                    dataType: "json",
-                    success: function (response) {
-                        if (response == 16) {
-                            $("#cp-" + email).hide();
-                            $("#dp-" + email).hide();
-                            $("#messageBoxParticipation").html("Neúčasť bola potvrdená!");
-                            $("#messageBoxParticipation").show();
-                            $("#Participation").html("Nezúčastnil sa");
-                        }
-                    }
-                });
-            });
-
-        </script>
+<script src="~/Scripts/UsersInTraining.js"></script>
