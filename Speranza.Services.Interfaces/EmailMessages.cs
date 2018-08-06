@@ -12,8 +12,6 @@ namespace Speranza.Services.Interfaces
     {
         static EmailMessages()
         {
-            //var requestContext = HttpContext.Current.Request.RequestContext;
-            //urlHelper = new UrlHelper(requestContext);
         }
 
         public const string WelcomeSubject = "Registrácia";
@@ -24,10 +22,10 @@ namespace Speranza.Services.Interfaces
         public const string AddingUserToTrainingBody = "Ahoj, admin ťa pridal na tréning dňa {0} o {1}. \nTešíme sa na teba. \nTvoja Speranza";
         public const string RemovingUserFromTrainingBody = "Ahoj, admin ťa odhlásil z tréningu dňa {0} o {1} \nTešíme sa na tvoju ďalšiu návštevu. \nSperanza";
         public const string RemovingUserFromTrainingSubject = "Odhlásenie z tréningu dňa {0} o {1}";
-        public const string ConfirmAttendanceSubject = "Potvrdenie účasti na tréningu dňa {0} o {1}";
-        public const string ConfirmAttendanceBody = " Ahoj admin, \npotrvď účasť/neúčasť týchto cvičiacich na tréningu. \n{0}\n\nTvoja Speranza";
-        public static string ConfirmAttendanceSubBody = "{0} {1} <a href=\""+ /*urlHelper.Action("ConfirmParticipation", "AdminPastTrainings") +*/ "?traningId={3}&amp;email={2}\">potvrď účasť</a> / <a href=\""+urlHelper.Action("ConfirmParticipation", "AdminPastTrainings")+"\">potvrď neúčasť</a>";
-        private static UrlHelper urlHelper;
+        public const string ConfirmAttendanceSubject = "Potvrdenie účasti na tréningoch dňa {0}";
+        public const string ConfirmAttendanceBody = " Ahoj admin, \npotrvď účasť/neúčasť cvičiacich na tréningoch: \n{0}\nhttp://treningy.speranza.sk/AdminPastTrainings/AdminTrainings\n\nTvoja Speranza";
+        //public static string ConfirmAttendanceSubBody = "{0} {1} <a href=\""+ "http://treningy.speranza.sk/AdminPastTrainings/ConfirmParticipation" + "?traningId={3}&amp;email={2}\">potvrď účasť</a> / <a href=\"http://treningy.speranza.sk/AdminPastTrainings/DisproveParticipation" + "?traningId={3}&amp;email={2}\">potvrď neúčasť</a>";
+
         public const string SixthUserSignedUpInTrainingSubject = "Prihlásil sa 6. cvičiaci";
         public const string SixthUserSignedUpInTrainingBody = " Ahoj admin, \nna tréning dňa {0} o {1} sa prihlásil 6. cvičiaci. Skontroluj, či máš trénera.\nTvoja Speranza";
         public const string SixthUserSignedOffFromTrainingSubject = "Odhlásil sa 6. cvičiaci";

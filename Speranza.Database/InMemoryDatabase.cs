@@ -44,7 +44,7 @@ namespace Speranza.Database
             settings = new Dictionary<string, object>();
             tokens = new Dictionary<string, string>();
             templates = new List<IRecurringTrainingTemplate>();
-            users.Add("admin@sk", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Admin", Surname = "Admin", PhoneNumber = "1234", IsAdmin = true, Category = UserCategories.Silver });
+            users.Add("admin@sk", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Admin", Surname = "Admin", PhoneNumber = "1234", IsAdmin = true, Category = UserCategories.Silver, Email = "admin@sk" });
 
             users.Add("miro", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Miro", Surname = "Pavlicko", PhoneNumber = "1234", IsAdmin = false, NumberOfFreeSignUps = 10 });
             users.Add("Zuzka", new RegisteredUser() { /*"pass1 (hashed)"*/Password = "/4SrsZcLUnq/LpZTmllEyETvXELfPGR5zafWRUPN8+EyaHjziFh8OqiRO2rtZfQI+hdyNjV2B8It910eHvONIg==", Name = "Zuzana", Surname = "papalova", PhoneNumber = "1234", IsAdmin = false, Category = UserCategories.Gold, NumberOfFreeSignUps = 7 });

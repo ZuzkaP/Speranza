@@ -243,13 +243,13 @@ namespace Speranza.Services
             var trainingsIDs = usersInTraining.Select(r => r.TrainingID).Distinct().ToList();
 
             var admins = db.GetAdmins();
-
+            List<ITraining> trainingData = new List<ITraining>();
             foreach (var item in trainingsIDs)
             {
                 var users = usersInTraining.Where(r => r.TrainingID == item).Select(r => db.GetUserData(r.Email)).ToList();
-                var trainingData = db.GetTrainingData(item);
-                emailManager.SendConfirmUserAttendance(admins, users, item, trainingData.Time);
+                trainingData.Add(db.GetTrainingData(item));
             }
+            emailManager.SendConfirmUserAttendance(admins, trainingData);
             usersInTraining.Select(r =>
             {
                 db.SetZeroEntranceFlag(r, false);

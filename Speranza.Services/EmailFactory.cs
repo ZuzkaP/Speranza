@@ -41,15 +41,16 @@ namespace Speranza.Services
             return result;
         }
 
-        public Email CreateConfirmAttendanceEmail(IList<IUser> admins, IList<IUser> users, string trainingId, DateTime dateTime, string confirmAttendanceSubject, string confirmAttendanceBody,string confirmAttendanceSubBody)
+        public Email CreateConfirmAttendanceEmail(IList<IUser> admins, IList<ITraining> trainingData, string confirmAttendanceSubject, string confirmAttendanceBody)
         {
             Email result = new Email();
             PrepareMultipleReceivers(admins, result);
-            result.Subject = string.Format(confirmAttendanceSubject, dateTime.ToString("dd.MM.yyyy"), dateTime.ToString("HH:mm"));
+            result.Subject = string.Format(confirmAttendanceSubject,trainingData.First().Time.Date.ToString("dd.MM.yyyy"));
             string subBody = string.Empty;
-            foreach (var user in users)
+            foreach (var training in trainingData)
             {
-                subBody += string.Format(confirmAttendanceSubBody, user.Name, user.Surname, user.Email, trainingId);
+                subBody +=training.Time.ToString("dd.MM.yyyy HH:mm");
+                subBody += "\n";
             }
             result.Body = string.Format(confirmAttendanceBody, subBody);
 

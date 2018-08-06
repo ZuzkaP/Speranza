@@ -29,10 +29,13 @@ namespace Speranza.Tests.Services
         private EmailFactory factory;
         private IList<IUser> admins;
         private List<IUser> users;
+        private List<ITraining> trainings;
         private Mock<IUser> user;
+        private Mock<ITraining> training;
         private const string BODY_FOR_ATTENDANCE = "uvod {0} zaver";
         private const string SUBBODY_FOR_ATTENDANCE = "{0} {1} {2} {3}";
         private const string BODY_1_PARAM = "1PARAM_BODY {0}";
+        private const string SUBJECT_1_PARAM = "1PARAM_SUBJECT {0}";
         private const string NEW_PASS = "NEWPASS";
 
         [TestMethod]
@@ -146,9 +149,9 @@ namespace Speranza.Tests.Services
         {
             InitializeEmailFactory();
             PrepareOneAdmin();
-            PrepareOneUserToConfirmHisAttendance();
+            PrepareTrainingsToConfirmAttendance();
 
-            Email result = factory.CreateConfirmAttendanceEmail(admins, users, TRAINING_ID, DATE_TIME, SUBJECT, BODY,SUBBODY_FOR_ATTENDANCE);
+            Email result = factory.CreateConfirmAttendanceEmail(admins, trainings, SUBJECT, BODY);
 
             Assert.AreEqual(EMAIL, result.Receiver);
         }
@@ -158,9 +161,9 @@ namespace Speranza.Tests.Services
         {
             InitializeEmailFactory();
             PrepareTwoAdmins();
-            PrepareOneUserToConfirmHisAttendance();
+            PrepareTrainingsToConfirmAttendance();
 
-            Email result = factory.CreateConfirmAttendanceEmail(admins, users, TRAINING_ID, DATE_TIME, SUBJECT, BODY,SUBBODY_FOR_ATTENDANCE);
+            Email result = factory.CreateConfirmAttendanceEmail(admins, trainings, SUBJECT, BODY);
 
             Assert.AreEqual(EMAIL+"," + EMAIL2, result.Receiver);
         }
@@ -170,11 +173,11 @@ namespace Speranza.Tests.Services
         {
             InitializeEmailFactory();
             PrepareOneAdmin();
-            PrepareOneUserToConfirmHisAttendance();
+            PrepareTrainingsToConfirmAttendance();
 
-            Email result = factory.CreateConfirmAttendanceEmail(admins, users, TRAINING_ID, DATE_TIME, SUBJECT_2_PARAMS, BODY,SUBBODY_FOR_ATTENDANCE);
+            Email result = factory.CreateConfirmAttendanceEmail(admins, trainings, SUBJECT_1_PARAM, BODY_1_PARAM);
 
-            Assert.AreEqual(string.Format(SUBJECT_2_PARAMS, DATE_TIME.ToString("dd.MM.yyyy"), DATE_TIME.ToString("HH:mm")), result.Subject);
+            Assert.AreEqual("1PARAM_SUBJECT 08.08.2017", result.Subject);
         }
 
         [TestMethod]
@@ -182,22 +185,22 @@ namespace Speranza.Tests.Services
         {
             InitializeEmailFactory();
             PrepareOneAdmin();
-            PrepareOneUserToConfirmHisAttendance();
+            PrepareTrainingsToConfirmAttendance();
 
-            Email result = factory.CreateConfirmAttendanceEmail(admins, users, TRAINING_ID, DATE_TIME, SUBJECT_2_PARAMS, BODY_FOR_ATTENDANCE,SUBBODY_FOR_ATTENDANCE);
+            Email result = factory.CreateConfirmAttendanceEmail(admins, trainings, SUBJECT_1_PARAM, BODY_1_PARAM);
 
-            Assert.AreEqual("uvod " + NAME + " " + SURNAME + " " + EMAIL + " " + TRAINING_ID + " zaver",result.Body);
+            Assert.AreEqual("1PARAM_BODY 08.08.2017 10:00", result.Body.Trim());
         }
         [TestMethod]
         public void CreateConfirmAttendanceEmailBodyForTwoUsers()
         {
             InitializeEmailFactory();
             PrepareOneAdmin();
-            PrepareTwoUsersToConfirmHisAttendance();
+            PrepareTrainingsToConfirmAttendance();
 
-            Email result = factory.CreateConfirmAttendanceEmail(admins, users, TRAINING_ID, DATE_TIME, SUBJECT_2_PARAMS, BODY_FOR_ATTENDANCE, SUBBODY_FOR_ATTENDANCE);
+            Email result = factory.CreateConfirmAttendanceEmail(admins, trainings, SUBJECT, BODY_1_PARAM);
 
-            Assert.AreEqual("uvod " + NAME + " " + SURNAME + " " + EMAIL + " " + TRAINING_ID + NAME2 + " " + SURNAME2 + " " + EMAIL2 + " " + TRAINING_ID + " zaver", result.Body);
+            Assert.AreEqual("1PARAM_BODY 08.08.2017 10:00", result.Body.Trim());
         }
 
         [TestMethod]
@@ -212,25 +215,14 @@ namespace Speranza.Tests.Services
             Assert.AreEqual(SUBJECT, result.Subject);
             Assert.AreEqual(string.Format(BODY_1_PARAM, NEW_PASS), result.Body);
         }
+        
 
-        private void PrepareTwoUsersToConfirmHisAttendance()
+        private void PrepareTrainingsToConfirmAttendance()
         {
-            PrepareOneUserToConfirmHisAttendance();
-            var user = new Mock<IUser>();
-            user.SetupGet(r => r.Email).Returns(EMAIL2);
-            user.SetupGet(r => r.Name).Returns(NAME2);
-            user.SetupGet(r => r.Surname).Returns(SURNAME2);
-            users.Add(user.Object);
-        }
-
-        private void PrepareOneUserToConfirmHisAttendance()
-        {
-            user = new Mock<IUser>();
-            user.SetupGet(r => r.Email).Returns(EMAIL);
-            user.SetupGet(r => r.Name).Returns(NAME);
-            user.SetupGet(r => r.Surname).Returns(SURNAME);
-            users = new List<IUser>();
-            users.Add(user.Object);
+            training = new Mock<ITraining>();
+            training.SetupGet(r => r.Time).Returns(DATE_TIME);
+            trainings = new List<ITraining>();
+            trainings.Add(training.Object);
         }
         
         private void PrepareTwoAdmins()

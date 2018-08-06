@@ -769,7 +769,7 @@ namespace Speranza.Tests.Services
 
             manager.PromptToConfirmUserAttendance();
 
-            emailManager.Verify(r => r.SendConfirmUserAttendance(It.IsAny<IList<IUser>>(), It.IsAny<IList<IUser>>(), It.IsAny<string>(), It.IsAny<DateTime>()), Times.Never);
+            emailManager.Verify(r => r.SendConfirmUserAttendance(It.IsAny<IList<IUser>>(), It.IsAny<IList<ITraining>>()), Times.Never);
             db.Verify(r => r.SetZeroEntranceFlag(It.IsAny<IUserInTraining>(),It.IsAny<bool>()), Times.Never);
         }
 
@@ -787,26 +787,11 @@ namespace Speranza.Tests.Services
 
             manager.PromptToConfirmUserAttendance();
 
-            emailManager.Verify(r => r.SendConfirmUserAttendance(admins,It.Is<IList<IUser>>(k=>k.Count == 2 && k.Contains(user1.Object) && k.Contains(user2.Object)), TRAINING_ID, DATE_TIME), Times.Once);
+            emailManager.Verify(r => r.SendConfirmUserAttendance(admins,It.IsAny<IList<ITraining>>()), Times.Once);
             db.Verify(r => r.SetZeroEntranceFlag(user1InTraining.Object, false), Times.Once);
             db.Verify(r => r.SetZeroEntranceFlag(user2InTraining.Object, false), Times.Once);
         }
-
-        [TestMethod]
-        public void SendEmailToAdmins_When_TwoUsersWithZeroEntranceFlagExistInTwoDifferentTrainings()
-        {
-            InitializeUserManager();
-            PrepareTwoTrainingWithTwoUsersWithZeroEntranceFlag();
-            PrepareAdmins();
-
-            manager.PromptToConfirmUserAttendance();
-
-            emailManager.Verify(r => r.SendConfirmUserAttendance(admins, It.Is<IList<IUser>>(k => k.Count == 1 && k.Contains(user1.Object) ), TRAINING_ID, DATE_TIME), Times.Once);
-            emailManager.Verify(r => r.SendConfirmUserAttendance(admins, It.Is<IList<IUser>>(k => k.Count == 1 && k.Contains(user2.Object)), TRAINING2_ID, DATE_TIME), Times.Once);
-            db.Verify(r => r.SetZeroEntranceFlag(user1InTraining.Object, false), Times.Once);
-            db.Verify(r => r.SetZeroEntranceFlag(user2InTraining.Object, false), Times.Once);
-        }
-
+        
         [TestMethod]
         public void CleanUpTokensPeriodically()
         {
