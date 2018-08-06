@@ -13,7 +13,9 @@ namespace Speranza.Services
     public class GalleryService : IGalleryService
     {
         private IDatabaseGateway db;
-        private const string GALLERY = @"D:\Websites\174286b7cd\www\Gallery";
+        private const string GALLERY = ROOT + @"\Gallery";
+        private const string ROOT = @"D:\Inetpub\webs\12700885_web\subdoms\treningy";
+
         //private const string GALLERY = "C:\\Users\\zuzana.papalova\\Desktop\\SperanzaGit\\Speranza\\Speranza\\Gallery";
 
         public GalleryService(IDatabaseGateway db)
@@ -37,7 +39,7 @@ namespace Speranza.Services
             var photos = Directory.GetFiles(folderPath).ToList();
             foreach (var photo in photos)
             {
-                output.Add(photo.Replace(@"D:\Websites\174286b7cd\www", "http://speranza.aspone.cz"));
+                output.Add(photo.Replace(ROOT, "http://treningy.speranza.sk"));
                // output.Add(photo.Replace("C:\\Users\\zuzana.papalova\\Desktop\\SperanzaGit\\Speranza\\Speranza", "http://localhost:49871"));
             }
             return output;
