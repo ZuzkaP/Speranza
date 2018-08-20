@@ -124,26 +124,72 @@
 
                         <div class="form-group">
                             @Html.CheckBoxFor(r => r.ConfirmDataPrivacy, new { @class = "confirmation" })
-                            @Html.LabelFor(r => r.ConfirmDataPrivacy, "Súhlasím so spracovaním osobných údajov.", new { @class = "loginLinks" })
+                            @Html.LabelFor(r => r.ConfirmDataPrivacy, "Súhlasím s podmienkami služby.", new { @class = "loginLinks" })
                             <a data-toggle="collapse" data-target="#dataPrivacyText" href="#dataPrivacyText" aria-expanded="false" aria-controls="dataPrivacyText">
                                 Zobraz detaily
                             </a>
                             <div class="collapse" id="dataPrivacyText">
                                 <div class="card card-block">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                                    <h4>Všeobecné podmienky</h4>
+                                    <p>Tieto Všeobecné podmienky upravujú právne vzťahy medzi Poskytovateľom a Klientom v súvislosti s poskytovaním služieb uvedených nižšie (ďalej len „VP“). Registráciou dochádza k uzatvoreniu zmluvy medzi Klientom a Poskytovateľom. </p>
+                                    <p>Klient sa registráciou zaviazal riadiť ustanoveniami VP. V jednotlivých prípadoch – právnych vzťahoch medzi Poskytovateľom a Klientom je možné sa od týchto VP odchýliť a niektoré náležitosti právnych vzťahov riešiť individuálne, a to dohodou zmluvných strán, ako i z jednostranného vyhlásenia Poskytovateľa. Platí, že individuálna úprava, ktorá rieši právne vzťahy odchylne od VP, má prednosť pred úpravou obsiahnutou vo VP.</p>
+                                    <h5>I. Výklad pojmov</h5>
+                                    <ol>
+                                        <li>Poskytovateľ: Speranza Fit. s.r.o., so sídlom Jánošíkova 5, 040 01 Košice, IČO: 51 552 060, zápis v Obchodnom registri Okresného súdu Košice I, oddiel: Sro, vložka č.: 43602/V</li>
+                                        <li>Klient: fyzická osoba využívajúca služby poskytované Poskytovateľom</li>
+                                        <li>Služby: poradenstvo spojené so zdravým životným štýlom, najmä individuálne alebo skupinové výživového poradenstva, tréning v rámci ktorého poskytuje individuálne, cvičenie alebo cvičenie v skupinách.</li>
+                                        <li>Permanentka: právo opakovaného využívania služieb poskytovaných Poskytovateľom v čase trvania platnosti permanentky.  Platnosť permanentky je podmienená počtom vstupov (10 alebo 20) a časom jej platnosti (pri 10 vstupovej 3 mesiace od jej zakúpenia a pri 20 vstupovej 6 mesiacov od jej zakúpenia), podľa toho, čo nastane skôr.</li>
+                                    </ol>
+                                    <h5>II. Podmienky</h5>
+                                    <ol>
+                                        <li>Klientom sa môže stať iba osoba, ktorá sa riadne zaregistruje a vyplní požadované údaje. Registráciou vyjadruje Klient súhlas s týmito VP a prevádzkovým poriadkom, súhlasí s nimi a zaväzuje sa ich v plnej miere dodržiavať.</li>
+                                        <li>Klient zodpovedá za správnosť údajov uvedených v registrácii. Zmenu údajov uvedených v registrácii môže Klient vykonať prostredníctvom webovej stránky Poskytovateľa.</li>
+                                        <li>Pre využívanie služieb poskytovaných Poskytovateľom je Klient povinný zakúpiť si permanentku s počtom vstupov a v cene platnými v čase jej zakúpenia. Bez predchádzajúceho zakúpenia permanentky nie je možné využívanie služieb poskytovaných Poskytovateľom, ak nie je uvedené inak. Záujemca o využívanie služieb, ktorý doposiaľ nevyužíval služby poskytované poskytovateľom, je oprávnený k jednorazovému bezplatnému vstupu. Za týmto účelom je povinný registrovať sa na webovej stránke poskytovateľa.</li>
+                                        <li>Klient je v prípade záujmu o využite služieb poskytovaných Poskytovateľom povinný sa nahlásiť svoju účasť na konkrétny deň a čas prostredníctvom webovej stránky Poskytovateľa do času uvedeného pri registrácii. </li>
+                                        <li>V prípade zrušenia svojej účasti na službách poskytovaných Poskytovateľom je Klient je povinný svoju účasť zrušiť prostredníctvom webovej stránky Poskytovateľa najneskôr do času uvedeného pri nahlásení účasti. Ak Klient svoju účasť nezruší v stanovenom čase, má sa za to, že došlo zo strany Poskytovateľa k poskytnutiu služby riadne a včas.</li>
+                                        <li>V prípade, ak dôjde ku zrušeniu poskytovania služby zo strany Poskytovateľa, je tento povinný túto skutočnosť oznámiť Klientovi najneskôr štyri hodiny pred poskytnutím služby prostredníctvom e-mailu alebo tel. kontaktu formou sms správy.</li>
+                                    </ol>
+                                    <h5>III. Záverečné ustanovenia</h5>
+                                    <ol>
+                                        <li>Ak sa niektoré z ustanovení VP stane nevynútiteľným alebo neplatným podľa platného práva, bude toto ustanovenie neúčinné len do tej miery, do akej je nevynútiteľné, či neplatné. Ďalšie ustanovenia týchto VP ostávajú naďalej záväzné a v plnej platnosti a účinnosti. Pokiaľ nastane takáto situácia, zmluvné strany nahradia toto nevynútiteľné, či neplatné ustanovenie iným ustanovením, ktoré sa mu svojím obsahom a účelom bude čo najviac približovať.</li>
+                                        <li>Poskytovateľ si vyhradzuje právo na zmenu a dopĺňanie týchto VP. Pre zmenu VP sa nevyžaduje uzatvorenie písomného dodatku, Poskytovateľ je oprávnený VP meniť jednostranne a účinnosť takejto zmeny nastáva dňom uvedeným v Oznámení o zmene VP zaslanom Klientovi. Ak Klient nesúhlasí so zmenou VP, je oprávnený od zmluvy odstúpiť a odstúpenie doručiť Poskytovateľovi najneskôr do 30 dní odo dňa účinnosti zmeny VP. Zmluva zaniká doručením odstúpenia Poskytovateľovi. Ak Klient vo vyššie uvedenej lehote neoznámi svoj nesúhlas so zmenou VP platí, že so zmenou súhlasí a vzájomné vzťahy zmluvných strán sa odo dňa účinnosti zmeny riadia zmenenými VP.</li>
+                                    </ol>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="form-group">
                             @Html.CheckBoxFor(r => r.ConfirmPersonalResponsibility, new { @class = "confirmation" })
-                            @Html.LabelFor(r => r.ConfirmPersonalResponsibility, "Potvrdzujem, že cvičím na vlastnú zodpovednosť.", new { @class = "loginLinks" })
+                            @Html.LabelFor(r => r.ConfirmPersonalResponsibility, "Potvrdzujem, že súhlasím so spracovaním osobných údajov", new { @class = "loginLinks" })
                             <a data-toggle="collapse" data-target="#dataResponsibilityText" href="#dataResponsibilityText" aria-expanded="false" aria-controls="dataResponsibilityText">
                                 Zobraz detaily
                             </a>
                             <div class="collapse" id="dataResponsibilityText">
                                 <div class="card card-block">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                                    <h4>Ochrana osobných údajov</h4>
+                                    <ol>
+                                        <li>Spracúvanie osobných údajov vykonáva spol. Speranza Fit. s.r.o., so sídlom Jánošíkova 5, 040 01 Košice, IČO: 51 552 060, zápis v Obchodnom registri Okresného súdu Košice I, oddiel: Sro, vložka č.: 43602/V (ďalej aj ako „Poskytovateľ“) ako prevádzkovateľ v zmysle zákona č. 18/2018 Z. z. ochrane osobných údajov a o zmene a doplnení niektorých zákonov (ďalej aj ako „Zákon“). </li>
+                                        <li>
+                                            Kontaktné údaje Poskytovateľa pre účely spracúvania osobných údajov:<br>
+                                            Speranza Fit. s.r.o., Jánošíkova 5, 040 01 Košice<br>
+                                            e-mail: <a href="mailto:studiosperanza@netkosice.sk">studiosperanza@netkosice.sk</a>
+                                        </li>
+                                        <li>Klient berie na vedomie, že Prevádzkovateľ spracúva osobné údaje Klienta v súlade s ust. § 13 ods. 1 písm. b) Zákona na základe zmluvy a to v rozsahu: meno a priezvisko, telefón a e-mail za účelom využívania služieb poskytovaných Poskytovateľom. </li>
+                                        <li>Osobné údaje Klienta budú spracúvané najviac po dobu jedného roka od ukončenia platnosti zakúpenej permanentky, alebo využitia jednorazového vstupu, nie však kratšie ako po dobu určenú právnou úpravou na uchovávanie dokumentácie pre účely účtovnej a daňovej agendy a oblasť archívnictva.</li>
+                                        <li>Osobné údaje Poskytovateľ neposkytuje žiadnym príjemcom s výnimkou účtovných, daňových a právnych služieb, ako aj subjektov spolupracujúcich pri poskytovaní služieb klientom.</li>
+                                        <li>
+                                            Klient je oprávnený, nie však výlučne o práve požadovať od Poskytovateľa
+                                            <ul>
+                                                <li>prístup k osobným údajom týkajúcim sa jeho osoby, práve na opravu osobných údajov, </li>
+                                                <li>vymazanie osobných údajov, </li>
+                                                <li>obmedzenie spracúvania osobných údajov,</li>
+                                                <li>namietať spracúvanie osobných údajov, </li>
+                                                <li>prenosnosť osobných údajov. </li>
+                                            </ul>
+                                            Klient je oprávnený podať návrh na začatie konania pred Úradom na ochranu osobných údajov podľa § 100 Zákona.
+                                        </li>
+                                        <li>Poskytnutie osobných údajov je požiadavkou na účely plnenia zmluvy, ich neposkytnutie môže mať za následok nemožnosť využívania služieb poskytovaných Poskytovateľom. Klient je oprávnený kedykoľvek zrušiť svoju registráciu a to prostredníctvom odvolania súhlasu zaslaného na e-mail: <a href="mailto:studiosperanza@netkosice.sk">studiosperanza@netkosice.sk</a>, alebo osobne v mieste výkonu činnosti Prevádzkovateľa. Klient berie na vedomie, že zrušením registrácie dochádza k zániku možnosti využívania služieb poskytovaných Prevádzkovateľom.</li>
+                                    </ol>
                                 </div>
                             </div>
                         </div>
