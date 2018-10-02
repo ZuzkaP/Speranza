@@ -184,7 +184,7 @@ namespace Speranza.Database
 
         public IList<IUser> GetAllUsers()
         {
-            string sql = string.Format("SELECT email,category,isAdmin,name,surname,phoneNumber,numberOfFreeSignUps,(Select Count(*) from UsersInTrainings Where email =Users.email AND (SELECT time from Trainings WHERE Id= trainingID) > GetDate()) FROM Users ;");
+            string sql = string.Format("SELECT email,category,isAdmin,name,surname,phoneNumber,isSignUpAllowed,numberOfFreeSignUps,(Select Count(*) from UsersInTrainings Where email =Users.email AND (SELECT time from Trainings WHERE Id= trainingID) > GetDate()) FROM Users ;");
             var objects = ExecuteSqlWithResult(sql);
             var users = new List<IUser>();
             foreach (var item in objects)
@@ -196,8 +196,9 @@ namespace Speranza.Database
                 user.Name = (string)item[3];
                 user.Surname = (string)item[4];
                 user.PhoneNumber = (string)item[5];
-                user.NumberOfFreeSignUpsOnSeasonTicket = (int)item[6];
-                user.NumberOfSignedUpTrainings = (int)item[7];
+                user.IsUserAllowedToSignUp = (byte)item[6] == 1;
+                user.NumberOfFreeSignUpsOnSeasonTicket = (int)item[7];
+                user.NumberOfSignedUpTrainings = (int)item[8];
                 users.Add(user);
             }
 

@@ -16,11 +16,11 @@ namespace Speranza.Database.Data
         public string Name { get; set; }
 
         public string Surname { get; set; }
-        
+
 
         public string PhoneNumber { get; set; }
 
-        public bool IsAdmin {  get; set; }
+        public bool IsAdmin { get; set; }
 
         public UserCategories Category { get; set; }
 
@@ -38,6 +38,8 @@ namespace Speranza.Database.Data
         {
             get; set;
         }
-        public DateTime SignUpTime { get; set ; }
-          }
+        public DateTime SignUpTime { get; set; }
+
+        public bool IsUserAllowedToSignUp { get; set; }
+    }
 }

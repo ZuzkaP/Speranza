@@ -201,6 +201,16 @@ select.selcls, select.selcls:focus{
     font-size: 1.4rem;
 } 
 
+.Category {
+    min-width:90px; 
+}
+
+.participation .btn span.octicon {    			
+    opacity: 0;				
+}
+.participation .btn.active span.octicon {				
+    opacity: 1;				
+}
 select.form-control:not([size]):not([multiple]) {
   
     height: calc(2.5rem + 5px);  

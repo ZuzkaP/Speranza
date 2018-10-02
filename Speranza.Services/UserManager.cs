@@ -186,6 +186,20 @@ namespace Speranza.Services
             return db.GetAllowedToSignUpFlag(email);
         }
 
+        public bool ToggleAllowUserToSignUp(string email)
+        {
+            var isAbleToSignUp = db.GetAllowedToSignUpFlag(email);
+            if (isAbleToSignUp)
+            {
+                db.ForbidSigningUpToTrainings(email);
+            }
+            else
+            {
+                db.AllowSigningUpToTrainings(email);
+            }
+            return !isAbleToSignUp;
+        }
+
         public UserCategories UpdateUserCategory(string email, UserCategories category)
         {
             int count = db.GetNumberOfVisits(email, dateTimeService.GetCurrentDateTime());

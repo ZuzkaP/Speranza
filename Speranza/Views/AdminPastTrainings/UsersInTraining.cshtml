@@ -26,9 +26,9 @@ else
                     <td id="Participation">
                         @if (user.HasNoAvailableTrainings && !user.ParticipationSet)
                         {
-                            <a href="#" class="ConfirmParticipation trainingsDetails text-nowrap" id="cp-@user.Email.Replace("@","")" data-training="@Model.TrainingID" data-email="@user.Email"><span class="glyphicon glyphicon-ok" style="color:green;"></span> Potvrď účasť</a>
+                            <a href="#" class="ConfirmParticipation trainingsDetails text-nowrap" id="cp-@user.Email.Replace("@","")" data-training="@Model.TrainingID" data-email="@user.Email"><span class="octicon octicon-check" style="color:green;"></span> Potvrď účasť</a>
                             @:&nbsp;&nbsp;
-                            <a href="#" class="DisproveParticipation trainingsDetails text-nowrap" id="dp-@user.Email.Replace("@","")" data-training="@Model.TrainingID" data-email="@user.Email"><span class="glyphicon glyphicon-remove" style="color:red;"></span> Potvrď neúčasť</a>
+                            <a href="#" class="DisproveParticipation trainingsDetails text-nowrap" id="dp-@user.Email.Replace("@","")" data-training="@Model.TrainingID" data-email="@user.Email"><span class="octicon octicon-circle-slash" style="color:red;"></span> Potvrď neúčasť</a>
                         }
                         else if (user.ParticipationDisapproved)
                         {

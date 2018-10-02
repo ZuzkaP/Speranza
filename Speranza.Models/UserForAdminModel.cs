@@ -25,5 +25,7 @@ namespace Speranza.Models
 
         public int TrainingCount { get; set; }
 
+        public bool IsUserAllowedToSignUp { get; set; }
+
     }
 }

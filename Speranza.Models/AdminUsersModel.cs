@@ -13,7 +13,9 @@ namespace Speranza.Models
         SuccessfullyChangedCategory = 3,
         SuccessfullyIncreasedCountOfSignUps = 4,
         SuccessfullyDecreasedCountOfSignUps = 5,
-        SuccessfullyUserSignOffFromTraining = 6
+        SuccessfullyUserSignOffFromTraining = 6,
+        UserIsAbleToSignUp = 7,
+        UserIsUnableToSignUp = 8
     }
 
     public class AdminUsersModel 

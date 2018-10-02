@@ -7,15 +7,16 @@
 }
 
 <div class="container calendar-container">
-    <h2 class="adminUsersLabel">Správa používateľov
-    <button id="SetMessageForClients" data-toggle="tooltip" data-placement="bottom" title="Nastav oznam pre klientov" class="btn btn-warning trainingButtons"><span class="octicon octicon-megaphone"></span></button>
+    <h2 class="adminUsersLabel">
+        Správa používateľov
+        <button id="SetMessageForClients" data-toggle="tooltip" data-placement="bottom" title="Nastav oznam pre klientov" class="btn btn-warning trainingButtons"><span class="octicon octicon-megaphone"></span></button>
     </h2>
     <div id="usermessageBoxOnAdminUserPage" style="display:none;" class="alert alert-success" role="alert"></div>
 
     <div class="col-sm-3 searchUsers">
         <input type="text" id="searchBox" placeholder="Hľadaj podľa priezviska..." class="form-control">
     </div>
-<div class="table-responsive">
+    <div class="table-responsive">
         <table class="table table-striped" id="UsersTable">
             <thead>
                 <tr>
@@ -25,6 +26,7 @@
                     <th>Tel. číslo</th>
                     <th>Kategória</th>
                     <th colspan="2">Stav permanentky</th>
+                    <th data-toggle="tooltip" title="Povoliť/ Zakázať opätovné prihlásenie">Black list</th>
                     <th>Tréningy</th>
                     <th>Admin</th>
                 </tr>
@@ -43,7 +45,7 @@
                         <td>
                             <span id="freeSignUpsCell-@ViewHelper.GetEmailForJS(user.Email)"> @user.NumberOfFreeSignUps </span>
                         </td>
-                        <td>
+                        <td class="ticketStateColumn">
                             <div class="btn-group btn-group-xs">
                                 <button type="button" class="btn btn-primary SignUpCount" data-count="1" data-email="@user.Email"> +1</button>
                                 <button type="button" class="btn btn-primary SignUpCount" data-count="10" data-email="@user.Email">+10</button>
@@ -52,6 +54,35 @@
                                 <button type="button" class="btn btn-danger  SignUpCount" data-count="-10" data-email="@user.Email">-10</button>
                                 <button type="button" class="btn btn-danger  SignUpCount" data-count="-20" data-email="@user.Email">-20</button>
                             </div>
+                        </td>
+                        <td>
+                        @if (user.IsUserAllowedToSignUp)
+                        {
+                            <div class="btn-group participation" data-toggle="buttons">
+                                <label class="btn btn-primary active">
+                                    <input type="radio" class="signUpAllowed" data-email="@user.Email" autocomplete="off" hidden>
+                                    <span class="octicon octicon-check"></span>
+                                </label>
+
+                                <label class="btn btn-danger">
+                                    <input type="radio" class="signUpAllowed" data-email="@user.Email" autocomplete="off" hidden>
+                                    <span class="octicon octicon-check"></span>
+                                </label>
+                            </div>
+                        }
+                        else {
+                            <div class="btn-group participation" data-toggle="buttons">
+                                <label class="btn btn-primary">
+                                    <input type="radio" class="signUpAllowed" data-email="@user.Email" autocomplete="off" hidden>
+                                    <span class="octicon octicon-check"></span>
+                                </label>
+
+                                <label class="btn btn-danger active">
+                                    <input type="radio" class="signUpAllowed" data-email="@user.Email" autocomplete="off" hidden>
+                                    <span class="octicon octicon-check"></span>
+                                </label>
+                            </div>
+                        }
                         </td>
                         <td>
                             <span id="@ViewHelper.GetEmailForJS(user.Email)-TrainingCount">@user.TrainingCount</span>
@@ -63,13 +94,13 @@
                                 <span class="custom-control-indicator"></span>
                             </label>
                         </td>
-                        
-                     </tr>
+
+                    </tr>
                 }
             </tbody>
         </table>
     </div>
-    </div>
+</div>
 
 @Html.Partial("UserTrainingsList");
 @Html.Partial("NewMessageForm", Model);
@@ -80,6 +111,6 @@
             $('[data-toggle="tooltip"]').tooltip();
         });
     </script>
-<script src="~/Scripts/AdminUsers.js"></script>
-<script src="~/Scripts/jquery.tablesorter.min.js"></script>
+    <script src="~/Scripts/AdminUsers.js"></script>
+    <script src="~/Scripts/jquery.tablesorter.min.js"></script>
 }

@@ -18,5 +18,7 @@ namespace Speranza.Database.Data.Interfaces
         bool ParticipationSet { get; set; }
         bool  ParticipationDisapproved{get; set;}
         DateTime SignUpTime { get; set; }
+        bool IsUserAllowedToSignUp { get; set; }
+
     }
 }

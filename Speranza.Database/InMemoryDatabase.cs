@@ -220,6 +220,7 @@ namespace Speranza.Database
                 user.Name = users[email].Name;
                 user.Surname = users[email].Surname;
                 user.PhoneNumber = users[email].PhoneNumber;
+                user.IsUserAllowedToSignUp = users[email].SignUpAllowed;
                 user.NumberOfFreeSignUpsOnSeasonTicket = users[email].NumberOfFreeSignUps;
                 user.NumberOfSignedUpTrainings = usersInTrainings.Count(r => r.Email == email && trainings.First(p => p.ID == r.TrainingID).Time > DateTime.Now);
 

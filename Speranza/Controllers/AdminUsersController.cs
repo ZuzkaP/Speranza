@@ -88,6 +88,34 @@ namespace Speranza.Controllers
             return Json(model);
         }
 
+        [HttpPost]
+        public ActionResult ToggleAllowSignUp(string email)
+        {
+            if (!userManager.IsUserAdmin(Session))
+            {
+                return RedirectToAction("Calendar", "Calendar");
+            }
+            if (string.IsNullOrEmpty(email))
+            {
+                return Json(string.Empty);
+            }
+
+            var isAbleToSignUp = userManager.ToggleAllowUserToSignUp(email);
+            ToggleAdminModel model = new ToggleAdminModel();
+            model.Email = email;
+
+            if (isAbleToSignUp)
+            {
+                model.Message = AdminUsersMessages.UserIsAbleToSignUp;
+            }
+            else
+            {
+                model.Message = AdminUsersMessages.UserIsUnableToSignUp;
+            }
+            return Json(model);
+        }
+
+
         public ActionResult UserCategory(string id, string category)
         {
             if (!userManager.IsUserAdmin(Session))

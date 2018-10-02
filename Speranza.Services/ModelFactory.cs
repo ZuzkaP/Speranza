@@ -66,6 +66,7 @@ namespace Speranza.Services
             model.Category = user.Category.ToString();
             model.NumberOfFreeSignUps = user.NumberOfFreeSignUpsOnSeasonTicket;
             model.TrainingCount = user.NumberOfSignedUpTrainings;
+            model.IsUserAllowedToSignUp = user.IsUserAllowedToSignUp;
 
             return model;
         }

@@ -37,5 +37,6 @@ namespace Speranza.Services.Interfaces
         void CancelRememberMe(string email);
 
         void RemoveAccountFromDB(string email);
+        bool ToggleAllowUserToSignUp(string email);
     }
 }

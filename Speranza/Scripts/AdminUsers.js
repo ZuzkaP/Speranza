@@ -79,11 +79,34 @@ $(function () {
             dataType: "json",
             success: function (response) {
                 if (response.Message == 1)
-                    $('#messageBox').html("<b>Zrušenie</b> administrátorských práv pre používateľa: <b>" + response.Email + "</b>");
+                    $('#usermessageBoxOnAdminUserPage').html("<b>Zrušenie</b> administrátorských práv pre používateľa: <b>" + response.Email + "</b>");
                 else if (response.Message == 2)
-                    $('#messageBox').html("<b>Pridanie</b> administrátorských práv pre používateľa: <b>" + response.Email + "</b>");
+                    $('#usermessageBoxOnAdminUserPage').html("<b>Pridanie</b> administrátorských práv pre používateľa: <b>" + response.Email + "</b>");
 
-                $('#messageBox').show();
+                $('#usermessageBoxOnAdminUserPage').show();
+            }
+        });
+
+    });
+});
+
+$(function () {
+    $('.signUpAllowed').change(function () {
+
+        var self = $(this);
+        var email = self.data('email');
+        $.ajax({
+            url: "ToggleAllowSignUp",
+            data: { email: email },
+            type: 'POST',
+            dataType: "json",
+            success: function (response) {
+                if (response.Message == 8)
+                    $('#usermessageBoxOnAdminUserPage').html("<b>Zablokovanie</b> prihlasovania práv pre používateľa: <b>" + response.Email + "</b>");
+                else if (response.Message == 7)
+                    $('#usermessageBoxOnAdminUserPage').html("<b>Povolenie</b> prihlasovania práv pre používateľa: <b>" + response.Email + "</b>");
+
+                $('#usermessageBoxOnAdminUserPage').show();
             }
         });
 
@@ -103,8 +126,8 @@ $(function () {
             dataType: "json",
             success: function (response) {
                 if (response.Message == 3)
-                    $('#messageBox').html("Kategória pre používateľa <b>" + response.Email + "</b> bola zmenená na: <b>" + response.Category + "</b>");
-                $('#messageBox').show();
+                    $('#usermessageBoxOnAdminUserPage').html("Kategória pre používateľa <b>" + response.Email + "</b> bola zmenená na: <b>" + response.Category + "</b>");
+                $('#usermessageBoxOnAdminUserPage').show();
             }
         });
 
@@ -123,17 +146,17 @@ $(function () {
             dataType: "json",
             success: function (response) {
                 if (response.Message == 4)
-                    $('#messageBox').html("Počet vstupov užívateľovi <b>" + response.Email + "</b> bol zvýšený o <b>" + response.ChangeNumberOfSignUps + "</b>");
+                    $('#usermessageBoxOnAdminUserPage').html("Počet vstupov užívateľovi <b>" + response.Email + "</b> bol zvýšený o <b>" + response.ChangeNumberOfSignUps + "</b>");
                 else if (response.Message == 5) {
                     var changedCount = response.ChangeNumberOfSignUps;
                     if ($('#freeSignUpsCell-' + getEmailForJS(response.Email)).text() < response.ChangeNumberOfSignUps) {
                         changedCount = $('#freeSignUpsCell-' + getEmailForJS(response.Email)).text();
                     }
-                    $('#messageBox').html("Počet vstupov užívateľovi <b>" + response.Email + "</b> bol znížený o <b>" + changedCount + "</b>");
+                    $('#usermessageBoxOnAdminUserPage').html("Počet vstupov užívateľovi <b>" + response.Email + "</b> bol znížený o <b>" + changedCount + "</b>");
 
                 }
 
-                $('#messageBox').show();
+                $('#usermessageBoxOnAdminUserPage').show();
                 $('#freeSignUpsCell-' + getEmailForJS(response.Email)).html(response.AfterChangeNumberOfSignUps);
             }
         });
