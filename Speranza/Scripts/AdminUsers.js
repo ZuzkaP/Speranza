@@ -102,9 +102,9 @@ $(function () {
             dataType: "json",
             success: function (response) {
                 if (response.Message == 8)
-                    $('#usermessageBoxOnAdminUserPage').html("<b>Zablokovanie</b> prihlasovania práv pre používateľa: <b>" + response.Email + "</b>");
+                    $('#usermessageBoxOnAdminUserPage').html("<b>Zablokovanie</b> prihlasovania pre používateľa: <b>" + response.Email + "</b>");
                 else if (response.Message == 7)
-                    $('#usermessageBoxOnAdminUserPage').html("<b>Povolenie</b> prihlasovania práv pre používateľa: <b>" + response.Email + "</b>");
+                    $('#usermessageBoxOnAdminUserPage').html("<b>Povolenie</b> prihlasovania pre používateľa: <b>" + response.Email + "</b>");
 
                 $('#usermessageBoxOnAdminUserPage').show();
             }

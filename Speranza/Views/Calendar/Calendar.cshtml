@@ -11,8 +11,14 @@
 
 <div class="container calendar-container">
     <div class="info-message">
-     @Model.UserInfoMessage.Message
-   </div>
+        @Model.UserInfoMessage.Message
+    </div>
+    <div class="info-message">
+       @if (!Model.AllowToSignUp)
+       {
+        @:Prihlásenie na tréning je možné z dôvodu neodhlásenia sa z predchádzajúceho tréningu až po kontaktovaní admina. Tel. číslo: +421917538077  
+       }
+    </div>
     <h2>Rozpis tréningov</h2>
 
     @if (Model != null)
