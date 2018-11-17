@@ -11,7 +11,7 @@ else
     <div class="table-responsive">
         <table class="table table-striped" id="UsersInTrainingTable">
             <thead>
-            <tr>
+            <tr class="d-flex">
                 <th class="col-1">Meno</th>
                 <th class="col-2">Priezvisko</th>
                 <th class="col-4">Email</th>
@@ -21,7 +21,7 @@ else
             </thead>
             @foreach (var user in Model.Users)
             {
-                <tr id="@ViewHelper.GetEmailForJS(user.Email)">
+                <tr class="d-flex" id="@ViewHelper.GetEmailForJS(user.Email)">
                     <td class="col-1">@user.Name </td>
                     <td class="col-2">@user.Surname </td>
                     <td class="col-4">@user.Email</td>
