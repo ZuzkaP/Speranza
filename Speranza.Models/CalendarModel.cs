@@ -11,6 +11,8 @@ namespace Speranza.Models
         public CalendarMessages Message { get; set; }
         public ITrainingModel SignedUpOrSignedOffTraining { get; set; }
         public bool AllowToSignUp { get; set; }
+        public IList<IUserForTrainingDetailModel> Users { get; set; }
+
 
         public CalendarModel()
         {

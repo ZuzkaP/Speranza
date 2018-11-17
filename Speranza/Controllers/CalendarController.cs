@@ -73,6 +73,7 @@ namespace Speranza.Controllers
             var userEmail = (string)Session["Email"];
             Session["Category"] = userManager.UpdateUserCategory(userEmail,(UserCategories)Session["Category"]);
             CalendarModel model = new CalendarModel();
+            model.Users = userManager.GetAllUsersForTrainingDetails();
             DateTime today = dateTimeService.GetCurrentDateTime();
             int daysCount =
                 userManager.GetUserCategory(Session) == UserCategories.Silver ?

@@ -14,9 +14,9 @@
         @Model.UserInfoMessage.Message
     </div>
     <div class="info-message">
-       @if (!Model.AllowToSignUp)
-       {
-        @:Prihlásenie na tréning je možné z dôvodu neodhlásenia sa z predchádzajúceho tréningu až po kontaktovaní admina. Tel. číslo: +421917538077  
+        @if (!Model.AllowToSignUp)
+        {
+            @:Prihlásenie na tréning je možné z dôvodu neodhlásenia sa z predchádzajúceho tréningu až po kontaktovaní admina. Tel. číslo: +421917538077
        }
     </div>
     <h2>Rozpis tréningov</h2>
@@ -31,7 +31,7 @@
 
         for (int i = 0; i < Model.Days.Count; i += 7)
         {
-            weeks.Add(((List<IDayModel>) Model.Days).GetRange(i, Math.Min(7, Model.Days.Count - i)));
+            weeks.Add(((List<IDayModel>)Model.Days).GetRange(i, Math.Min(7, Model.Days.Count - i)));
         }
     }
 
@@ -87,7 +87,16 @@
                                                             {
                                                                 <span class="octicon octicon-organization text-dark" style="font-size: 120%"></span>
                                                             }
-                                                            <span class="event-capacity" style="font-size: 120%">@training.RegisteredNumber/@training.Capacity</span>
+                                                            @if (Session["IsAdmin"] != null && (bool)Session["IsAdmin"])
+                                                            {
+                                                                <span class="event-capacity trainingsDetails" style="cursor: pointer" data-training="@training.ID" style="font-size: 120%"><span id="@training.ID-rn">@training.RegisteredNumber</span>/@training.Capacity</span>
+                                                                <span id="@training.ID-date" style="display: none;">@training.Time.ToString("dd.MM.yyyy")</span>
+                                                                <span id="@training.ID-time" style="display: none;">@training.Time.ToString("HH:mm")</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="event-capacity" style="font-size: 120%">@training.RegisteredNumber/@training.Capacity</span>
+                                                            }
                                                         </em>
                                                         @if (training.IsUserSignedUp)
                                                         {
@@ -125,17 +134,17 @@
                                             }
                                         </ul>
                                     </li>
-                                }
+                                                }
 
                                 @{var newYear = false; }
                                 @if (week.Count < 7)
                                 {
 
                                     var lastDay = week.Last();
-                                    int lastDayName = (int) lastDay.DayName;
+                                    int lastDayName = (int)lastDay.DayName;
                                     var lastDayDate = lastDay.Date;
-                                    DayNames nextDay = (DayNames) lastDayName;
-                                    string[] formats = {"dd.MM.", "d.MM.", "d.M.", "dd.M."};
+                                    DayNames nextDay = (DayNames)lastDayName;
+                                    string[] formats = { "dd.MM.", "d.MM.", "d.M.", "dd.M." };
                                     for (int i = week.Count + 1; i <= 7; i++)
                                     {
                                         <li class="events-group disabled">
@@ -145,7 +154,7 @@
                                                     {
                                                         lastDayName = -1;
                                                     }
-                                                    nextDay = (DayNames) (++lastDayName);
+                                                    nextDay = (DayNames)(++lastDayName);
 
                                                     DateTime nextDate = DateTime.MinValue;
                                                     if (DateTime.TryParseExact(lastDayDate, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out nextDate))
@@ -165,13 +174,13 @@
                                                 <li class="single-event">
                                             </ul>
                                         </li>
-                                    }
-                                }
+                                                        }
+                                                    }
                             </ul>
                         </div>
                     </div>
                 </div>
-            }
+                                                    }
         </div>
         <a class="carousel-control-prev" href="#calendarCarousel" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -183,11 +192,170 @@
         </a>
     </div>
 </div>
-
+@Html.Partial("../AdminFutureTrainings/TrainingDetails")
 @section scripts
 {
     <script src="~/Scripts/bootstrap-confirmation.min.js"></script>
+
     <script>
+
+        $(".events").on("click", ".trainingsDetails", function (event) {
+            TrainingDetails($(this));
+        });
+
+        function TrainingDetails(element) {
+
+            var trainingID = element.data('training');
+            $.ajax({
+                //controller method
+                url: '@Url.Action("TrainingDetails", "AdminFutureTrainings")',
+                //controller method parameter : trainingID
+                data: { trainingID: trainingID },
+                type: 'POST',
+                dataType: "html",
+                success: function (response) {
+                    $('#TrainingDetailsBody').html(response);
+                    $('#modalTitleTraining').html($('#' + trainingID + "-date").html() + " " + $('#' + trainingID + "-time").html());
+                    $("#AddUser").data("training", trainingID);
+                    $('#trainingDetailsModal').modal('show');
+
+                }
+            });
+        }
+
+        $("#TrainingDetailsBody").on("click", ".UserSignOutFromTraining", function (event) {
+            SignOutFromTraining($(this));
+        });
+
+        function SignOutFromTraining(changedElement) {
+            {
+                var id = changedElement.data('email');
+                var training = changedElement.data('training');
+                var rn = $("#" + training + "-rn").html();
+                $.ajax({
+                    url: "../AdminUsers/SignOutFromTraining",
+                    data: { id: id, training: training },
+                    type: 'POST',
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.Message == 6) {
+                            $("#" + training + "-rn").html(rn - 1);
+                            $("#messageBoxAddUserWarning").hide();
+                            $('#' + getEmailForJS(id)).remove();
+                            $('#messageBoxAddUserSuccess').html("Užívateľ <b>" + response.Email + "</b> bol úspešne odhlásený z tréningu <b>" + response.TrainingDate + "</b> o: <b>" + response.TrainingTime + "</b>!");
+                            $('#messageBoxAddUserSuccess').show();
+                            $('#' + training + '-RegisteredNumber').html($('#' + training + '-RegisteredNumber').html() - 1);
+                        }
+                    }
+                });
+
+            }
+        };
+
+        $("#AddUserButton").click(function () {
+            var trainingID = $("#AddUser").data("training");
+            var user = $("#AddUser").val();
+            var rn = parseInt($("#" + trainingID + "-rn").html());
+            $.ajax({
+                //controller method
+                url: '@Url.Action("AddUserToTraining", "AdminFutureTrainings")',
+                //controller method parameter : trainingID
+                data: { trainingID: trainingID, userData: user },
+                type: 'POST',
+                dataType: "json",
+                success: function (response) {
+                    $("#AddUser").val("");
+                    if (response == 4) {
+                        showMessageBoxWarningForAddingUser(user + " už je prihlásený na tento tréning.");
+                    }
+                    else if (response == 6) {
+                        showMessageBoxWarningForAddingUser("Daný používateľ neexistuje.");
+                    }
+                    else if (response == 1) {
+                        showMessageBoxWarningForAddingUser("Tréning neexistuje.");
+                    }
+                    else if (response == 2) {
+                        showMessageBoxWarningForAddingUser("Tréning má už naplnenú kapacitu.");
+                    }
+                    else {
+                        $("#" + trainingID + "-rn").html(rn + 1);
+                        showMessageBoxSuccessForAddingUser(response.Name + " " + response.Surname + " bol prihlásený na tento tréning.");
+                        if ($('#UsersInTrainingTable').val() == undefined) {
+
+                            var newTable = '<table class="table table-striped table-hover" id="UsersInTrainingTable">' +
+                                            ' <thead>' +
+                                            '  <tr>' +
+                                            '<th>Meno</th>' +
+                                            '<th>Priezvisko</th>' +
+                                           ' <th>Email</th>' +
+                                            ' <th>Čas prihlásenia</th>' +
+                                            '<th>Akcia</th>' +
+                                       ' </tr>' +
+                                        '</thead>' +
+                             ' </table>';
+                            $("#TrainingDetailsBody").html(newTable);
+                        }
+                        var d = new Date();
+                        var day = (d.getDate() < 10 ? "0" : "") + d.getDate();
+                        var hours = (d.getHours() < 10 ? "0" : "") + d.getHours();
+                        var minutes = (d.getMinutes() < 10 ? "0" : "") + d.getMinutes();
+                        var month = (d.getMonth() < 9 ? "0" : "") + (d.getMonth() + 1);
+                        var seconds = (d.getSeconds() < 10 ? "0" : "") + (d.getSeconds());
+                        var strDate = day + "." + month + "." + d.getFullYear() + " " + hours + ":" + minutes + ":" + seconds;
+
+                        var newRow = '<tr id="' + response.Email + '">' +
+                                 '<td>' + response.Name + '</td>' +
+                                 '<td>' + response.Surname + '</td>' +
+                                 '<td>' + response.Email + '</td>' +
+                                '<td>' + strDate + '</td>' +
+                                 '<td><a class="UserSignOutFromTraining" data-email="' + response.Email + '" data-training="' + trainingID + '" href="#">Odhlás používateľa</a></td>' +
+                                 '</tr>';
+
+                        $('#UsersInTrainingTable').append(newRow);
+                        $('#' + trainingID + '-RegisteredNumber').html(1 + parseInt($('#' + trainingID + '-RegisteredNumber').html(), 10));
+                        if ($('#UsersInTrainingTable tr').length == 7) {
+                            showMessageBoxWarningForAddingUser(response.Name + " " + response.Surname + " bol prihlásený na tento tréning." + "<br> Pozor je to 6. cvičiaci, potrebuješ ďalšieho trénera!");
+
+                        }
+                        else {
+                            showMessageBoxSuccessForAddingUser(response.Name + " " + response.Surname + " bol prihlásený na tento tréning.");
+                        }
+                    }
+
+                }
+            })
+        })
+
+        $(function () {
+            var people = [
+                @if(Model.Users.Count > 0)
+            {
+            var value = "\"" + Model.Users[0].Name + " " + Model.Users[0].Surname +" ("+Model.Users[0].Email+")\"";
+                    @Html.Raw(value);
+            for (int i = 1; i< Model.Users.Count; i++)
+            {
+                value = ",\"" + Model.Users[i].Name + " " + Model.Users[i].Surname +" (" + Model.Users[i].Email + ")\"";
+                 @Html.Raw(value);
+            }
+        }
+            ];
+            $("#AddUser").autocomplete({
+                source: people
+            });
+        })
+
+        function showMessageBoxSuccessForAddingUser(text) {
+            $('#messageBoxAddUserWarning').hide();
+            $("#messageBoxAddUserSuccess").html(text);
+            $("#messageBoxAddUserSuccess").show();
+        }
+
+        function showMessageBoxWarningForAddingUser(text) {
+            $('#messageBoxAddUserSuccess').hide();
+            $("#messageBoxAddUserWarning").html(text);
+            $("#messageBoxAddUserWarning").show();
+        }
+
         var isshown = false;
         var clickedAway = false;
 
@@ -216,11 +384,8 @@
             rootSelector: '[data-toggle=confirmation]',
             // other options
         });
-        //function checkLimitToSignOff(isAllowedToSignOff) {
-        //    if (!isAllowedToSignOff) {
-        //        return confirm("Z tohto tréningu už nie je možné sa odhlásiť. Si si istý, že sa chceš prihlásiť?");
-        //    }
-        //}
+
+
     </script>
 
 }

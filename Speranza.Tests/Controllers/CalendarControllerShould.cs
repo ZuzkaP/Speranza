@@ -176,6 +176,19 @@ namespace Speranza.Tests.Controllers
             // + UI
         }
 
+        [TestMethod]
+        public void ShowMessageInHeader_When_UserIsNotAllowedToLoggedIn()
+        {
+            InitializeController();
+            StandardUserIsLoggedIn();
+
+            ActionResult result = calendar.Calendar();
+
+            CalendarModel model = (CalendarModel)((ViewResult)result).Model;
+            Assert.IsFalse(model.AllowToSignUp);
+            Assert.AreEqual(USER_INFO_MESSAGE, model.UserInfoMessage.Message);
+            // + UI
+        }
 
         private void GoldenUserIsLoggedIn()
         {
