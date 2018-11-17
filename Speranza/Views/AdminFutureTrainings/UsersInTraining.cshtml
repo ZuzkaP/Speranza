@@ -12,21 +12,21 @@ else
         <table class="table table-striped" id="UsersInTrainingTable">
             <thead>
             <tr>
-                <th>Meno</th>
-                <th>Priezvisko</th>
-                <th>Email</th>
-                <th>Čas prihlásenia</th>
-                <th>Akcia</th>
+                <th class="col-1">Meno</th>
+                <th class="col-2">Priezvisko</th>
+                <th class="col-4">Email</th>
+                <th class="col-3">Čas prihlásenia</th>
+                <th class="col-2">Akcia</th>
             </tr>
             </thead>
             @foreach (var user in Model.Users)
             {
                 <tr id="@ViewHelper.GetEmailForJS(user.Email)">
-                    <td>@user.Name </td>
-                    <td>@user.Surname </td>
-                    <td>@user.Email</td>
-                    <td>@user.SignUpTime.ToString("dd.MM.yyyy HH:mm:ss")</td>
-                    <td><a class="UserSignOutFromTraining" data-email="@user.Email" data-training="@Model.TrainingID" href="#">Odhlás používateľa</a></td>
+                    <td class="col-1">@user.Name </td>
+                    <td class="col-2">@user.Surname </td>
+                    <td class="col-4">@user.Email</td>
+                    <td class="col-3">@user.SignUpTime.ToString("dd.MM.yyyy HH:mm:ss")</td>
+                    <td class="col-2"><a class="UserSignOutFromTraining" data-email="@user.Email" data-training="@Model.TrainingID" href="#">Odhlás používateľa</a></td>
                 </tr>
             }
 
