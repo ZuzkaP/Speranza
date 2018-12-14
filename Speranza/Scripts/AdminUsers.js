@@ -32,7 +32,6 @@ $('#CreateMessage').click(function () {
         type: 'POST',
         dataType: "json",
         success: function (response) {
-            debugger;
             switch (response) {
             
             case 0:
