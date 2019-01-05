@@ -11,25 +11,39 @@ else
     <div class="table-responsive">
         <table class="table table-striped" id="UsersInTrainingTable">
             <thead>
-            <tr class="d-flex">
-                <th class="col-1">Meno</th>
-                <th class="col-2">Priezvisko</th>
-                <th class="col-4">Email</th>
-                <th class="col-3">Čas prihlásenia</th>
-                <th class="col-2">Akcia</th>
-            </tr>
+                <tr class="d-flex">
+                    <th class="col-2">Meno</th>
+                    <th class="col-3">Priezvisko</th>
+                    @*<th class="col-4">Email</th>*@
+                    <th class="col-4">Stav Permanentky</th>
+                    @*<th class="col-2">Čas prihlásenia</th>*@
+                    <th class="col-3">Akcia</th>
+                </tr>
             </thead>
             @foreach (var user in Model.Users)
             {
                 <tr class="d-flex" id="@ViewHelper.GetEmailForJS(user.Email)">
-                    <td class="col-1">@user.Name </td>
-                    <td class="col-2">@user.Surname </td>
-                    <td class="col-4">@user.Email</td>
-                    <td class="col-3">@user.SignUpTime.ToString("dd.MM.yyyy HH:mm:ss")</td>
-                    <td class="col-2"><a class="UserSignOutFromTraining" data-email="@user.Email" data-training="@Model.TrainingID" href="#">Odhlás používateľa</a></td>
+                    <td class="col-2">@user.Name </td>
+                    <td class="col-3">@user.Surname </td>
+                    @*<td class="col-4">@user.Email</td>*@
+                    <td class="col-4">
+                        <span id='freeSignUpsCell-@ViewHelper.GetEmailForJS(user.Email)'>@user.NumberOfFreeSignUps</span>
+                        <div class="btn-group btn-group-xs">
+                            <button type="button" class="btn btn-primary SignUpCount" data-count="1" data-email="@user.Email"> +1</button>
+                            <button type="button" class="btn btn-primary SignUpCount" data-count="10" data-email="@user.Email">+10</button>
+                            <button type="button" class="btn btn-primary SignUpCount" data-count="20" data-email="@user.Email">+20</button>
+                            <button type="button" class="btn btn-danger  SignUpCount" data-count="-1" data-email="@user.Email"> -1</button>
+                            <button type="button" class="btn btn-danger  SignUpCount" data-count="-10" data-email="@user.Email">-10</button>
+                            <button type="button" class="btn btn-danger  SignUpCount" data-count="-20" data-email="@user.Email">-20</button>
+                        </div>
+                    </td>
+                    @*<td class="col-2">@user.SignUpTime.ToString("dd.MM.yyyy HH:mm:ss")</td>*@
+                    <td class="col-3"><a class="UserSignOutFromTraining" data-email="@user.Email" data-training="@Model.TrainingID" href="#">Odhlás používateľa</a></td>
                 </tr>
             }
 
         </table>
     </div>
-        }
+}
+
+

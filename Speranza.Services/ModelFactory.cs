@@ -96,6 +96,7 @@ namespace Speranza.Services
             model.ParticipationSet = user.ParticipationSet;
             model.SignUpTime = user.SignUpTime;
             model.ParticipationDisapproved = user.ParticipationDisapproved;
+            model.NumberOfFreeSignUps = user.NumberOfFreeSignUpsOnSeasonTicket;
 
             return model;
         }

@@ -15,5 +15,7 @@ namespace Speranza.Models.Interfaces
         bool ParticipationSet { get; set; }
         DateTime SignUpTime { get; set; }
         bool ParticipationDisapproved { get; set; }
+        int NumberOfFreeSignUps { get; set; }
+
     }
 }

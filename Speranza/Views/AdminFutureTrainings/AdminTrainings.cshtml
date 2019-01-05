@@ -203,6 +203,36 @@
         $(function () {
             $('[data-toggle="tooltip"]').tooltip();
         });
+
+
+        $("#TrainingDetailsBody").on("click", ".SignUpCount", function (event) {
+            var self = $(this);
+            var count = self.data("count");
+            var email = self.data("email");
+            $.ajax({
+                url: '@Url.Action("UpdateSignUpCount", "AdminUsers")',
+                data: { id: email, countUpdate: count },
+                type: 'POST',
+                dataType: "json",
+                success: function (response) {
+                    var signUpCountColumn = $('#TrainingDetailsBody').find('#freeSignUpsCell-' + getEmailForJS(response.Email));
+                    if (response.Message == 4)
+                        $('#messageBoxAddUserSuccess').html("Počet vstupov užívateľovi <b>" + response.Email + "</b> bol zvýšený o <b>" + response.ChangeNumberOfSignUps + "</b>");
+                    else if (response.Message == 5) {
+                        var changedCount = response.ChangeNumberOfSignUps;
+                        if (signUpCountColumn.text() < response.ChangeNumberOfSignUps) {
+                            changedCount = signUpCountColumn.text();
+                        }
+                        $('#messageBoxAddUserSuccess').html("Počet vstupov užívateľovi <b>" + response.Email + "</b> bol znížený o <b>" + changedCount + "</b>");
+
+                    }
+
+                    $('#messageBoxAddUserSuccess').show();
+                    signUpCountColumn.html(response.AfterChangeNumberOfSignUps);
+                }
+            });
+
+        });
     </script>
 
 

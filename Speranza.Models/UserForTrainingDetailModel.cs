@@ -20,5 +20,7 @@ namespace Speranza.Models
         }
         public DateTime SignUpTime { get ; set ; }
         public bool ParticipationDisapproved { get; set; }
+
+        public int NumberOfFreeSignUps { get; set; }
     }
 }
