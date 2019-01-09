@@ -1,26 +1,4 @@
-﻿@model Speranza.Models.AdminTrainingsModel
-@{
-    ViewBag.Title = "Správa minulých tréningov";
-    Layout = "~/Views/Layout.cshtml";
-}
-
-<div class="container calendar-container">
-    <div id="messageBox" style="display:none;" class="alert alert-success" role="alert"></div>
-    <div id="messageBoxWarning" style="display:none;" class="alert alert-warning" role="alert"></div>
-</div>
-
-<div class="container">
-    <h2 class="userProfileLabel">
-        Správa minulých tréningov
-          </h2>
-    <div class="input-group mb-3 myForm">
-        <div class="input-group-prepend">
-            <span class="input-group-text octicon octicon-calendar octicon-newTraining"></span>
-        </div>
-        <input id="pastTrainingDatepicker" type="text" class="form-control col-2" value="@DateTime.Now.ToString("dd.MM.yyyy")">
-    </div>
-
-    <div id="loader" class="loader"></div>
+﻿@model Speranza.Models.TrainingsPageModel
 
 <div class="table-responsive">
     <table class="table table-striped" id="TrainingsTable">
@@ -53,22 +31,4 @@
         }
         </tbody>
     </table>
-    </div>
 </div>
-
-
-@Html.Partial("TrainingDetails")
-
-@section scripts {
-    <script>
-        $(function () {
-            $("#loader").hide();
-        })
-
-        
-    </script>
-
-
-    <script src="~/Scripts/AdminTrainings.js"></script>
-    <script src="~/Scripts/jquery.tablesorter.min.js"></script>
-}

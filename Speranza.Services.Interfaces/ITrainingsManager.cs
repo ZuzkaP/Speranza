@@ -26,6 +26,7 @@ namespace Speranza.Services.Interfaces
         ITrainingModel GenerateTrainingFromTemplate(IRecurringTrainingTemplate template, DateTime date);
         int GetFutureTrainingsCount();
         IList<ITrainingForAdminModel> GetPastTrainings(int from, int to);
+        IList<ITrainingForAdminModel> GetPastTrainings(DateTime date);
         int GetPastTrainingsCount();
         void ConfirmParticipation(string trainingID, string email);
         void DisproveParticipation(string trainingID, string email);

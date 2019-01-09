@@ -53,14 +53,14 @@ namespace Speranza.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult ShowTrainingsPage(int page, int size)
+        public ActionResult ShowTrainingsPage(DateTime date)
         {
             if (!userManager.IsUserAdmin(Session))
             {
                 return RedirectToAction("Calendar", "Calendar");
             }
             TrainingsPageModel model = new TrainingsPageModel();
-            model.Trainings = trainingManager.GetPastTrainings(size * (page - 1), size * page);
+            model.Trainings = trainingManager.GetPastTrainings(date);
             return PartialView("TrainingsPage", model);
         }
 

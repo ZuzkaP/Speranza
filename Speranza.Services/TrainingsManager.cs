@@ -247,6 +247,21 @@ namespace Speranza.Services
             return trainingsForAdmin.OrderByDescending(r => r.Time).Skip(from).Take(to - from).ToList();
         }
 
+        public IList<ITrainingForAdminModel> GetPastTrainings(DateTime date)
+        {
+            var trainingsFromDB = db.GetAllTrainings();
+            var trainingsForAdmin = new List<ITrainingForAdminModel>();
+            foreach (var item in trainingsFromDB)
+            {
+                if (item.Time.Date == date.Date)
+                {
+                    ITrainingForAdminModel model = factory.CreateTrainingForAdminModel(item);
+                    trainingsForAdmin.Add(model);
+                }
+            }
+            return trainingsForAdmin.OrderByDescending(r => r.Time).ToList();
+        }
+
         public int GetPastTrainingsCount()
         {
             return db.GetTrainingsCountBeforeDate(dateTimeService.GetCurrentDateTime());
