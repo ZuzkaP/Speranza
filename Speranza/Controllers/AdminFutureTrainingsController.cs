@@ -299,14 +299,14 @@ namespace Speranza.Controllers
             return Json("");
         }
 
-        public ActionResult ShowTrainingsPage(int page, int size)
+        public ActionResult ShowTrainingsPage(DateTime date)
         {
             if (!userManager.IsUserAdmin(Session))
             {
                 return RedirectToAction("Calendar", "Calendar");
             }
             TrainingsPageModel model = new TrainingsPageModel();
-            model.Trainings = trainingManager.GetFutureTrainings(size * (page - 1), size * page);
+            model.Trainings = trainingManager.GetFutureTrainings(date);
             return PartialView("TrainingsPage",model);
         }
 

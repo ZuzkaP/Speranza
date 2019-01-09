@@ -54,9 +54,9 @@ namespace Speranza.Database
             int year = DateTime.Now.Year;
             int month = DateTime.Now.Month;
             int day = DateTime.Now.Day;
-            trainings.Add(PrepareTraining(new DateTime(year, month, day, 12, 00, 00).AddDays(2), "training c.1", "Zuzka", 10));
-            trainings.Add(PrepareTraining(new DateTime(year, month, day, 14, 00, 00).AddDays(2), "training c.2", "Dano", 10));
-            trainings.Add(PrepareTraining(new DateTime(year, month, day, 08, 00, 00).AddDays(12), "training c.4", "Filip", 10));
+            trainings.Add(PrepareTraining(new DateTime(year, month, day, 12, 00, 00).AddDays(0), "training c.1", "Zuzka", 10));
+            trainings.Add(PrepareTraining(new DateTime(year, month, day, 14, 00, 00).AddDays(0), "training c.2", "Dano", 10));
+            trainings.Add(PrepareTraining(new DateTime(year, month, day, 20, 00, 00).AddDays(0), "training c.4", "Filip", 10));
             trainings.Add(PrepareTraining(new DateTime(year, month, day, 14, 00, 00).AddDays(8), "training c.5", "Filip", 10));
             trainings.Add(PrepareTraining(new DateTime(year, month, day, 09, 00, 00).AddDays(4), "training c.3", "Filip", 10));
             trainings.Add(PrepareTraining(new DateTime(year, month, day, 09, 00, 00).AddDays(-10), "training c.3", "Filip", 10));

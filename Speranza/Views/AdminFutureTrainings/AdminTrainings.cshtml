@@ -24,71 +24,12 @@
         </div>
     </div>
 
-<div class="row">
-    <div class="form-inline form-group paginationSettings col-6">
-        @Html.Label("Počet tréningov na stránku:", new { @class = "control-label" })
-        <div style="margin-left: 10px">
-            <select id="pageSize" class="form-control selcls">
-                @foreach (var size in new[] { 20, 40, 50, 100 })
-                {
-                    <option @(Model.PageSize == size ? "selected=\"selected\"" : "")>@size</option>
-                }
-            </select>
-        </div>
+<div class="input-group mb-3 myForm">
+    <div class="input-group-prepend">
+        <span class="input-group-text octicon octicon-calendar octicon-newTraining"></span>
     </div>
-
-        <nav aria-label="Page navigation" class="col-6 paginationSettings">
-            <ul class="pagination float-right">
-                @if (Model.PageNumber == 1)
-                {
-                    <li id="liPrev" class="disabled">
-                        <a class="liPage" data-page="@(Model.PageNumber-1)" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                }
-                else
-                {
-                    <li id="liPrev">
-                        <a class="liPage" data-page="@(Model.PageNumber-1)" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                }
-
-
-                @for (int i = 1; i <= Model.PagesCount; i++)
-                {
-                    if (i == Model.PageNumber)
-                    {
-                        <li id="liPage-@i" class="active"><a class="liPage" data-page="@i" href="#">@i</a></li>
-                    }
-                    else
-                    {
-                        <li id="liPage-@i"><a class="liPage" data-page="@i" href="#">@i</a></li>
-                    }
-                }
-                @if (Model.PageNumber == Model.PagesCount)
-                {
-                    <li id="liNext" class="disabled">
-                        <a class="liPage" data-page="@(Model.PageNumber+1)" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                }
-                else
-                {
-                    <li id="liNext">
-                        <a class="liPage" data-page="@(Model.PageNumber+1)" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                }
-
-            </ul>
-
-        </nav>
-    </div>
+    <input id="futureTrainingDatepicker" type="text" class="form-control col-2" value="@DateTime.Now.ToString("dd.MM.yyyy")">
+</div>
 
  
     <div id="loader" class="loader"></div>

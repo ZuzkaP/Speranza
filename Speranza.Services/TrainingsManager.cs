@@ -149,6 +149,25 @@ namespace Speranza.Services
             return trainingsForAdmin.OrderBy(r=>r.Time).Skip(from).Take(to - from).ToList();
         }
 
+        public IList<ITrainingForAdminModel> GetFutureTrainings(DateTime date)
+        {
+            var trainingsFromDB = db.GetAllTrainings();
+            var trainingsForAdmin = new List<ITrainingForAdminModel>();
+            foreach (var item in trainingsFromDB)
+            {
+                if (item.Time.Date == date.Date)
+                {
+                    if (date.Date == dateTimeService.GetCurrentDate().Date && item.Time < dateTimeService.GetCurrentDateTime())
+                    {
+                        continue;
+                    }
+                    ITrainingForAdminModel model = factory.CreateTrainingForAdminModel(item);
+                    trainingsForAdmin.Add(model);
+                }
+            }
+            return trainingsForAdmin.OrderBy(r => r.Time).ToList();
+        }
+
         public IList<IUserForTrainingDetailModel> GetAllUsersInTraining(string trainingID)
         {
            IList<IUser> users = db.GetUsersInTraining(trainingID);
@@ -255,6 +274,10 @@ namespace Speranza.Services
             {
                 if (item.Time.Date == date.Date)
                 {
+                    if (date.Date == dateTimeService.GetCurrentDate().Date && item.Time > dateTimeService.GetCurrentDateTime())
+                    {
+                        continue;
+                    }
                     ITrainingForAdminModel model = factory.CreateTrainingForAdminModel(item);
                     trainingsForAdmin.Add(model);
                 }

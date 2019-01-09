@@ -438,12 +438,45 @@ $(function () {
     });
 });
 
+$(function () {
+    $("#futureTrainingDatepicker").datepicker({
+        beforeShow: function () {
+            setTimeout(function () {
+                $('.ui-datepicker').css('z-index', 99999999999999);
+            }, 0);
+        },
+        dateFormat: "dd.mm.yy",
+        minDate: 0,
+        constrainInput: true,
+        monthNames: ["Január", "Február", "Marec", "Apríl", "Máj", "Jún", "Júl", "August", "September", "Október", "November", "December"],
+        monthNamesShort: ["Jan", "Feb", "Mar", "Apr", "Máj", "Jún", "Júl", "Aug", "Sep", "Okt", "Nov", "Dec"],
+        dayNames: ["Nedeľa", "Pondelok", "Utorok", "Streda", "Štvrtok", "Piatok", "Sobota"],
+        dayNamesMin: ["Ne", "Po", "Ut", "St", "Št", "Pi", "So"],
+        firstDay: 1
+    });
+});
+
 $("#pastTrainingDatepicker").change(function () {
     var selectedDate = $(this).val();
     $("#loader").show();
     $.ajax({
         url: "ShowTrainingsPage",
         data: { date: selectedDate},
+        type: 'POST',
+        dataType: "html",
+        success: function (response) {
+            $("#TrainingsTable").html(response);
+            $("#loader").hide();
+        }
+    })
+});
+
+$("#futureTrainingDatepicker").change(function () {
+    var selectedDate = $(this).val();
+    $("#loader").show();
+    $.ajax({
+        url: "ShowTrainingsPage",
+        data: { date: selectedDate },
         type: 'POST',
         dataType: "html",
         success: function (response) {
