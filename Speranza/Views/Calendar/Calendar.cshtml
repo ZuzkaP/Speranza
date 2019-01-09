@@ -305,10 +305,18 @@
                         var newRow = '<tr class="d-flex" id="' + response.Email + '">' +
                                  '<td class="col-2">' + response.Name + '</td>' +
                                  '<td class="col-3">' + response.Surname + '</td>' +
-                                 '<td class="col-4">' + response.NumberOfFreeSignUps + '</td>' +
-                                 //'<td>' + response.Email + '</td>' +
-                                //'<td>' + strDate + '</td>' +
-                                 '<td class="col-3"><a class="UserSignOutFromTraining" data-email="' + response.Email + '" data-training="' + trainingID + '" href="#">Odhlás používateľa</a></td>' +
+                                 '<td class="col-4">' +
+                            '<span id="freeSignUpsCell-' + getEmailForJS(response.Email) +'">' +response.NumberOfFreeSignUps + '</span>' +
+                            '<div class="btn-group btn-group-xs">' +
+                            '<button type="button" class="btn btn-primary SignUpCount" data-count="1" data-email="' + response.Email + '"> +1</button>  ' +
+                            '<button type="button" class="btn btn-primary SignUpCount" data-count="10" data-email="' + response.Email + '">+10</button> ' +
+                            '<button type="button" class="btn btn-primary SignUpCount" data-count="20" data-email="' + response.Email + '">+20</button> ' +
+                            '<button type="button" class="btn btn-danger  SignUpCount" data-count="-1" data-email="' + response.Email + '"> -1</button> ' +
+                            '<button type="button" class="btn btn-danger  SignUpCount" data-count="-10" data-email="' + response.Email + '">-10</button>' +
+                            '<button type="button" class="btn btn-danger  SignUpCount" data-count="-20" data-email="' + response.Email + '">-20</button>' +
+                            '</div>' +
+                            '</td>' +
+                             '<td class="col-3"><a class="UserSignOutFromTraining" data-email="' + response.Email + '" data-training="' + trainingID + '" href="#">Odhlás používateľa</a></td>' +
                                  '</tr>';
 
                         $('#UsersInTrainingTable').append(newRow);
