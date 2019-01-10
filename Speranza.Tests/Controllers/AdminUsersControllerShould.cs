@@ -308,7 +308,7 @@ namespace Speranza.Tests.Controllers
 
             TrainingsDetailsModel model = (TrainingsDetailsModel) result.Model;
             Assert.AreEqual("UserTrainingsDetails", result.ViewName);
-            Assert.AreEqual(trainings, model.Trainings);
+            Assert.AreEqual(trainings, model.UserTrainings);
         }
 
         [TestMethod]

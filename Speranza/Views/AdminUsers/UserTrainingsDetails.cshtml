@@ -3,7 +3,9 @@
 
 <div id="messageBoxTrainingDetails" style="display:none;" class="alert alert-success" role="alert"></div>
 
-@if(Model.Trainings == null || Model.Trainings.Count == 0)
+<h2>Plánované tréningy</h2>
+
+@if(Model.UserTrainings == null || Model.UserTrainings.Count == 0)
 {
     <p>Užívateľ nie je prihlásený na žiaden tréning.</p>
 }
@@ -21,7 +23,7 @@ else
             </tr>
             </thead>
 
-            @foreach (var training in Model.Trainings)
+            @foreach (var training in Model.UserTrainings)
             {
                 <tr id="@training.ID">
                     <td>@training.Time.ToString("dd.MM.yyyy")</td>
@@ -33,7 +35,40 @@ else
             }
         </table>
     </div>
+}
+<h2> Voľné tréningy </h2>
+@if (Model.AvailableTrainings == null || Model.AvailableTrainings.Count == 0)
+{
+    <p>Momentálne nie je možné sa prihlásiť na žiaden tréning.</p>
+}
+else
+{
 
+    <div class="table-responsive">
+        <table class="table table-striped" id="myTable">
+            <thead>
+            <tr>
+                <th>Dátum</th>
+                <th>Čas</th>
+                <th>Tréner</th>
+                <th>Popis</th>
+                <th>Akcie</th>
+            </tr>
+            </thead>
+
+            @foreach (var training in Model.AvailableTrainings)
+            {
+                <tr id="@training.ID">
+                    <td>@training.Time.ToString("dd.MM.yyyy")</td>
+                    <td>@training.Time.ToString("HH:mm")</td>
+                    <td>@training.Trainer</td>
+                    <td>@training.Description</td>
+                    <td><a class="UserSignUp" data-email="@Model.Email" data-training="@training.ID" href="#">Prihlás používateľa</a></td>
+                </tr>
+            }
+        </table>
+    </div>
+}
         <script>
 
             $(function () {
@@ -61,5 +96,23 @@ else
                 });
             });
 
+            $(function () {
+                $('.UserSignUp').click(function () {
+                    var self = $(this);
+                    var email = self.data('email');
+                    var training = self.data('training');
+                    $.ajax({
+                        url: "SignUpToTraining",
+                        data: { training: training, email: email },
+                        type: 'POST',
+                        dataType: "json",
+                        success: function (response) {
+                                alert("ahoj");
+
+                        }
+                    });
+
+                });
+            });
+
         </script>
-        }

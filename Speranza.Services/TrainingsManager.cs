@@ -168,6 +168,18 @@ namespace Speranza.Services
             return trainingsForAdmin.OrderBy(r => r.Time).ToList();
         }
 
+        public IList<ITrainingModel> GetFutureTrainings()
+        {
+            var trainingsFromDB = db.GetAllTrainings().Where(r=>r.Time >= dateTimeService.GetCurrentDateTime());
+            var trainingsForAdmin = new List<ITrainingModel>();
+            foreach (var item in trainingsFromDB)
+            {
+                ITrainingModel model = factory.CreateTrainingModel(item);
+                trainingsForAdmin.Add(model);
+            }
+            return trainingsForAdmin.OrderBy(r => r.Time).ToList();
+        }
+
         public IList<IUserForTrainingDetailModel> GetAllUsersInTraining(string trainingID)
         {
            IList<IUser> users = db.GetUsersInTraining(trainingID);

@@ -176,9 +176,18 @@ namespace Speranza.Controllers
             {
                 return Json(string.Empty);
             }
-            IList<ITrainingModel> trainings = userManager.GetFutureTrainingsForUser(id);
+            IList<ITrainingModel> userTrainings = userManager.GetFutureTrainingsForUser(id);
+            IList<ITrainingModel> availableTrainings = trainingManager.GetFutureTrainings();
             TrainingsDetailsModel model = new TrainingsDetailsModel();
-            model.Trainings = trainings;
+            model.AvailableTrainings = new List<ITrainingModel>();
+            model.UserTrainings = userTrainings;
+            foreach (var training in availableTrainings)
+            {
+                if (userTrainings.All(r => r.ID != training.ID))
+                {
+                    model.AvailableTrainings.Add(training);
+                }
+            }
             model.Email = id;
 
             return PartialView("UserTrainingsDetails",model);
@@ -201,6 +210,25 @@ namespace Speranza.Controllers
             model.TrainingTime = trainingModel.Time.ToString("HH:mm");
             model.Message = AdminUsersMessages.SuccessfullyUserSignOffFromTraining;
             return Json(model);
+        }
+
+        public ActionResult SignUpToTraining(string training, string email)
+        {
+            if (!userManager.IsUserAdmin(Session))
+            {
+                return RedirectToAction("Calendar", "Calendar");
+            }
+            if (email == null)
+            {
+                return Json(CalendarMessages.UserDoesNotExist);
+            }
+
+            var message = trainingManager.AddUserToTraining(email, training, dateTimeService.GetCurrentDateTime(), true);
+            if (message == CalendarMessages.SignUpSuccessful)
+            {
+                return Json(userManager.GetAddedUserData(email));
+            }
+            return Json(message);
         }
 
         public ActionResult AddNewMessage(string dateFrom, string dateTo, string message)

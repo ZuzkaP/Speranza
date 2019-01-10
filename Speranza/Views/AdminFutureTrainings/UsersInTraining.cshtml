@@ -28,13 +28,15 @@ else
                     @*<td class="col-4">@user.Email</td>*@
                     <td class="col-4">
                         <span id='freeSignUpsCell-@ViewHelper.GetEmailForJS(user.Email)'>@user.NumberOfFreeSignUps</span>
-                        <div class="btn-group btn-group-xs">
-                            <button type="button" class="btn btn-primary SignUpCount" data-count="1" data-email="@user.Email"> +1</button>
-                            <button type="button" class="btn btn-primary SignUpCount" data-count="10" data-email="@user.Email">+10</button>
-                            <button type="button" class="btn btn-primary SignUpCount" data-count="20" data-email="@user.Email">+20</button>
-                            <button type="button" class="btn btn-danger  SignUpCount" data-count="-1" data-email="@user.Email"> -1</button>
-                            <button type="button" class="btn btn-danger  SignUpCount" data-count="-10" data-email="@user.Email">-10</button>
-                            <button type="button" class="btn btn-danger  SignUpCount" data-count="-20" data-email="@user.Email">-20</button>
+                        <div class="d-none d-lg-inline">
+                            <div class="btn-group btn-group-xs">
+                                <button type="button" class="btn btn-primary SignUpCount" data-count="1" data-email="@user.Email"> +1</button>
+                                <button type="button" class="btn btn-primary SignUpCount" data-count="10" data-email="@user.Email">+10</button>
+                                <button type="button" class="btn btn-primary SignUpCount" data-count="20" data-email="@user.Email">+20</button>
+                                <button type="button" class="btn btn-danger  SignUpCount" data-count="-1" data-email="@user.Email"> -1</button>
+                                <button type="button" class="btn btn-danger  SignUpCount" data-count="-10" data-email="@user.Email">-10</button>
+                                <button type="button" class="btn btn-danger  SignUpCount" data-count="-20" data-email="@user.Email">-20</button>
+                            </div>
                         </div>
                     </td>
                     @*<td class="col-2">@user.SignUpTime.ToString("dd.MM.yyyy HH:mm:ss")</td>*@
