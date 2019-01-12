@@ -248,3 +248,43 @@ function noDiacritics(input) {
         replace('ý', 'y').
         replace('ž', 'z');
 }
+
+function initAvailableTrainingsTable() {
+        $("#availableTraningsDatePicker").datepicker({
+            beforeShow: function() {
+                setTimeout(function() {
+                        $('.ui-datepicker').css('z-index', 99999999999999);
+                    },
+                    0);
+            },
+            dateFormat: "dd.mm.yy",
+            minDate: 0,
+            constrainInput: true,
+            monthNames: [
+                "Január", "Február", "Marec", "Apríl", "Máj", "Jún", "Júl", "August", "September", "Október",
+                "November", "December"
+            ],
+            monthNamesShort: ["Jan", "Feb", "Mar", "Apr", "Máj", "Jún", "Júl", "Aug", "Sep", "Okt", "Nov", "Dec"],
+            dayNames: ["Nedeľa", "Pondelok", "Utorok", "Streda", "Štvrtok", "Piatok", "Sobota"],
+            dayNamesMin: ["Ne", "Po", "Ut", "St", "Št", "Pi", "So"],
+            firstDay: 1
+        });
+
+    $("#availableTraningsDatePicker").on('change',
+        function(e) {
+            var selectedDate = $(this).val();
+            //var tableRows = $("#availableTraningsTable tbody tr");
+
+            $('#availableTraningsTable tbody tr td:first-child').each(function () {
+                if ($(this).text() == selectedDate) {
+                    $(this).parent().show();
+
+                } else {
+                    $(this).parent().hide();
+
+                }
+            });
+
+        });
+    $("#availableTraningsDatePicker").trigger('change');
+}

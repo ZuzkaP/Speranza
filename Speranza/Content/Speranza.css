@@ -396,3 +396,8 @@ select.selcls option {
 .userProfileButtons{
 margin-left: 30px;
 }
+
+.userTrainingsTable {
+    overflow-y: auto;
+    max-height: 550px;
+}
