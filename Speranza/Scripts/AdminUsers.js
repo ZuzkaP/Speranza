@@ -273,15 +273,16 @@ function initAvailableTrainingsTable() {
     $("#availableTraningsDatePicker").on('change',
         function(e) {
             var selectedDate = $(this).val();
-            //var tableRows = $("#availableTraningsTable tbody tr");
-
+            var tableRows = $("#availableTraningsTable tbody tr td:first-child");
+            
             $('#availableTraningsTable tbody tr td:first-child').each(function () {
                 if ($(this).text() == selectedDate) {
+                    $(this).parent().addClass('d-flex');
                     $(this).parent().show();
 
                 } else {
+                    $(this).parent().removeClass('d-flex');
                     $(this).parent().hide();
-
                 }
             });
 
