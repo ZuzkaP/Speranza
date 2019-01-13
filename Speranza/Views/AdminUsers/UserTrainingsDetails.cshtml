@@ -2,6 +2,7 @@
 @model Speranza.Models.TrainingsDetailsModel
 
 <div id="messageBoxTrainingDetails" style="display:none;" class="alert alert-success" role="alert"></div>
+<div id="messageBoxTrainingDetailsAlert" style="display:none;" class="alert alert-danger" role="alert"></div>
 
 <h2>Plánované tréningy</h2>
 
@@ -14,23 +15,23 @@ else
     <div class="table-responsive">
         <table class="table table-striped" id="myTable">
             <thead>
-            <tr>
-                <th>Dátum</th>
-                <th>Čas</th>
-                <th>Tréner</th>
-                <th>Popis</th>
-                <th>Akcie</th>
+            <tr class="d-flex">
+                <th class="col-2">Dátum</th>
+                <th class="col-2">Čas</th>
+                <th class="col-2">Tréner</th>
+                <th class="col-3">Popis</th>
+                <th class="col-3">Akcie</th>
             </tr>
             </thead>
             <tbody>
                 @foreach (var training in Model.UserTrainings)
                 {
-                    <tr id="@training.ID">
-                        <td>@training.Time.ToString("dd.MM.yyyy")</td>
-                        <td>@training.Time.ToString("HH:mm")</td>
-                        <td>@training.Trainer</td>
-                        <td>@training.Description</td>
-                        <td><a class="UserSignOut" data-email="@Model.Email" data-training="@training.ID" href="#">Odhlás používateľa</a></td>
+                    <tr class="d-flex" id="@training.ID">
+                        <td class="col-2">@training.Time.ToString("dd.MM.yyyy")</td>
+                        <td class="col-2">@training.Time.ToString("HH:mm")</td>
+                        <td class="col-2">@training.Trainer</td>
+                        <td class="col-3">@training.Description</td>
+                        <td class="col-3"><a class="UserSignOut" data-email="@Model.Email" data-training="@training.ID" href="#">Odhlás používateľa</a></td>
                     </tr>
                 }
             </tbody>
@@ -54,23 +55,23 @@ else
     <div class="table-responsive">
         <table class="table table-striped" id="availableTraningsTable">
             <thead>
-            <tr>
-                <th>Dátum</th>
-                <th>Čas</th>
-                <th>Tréner</th>
-                <th>Popis</th>
-                <th>Akcie</th>
+            <tr class="d-flex">
+                <th class="col-2">Dátum</th>
+                <th class="col-2">Čas</th>
+                <th class="col-2">Tréner</th>
+                <th class="col-3">Popis</th>
+                <th class="col-3">Akcie</th>
             </tr>
             </thead>
             <tbody>
                 @foreach (var training in Model.AvailableTrainings)
                 {
-                    <tr id="@training.ID">
-                        <td>@training.Time.ToString("dd.MM.yyyy")</td>
-                        <td>@training.Time.ToString("HH:mm")</td>
-                        <td>@training.Trainer</td>
-                        <td>@training.Description</td>
-                        <td><a class="UserSignUp" data-email="@Model.Email" data-training="@training.ID" href="#">Prihlás používateľa</a></td>
+                    <tr class="d-flex" id="@training.ID">
+                        <td class="col-2">@training.Time.ToString("dd.MM.yyyy")</td>
+                        <td class="col-2">@training.Time.ToString("HH:mm")</td>
+                        <td class="col-2">@training.Trainer</td>
+                        <td class="col-3">@training.Description</td>
+                        <td class="col-3"><a class="UserSignUp" data-email="@Model.Email" data-training="@training.ID" href="#">Prihlás používateľa</a></td>
                     </tr>
                 }
             </tbody>
@@ -91,7 +92,9 @@ else
                         dataType: "json",
                         success: function (response) {
                             if (response.Message == 6) {
-                                $('#' + training).remove();
+                                var parentTd = self.parent();
+                                self.remove();
+                                parentTd.append('<span class="octicon octicon-sign-out userSignedOutOcticon"></span>');
                                 $('#messageBoxTrainingDetails').html("Užívateľ <b>" + response.Email + "</b> bol úspešne odhlásený z tréningu <b>" + response.TrainingDate + "</b> o: <b>" + response.TrainingTime + "</b>!");
                                 $('#messageBoxTrainingDetails').show();
                                 $('#' + getEmailForJS(id) + '-TrainingCount').html($('#' + getEmailForJS(id) + '-TrainingCount').html() - 1);
@@ -115,8 +118,17 @@ else
                         type: 'POST',
                         dataType: "json",
                         success: function (response) {
-                                alert("ahoj");
-
+                            var parentTd = self.parent();
+                            self.remove();
+                            parentTd.append('<span class="octicon octicon-sign-in userSignedUpOcticon"></span>');
+                            $('#messageBoxTrainingDetails').html("Užívateľ <b>" + response.Email + "</b> bol úspešne prihlásený na tréning");
+                            $('#messageBoxTrainingDetails').show();
+                            if (response.HasNoAvailableTrainings) {
+                                $('#messageBoxTrainingDetailsAlert').html("Užívateľ <b>" + response.Email + "</b> nemá žiadne voľné vstupy!");
+                                $('#messageBoxTrainingDetailsAlert').show();
+                            }
+                            var trainingCount = parseInt($('#' + getEmailForJS(email) + '-TrainingCount').html());
+                            $('#' + getEmailForJS(email) + '-TrainingCount').html(trainingCount + 1);
                         }
                     });
 

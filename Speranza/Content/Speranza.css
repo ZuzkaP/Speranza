@@ -401,3 +401,15 @@ margin-left: 30px;
     overflow-y: auto;
     max-height: 550px;
 }
+
+.userSignedUpOcticon{
+    color: greenyellow;
+    font-size: 20px;
+    margin-left: 10px;
+}
+
+.userSignedOutOcticon {
+    color: red;
+    font-size: 20px;
+    margin-left: 10px;
+}
