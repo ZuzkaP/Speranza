@@ -13,5 +13,7 @@ namespace Speranza.Models.Interfaces
         bool IsUserSignedUp { get; set; }
         bool IsAllowedToSignUp { get; set; }
         bool IsAllowedToSignOff { get; set; }
+        string DateStr { get; set; }
+        string TimeStr { get; set; }
     }
 }

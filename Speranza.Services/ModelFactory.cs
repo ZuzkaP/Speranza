@@ -48,6 +48,8 @@ namespace Speranza.Services
             model.Description = training.Description;
             model.RegisteredNumber = training.RegisteredNumber;
             model.Time = training.Time;
+            model.TimeStr = training.Time.ToString("HH:mm");
+            model.DateStr = training.Time.ToString("dd.MM.yyyy");
             model.Trainer = training.Trainer;
             //not signed up by default
             model.IsUserSignedUp = false;

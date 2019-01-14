@@ -80,7 +80,7 @@
             </div>
         }
     </div>
-    <h3>Moje tréningy</h3>
+    <h2 class="mt-5">Moje tréningy</h2>
 
     @if (Model != null)
     {
@@ -90,15 +90,15 @@
     @if (Model.FutureTrainings.Count > 0 || Model.PastTrainings.Count > 0)
     {
         <div class="table-responsive">
-            <table class="table table-striped">
+            <table class="table table-striped" id="UserTrainingsTable">
                 <thead>
-                    <tr class="d-flex">
-                        <th class="col-lg-2">Dátum</th>
-                        <th class="col-lg-2">Čas</th>
-                        <th class="col-lg-4">Popis</th>
-                        <th class="col-lg-2">Tréner</th>
-                        <th class="col-lg-2">Odhlásiť</th>
-                    </tr>
+                <tr class="d-flex">
+                    <th class="col-lg-2">Dátum</th>
+                    <th class="col-lg-2">Čas</th>
+                    <th class="col-lg-4">Popis</th>
+                    <th class="col-lg-2">Tréner</th>
+                    <th class="col-lg-2">Odhlásiť</th>
+                </tr>
                 </thead>
                 @foreach (var item in Model.FutureTrainings)
                 {
@@ -126,6 +126,7 @@
                     </tr>
                 }
             </table>
+            <button class="btn btn-lg btn-primary d-block mx-auto" id="NextTrainingsBtn">Ďalšie tréningy</button>
         </div>
     }
 </div>

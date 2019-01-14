@@ -74,4 +74,33 @@ $('[data-toggle=confirmation]').confirmation({
         onConfirm: function (value) {
             location.href='RemoveAccount';
         }
+});
+
+
+$("#NextTrainingsBtn").click(function () {
+    var shownTrainingsCount = $("#UserTrainingsTable tr.obsolete").length;
+    $.ajax({
+        url: "GetNextUserTrainings",
+        data: {numberOfAlreadyShownTrainings: shownTrainingsCount},
+        type: 'POST',
+        dataType: "json",
+        success: function (response) {
+            if (response.length === 0) {
+                $("#NextTrainingsBtn").remove();
+                return;
+            }
+            var table = $("#UserTrainingsTable");
+            for (var i = 0; i < response.length; i++) {
+                table.append(
+                    '<tr class="obsolete d-flex">' +
+                    '<td class="col-lg-2">' + response[i].DateStr + '</td>' +
+                    '<td class="col-lg-2">' + response[i].TimeStr + '</td>' +
+                    '<td class="col-lg-4">' + response[i].Description + '</td>' +
+                    '<td class="col-lg-2">' + response[i].Trainer + '</td>' +
+                    '<td class="col-lg-2"></td>' +
+                    '</tr>'
+                    );
+            }
+        }
+    });
     });

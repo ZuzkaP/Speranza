@@ -8,11 +8,6 @@
     background-repeat: no-repeat;
     background-size: cover;
 } 
-
-.obsolete {
-    color: #aaa;
-}
-
 .calendar-container {
     background-color: #021926;
     color: white;
@@ -412,4 +407,9 @@ margin-left: 30px;
     color: red;
     font-size: 20px;
     margin-left: 10px;
+}
+
+
+.obsolete td{
+    color: #aaa;
 }

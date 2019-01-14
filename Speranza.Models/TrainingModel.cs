@@ -24,6 +24,9 @@ namespace Speranza.Models
         public bool IsUserSignedUp { get; set; }
         public bool IsAllowedToSignUp { get; set; }
         public bool IsAllowedToSignOff { get; set; }
+        public string DateStr { get; set; }
+        public string TimeStr { get; set; }
+
 
     }
 }

@@ -288,7 +288,7 @@ namespace Speranza.Controllers
                     }
                 }
                 model.FutureTrainings = futureTrainings.OrderBy(r => r.Time).ToList();
-                model.PastTrainings = pastTrainings.OrderByDescending(r => r.Time).ToList();
+                model.PastTrainings = pastTrainings.OrderByDescending(r => r.Time).Take(10).ToList();
             }
         }
 
@@ -319,6 +319,25 @@ namespace Speranza.Controllers
             }
             userManager.RemoveAccountFromDB(Session["Email"].ToString());
             return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult GetNextUserTrainings(int numberOfAlreadyShownTrainings)
+        {
+            IList<ITraining> trainings = db.GetTrainingsForUser((string)Session["Email"]);
+
+            List<ITrainingModel> pastTrainings = new List<ITrainingModel>();
+            foreach (var item in trainings)
+            {
+                ITrainingModel trainingModel = factory.CreateTrainingModel(item);
+                DateTime currentDate = dateTimeService.GetCurrentDateTime();
+                trainingModel.IsAllowedToSignOff = !(trainingModel.Time - currentDate < TimeSpan.FromHours(trainingManager.GetSignOffLimit()));
+
+                if (trainingModel.Time < dateTimeService.GetCurrentDateTime())
+                {
+                    pastTrainings.Add(trainingModel);
+                }
+            }
+            return Json(pastTrainings.OrderByDescending(r => r.Time).Skip(numberOfAlreadyShownTrainings).Take(10).ToList());
         }
     }
 }
